@@ -1,0 +1,194 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+
+android {
+    compileSdkVersion var.compileSdkVersion    //代码中使用的sdk 版本，最好用最新
+//    compileSdkVersion 26
+//    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        applicationId var.applicationId
+        minSdkVersion var.minSdkVersion
+        targetSdkVersion var.targetSdkVersion //5.0    api 23  6.0 以上需要页面动态申请权限  28
+        versionCode var.versionCode
+        versionName var.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        flavorDimensions "1"
+        multiDexEnabled true
+
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+    }
+
+    //jdk环境
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dexOptions {  //防止编译器负载
+        maxProcessCount 4
+        javaMaxHeapSize "4g"
+    }
+
+    //用来关闭Android Studio的PNG合法检查
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+
+
+    //目录
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    //过滤重复的
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+        //你的报错信息里面给你指明的路径
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        //此处是引用glide transformations 与
+        exclude 'lib/armeabi-v7a/libsecsdk.so'
+        exclude "lib/armeabi-v7a/libRSSupport.so"
+        exclude "lib/arm64-v8a/librsjni.so"
+        exclude "lib/arm64-v8a/libRSSupport.so"
+        exclude "lib/x86_64/libRSSupport.so"
+        exclude "lib/x86/librsjni.so"
+        exclude "lib/x86_64/librsjni.so"
+        exclude "lib/armeabi-v7a/librsjni.so"
+        exclude "lib/x86/libRSSupport.so"
+        exclude "lib/x86/ibrsjni_androidx.so"
+        exclude "lib/x86_64/librsjni_androidx.so"
+        exclude "lib/armeabi-v7a/librsjni_androidx.so"
+        exclude "lib/x86/librsjni_androidx.so"
+        exclude "lib/arm64-v8a/librsjni_androidx.so"
+
+    }
+
+    //国内关闭google自检
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
+    //解决多个jar或者库引用不同版本findbugs问题
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+    }
+
+
+
+    //    签名配置
+    signingConfigs {
+        release {
+            storeFile file("./keystore/leo.jks")
+            storePassword "leoleo"
+            keyAlias "leokey"
+            keyPassword "leoleo"
+        }
+
+        debug {
+            storeFile file("./keystore/leo.jks")
+            storePassword "leoleo"
+            keyAlias "leokey"
+            keyPassword "leoleo"
+        }
+    }
+
+    /**
+     * 发布版混淆开启
+     */
+    buildTypes {
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false" // 不显示Log
+            minifyEnabled true
+            shrinkResources true // 移除无用的resource文件
+            zipAlignEnabled true //Zipalign优化
+            signingConfig signingConfigs.release   //签名
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 混淆配置文件位置
+        }
+
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true" // 显示Log
+            versionNameSuffix "-debug"
+            minifyEnabled false    // 是否进行混淆
+            zipAlignEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+
+    //渠道
+    productFlavors {
+//        wandoujia {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+//        }
+        china {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "china"]
+        }
+//        huawei {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "huawei"]
+//        }
+//        qihu360 {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "qihu360"]
+//        }
+//        tencent {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "tencent"]
+//        }
+    }
+
+
+    //   修改生成的apk名字
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            if (variant.buildType.name == 'release') {
+                outputFileName = "淘捡漏_${variant.versionCode}_${buildTime()}_release.apk"
+            } else {
+                outputFileName = "淘捡漏_${variant.versionCode}_${buildTime()}_debug.apk"
+            }
+        }
+    }
+
+}
+
+def buildTime() {
+    def date = new Date()
+//    def formattedDate = date.format('yyyy_MM_dd--HH：mm')
+    def formattedDate = date.format('MMddHHmm')
+    return formattedDate
+}
+
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    //    //友盟
+    //    //PushSDK
+    //    implementation 'com.umeng.umsdk:analytics:8.0.0'
+    //    implementation 'com.umeng.umsdk:common:2.0.0'
+    //    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+    //    implementation 'com.umeng.umsdk:push:5.0.2'
+    //litepal 数据库框架
+    implementation 'org.litepal.android:java:3.0.0'
+    /**
+     *  注解类型无法再lib调用
+     * */
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation project(path: ':baselib')
+
+}

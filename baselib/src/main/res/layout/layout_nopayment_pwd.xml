@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="开通后，余额付款的订单（300元以下）可支持自动免密扣款"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:textSize="@dimen/sp_24"
+        android:textColor="@color/txt_color_999"
+        android:background="@drawable/top_left_right_corner_normal"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:background="@color/windowbackground"/>
+
+    <TextView
+        android:id="@+id/tv_confirm_opening"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_90"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:text="确认开通"
+        android:textColor="@color/color_f17f42"
+        android:textSize="@dimen/sp_28"
+        android:background="@drawable/item_bottom_left_right_corner_selector"/>
+
+    <TextView
+        android:id="@+id/tv_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_90"
+        android:gravity="center"
+        android:layout_margin="@dimen/dp_30"
+        android:text="取消"
+        android:textColor="@color/color_f17f42"
+        android:textSize="@dimen/sp_28"
+        android:background="@drawable/item_corner_selector"/>
+
+</LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.aten.compiler.widget.FocusedTextView
+        android:id="@+id/tv_center_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="-1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="标题"
+        android:textSize="@dimen/sp_36" />
+
+    <com.aten.compiler.widget.FocusedTextView
+        android:id="@+id/tv_center_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="-1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="子标题"
+        android:textSize="@dimen/sp_36"
+        android:visibility="gone"/>
+
+</merge>

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.cirno-poi:VerifyEditText:1.0.0@aar">
+    <CLASSES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/c5f93d36ca864ef51a077d844dcf7121/VerifyEditText-1.0.0/jars/classes.jar!/" />
+      <root url="file://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/c5f93d36ca864ef51a077d844dcf7121/VerifyEditText-1.0.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

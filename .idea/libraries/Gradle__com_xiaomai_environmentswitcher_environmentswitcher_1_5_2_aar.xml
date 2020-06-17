@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.xiaomai.environmentswitcher:environmentswitcher:1.5.2@aar">
+    <CLASSES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/a3b22a3522d88aefcfa086d0404793e5/environmentswitcher-1.5.2/jars/classes.jar!/" />
+      <root url="file://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/a3b22a3522d88aefcfa086d0404793e5/environmentswitcher-1.5.2/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.xiaomai.environmentswitcher/environmentswitcher/1.5.2/d4a78010e8f22142a87808da0205121fae0a4c50/environmentswitcher-1.5.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.xiaomai.environmentswitcher/environmentswitcher/1.5.2/e77e4d00afd263088b633fab249b40c084abe4dd/environmentswitcher-1.5.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

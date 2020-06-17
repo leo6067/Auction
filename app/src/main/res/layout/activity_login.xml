@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/afl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="@dimen/dp_45"
+            android:layout_height="@dimen/dp_45"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_35"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_login_close" />
+
+    </FrameLayout>
+
+    <com.aten.compiler.widget.ReboundNetScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dp_160"
+                android:layout_height="@dimen/dp_160"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_5"
+                android:src="@drawable/logo_icon" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_110"
+                android:layout_marginTop="@dimen/dp_100"
+                android:layout_marginStart="@dimen/dp_80"
+                android:layout_marginEnd="@dimen/dp_80">
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/iv_name_delete"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="请输入手机号码"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:singleLine="true"
+                    android:textColor="@color/txt_color_1e1e1e"
+                    android:textColorHint="@color/color_c3c6cb"
+                    android:textSize="@dimen/sp_32" />
+
+                <ImageView
+                    android:id="@+id/iv_name_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    android:src="@drawable/ic_login_delete_bg"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginLeft="@dimen/dp_80"
+                android:layout_marginRight="@dimen/dp_80"
+                android:background="@color/color_dddddd" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_110"
+                android:layout_marginStart="@dimen/dp_80"
+                android:layout_marginEnd="@dimen/dp_80">
+
+                <EditText
+                    android:id="@+id/et_verif_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/view_line"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="请输入验证码"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:textColor="@color/txt_color_1e1e1e"
+                    android:textColorHint="@color/color_c3c6cb"
+                    android:textSize="@dimen/sp_32" />
+
+                <View
+                    android:id="@+id/view_line"
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_27"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/fl_verif_code"
+                    android:background="@color/color_dddddd"
+                    android:visibility="invisible" />
+
+                <LinearLayout
+                    android:id="@+id/fl_verif_code"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:id="@+id/tv_verif_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="发送动态密码"
+                        android:textColor="@color/color_3a3e4b"
+                        android:textSize="@dimen/sp_28"
+                        android:visibility="visible" />
+
+                    <com.aten.compiler.widget.countDownTime.CountdownView
+                        android:id="@+id/cv_verif_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:isShowMinute="false"
+                        app:isShowSecond="true"
+                        app:suffixGravity="center"
+                        app:suffixSecond="s"
+                        app:suffixTextColor="@color/color_f5833b"
+                        app:suffixTextSize="@dimen/sp_28"
+                        app:timeTextColor="@color/color_f5833b"
+                        app:timeTextSize="@dimen/sp_28" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginLeft="@dimen/dp_80"
+                android:layout_marginRight="@dimen/dp_80"
+                android:background="@color/color_dddddd" />
+
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_80"
+                android:layout_marginEnd="@dimen/dp_80"
+                android:layout_marginTop="@dimen/dp_15"
+                tools:ignore="WebViewLayout">
+
+
+                <WebView
+                    android:id="@+id/webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                   />
+
+                <TextView
+                    android:id="@+id/view_view"
+                    android:clickable="true"
+                    android:text="                                        "
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_75"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/arl_agree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_80"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_80"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:button="@drawable/shoppingcar_checkbox_style"
+                    android:checked="true" />
+
+                <TextView
+                    android:id="@+id/tv_agree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_toRightOf="@+id/cb_check"
+                    android:lineSpacingExtra="@dimen/dp_10"
+                    android:text="已阅读并同意《超级仓库会员服务用户协议》和《隐私保护政策》"
+                    android:textColor="@color/color_9e9e9e"
+                    android:textSize="@dimen/sp_20" />
+
+            </LinearLayout>
+
+
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/iv_common_login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_86"
+                android:layout_marginLeft="@dimen/dp_80"
+                android:layout_marginTop="@dimen/dp_120"
+                android:layout_marginRight="@dimen/dp_80"
+                app:background_normal="@color/home_title_bg"
+                app:corner_radius="@dimen/dp_15"
+                android:text="登录"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_30"
+                android:gravity="center"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_120"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_80"
+                    android:layout_marginRight="@dimen/dp_30"
+                    android:layout_weight="1"
+                    android:background="@color/windowbackground" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="快速登录"
+                    android:textColor="@color/color_3a3e4b"
+                    android:textSize="@dimen/sp_26" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:layout_marginRight="@dimen/dp_80"
+                    android:layout_weight="1"
+                    android:background="@color/windowbackground" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_wx_login"
+                android:layout_width="@dimen/dp_69"
+                android:layout_height="@dimen/dp_56"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_50"
+                android:src="@drawable/ic_weixin_login_bg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_10"
+                android:text="微信登录"
+                android:textColor="@color/color_1a1a1a"
+                android:textSize="@dimen/sp_28" />
+
+        </LinearLayout>
+
+    </com.aten.compiler.widget.ReboundNetScrollView>
+
+</LinearLayout>
+
+
+

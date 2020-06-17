@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.MainFocusFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_235"
+        android:background="@drawable/home_title_bg">
+
+        <ImageView
+            android:id="@+id/title_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_title_bg"
+            android:visibility="invisible" />
+
+
+        <LinearLayout
+            android:id="@+id/title_lin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp_280"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/dp_115">
+
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginTop="@dimen/dp_30"
+                android:src="@drawable/ic_home_search" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_30"
+                android:background="@null"
+                android:text="  请输入拍品或店铺名字"
+                android:textColor="@color/lightgray"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+
+        <com.flyco.tablayout.SegmentTabLayout
+            android:id="@+id/common_tab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_75"
+            android:layout_marginTop="@dimen/dp_185"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:background="@color/home_title_bg"
+            app:tl_bar_stroke_width="@dimen/dp_0"
+            app:tl_indicator_anim_enable="true"
+            app:tl_indicator_color="@color/white"
+            app:tl_indicator_corner_radius="@dimen/dp_35"
+            app:tl_textBold="SELECT"
+            app:tl_textSelectColor="@color/maroon" />
+
+
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</FrameLayout>
+

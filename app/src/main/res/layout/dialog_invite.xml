@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/white_round_bg"
+              android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/invite_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="绑定邀请人"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/half_white"
+        android:padding="1dp"
+        >
+
+        <EditText
+            android:id="@+id/invite_edit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/white_round_bg"
+            android:hint="邀请人手机号"
+            android:inputType="phone"
+            android:textSize="15sp"
+            />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+
+        >
+
+
+        <TextView
+            android:id="@+id/invite_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邀请人:"
+            android:textSize="15sp"
+
+            />
+
+
+        <TextView
+            android:id="@+id/invite_invite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/dodgerblue"
+            android:textSize="15sp"
+            android:text="邀请人姓名"
+            />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="20dp"
+        android:background="#F1F1F1"
+        />
+
+
+    <TextView
+        android:id="@+id/invite_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="提交"
+        android:textColor="@color/dodgerblue"
+        />
+
+
+</LinearLayout>

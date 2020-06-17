@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dp_20"
+    android:paddingLeft="@dimen/dp_20"
+    android:paddingRight="@dimen/dp_20">
+
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_110"
+        android:background="@drawable/top_left_right_corner_normal"
+        android:gravity="center"
+        android:textColor="@color/txt_color_666"
+        android:textSize="@dimen/sp_32"
+        tools:text="图片来源" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/line" />
+
+    <com.aten.compiler.widget.MaxHeightScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mhv_HeightRatio="0.5"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_text_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:paddingLeft="@dimen/dp_24"
+            android:paddingRight="@dimen/dp_24"
+            android:paddingTop="@dimen/dp_30"
+            android:textColor="@color/txt_color_1e1e1e"
+            android:textSize="@dimen/dp_30"
+            tools:text="这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵这人是策划车呵呵呵呵呵" />
+
+    </com.aten.compiler.widget.MaxHeightScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/line" />
+
+    <TextView
+        android:id="@+id/tv_dialog_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_110"
+        android:background="@drawable/item_bottom_left_right_corner_selector"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/txt_color_666"
+        android:textSize="@dimen/sp_30" />
+
+</LinearLayout>

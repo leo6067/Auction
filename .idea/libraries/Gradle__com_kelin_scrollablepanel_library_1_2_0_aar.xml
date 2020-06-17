@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.kelin.scrollablepanel:library:1.2.0@aar">
+    <CLASSES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/f704ef3e29f395d6f3ace7ce06267afb/library-1.2.0/jars/classes.jar!/" />
+      <root url="file://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/f704ef3e29f395d6f3ace7ce06267afb/library-1.2.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.kelin.scrollablepanel/library/1.2.0/4642e01b354b2cd6407f7c4c31b710f625bca6aa/library-1.2.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.kelin.scrollablepanel/library/1.2.0/a4f229f1b0232540bd1522d7d65c292c513b4c29/library-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

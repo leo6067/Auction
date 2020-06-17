@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/white"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:id="@+id/text_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:text="正在下载中......"
+        android:textSize="20sp" />
+
+
+    <com.leo.auction.common.widget.SnailBar
+        android:id="@+id/version_seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:thumb="@drawable/snailbaranim"
+
+
+        />
+
+
+
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:padding="8dp"
+        android:id="@+id/down_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_bg_box"
+        android:textColor="@color/white"
+        android:text="后台下载" />
+
+
+
+
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/version_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/logo"
+        />
+
+
+</LinearLayout>
+

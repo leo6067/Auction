@@ -1,0 +1,208 @@
+package com.aten.compiler.base;
+
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+
+import com.aten.compiler.R;
+import com.aten.compiler.utils.EmptyUtils;
+import com.aten.compiler.widget.title.TitleBar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class BaseWebActivity extends BaseActivity {
+
+
+    TitleBar mTitleBar;
+
+    WebView mWebview;
+
+    @Override
+    public void setContentViewLayout() {
+        setContentView(R.layout.activity_base_web);
+        mWebview = findViewById(R.id.webview);
+        mTitleBar = findViewById(R.id.title_bar);
+    }
+
+
+    @Override
+    public void initView() {
+        super.initView();
+        mWebview.setWebChromeClient(new WebChromeClient());
+        mWebview.setWebViewClient(new WebViewClient());
+        WebSettings settings = mWebview.getSettings();
+        settings.setDefaultTextEncodingName("utf-8");// 避免中文乱码
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setSupportMultipleWindows(true);
+        settings.setAllowFileAccess(false);
+        settings.setAppCacheEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        //自适应屏幕
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setLoadWithOverviewMode(true);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+
+        String mTitle = getIntent().getStringExtra("title");
+        String url = getIntent().getStringExtra("url");
+        boolean hasNeedTitleBar = getIntent().getBooleanExtra("hasNeedTitleBar", false);
+        boolean hasNeedRightView = getIntent().getBooleanExtra("hasNeedRightView", false);
+        setTitle(EmptyUtils.strEmpty(mTitle));
+
+
+        if (hasNeedTitleBar) {
+            mTitleBar.setVisibility(View.VISIBLE);
+        } else {
+            mTitleBar.setVisibility(View.GONE);
+        }
+
+        if (hasNeedRightView) {
+            setRightIcon(getResources().getDrawable(com.aten.compiler.R.drawable.ic_launcher));
+        }
+
+        webLoad(url);
+    }
+
+
+
+
+
+    private void webLoad(String httpUrl) {
+
+        WebViewClient wvc = new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//                Globals.log("log  leo  shouldInterceptRequest  onPageStarted " + url);
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+//                setCookie(request.getUrl().toString(), userCooike);
+                return super.shouldInterceptRequest(view, request);
+            }
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    shouldUrl = request.getUrl().toString() ;
+//                } else {
+//                    shouldUrl = request.toString() ;
+//                }
+//
+//                if (shouldUrl.contains("live/room")) {
+//                    mTextBreach.setVisibility(View.VISIBLE);
+//                    mTextBack.setVisibility(View.GONE);
+//                } else {
+//                    mTextBreach.setVisibility(View.GONE);
+//                    mTextBack.setVisibility(View.VISIBLE);
+//                }
+                return true;
+            }
+        };
+
+
+        mWebview.setWebViewClient(wvc);
+        mWebview.setWebChromeClient(new WebChromeClient() {
+            /*** 视频播放相关的方法 **/
+            @Override
+            public View getVideoLoadingProgressView() {
+                FrameLayout frameLayout = new FrameLayout(BaseWebActivity.this);
+                frameLayout.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT));
+                return frameLayout;
+            }
+
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+
+            }
+
+            @Override
+            public void onHideCustomView() {
+
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                String substring = title.substring(title.length() - 3, title.length());
+//                if ("直播间".equals(substring)) {
+//                    mTextBreach.setVisibility(View.VISIBLE);
+//                    mTextBack.setVisibility(View.GONE);
+//                } else {
+//                    mTextBreach.setVisibility(View.GONE);
+//                    mTextBack.setVisibility(View.VISIBLE);
+//                }
+            }
+        });
+
+        // 加载Web地址
+        mWebview.loadUrl(httpUrl);
+
+//        CookieManager cookieManager = CookieManager.getInstance();
+//        String CookieStr = cookieManager.getCookie(httpUrl);
+//        Globals.log("log  leo  shouldOverrideUrlLoading  赋值之后 xxx " + CookieStr);
+    }
+
+
+
+    private void setCookie(String httpUrl, String cookieStr) {
+
+        try {
+            String aesDncode ="";
+
+            String cookie = "userinfo_cookie=" + aesDncode;
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptCookie(true);
+            cookieManager.setCookie(httpUrl, cookie);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cookieManager.flush();
+            } else {
+                cookieManager.removeSessionCookie();
+                CookieSyncManager.getInstance().sync();
+            }
+            CookieSyncManager.getInstance().sync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        cookieStr = "oFjT7MMSj4RkdWMYb2BDHv3I0RX2gKTpeM18%2BOst4bUi8BIskxezx3tWDrSW9tc%2BPGnbafcMVI%2BJsyQujQFVE00MnZM87i8Jj3guZ%2FTiHNr1ydxaiTjWIQROFxQHus8Vx5MeGbh4tndvR1DPtvz5sEiqvY1P6wa9G8oYJZVky819fbkgOxfL771IR7qq4iwoMUDx8tTuHUKOB%2Fw5DfIetnVe5b%2BrNn53%2F4dLcB1cZJeDShKMlROFPifEg2WyZZtWdpvNi3njBx%2BrZHmUfo8f6qlDGj3JkcZW5cSMCYgROkaduq2FgcUIK2i%2FGfQhUBreTbVzkaTZYP5X3wePzHIXHg%3D%3D";
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (mWebview.canGoBack()) {
+                mWebview.goBack();
+                return true;
+            } else {
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+
+}

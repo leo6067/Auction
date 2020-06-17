@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:descendantFocusability="blocksDescendants"
+              android:orientation="vertical"
+              android:padding="15dp">
+
+    <TextView
+        android:id="@+id/notice_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="13dp"
+        android:text="公告标题公告标题公告标题"
+        android:textColor="#7b8bac"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/notice_tv_RecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/notice_tv_all"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="全文"/>-->
+
+
+    <com.baisida.tutu.utilsView.MyGridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="2dp"
+        android:paddingLeft="9dp"
+        android:verticalSpacing="1dp"
+
+        >
+
+    </com.baisida.tutu.utilsView.MyGridView>
+
+
+    <TextView
+        android:id="@+id/notice_tv_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="15dp"
+        android:text="3-29"
+
+        />
+</LinearLayout>

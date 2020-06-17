@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_24"
+        android:background="@drawable/corner_normal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_110"
+            android:gravity="center"
+            android:text="评论"
+            android:textColor="@color/txt_color_666"
+            android:textSize="@dimen/sp_32" />
+
+        <TextView
+            android:id="@+id/tv_describe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_60"
+            android:text="非常棒,五星好评"
+            android:textColor="@color/txt_color_1e1e1e"
+            android:textSize="@dimen/sp_32"
+            android:textStyle="bold" />
+
+
+        <com.aten.compiler.widget.ratingbar.ScaleRatingBar
+            android:id="@+id/srb_standard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_30"
+            app:srb_clearRatingEnabled="false"
+            app:srb_numStars="5"
+            app:srb_starHeight="@dimen/dp_54"
+            app:srb_starPadding="@dimen/dp_20"
+            app:srb_starWidth="@dimen/dp_54"
+            app:srb_stepSize="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="您的评价让电工做得更好"
+            android:textColor="@color/txt_color_1e1e1e"
+            android:textSize="@dimen/sp_24" />
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_240"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@drawable/gray_corner"
+            android:gravity="left"
+            android:hint="对本次服务印象如何？"
+            android:maxLength="60"
+            android:paddingLeft="@dimen/dp_24"
+            android:paddingRight="@dimen/dp_24"
+            android:paddingTop="@dimen/dp_30"
+            android:textColor="@color/txt_color_1e1e1e"
+            android:textColorHint="@color/txt_color_999"
+            android:textSize="@dimen/sp_32" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@color/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:orientation="horizontal">
+
+            <com.allen.library.SuperButton
+                android:id="@+id/sbtn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="取消"
+                android:textColor="@color/txt_color_666"
+                android:textSize="@dimen/sp_32"
+                app:sCornersBottomLeftRadius="@dimen/dp_24"
+                app:sSelectorNormalColor="@color/white"
+                app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+                app:sUseSelector="true" />
+
+            <View
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="match_parent"
+                android:background="@color/line" />
+
+            <com.allen.library.SuperButton
+                android:id="@+id/sbtn_comment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="匿名评价"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/sp_32"
+                app:sCornersBottomRightRadius="@dimen/dp_24"
+                app:sSelectorNormalColor="@color/white"
+                app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+                app:sUseSelector="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

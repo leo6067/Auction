@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.billy.android:smart-swipe-support:1.1.0@aar">
+    <CLASSES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/fb5c9b5ed46ae7d01b786ab76f2d695d/smart-swipe-support-1.1.0/jars/classes.jar!/" />
+      <root url="file://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/fb5c9b5ed46ae7d01b786ab76f2d695d/smart-swipe-support-1.1.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.billy.android/smart-swipe-support/1.1.0/48ab507c00f553251e724a711e2723f504ca5ab8/smart-swipe-support-1.1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.billy.android/smart-swipe-support/1.1.0/72c5a78b1e74310a654d5565f599e37f210b6fa1/smart-swipe-support-1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

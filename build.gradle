@@ -1,0 +1,57 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.3.50'
+    repositories {
+        google()
+        jcenter()
+        maven{url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+
+//        classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
+
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+        google()
+        maven { url 'https://maven.google.com' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url "http://lib.gcssloop.com:8081/repository/gcssloop-central/" }
+        maven { url 'http://developer.huawei.com/repo'}
+        maven { url "http://dl.bintray.com/journeyapps/maven" }
+        maven { url "https://dl.google.com/dl/android/maven2/" }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    var = [
+            // 应用程序包名
+            applicationId    : "com.leo.auction",
+            // 用于编译的SDK版本
+            compileSdkVersion: 28,
+            // 用于Gradle编译项目的工具版本
+            buildToolsVersion: "28.0.0",
+            // 最低支持Android版本
+            minSdkVersion    : 19,
+            // 目标版本
+            targetSdkVersion : 28,
+            versionCode      : 1,
+            versionName      : "1.0.0",
+            APPCOMPAT_VERSION: "28.0.0",
+
+    ]
+}

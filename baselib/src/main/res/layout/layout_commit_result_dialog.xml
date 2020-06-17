@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_24"
+        android:background="@drawable/corner_normal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_110"
+            android:gravity="center"
+            android:text="巡检结果"
+            android:textColor="@color/txt_color_666"
+            android:textSize="@dimen/sp_32" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/line"/>
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_240"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@null"
+            android:gravity="left"
+            android:hint="请填写巡检结果？"
+            android:textColor="@color/txt_color_1e1e1e"
+            android:textColorHint="@color/txt_color_999"
+            android:textSize="@dimen/sp_32" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginTop="@dimen/dp_30"
+            android:background="@color/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:orientation="horizontal">
+
+            <com.allen.library.SuperButton
+                android:id="@+id/sbtn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="取消"
+                android:textColor="@color/txt_color_666"
+                android:textSize="@dimen/sp_32"
+                app:sCornersBottomLeftRadius="@dimen/dp_24"
+                app:sSelectorNormalColor="@color/white"
+                app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+                app:sUseSelector="true" />
+
+            <View
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="match_parent"
+                android:background="@color/line" />
+
+            <com.allen.library.SuperButton
+                android:id="@+id/sbtn_comment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="确定"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/sp_32"
+                app:sCornersBottomRightRadius="@dimen/dp_24"
+                app:sSelectorNormalColor="@color/white"
+                app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+                app:sUseSelector="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
