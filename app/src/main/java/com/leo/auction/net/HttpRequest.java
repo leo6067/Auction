@@ -32,7 +32,7 @@ public class HttpRequest {
 //        LogUtils.e("url:" + url);
 
         JSONObject jsonObject = JSON.parseObject(dataParams);
-        jsonObject.put("client", "4");
+//        jsonObject.put("client", "4");
 //        LogUtils.e("dataParams:"+jsonObject.toJSONString());
         OkHttpUtils
                 .postString()
@@ -83,24 +83,6 @@ public class HttpRequest {
         }
 
         Globals.log("log XHttpUtils  data " + url + data.toString());
-//        OkHttpUtils.get().url(url).params(data).build().execute(new StringCallback() {
-//            @Override
-//            public void onError(Call call, Exception e, int id) {
-//                httpCallback.httpError(call, e);
-//                Globals.log("log XHttpUtils 后台错误url= " + url);
-//            }
-//
-//            @Override
-//            public void onResponse(String result, int id) {
-//                Globals.log("log XHttpUtils ", url + "" + result);
-//                try {
-//                    httpCallback.httpResponse(result);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    Globals.log("log XHttpUtils 代码报错url=" + url);
-//                }
-//            }
-//        });
 
 
         OkHttpUtils.get().url(url).params(data).build().execute(new CustomerJsonCallBack() {

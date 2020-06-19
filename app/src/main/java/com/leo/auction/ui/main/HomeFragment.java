@@ -9,11 +9,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.aten.compiler.base.BaseFragment;
+import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.leo.auction.R;
 import com.leo.auction.base.Constants;
+import com.leo.auction.ui.login.LoginWxActivity;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
+import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
 
@@ -44,11 +47,6 @@ public class HomeFragment extends BaseFragment {
 
 
     @Override
-    public void enableLazyLoad() {
-        super.enableLazyLoad();
-    }
-
-    @Override
     public int getLayoutId() {
         return R.layout.fragment_home;
     }
@@ -58,16 +56,17 @@ public class HomeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         mSegmentTabLayout.setTabData(mTitlesStr);
-        for (int i = 0; i <mTitlesStr.length ; i++) {
-            mFragments.add(new HomeAllFragment());
-        }
 
-
-        TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getFragmentManager());
+        TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(titlePagerAdapter);
+//        mViewPager.setOffscreenPageLimit(0);
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
+                if (position == 0) {
+                    BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.SEND_REFRESH_HOME_ALL);
+                }
+                Constants.Var.HOME_TYPE = position;
                 mViewPager.setCurrentItem(position);
             }
 
@@ -75,6 +74,7 @@ public class HomeFragment extends BaseFragment {
             public void onTabReselect(int position) {
             }
         });
+
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -121,8 +121,7 @@ public class HomeFragment extends BaseFragment {
 
         @Override
         public Fragment getItem(int position) {
-            Constants.Var.HOME_TYPE = position;
-            return mFragments.get(position);
+            return new HomeAllFragment();
         }
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ui.main.home.fragment.HomeAllFragment">
 
     <com.aten.compiler.widget.CustRefreshLayout
@@ -20,14 +20,14 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:overScrollMode="never" />
 
     </com.aten.compiler.widget.CustRefreshLayout>
 
 
     <ImageView
-        android:visibility="gone"
+
         android:id="@+id/iv_to_top"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"

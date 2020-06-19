@@ -2,11 +2,9 @@ package com.leo.auction.ui.login.model;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.annotations.SerializedName;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
-
 
 import java.util.HashMap;
 
@@ -22,13 +20,16 @@ import java.util.HashMap;
  * ================================================
  */
 public class LoginModel {
+
+
     /**
-     * data : {"info":{"balance":"0.00","coinNum":0,"followNum":0,"headimg":"https://w.taojianlou.com/image/default/head.jpg","id":1966,"level":1,"nickname":"150****8985","openId":"","payPwd":0,"phone":"15060338985","score":0,"type":"0","unionid":false,"usableBalance":"0.00","userId":"1910311042T8Zvq7"},"orderInfo":{"1":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0},"2":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0}},"supplierInfo":{"exclusiveNum":0,"fansNum":0,"goodsManagerNum":0,"supplierLevel":0,"supplierScore":0},"token":"iwPTNSKR3oWaoxISZ458i8vjBKEREneP"}
-     * result : {"message":"请求成功","success":true}
+     * data : {"token":"6b66da91a8db3f47608dad2893b487ff","user":{"address":{"shipAddress":{"address":"福建省莆田市仙游县榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"福建省莆田市仙游县六月","code":"000000","id":273,"linkman":"六月","phone":"17750656067","type":1}},"auctionCoinBalance":"0","auctionCoinNum":0,"balance":"0","balanceExempt":"","dialogConnect":false,"fansNum":6,"followNum":0,"headImg":"https://file.taojianlou.com/ut/product/151E0BC510964962BCB5ECEDD03E5A59.jpg","hxId":"e64cbf24999560e9ce88726005cac2e5","id":1998,"idCard":"3****************8","level":0,"limitType":0,"nickname":"伟龙珠","payPwd":false,"phone":"17750656067","rate":0,"score":0,"sellerLevel":0,"sellerScore":0,"storeEnable":true,"type":2,"userId":"2004271657rdLApc","username":"leo","warrant":"0"}}
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1592399660978}
      */
 
     private DataBean data;
     private ResultBean result;
+
 
     public DataBean getData() {
         return data;
@@ -48,40 +49,12 @@ public class LoginModel {
 
     public static class DataBean {
         /**
-         * info : {"balance":"0.00","coinNum":0,"followNum":0,"headimg":"https://w.taojianlou.com/image/default/head.jpg","id":1966,"level":1,"nickname":"150****8985","openId":"","payPwd":0,"phone":"15060338985","score":0,"type":"0","unionid":false,"usableBalance":"0.00","userId":"1910311042T8Zvq7"}
-         * orderInfo : {"1":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0},"2":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0}}
-         * supplierInfo : {"exclusiveNum":0,"fansNum":0,"goodsManagerNum":0,"supplierLevel":0,"supplierScore":0}
-         * token : iwPTNSKR3oWaoxISZ458i8vjBKEREneP
+         * token : 6b66da91a8db3f47608dad2893b487ff
+         * user : {"address":{"shipAddress":{"address":"福建省莆田市仙游县榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"福建省莆田市仙游县六月","code":"000000","id":273,"linkman":"六月","phone":"17750656067","type":1}},"auctionCoinBalance":"0","auctionCoinNum":0,"balance":"0","balanceExempt":"","dialogConnect":false,"fansNum":6,"followNum":0,"headImg":"https://file.taojianlou.com/ut/product/151E0BC510964962BCB5ECEDD03E5A59.jpg","hxId":"e64cbf24999560e9ce88726005cac2e5","id":1998,"idCard":"3****************8","level":0,"limitType":0,"nickname":"伟龙珠","payPwd":false,"phone":"17750656067","rate":0,"score":0,"sellerLevel":0,"sellerScore":0,"storeEnable":true,"type":2,"userId":"2004271657rdLApc","username":"leo","warrant":"0"}
          */
 
-        private InfoBean info;
-        private OrderInfoBean orderInfo;
-        private SupplierInfoBean supplierInfo;
         private String token;
-
-        public InfoBean getInfo() {
-            return info;
-        }
-
-        public void setInfo(InfoBean info) {
-            this.info = info;
-        }
-
-        public OrderInfoBean getOrderInfo() {
-            return orderInfo;
-        }
-
-        public void setOrderInfo(OrderInfoBean orderInfo) {
-            this.orderInfo = orderInfo;
-        }
-
-        public SupplierInfoBean getSupplierInfo() {
-            return supplierInfo;
-        }
-
-        public void setSupplierInfo(SupplierInfoBean supplierInfo) {
-            this.supplierInfo = supplierInfo;
-        }
+        private UserBean user;
 
         public String getToken() {
             return token;
@@ -91,49 +64,94 @@ public class LoginModel {
             this.token = token;
         }
 
-        public static class InfoBean {
+        public UserBean getUser() {
+            return user;
+        }
+
+        public void setUser(UserBean user) {
+            this.user = user;
+        }
+
+        public static class UserBean {
             /**
-             * balance : 0.00
-             * coinNum : 0
+             * address : {"shipAddress":{"address":"福建省莆田市仙游县榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"福建省莆田市仙游县六月","code":"000000","id":273,"linkman":"六月","phone":"17750656067","type":1}}
+             * auctionCoinBalance : 0
+             * auctionCoinNum : 0
+             * balance : 0
+             * balanceExempt :
+             * dialogConnect : false
+             * fansNum : 6
              * followNum : 0
-             * headimg : https://w.taojianlou.com/image/default/head.jpg
-             * id : 1966
-             * level : 1
-             * nickname : 150****8985
-             * openId :
-             * payPwd : 0
-             * phone : 15060338985
+             * headImg : https://file.taojianlou.com/ut/product/151E0BC510964962BCB5ECEDD03E5A59.jpg
+             * hxId : e64cbf24999560e9ce88726005cac2e5
+             * id : 1998
+             * idCard : 3****************8
+             * level : 0
+             * limitType : 0
+             * nickname : 伟龙珠
+             * payPwd : false
+             * phone : 17750656067
+             * rate : 0.0
              * score : 0
-             * type : 0
-             * unionid : false
-             * usableBalance : 0.00
-             * userId : 1910311042T8Zvq7
+             * sellerLevel : 0
+             * sellerScore : 0
+             * storeEnable : true
+             * type : 2
+             * userId : 2004271657rdLApc
+             * username : leo
+             * warrant : 0
              */
 
+            private AddressBean address;
+            private String auctionCoinBalance;
+            private int auctionCoinNum;
             private String balance;
-            private String coinNum;
-            private String followNum;
-            private String headimg;
-            private String id;
-            private String level;
-            private String nickname;
-            private String openId;
-            private String payPwd;
-            private String phone;
-            private String score;
-            private String type;
-            private boolean unionid;
-            private String usableBalance;
-            private String userId;
             private String balanceExempt;
-            private String supplierId;
-            private String shopUri;
-            private String fixedSupplier;
-            private String warrantBalance;
-            private MineModel.DataBean.InfoBean.AddressBean address;
-            private boolean companyAuth;
-            private boolean partner;
             private boolean dialogConnect;
+            private int fansNum;
+            private int followNum;
+            private String headImg;
+            private String hxId;
+            private int id;
+            private String idCard;
+            private int level;
+            private int limitType;
+            private String nickname;
+            private boolean payPwd;
+            private String phone;
+            private double rate;
+            private int score;
+            private int sellerLevel;
+            private int sellerScore;
+            private boolean storeEnable;
+            private int type;
+            private String userId;
+            private String username;
+            private String warrant;
+
+            public AddressBean getAddress() {
+                return address;
+            }
+
+            public void setAddress(AddressBean address) {
+                this.address = address;
+            }
+
+            public String getAuctionCoinBalance() {
+                return auctionCoinBalance;
+            }
+
+            public void setAuctionCoinBalance(String auctionCoinBalance) {
+                this.auctionCoinBalance = auctionCoinBalance;
+            }
+
+            public int getAuctionCoinNum() {
+                return auctionCoinNum;
+            }
+
+            public void setAuctionCoinNum(int auctionCoinNum) {
+                this.auctionCoinNum = auctionCoinNum;
+            }
 
             public String getBalance() {
                 return balance;
@@ -143,44 +161,84 @@ public class LoginModel {
                 this.balance = balance;
             }
 
-            public String getCoinNum() {
-                return coinNum;
+            public String getBalanceExempt() {
+                return balanceExempt;
             }
 
-            public void setCoinNum(String coinNum) {
-                this.coinNum = coinNum;
+            public void setBalanceExempt(String balanceExempt) {
+                this.balanceExempt = balanceExempt;
             }
 
-            public String getFollowNum() {
+            public boolean isDialogConnect() {
+                return dialogConnect;
+            }
+
+            public void setDialogConnect(boolean dialogConnect) {
+                this.dialogConnect = dialogConnect;
+            }
+
+            public int getFansNum() {
+                return fansNum;
+            }
+
+            public void setFansNum(int fansNum) {
+                this.fansNum = fansNum;
+            }
+
+            public int getFollowNum() {
                 return followNum;
             }
 
-            public void setFollowNum(String followNum) {
+            public void setFollowNum(int followNum) {
                 this.followNum = followNum;
             }
 
-            public String getHeadimg() {
-                return headimg;
+            public String getHeadImg() {
+                return headImg;
             }
 
-            public void setHeadimg(String headimg) {
-                this.headimg = headimg;
+            public void setHeadImg(String headImg) {
+                this.headImg = headImg;
             }
 
-            public String getId() {
+            public String getHxId() {
+                return hxId;
+            }
+
+            public void setHxId(String hxId) {
+                this.hxId = hxId;
+            }
+
+            public int getId() {
                 return id;
             }
 
-            public void setId(String id) {
+            public void setId(int id) {
                 this.id = id;
             }
 
-            public String getLevel() {
+            public String getIdCard() {
+                return idCard;
+            }
+
+            public void setIdCard(String idCard) {
+                this.idCard = idCard;
+            }
+
+            public int getLevel() {
                 return level;
             }
 
-            public void setLevel(String level) {
+            public void setLevel(int level) {
                 this.level = level;
+            }
+
+            public int getLimitType() {
+                return limitType;
+            }
+
+            public void setLimitType(int limitType) {
+                this.limitType = limitType;
             }
 
             public String getNickname() {
@@ -191,19 +249,11 @@ public class LoginModel {
                 this.nickname = nickname;
             }
 
-            public String getOpenId() {
-                return openId;
-            }
-
-            public void setOpenId(String openId) {
-                this.openId = openId;
-            }
-
-            public String getPayPwd() {
+            public boolean isPayPwd() {
                 return payPwd;
             }
 
-            public void setPayPwd(String payPwd) {
+            public void setPayPwd(boolean payPwd) {
                 this.payPwd = payPwd;
             }
 
@@ -215,36 +265,52 @@ public class LoginModel {
                 this.phone = phone;
             }
 
-            public String getScore() {
+            public double getRate() {
+                return rate;
+            }
+
+            public void setRate(double rate) {
+                this.rate = rate;
+            }
+
+            public int getScore() {
                 return score;
             }
 
-            public void setScore(String score) {
+            public void setScore(int score) {
                 this.score = score;
             }
 
-            public String getType() {
+            public int getSellerLevel() {
+                return sellerLevel;
+            }
+
+            public void setSellerLevel(int sellerLevel) {
+                this.sellerLevel = sellerLevel;
+            }
+
+            public int getSellerScore() {
+                return sellerScore;
+            }
+
+            public void setSellerScore(int sellerScore) {
+                this.sellerScore = sellerScore;
+            }
+
+            public boolean isStoreEnable() {
+                return storeEnable;
+            }
+
+            public void setStoreEnable(boolean storeEnable) {
+                this.storeEnable = storeEnable;
+            }
+
+            public int getType() {
                 return type;
             }
 
-            public void setType(String type) {
+            public void setType(int type) {
                 this.type = type;
-            }
-
-            public boolean isUnionid() {
-                return unionid;
-            }
-
-            public void setUnionid(boolean unionid) {
-                this.unionid = unionid;
-            }
-
-            public String getUsableBalance() {
-                return usableBalance;
-            }
-
-            public void setUsableBalance(String usableBalance) {
-                this.usableBalance = usableBalance;
             }
 
             public String getUserId() {
@@ -255,273 +321,202 @@ public class LoginModel {
                 this.userId = userId;
             }
 
-            public String getBalanceExempt() {
-                return balanceExempt;
+            public String getUsername() {
+                return username;
             }
 
-            public void setBalanceExempt(String balanceExempt) {
-                this.balanceExempt = balanceExempt;
+            public void setUsername(String username) {
+                this.username = username;
             }
 
-            public String getSupplierId() {
-                return supplierId;
+            public String getWarrant() {
+                return warrant;
             }
 
-            public void setSupplierId(String supplierId) {
-                this.supplierId = supplierId;
+            public void setWarrant(String warrant) {
+                this.warrant = warrant;
             }
 
-            public String getShopUri() {
-                return shopUri;
-            }
-
-            public void setShopUri(String shopUri) {
-                this.shopUri = shopUri;
-            }
-
-            public String getFixedSupplier() {
-                return fixedSupplier;
-            }
-
-            public void setFixedSupplier(String fixedSupplier) {
-                this.fixedSupplier = fixedSupplier;
-            }
-
-            public String getWarrantBalance() {
-                return warrantBalance;
-            }
-
-            public void setWarrantBalance(String warrantBalance) {
-                this.warrantBalance = warrantBalance;
-            }
-
-            public MineModel.DataBean.InfoBean.AddressBean getAddress() {
-                return address;
-            }
-
-            public void setAddress(MineModel.DataBean.InfoBean.AddressBean address) {
-                this.address = address;
-            }
-
-            public boolean isCompanyAuth() {
-                return companyAuth;
-            }
-
-            public void setCompanyAuth(boolean companyAuth) {
-                this.companyAuth = companyAuth;
-            }
-
-            public boolean getPartner() {
-                return partner;
-            }
-
-            public void setPartner(boolean partner) {
-                this.partner = partner;
-            }
-
-            public boolean isDialogConnect() {
-                return dialogConnect;
-            }
-
-            public void setDialogConnect(boolean dialogConnect) {
-                this.dialogConnect = dialogConnect;
-            }
-        }
-
-        public static class OrderInfoBean {//订单统计
-            /**
-             * 1 : {"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0}
-             * 2 : {"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0}
-             */
-
-            @SerializedName("1")
-            private OrderStatisticsBean01 orderStatisticsBean01;
-            @SerializedName("2")
-            private OrderStatisticsBean02 orderStatisticsBean02;
-
-            public OrderStatisticsBean01 getOrderStatisticsBean01() {
-                return orderStatisticsBean01;
-            }
-
-            public void setOrderStatisticsBean01(OrderStatisticsBean01 orderStatisticsBean01) {
-                this.orderStatisticsBean01 = orderStatisticsBean01;
-            }
-
-            public OrderStatisticsBean02 getOrderStatisticsBean02() {
-                return orderStatisticsBean02;
-            }
-
-            public void setOrderStatisticsBean02(OrderStatisticsBean02 orderStatisticsBean02) {
-                this.orderStatisticsBean02 = orderStatisticsBean02;
-            }
-
-            public static class OrderStatisticsBean01 {
+            public static class AddressBean {
                 /**
-                 * noPayNum : 0
-                 * receiveNum : 0
-                 * sendNum : 0
-                 * serviceNum : 0
+                 * shipAddress : {"address":"福建省莆田市仙游县榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0}
+                 * returnAddress : {"address":"福建省莆田市仙游县六月","code":"000000","id":273,"linkman":"六月","phone":"17750656067","type":1}
                  */
 
-                private int noPayNum;
-                private int receiveNum;
-                private int sendNum;
-                private int serviceNum;
+                private ShipAddressBean shipAddress;
+                private ReturnAddressBean returnAddress;
 
-                public int getNoPayNum() {
-                    return noPayNum;
+                public ShipAddressBean getShipAddress() {
+                    return shipAddress;
                 }
 
-                public void setNoPayNum(int noPayNum) {
-                    this.noPayNum = noPayNum;
+                public void setShipAddress(ShipAddressBean shipAddress) {
+                    this.shipAddress = shipAddress;
                 }
 
-                public int getReceiveNum() {
-                    return receiveNum;
+                public ReturnAddressBean getReturnAddress() {
+                    return returnAddress;
                 }
 
-                public void setReceiveNum(int receiveNum) {
-                    this.receiveNum = receiveNum;
+                public void setReturnAddress(ReturnAddressBean returnAddress) {
+                    this.returnAddress = returnAddress;
                 }
 
-                public int getSendNum() {
-                    return sendNum;
+                public static class ShipAddressBean {
+                    /**
+                     * address : 福建省莆田市仙游县榜头镇天易世博
+                     * code : 000000
+                     * id : 271
+                     * linkman : 谢伟杰
+                     * phone : 17750656067
+                     * type : 0
+                     */
+
+                    private String address;
+                    private String code;
+                    private int id;
+                    private String linkman;
+                    private String phone;
+                    private int type;
+
+                    public String getAddress() {
+                        return address;
+                    }
+
+                    public void setAddress(String address) {
+                        this.address = address;
+                    }
+
+                    public String getCode() {
+                        return code;
+                    }
+
+                    public void setCode(String code) {
+                        this.code = code;
+                    }
+
+                    public int getId() {
+                        return id;
+                    }
+
+                    public void setId(int id) {
+                        this.id = id;
+                    }
+
+                    public String getLinkman() {
+                        return linkman;
+                    }
+
+                    public void setLinkman(String linkman) {
+                        this.linkman = linkman;
+                    }
+
+                    public String getPhone() {
+                        return phone;
+                    }
+
+                    public void setPhone(String phone) {
+                        this.phone = phone;
+                    }
+
+                    public int getType() {
+                        return type;
+                    }
+
+                    public void setType(int type) {
+                        this.type = type;
+                    }
                 }
 
-                public void setSendNum(int sendNum) {
-                    this.sendNum = sendNum;
+                public static class ReturnAddressBean {
+                    /**
+                     * address : 福建省莆田市仙游县六月
+                     * code : 000000
+                     * id : 273
+                     * linkman : 六月
+                     * phone : 17750656067
+                     * type : 1
+                     */
+
+                    private String address;
+                    private String code;
+                    private int id;
+                    private String linkman;
+                    private String phone;
+                    private int type;
+
+                    public String getAddress() {
+                        return address;
+                    }
+
+                    public void setAddress(String address) {
+                        this.address = address;
+                    }
+
+                    public String getCode() {
+                        return code;
+                    }
+
+                    public void setCode(String code) {
+                        this.code = code;
+                    }
+
+                    public int getId() {
+                        return id;
+                    }
+
+                    public void setId(int id) {
+                        this.id = id;
+                    }
+
+                    public String getLinkman() {
+                        return linkman;
+                    }
+
+                    public void setLinkman(String linkman) {
+                        this.linkman = linkman;
+                    }
+
+                    public String getPhone() {
+                        return phone;
+                    }
+
+                    public void setPhone(String phone) {
+                        this.phone = phone;
+                    }
+
+                    public int getType() {
+                        return type;
+                    }
+
+                    public void setType(int type) {
+                        this.type = type;
+                    }
                 }
-
-                public int getServiceNum() {
-                    return serviceNum;
-                }
-
-                public void setServiceNum(int serviceNum) {
-                    this.serviceNum = serviceNum;
-                }
-            }
-
-            public static class OrderStatisticsBean02 {
-                /**
-                 * noPayNum : 0
-                 * receiveNum : 0
-                 * sendNum : 0
-                 * serviceNum : 0
-                 */
-
-                private int noPayNum;
-                private int receiveNum;
-                private int sendNum;
-                private int serviceNum;
-
-                public int getNoPayNum() {
-                    return noPayNum;
-                }
-
-                public void setNoPayNum(int noPayNum) {
-                    this.noPayNum = noPayNum;
-                }
-
-                public int getReceiveNum() {
-                    return receiveNum;
-                }
-
-                public void setReceiveNum(int receiveNum) {
-                    this.receiveNum = receiveNum;
-                }
-
-                public int getSendNum() {
-                    return sendNum;
-                }
-
-                public void setSendNum(int sendNum) {
-                    this.sendNum = sendNum;
-                }
-
-                public int getServiceNum() {
-                    return serviceNum;
-                }
-
-                public void setServiceNum(int serviceNum) {
-                    this.serviceNum = serviceNum;
-                }
-            }
-        }
-
-        public static class SupplierInfoBean {
-            /**
-             * exclusiveNum : 0
-             * fansNum : 0
-             * goodsManagerNum : 0
-             * supplierLevel : 0
-             * supplierScore : 0
-             */
-
-            private int exclusiveNum;
-            private int fansNum;
-            private int goodsManagerNum;
-            private int supplierLevel;
-            private int supplierScore;
-            private String qrcode;
-
-            public int getExclusiveNum() {
-                return exclusiveNum;
-            }
-
-            public void setExclusiveNum(int exclusiveNum) {
-                this.exclusiveNum = exclusiveNum;
-            }
-
-            public int getFansNum() {
-                return fansNum;
-            }
-
-            public void setFansNum(int fansNum) {
-                this.fansNum = fansNum;
-            }
-
-            public int getGoodsManagerNum() {
-                return goodsManagerNum;
-            }
-
-            public void setGoodsManagerNum(int goodsManagerNum) {
-                this.goodsManagerNum = goodsManagerNum;
-            }
-
-            public int getSupplierLevel() {
-                return supplierLevel;
-            }
-
-            public void setSupplierLevel(int supplierLevel) {
-                this.supplierLevel = supplierLevel;
-            }
-
-            public int getSupplierScore() {
-                return supplierScore;
-            }
-
-            public void setSupplierScore(int supplierScore) {
-                this.supplierScore = supplierScore;
-            }
-
-            public String getQrcode() {
-                return qrcode;
-            }
-
-            public void setQrcode(String qrcode) {
-                this.qrcode = qrcode;
             }
         }
     }
 
     public static class ResultBean {
         /**
+         * code : 0
          * message : 请求成功
          * success : true
+         * timestamp : 1592399660978
          */
 
+        private String code;
         private String message;
         private boolean success;
+        private long timestamp;
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
 
         public String getMessage() {
             return message;
@@ -538,32 +533,13 @@ public class LoginModel {
         public void setSuccess(boolean success) {
             this.success = success;
         }
-    }
 
-    //用户登录
-    public static void sendLoginRequest(final String TAG, String number, String code, final CustomerJsonCallBack<LoginModel> callback) {
-        HashMap<String,String> value=new HashMap<>();
-        value.put("number",number);//使用场景码 1:商家审核 2：绑定手机号 4-app端登录使用(选择此选项)
-        value.put("code",code);
-        HttpRequest.requesNetWork(TAG, Constants.Api.HOMEPAGE_USER_PHONE_LOGIN_URL, JSON.toJSONString(value), callback);
-    }
+        public long getTimestamp() {
+            return timestamp;
+        }
 
-    //静默登录
-    public static void sendDefaulltLoginRequest(final String TAG, String token,final CustomerJsonCallBack<LoginModel> callback) {
-        HashMap<String,String> value=new HashMap<>();
-        value.put("token",token);//使用场景码 1:商家审核 2：绑定手机号 4-app端登录使用(选择此选项)
-        HttpRequest.requesNetWork(TAG, Constants.Api.HOMEPAGE_USER_DEFAULT_LOGIN_URL, JSON.toJSONString(value), callback);
-    }
-
-    //微信登录
-    public static void sendWXLoginRequest(final String TAG, String unionId,String openId,String nickname,String headImg,
-                                          final CustomerJsonCallBack<LoginModel> callback) {
-        JSONObject jsonObject=new JSONObject();
-        jsonObject.put("unionId",unionId);
-        jsonObject.put("openId",openId);
-        jsonObject.put("nickname",nickname);
-        jsonObject.put("headImg",headImg);
-
-        HttpRequest.requesNetWork(TAG, Constants.Api.HOMEPAGE_USER_WX_LOGIN_URL, jsonObject.toJSONString(), callback);
+        public void setTimestamp(long timestamp) {
+            this.timestamp = timestamp;
+        }
     }
 }

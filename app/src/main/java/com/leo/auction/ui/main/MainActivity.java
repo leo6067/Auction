@@ -17,9 +17,10 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.Constants;
 import com.leo.auction.ui.login.LoginActivity;
-import com.leo.auction.ui.login.utils.LoginUtils;
 import com.leo.auction.ui.main.home.model.TabEntity;
+import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
 
@@ -69,6 +70,7 @@ public class MainActivity extends BaseActivity {
         initImmersionBar();
         ActivityManager.mainActivity = this;
         mViewPager.setAdapter(new TitlePagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOffscreenPageLimit(0);
 
         mFragments.add(new HomeFragment());
         mFragments.add(new MainSortFragment());
@@ -85,7 +87,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabSelect(int position) {
                 if (position == 2 || position ==3){
-                    if (!LoginUtils.getInstance().isLogin()) {
+                    if (! Constants.Var.ISLOGIN) {
                         ToastUtils.showShort("请先登录");
                         LoginActivity.newIntance(MainActivity.this);
                         return;
@@ -141,6 +143,8 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
+
+            Globals.log("xxxxxxxxxxxxx  getItem" +position  );
             return mFragments.get(position);
         }
     }

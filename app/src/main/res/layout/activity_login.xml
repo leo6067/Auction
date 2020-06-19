@@ -120,17 +120,18 @@
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:visibility="invisible">
+                    android:visibility="invisible"
+                    >
 
                     <TextView
                         android:id="@+id/tv_verif_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="发送动态密码"
+                        android:text="验证码"
                         android:textColor="@color/color_3a3e4b"
                         android:textSize="@dimen/sp_28"
-                        android:visibility="visible" />
+                         />
 
                     <com.aten.compiler.widget.countDownTime.CountdownView
                         android:id="@+id/cv_verif_code"

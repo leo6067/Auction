@@ -1,14 +1,17 @@
 package com.aten.compiler.base.BaseRecyclerView;
 
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.aten.compiler.R;
 import com.aten.compiler.base.BaseFragment;
 import com.aten.compiler.widget.CostomLoadMoreView;
 import com.aten.compiler.widget.CustRefreshLayout;
+import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -60,6 +63,7 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
         RecyclerView.LayoutManager layoutManager=getLayoutManager();
         if (layoutManager==null){
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+           
         }else {
             recyclerView.setLayoutManager(layoutManager);
         }
@@ -118,7 +122,6 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         mPageNum=1;
         getData();
-
     }
 
     @Override

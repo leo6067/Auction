@@ -37,8 +37,6 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> <!-- 热更新 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -52,12 +50,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.login.AgreementActivity"/>
+        <activity android:name=".ui.main.home.activity.CategoryActivity"></activity>
+        <activity android:name=".ui.login.AgreementActivity" />
         <activity android:name=".ui.login.LoginWxActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".mvp.LoginMvpActivity" />
         <activity
-            android:name="com.leo.auction.ui.login.StartActivity"
+            android:name=".ui.login.StartActivity"
             android:theme="@style/startTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -81,7 +80,6 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="nfFOGsvbAIKv9NxeDxFXBpLtGfYkl8zK" /> <!-- <meta-data -->
-
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5ee97d17978eea083057276b" />

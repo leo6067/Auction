@@ -13,20 +13,25 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
+import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.permission.PermissionHelper;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginModel;
-import com.leo.auction.ui.login.model.UserInfoModel;
-import com.leo.auction.ui.login.utils.BackLoginUtils;
-import com.leo.auction.ui.login.utils.LoginUtils;
+
 import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.NetworkUtils;
+
+import java.util.HashMap;
+
+import okhttp3.Call;
 
 
 public class StartActivity extends BaseActivity {
@@ -95,44 +100,33 @@ public class StartActivity extends BaseActivity {
 
     //登录
     private void backLogin() {
-        BackLoginUtils backLoginUtils = new BackLoginUtils();
-        backLoginUtils.backstageLogin(new BackLoginUtils.onBackLoginListener() {
-            @Override
-            public void onLoginSuccess() {
-//                if (Constants.Nouns.SHOW_IM_PAGER) {
-//                    //im注册登录
-//                    BackLoginUtils backLoginUtils = new BackLoginUtils();
-//                    if (UserInfoUtils.getInstance().idDialogConnect()) {//已注册环信
-//                        //进行登录
-//                        backLoginUtils.imLogin(WelcomeActivity.this);
-//                    } else {//未注册环信
-//                        backLoginUtils.imRegister(WelcomeActivity.this, new BackLoginUtils.IMRegistListener() {
-//                            @Override
-//                            public void onIMRegistSuccess(String userName) {
-//                                backLoginUtils.imLogin(WelcomeActivity.this);
-//                            }
-//
-//                            @Override
-//                            public void onIMRegistError() {
-//
-//                            }
-//                        });
-//                    }
-//                }
-                ActivityManager.JumpActivity(StartActivity.this, MainActivity.class, null);
-            }
+        LoginModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+        if (userJson!=null){
+            showWaitDialog();
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put("token",userJson.getToken());
+            HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_DEFAULT_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
+                @Override
+                public void httpError(Call call, Exception e) {
+                    hideWaitDialog();
+                }
 
-            @Override
-            public void onLogingFail() {
-                ActivityManager.JumpActivity(StartActivity.this, LoginActivity.class, null);
-            }
-
-            @Override
-            public void onError() {
-                ActivityManager.JumpActivity(StartActivity.this, LoginActivity.class, null);
-            }
-        });
-//        ActivityManager.JumpActivity(StartActivity.this, MainActivity.class, null);
+                @Override
+                public void httpResponse(String resultData) {
+                    hideWaitDialog();
+                    LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
+                    if (loginModel.getResult().isSuccess()){
+                        BaseSharePerence.getInstance().setUserJson(resultData);
+                        MainActivity.newIntance(StartActivity.this, 0);
+                        finish();
+                    }
+                }
+            });
+        }else {
+            Constants.Var.ISLOGIN = false;
+            MainActivity.newIntance(StartActivity.this, 0);
+            finish();
+        }
     }
 
 }

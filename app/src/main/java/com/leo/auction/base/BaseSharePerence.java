@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.model.home.VersionJson;
+import com.leo.auction.ui.login.model.LoginModel;
 import com.leo.auction.ui.login.model.UserInfoModel;
 
 
@@ -47,14 +48,16 @@ public class BaseSharePerence {
      * 保存用户账号基本信息
      */
     public void setUserJson(String userJson) {
+        Constants.Var.ISLOGIN = true;
         mSharedPreferences.edit().putString("setUserJson", userJson).commit();
     }
 
-    public UserInfoModel getUserJson() {
-        UserInfoModel userInfoModel = null;
+    public LoginModel.DataBean getUserJson() {
+        LoginModel.DataBean userInfoModel = null;
         String infoStr = mSharedPreferences.getString("setUserJson", "");
         if (infoStr.length() > 2) {
-            userInfoModel = JSONObject.parseObject(infoStr, UserInfoModel.class);
+            LoginModel loginModel = JSONObject.parseObject(infoStr, LoginModel.class);
+            userInfoModel = loginModel.getData();
 
         }
         return userInfoModel;

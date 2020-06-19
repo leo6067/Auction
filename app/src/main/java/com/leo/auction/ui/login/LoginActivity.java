@@ -28,12 +28,14 @@ import com.blankj.utilcode.util.SPUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginModel;
 import com.leo.auction.ui.login.model.LoginVerModel;
 import com.leo.auction.ui.login.model.SmsCodeModel;
-import com.leo.auction.ui.login.utils.LoginUtils;
+
 import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.utils.Globals;
 import com.umeng.socialize.UMAuthListener;
@@ -41,12 +43,14 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, CountdownView.OnCountdownEndListener{
     private double exitTime;
 
     @BindView(R.id.afl_title)
@@ -76,11 +80,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     private BroadCastReceiveUtils mStartActivity = new BroadCastReceiveUtils() {
-
-
         @Override
         public void onReceive(Context context, Intent intent) {
-
             LoginActivity.newIntance(context);
         }
     };
@@ -121,8 +122,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void initData() {
         super.initData();
         setWebView();
-
-        BroadCastReceiveUtils.registerLocalReceiver(LoginActivity.this, Constants.Action.ACTION_LOGIN,mStartActivity);
+        BroadCastReceiveUtils.registerLocalReceiver(LoginActivity.this, Constants.Action.ACTION_LOGIN, mStartActivity);
     }
 
     @Override
@@ -143,7 +143,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void initEvent() {
         super.initEvent();
         etName.addTextChangedListener(textWatcher);
-//        cvVerifCode.setOnCountdownEndListener(this);
+        cvVerifCode.setOnCountdownEndListener(this);
     }
 
 
@@ -179,16 +179,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     jsonStr = jsonStr.substring(5);
                     /* Globals.log("xxxxxxxxxxxxxxxshouldOverrideUrlLoading  "  +  jsonStr );*/
                     LoginVerModel loginVerModel = JSONObject.parseObject(jsonStr, LoginVerModel.class);
-                    //刷新首页列表item
-//                    Intent intent = new Intent(Constants.Action.SEND_VERIFIED_LOGIN);
-////                    intent.putExtra("type", "1");
-////                    intent.putExtra("id", id);
-////                    intent.putExtra("isCollection", (boolean) item.isCollect());
-//                    intent.putExtra("loginVerModel",loginVerModel);
-//                    BroadCastReceiveUtils.sendLocalBroadCast(LoginActivity.this, intent);
-//                    finish();
                     getVerifCode(loginVerModel);
-
                     return true;
                 } else {
                     return false;
@@ -202,8 +193,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //        testWebview.addJavascriptInterface(new testJsInterface(), "testInterface");
         // 加载业务页面。
         testWebview.loadUrl("https://w.taojianlou.com/super-store/hd2.html");
-
-
     }
 
 
@@ -213,26 +202,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return;
         }
         switch (view.getId()) {
-            case R.id.fl_verif_code:
-                if (EmptyUtils.isEmpty(etName.getText().toString().trim())) {
-                     ToastUtils.showShort("请输入手机号码");
-                    return;
-                }
 
-                if (etName.getText().toString().trim().length() < 11) {
-                     ToastUtils.showShort("请输入正确的手机号码");
-                    return;
-                }
-
-
-                break;
             case R.id.iv_common_login:
-                String cancellationAccount = SPUtils.getInstance("cancellation_account").getString("cancellation_account_tag", "");
-                if (cancellationAccount.contains(etName.getText().toString().trim())) {
-                    ToastUtils.showShort("账户不存在");
-                    return;
-                }
-
                 login();
                 break;
             case R.id.iv_close:
@@ -261,19 +232,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
 
 
+
+
         SmsCodeModel.sendSmsCodeRequest(TAG, "4", etName.getText().toString().trim(), loginVerModel, new CustomerJsonCallBack<SmsCodeModel>() {
             @Override
             public void onRequestError(SmsCodeModel returnData, String msg) {
                 hideWaitDialog();
-                 ToastUtils.showShort(msg);
+                ToastUtils.showShort(msg);
             }
 
             @Override
             public void onRequestSuccess(SmsCodeModel returnData) {
                 hideWaitDialog();
-                 ToastUtils.showShort("发送成功");
+                ToastUtils.showShort("发送成功");
                 tvVerifCode.setVisibility(View.GONE);
                 cvVerifCode.setVisibility(View.VISIBLE);
+                flVerifCode.setVisibility(View.VISIBLE);
                 flVerifCode.setEnabled(false);
                 cvVerifCode.start(60000); // 毫秒
             }
@@ -283,56 +257,66 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     //验证码登录
     private void login() {
         if (EmptyUtils.isEmpty(etName.getText().toString().trim())) {
-             ToastUtils.showShort("手机号码不能为空");
+            ToastUtils.showShort("手机号码不能为空");
             return;
         }
 
         if (etName.getText().toString().trim().length() < 11) {
-             ToastUtils.showShort("请输入正确的手机号码");
+            ToastUtils.showShort("请输入正确的手机号码");
             return;
         }
 
         if (EmptyUtils.isEmpty(etVerifCode.getText().toString().trim())) {
-             ToastUtils.showShort("验证码不能为空");
+            ToastUtils.showShort("验证码不能为空");
             return;
         }
 
         if (etVerifCode.getText().toString().trim().length() != 4) {
-             ToastUtils.showShort("请输入正确的验证码");
+            ToastUtils.showShort("请输入正确的验证码");
             return;
         }
 
         if (!cbCheck.isChecked()) {
-             ToastUtils.showShort("请勾选用户协议");
+            ToastUtils.showShort("请勾选用户协议");
             return;
         }
 
         showWaitDialog();
-        LoginModel.sendLoginRequest(TAG, etName.getText().toString().trim(), etVerifCode.getText().toString().trim(),
-                new CustomerJsonCallBack<LoginModel>() {
-                    @Override
-                    public void onRequestError(LoginModel returnData, String msg) {
-                        hideWaitDialog();
-                         ToastUtils.showShort(msg);
-                    }
 
-                    @Override
-                    public void onRequestSuccess(final LoginModel returnData) {
-                        hideWaitDialog();
-                         ToastUtils.showShort("登录成功");
-                        if (returnData.getData() != null) {
-                            LoginUtils.getInstance().loginSuccess(returnData.getData(), new LoginUtils.ILoginOperation() {
-                                @Override
-                                public void onCompleted(boolean isDialogConnect) {
-//                                    onClosePager(isDialogConnect);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("number",etName.getText().toString().trim());
+        hashMap.put("code",etVerifCode.getText().toString().trim());
 
-                                    MainActivity.newIntance(LoginActivity.this, 0);
-                                    finish();
-                                }
-                            });
-                        }
-                    }
-                });
+
+        HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_PHONE_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
+                if (loginModel.getResult().isSuccess()){
+                    ToastUtils.showShort("登录成功");
+                    BaseSharePerence.getInstance().setUserJson(resultData);
+                    MainActivity.newIntance(LoginActivity.this, 0);
+                    finish();
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void onEnd(CountdownView cv) {
+        flVerifCode.setEnabled(true);
+        tvVerifCode.setVisibility(View.VISIBLE);
+        cvVerifCode.setVisibility(View.GONE);
+        flVerifCode.setVisibility(View.GONE);
+        testWebview.loadUrl("https://w.taojianlou.com/super-store/hd2.html");
     }
 
     //微信登录
@@ -346,26 +330,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                 showWaitDialog();
-                LoginModel.sendWXLoginRequest(TAG, map.get("unionid"), map.get("openid"), map.get("name"), map.get("iconurl"), new CustomerJsonCallBack<LoginModel>() {
+                HashMap <String, String>  hashMap = new HashMap<>();
+                hashMap.put("unionId",map.get("unionid"));
+                hashMap.put("openId",map.get("openid"));
+                hashMap.put("nickname",map.get("name"));
+                hashMap.put("headImg",map.get("iconurl"));
+                HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_WX_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
                     @Override
-                    public void onRequestError(LoginModel returnData, String msg) {
+                    public void httpError(Call call, Exception e) {
                         hideWaitDialog();
-                         ToastUtils.showShort(msg);
                     }
 
                     @Override
-                    public void onRequestSuccess(LoginModel returnData) {
+                    public void httpResponse(String resultData) {
                         hideWaitDialog();
-                         ToastUtils.showShort("登录成功");
-                        if (returnData.getData() != null) {
-                            LoginUtils.getInstance().loginSuccess(returnData.getData(), new LoginUtils.ILoginOperation() {
-                                @Override
-                                public void onCompleted(boolean isDialogConnect) {
-//                                    onClosePager(isDialogConnect);
-                                    MainActivity.newIntance(LoginActivity.this, 0);
-                                    finish();
-                                }
-                            });
+                        LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
+                        if (loginModel.getResult().isSuccess()){
+                            ToastUtils.showShort("登录成功");
+                            BaseSharePerence.getInstance().setUserJson(resultData);
+                            MainActivity.newIntance(LoginActivity.this, 0);
+                            finish();
                         }
                     }
                 });
@@ -374,18 +358,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                 if (!UMShareAPI.get(LoginActivity.this).isInstall(LoginActivity.this, SHARE_MEDIA.WEIXIN)) {
-                     ToastUtils.showShort("请安装微信");
+                    ToastUtils.showShort("请安装微信");
                 } else {
-                     ToastUtils.showShort("授权失败");
+                    ToastUtils.showShort("授权失败");
                 }
             }
 
             @Override
             public void onCancel(SHARE_MEDIA share_media, int i) {
-                 ToastUtils.showShort("取消授权");
+                ToastUtils.showShort("取消授权");
             }
         });
     }
+
+
+
 
 
 
@@ -393,7 +380,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void nameDelete() {
         etName.setText("");
     }
-
 
 
     @Override
@@ -405,7 +391,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        BroadCastReceiveUtils.unregisterLocalReceiver(LoginActivity.this,mStartActivity);
+        BroadCastReceiveUtils.unregisterLocalReceiver(LoginActivity.this, mStartActivity);
         UMShareAPI.get(this).release();
     }
 
@@ -437,5 +423,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
 }

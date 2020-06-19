@@ -9,25 +9,30 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
+
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginModel;
-import com.leo.auction.ui.login.utils.LoginUtils;
+
 import com.leo.auction.ui.main.MainActivity;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class LoginWxActivity extends BaseActivity {
 
@@ -123,26 +128,26 @@ public class LoginWxActivity extends BaseActivity {
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                 showWaitDialog();
-                LoginModel.sendWXLoginRequest(TAG, map.get("unionid"), map.get("openid"), map.get("name"), map.get("iconurl"), new CustomerJsonCallBack<LoginModel>() {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("unionId",map.get("unionid"));
+                hashMap.put("openId",map.get("openid"));
+                hashMap.put("nickname",map.get("name"));
+                hashMap.put("headImg",map.get("iconurl"));
+                HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_WX_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
                     @Override
-                    public void onRequestError(LoginModel returnData, String msg) {
+                    public void httpError(Call call, Exception e) {
                         hideWaitDialog();
-                        ToastUtils.showShort(msg);
                     }
 
                     @Override
-                    public void onRequestSuccess(LoginModel returnData) {
+                    public void httpResponse(String resultData) {
                         hideWaitDialog();
-                        ToastUtils.showShort("登录成功");
-                        if (returnData.getData() != null) {
-                            LoginUtils.getInstance().loginSuccess(returnData.getData(), new LoginUtils.ILoginOperation() {
-                                @Override
-                                public void onCompleted(boolean isDialogConnect) {
-//                                    onClosePager(isDialogConnect);
-                                    MainActivity.newIntance(LoginWxActivity.this, 0);
-                                    finish();
-                                }
-                            });
+                        LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
+                        if (loginModel.getResult().isSuccess()){
+                            ToastUtils.showShort("登录成功");
+                            BaseSharePerence.getInstance().setUserJson(resultData);
+                            MainActivity.newIntance(LoginWxActivity.this, 0);
+                            finish();
                         }
                     }
                 });

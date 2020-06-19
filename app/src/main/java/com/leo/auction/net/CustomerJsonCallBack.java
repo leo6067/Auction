@@ -49,7 +49,7 @@ public abstract class CustomerJsonCallBack<T> extends StringCallback {
         response.close();
         //1.获取到加密数据 进行解密
 
-        LogUtils.json(LogUtils.E, "Url:" + response.request().url(), str);
+//        LogUtils.json(LogUtils.E, "Url:" + response.request().url(), str);
         return str;
     }
 
@@ -62,7 +62,7 @@ public abstract class CustomerJsonCallBack<T> extends StringCallback {
     public void onResponse(String response, int id) {
         //2.解密完之后 可以取code值进行回调操作
         if (TextUtils.isEmpty(response)) {
-            ToastUtils.showShort("服务器开小差，请联系客服!");
+//            ToastUtils.showShort("服务器开小差，请联系客服!");
             return;
         }
 
