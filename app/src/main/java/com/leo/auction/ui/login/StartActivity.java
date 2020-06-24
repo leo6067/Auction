@@ -47,6 +47,7 @@ public class StartActivity extends BaseActivity {
         super.initData();
         Globals.log("xxxxxxxxxxxxxxxxxx  00 静默登录"   );
         ActivityManager.addActivity(this);
+        httpCommon();
         rePremissions();
     }
 
@@ -127,6 +128,21 @@ public class StartActivity extends BaseActivity {
             MainActivity.newIntance(StartActivity.this, 0);
             finish();
         }
+    }
+
+
+    private void httpCommon(){
+        HashMap<String, String> hashMap = new HashMap<>();
+        HttpRequest.httpGetString(Constants.Api.COMMON_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                BaseSharePerence.getInstance().setCommonJson(resultData);
+            }
+        });
     }
 
 }

@@ -8,31 +8,90 @@
     tools:context=".ui.main.home.activity.CategoryActivity">
 
 
+    <include layout="@layout/include_search_back" />
 
 
+    <include
+        layout="@layout/include_line_a"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dp_15" />
 
 
     <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
 
         <RadioButton
+            android:id="@+id/radio_a"
+            style="@style/radiobutton_guide"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_11"
+            android:textColor="@drawable/selector_group_sort"
+            android:text="综合排序" />
 
         <RadioButton
+            android:id="@+id/radio_b"
+            android:checked="false"
+            style="@style/radiobutton_guide"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@drawable/selector_group_sort"
+            android:padding="@dimen/dp_11"
+            android:text="最新上拍" />
+
+        <RadioButton
+            android:id="@+id/radio_c"
+            android:checked="false"
+            style="@style/radiobutton_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@drawable/selector_group_sort"
+            android:padding="@dimen/dp_11"
+            android:text="即将截拍" />
 
     </RadioGroup>
 
 
+    <FrameLayout
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
+        <com.aten.compiler.widget.CustRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlDragRate="0.75"
+            app:srlEnablePreviewInEditMode="true">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+
+        </com.aten.compiler.widget.CustRefreshLayout>
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_to_top"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:layout_marginRight="@dimen/dp_30"
+            android:layout_marginBottom="@dimen/dp_60"
+            android:src="@drawable/ic_home_top_bg" />
+
+    </FrameLayout>
 
 
 </LinearLayout>

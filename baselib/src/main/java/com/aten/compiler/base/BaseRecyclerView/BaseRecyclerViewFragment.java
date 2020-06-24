@@ -42,8 +42,8 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     @Override
     public void initView(View view) {
         super.initView(view);
-        refreshLayout=(CustRefreshLayout)view.findViewById(R.id.refreshLayout);
-        recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+        refreshLayout = (CustRefreshLayout) view.findViewById(R.id.refreshLayout);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
     }
 
     @Override
@@ -55,19 +55,18 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
         refreshLayout.setEnableLoadMore(false);
         mAdapter.setEnableLoadMore(false);
 
-        if (isOpenAnim()){
+        if (isOpenAnim()) {
             mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
             mAdapter.isFirstOnly(false);
         }
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager=getLayoutManager();
-        if (layoutManager==null){
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
-           
-        }else {
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager == null) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        } else {
             recyclerView.setLayoutManager(layoutManager);
         }
-        mAdapter.setEmptyView(R.layout.layout_empty_view,recyclerView);
+        mAdapter.setEmptyView(R.layout.layout_empty_view, recyclerView);
         recyclerView.setAdapter(mAdapter);
 
         setRefreshInfo();
@@ -75,7 +74,7 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
 
     //初始化适配器
     protected void initAdapter() {
-        mAdapter=new BaseAdapterRecyclerview();
+        mAdapter = new BaseAdapterRecyclerview();
     }
 
     //是否开启item加载动画
@@ -84,7 +83,7 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     }
 
     //RecyclerView的LayoutManager
-    public RecyclerView.LayoutManager getLayoutManager(){
+    public RecyclerView.LayoutManager getLayoutManager() {
         return null;
     }
 
@@ -112,16 +111,21 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     //设置smartrefresh是否需要下拉刷新以及加载更多
     public void setLoadMore() {
         mAdapter.setEnableLoadMore(true);
-        mAdapter.setOnLoadMoreListener(BaseRecyclerViewFragment.this,recyclerView);
+        mAdapter.setOnLoadMoreListener(BaseRecyclerViewFragment.this, recyclerView);
     }
 
 
-    protected void getData() {}
+    protected void getData() {
+    }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        mPageNum=1;
+        mPageNum = 1;
         getData();
+
+        if (refreshLayout != null) {
+            refreshLayout.finishRefresh(600);
+        }
     }
 
     @Override
@@ -131,7 +135,7 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     }
 
     //关闭刷新的view
-    public void hideRefreshView(){
+    public void hideRefreshView() {
         if (refreshLayout.getState() == RefreshState.Refreshing) {
             refreshLayout.finishRefresh();
         } else {

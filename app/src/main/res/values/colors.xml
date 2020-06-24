@@ -404,4 +404,9 @@
     <color name="home_title_bg">#7c1313</color>
 
 
+    <color name="baoyou">#CAA0A0</color>
+    <color name="baoyou_lin">#F5F5F5</color>
+    <color name="detail_text">#AEAEAE</color>
+
+
 </resources>

@@ -13,8 +13,10 @@ import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.ui.login.LoginWxActivity;
+import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
 import com.leo.auction.utils.Globals;
 
@@ -56,7 +58,7 @@ public class HomeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         mSegmentTabLayout.setTabData(mTitlesStr);
-
+        Constants.Var.HOME_TYPE = 0;
         TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(titlePagerAdapter);
 //        mViewPager.setOffscreenPageLimit(0);
@@ -64,7 +66,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onTabSelect(int position) {
                 if (position == 0) {
-                    BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.SEND_REFRESH_HOME_ALL);
+                    BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_REFRESH_HOME_ALL);
                 }
                 Constants.Var.HOME_TYPE = position;
                 mViewPager.setCurrentItem(position);
@@ -100,6 +102,7 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.title_lin)
     public void onViewClicked() {
+        ActivityManager.JumpActivity(getActivity(), HomeSearchActivity.class);
     }
 
 

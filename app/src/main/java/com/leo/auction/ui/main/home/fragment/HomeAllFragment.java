@@ -4,6 +4,7 @@ package com.leo.auction.ui.main.home.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -19,11 +20,14 @@ import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.widget.banner.listener.OnBannerClickListener;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.UserInfoModel;
+import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.adapter.HomeBAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
@@ -46,19 +50,24 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
     private String mUrl;
 
+
+
+    private ArrayList<HomeListModel.DataBean> mArrayList = new ArrayList<>();
+
+
     BroadCastReceiveUtils mBroadCastReceiveUtils = new BroadCastReceiveUtils() {
         @Override
         public void onReceive(Context context, Intent intent) {
             mPageNum = 1;
-            Globals.log("xxxxxxxxxxxxx  mBroadCastReceiveUtils"   );
             onRefresh(refreshLayout);
         }
     };
 
+
+
+
     public HomeAllFragment() {
     }
-
-
 
 
     @Override
@@ -72,32 +81,49 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mPageNum = 1;
-        BroadCastReceiveUtils.registerLocalReceiver(getActivity(),Constants.Action.SEND_REFRESH_HOME_ALL,mBroadCastReceiveUtils);
-        Globals.log("xxxxxxxxxxxxx  onResume"   );
         onRefresh(refreshLayout);
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            //可见
+            onRefresh(refreshLayout);
+        }else {
+            //不可见
+        }
     }
 
     @Override
     public void initData() {
-        UserInfoModel userInfoModel = LitePal.findFirst(UserInfoModel.class);
+        BroadCastReceiveUtils.registerLocalReceiver(getActivity(),Constants.Action.ACTION_REFRESH_HOME_ALL,mBroadCastReceiveUtils);
         super.initData();
-        recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
+
     }
 
     @Override
     protected void initAdapter() {
-
+        recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
         DisplayMetrics dm = getResources().getDisplayMetrics();
         mAdapter = new HomeAdapter(dm.widthPixels - ((int)getResources().getDimension(R.dimen.dp_20)) * 4);
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
+
+
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                HomeListModel.DataBean json = (HomeListModel.DataBean)mAdapter.getData().get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("goodsCode" ,json.getProductInstanceCode());
+                ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class,bundle);
+            }
+        });
     }
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
-
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         return staggeredGridLayoutManager;
     }

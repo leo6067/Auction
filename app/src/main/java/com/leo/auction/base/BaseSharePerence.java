@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.model.home.VersionJson;
+import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.login.model.LoginModel;
 import com.leo.auction.ui.login.model.UserInfoModel;
 
@@ -42,6 +43,35 @@ public class BaseSharePerence {
             mInstance = null;
         }
     }
+
+
+    /**
+     * 公共参数，等级
+     */
+
+
+    /**
+     * 保存用户账号基本信息
+     */
+    public void setCommonJson(String userJson) {
+        mSharedPreferences.edit().putString("setCommonJson", userJson).commit();
+    }
+
+    public CommonModel.DataBean getCommonJson() {
+        CommonModel.DataBean userInfoModel = null;
+        String infoStr = mSharedPreferences.getString("setCommonJson", "");
+        if (infoStr.length() > 2) {
+            CommonModel loginModel = JSONObject.parseObject(infoStr, CommonModel.class);
+            userInfoModel = loginModel.getData();
+
+        }
+        return userInfoModel;
+    }
+
+
+
+
+
 
 
     /**

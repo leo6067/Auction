@@ -75,7 +75,7 @@ public class LoginWxActivity extends BaseActivity {
         backPager = getIntent().getIntExtra("backPager", 0);
 
 
-        BroadCastReceiveUtils.registerLocalReceiver(this, Constants.Action.SEND_OPTION_LOGIN_ACTIVITY,mOnLoginOption);
+        BroadCastReceiveUtils.registerLocalReceiver(this, Constants.Action.ACTION_OPTION_LOGIN_ACTIVITY,mOnLoginOption);
     }
 
     @Override
@@ -172,11 +172,11 @@ public class LoginWxActivity extends BaseActivity {
     //关闭页面
     private void onClosePager(boolean isDialogConnect){
         //刷新首页
-        Intent intent=new Intent(Constants.Action.SEND_REFRESH_HOME);
+        Intent intent=new Intent(Constants.Action.ACTION_REFRESH_HOME);
         intent.putExtra("type","0");
         BroadCastReceiveUtils.sendLocalBroadCast(LoginWxActivity.this, intent);
-        BroadCastReceiveUtils.sendLocalBroadCast(LoginWxActivity.this, Constants.Action.SEND_REFRESH_SUPERPURCHASE);
-        BroadCastReceiveUtils.sendLocalBroadCast(LoginWxActivity.this, Constants.Action.SEND_REFRESH_PRODUCT_DETAIL);
+
+
 
         if (1 == backPager) {
             MainActivity.newIntance(LoginWxActivity.this, 0);

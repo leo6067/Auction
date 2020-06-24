@@ -24,7 +24,6 @@
         android:layout_height="@dimen/dp_400"
         android:scaleType="center"
         android:alpha="0.03"
-
         />
 
     <RelativeLayout

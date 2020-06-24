@@ -50,7 +50,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.home.activity.CategoryActivity"></activity>
+        <activity android:name=".ui.main.home.activity.ShopActivity"></activity>
+        <activity android:name=".ui.main.home.activity.HomeSearchActivity" />
+        <activity android:name=".ui.main.home.activity.AuctionDetailActivity" />
+        <activity android:name=".ui.main.home.activity.CategoryActivity" />
         <activity android:name=".ui.login.AgreementActivity" />
         <activity android:name=".ui.login.LoginWxActivity" />
         <activity android:name=".ui.main.MainActivity" />
@@ -93,6 +96,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".ui.main.SlidingMainActivity" />
         <activity android:name=".base.TempActivity" />
+        <activity android:name=".ui.main.home.activity.ImageShowActivity" />
     </application>
 
 </manifest>

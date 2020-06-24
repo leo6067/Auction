@@ -85,16 +85,12 @@ public class SortRightAdapter extends BaseMultiItemQuickAdapter<SortLeftModel.Da
                 helper.setText(R.id.textView, item.getName());
                 ImageView imageView = helper.getView(R.id.imageView);
                 GlideUtils.loadImg(mContext,item.getIcon(),imageView);
-
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mRightItemClick.ItemClick(item);
                     }
                 });
-
-
-
                 break;
             default:
                 break;
@@ -103,7 +99,6 @@ public class SortRightAdapter extends BaseMultiItemQuickAdapter<SortLeftModel.Da
     }
 
     public interface RightItemClick{
-
         void ItemClick(SortLeftModel.DataBean.ChildrenBean item);
     }
 

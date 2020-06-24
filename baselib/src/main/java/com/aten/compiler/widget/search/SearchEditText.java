@@ -1,4 +1,4 @@
-package com.leo.auction.common.widget;
+package com.aten.compiler.widget.search;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.leo.auction.R;
+import com.aten.compiler.R;
 
 
 /**
@@ -42,7 +42,7 @@ public class SearchEditText extends AppCompatEditText implements View.OnFocusCha
         searchDrawable = getCompoundDrawables()[0];//left top right bottom 所以right的索引為2
         clearDrawable = getCompoundDrawables()[2];//left top right bottom 所以right的索引為2
         if (clearDrawable == null) {
-            clearDrawable = getResources().getDrawable(R.drawable.search_close);
+            clearDrawable = getResources().getDrawable(R.drawable.clear);
         }
 
 

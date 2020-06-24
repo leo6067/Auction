@@ -1,5 +1,6 @@
 package com.leo.auction.ui.main.home.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -40,8 +41,10 @@ public class SortAdapter extends BaseQuickAdapter<SortLeftModel.DataBean, BaseVi
         nameTv.setText(item.getName());
         if (item.isSelected()) {
             textView.setVisibility(View.VISIBLE);
+            nameTv.setTextColor(Color.parseColor("#7c1313"));
         } else {
             textView.setVisibility(View.INVISIBLE);
+            nameTv.setTextColor(Color.parseColor("#020202"));
         }
 
     }
@@ -52,5 +55,10 @@ public class SortAdapter extends BaseQuickAdapter<SortLeftModel.DataBean, BaseVi
         mListData.get(position).setSelected(true);
         notifyItemChanged(position);
         mSelectedPosition = position;
+    }
+
+    public int getSelectPosition(){
+
+        return mSelectedPosition;
     }
 }

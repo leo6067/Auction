@@ -104,14 +104,12 @@
     </style>
 
 
-    <style name="radiobutton_collect">
+    <style name="radiobutton_guide">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:button">@null</item><!--去除RadioButton默认带的圆点-->
-        <item name="android:textColor">@color/collect_choice_text</item>
         <item name="android:gravity">center</item>
-        <item name="android:drawableRight">@drawable/collect_choice_radio</item>
         <item name="android:textSize">12sp</item>
     </style>
 

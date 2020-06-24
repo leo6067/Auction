@@ -4,5 +4,9 @@
     android:id="@+id/title_bar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_88"
-    app:bar_style="white"
+    app:bar_style="transparent"
     app:size_title="@dimen/sp_36" />
+
+
+
+<!--  app:bar_style="transparent"   透明-->
