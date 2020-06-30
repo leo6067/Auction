@@ -461,6 +461,9 @@ public static java.lang.String TABLENAME;
 }
 
 
+-keep class com.huantansheng.easyphotos.models.** { *; }
+
+
 
 
 

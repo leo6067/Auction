@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/all_cancle_order_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/dp_30"
+    android:paddingBottom="@dimen/dp_30"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/cb_choose"
+        android:layout_width="@dimen/dp_26"
+        android:layout_height="@dimen/dp_26"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_35"
+        android:layout_gravity="center_vertical"
+        android:button="@null"
+        android:background="@drawable/cancle_order_checkbox_style" />
+
+    <TextView
+        android:id="@+id/tv_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="信息填写错误，重新拍"
+        android:textSize="@dimen/sp_30"
+        android:textColor="@color/color_6d6d6d"/>
+
+</LinearLayout>

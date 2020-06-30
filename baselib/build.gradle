@@ -149,4 +149,10 @@ dependencies {
 
 
 
+    api 'cn.jzvd:jiaozivideoplayer:7.0.5'
+
+    //BasePopup主体库
+    api 'com.github.razerdp:BasePopup:2.2.1'
+    //BasePopup support支持库
+    api 'com.github.razerdp:BasePopup-compat-support:2.2.1'
 }

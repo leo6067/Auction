@@ -37,13 +37,13 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
-    private String[] mBottomStr = {"首页", "分类", "关注", "我的"};
+    private String[] mBottomStr = {"首页", "分类", "关注","消息", "我的"};
     private int[] mIconUnselectIds = {
             R.drawable.home_a, R.drawable.sort_a,
-            R.drawable.focus_a, R.drawable.mine_a};
+            R.drawable.focus_a,R.drawable.news_b ,R.drawable.mine_a};
     private int[] mIconSelectIds = {
             R.drawable.home_b, R.drawable.sort_b,
-            R.drawable.focus_b, R.drawable.mine_b};
+            R.drawable.focus_b, R.drawable.news_a,R.drawable.mine_b};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
 
@@ -51,14 +51,14 @@ public class MainActivity extends BaseActivity {
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_main);
+        initImmersionBar(R.color.home_title_bg);
     }
 
 
-    protected void initImmersionBar() {
+    public void initImmersionBar(int color) {
         //在BaseActivity里初始化
-        mImmersionBar = ImmersionBar.with(this).statusBarDarkFont(true, 0.2f)
-                .statusBarColor(R.color.home_title_bg)
-                .titleBarMarginTop(mTitleBar)
+        mImmersionBar = ImmersionBar.with(this)
+                .statusBarColor(color)
                 .keyboardEnable(true);
         mImmersionBar.init();
     }
@@ -75,7 +75,9 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new HomeFragment());
         mFragments.add(new MainSortFragment());
         mFragments.add(new MainFocusFragment());
+        mFragments.add(new NewsFragment());
         mFragments.add(new MainMeFragment());
+        initImmersionBar(R.color.home_title_bg);
 
         for (int i = 0; i <mBottomStr.length ; i++) {
             mTabEntities.add(new TabEntity(mBottomStr[i],mIconSelectIds[i],mIconUnselectIds[i]));
@@ -92,6 +94,12 @@ public class MainActivity extends BaseActivity {
                         LoginActivity.newIntance(MainActivity.this);
                         return;
                     }
+                }
+
+                if (position == 0 ||position == 2 || position ==4){
+                    initImmersionBar(R.color.home_title_bg);
+                }else {
+                    initImmersionBar(R.color.white);
                 }
                 mViewPager.setCurrentItem(position);
             }
@@ -144,7 +152,6 @@ public class MainActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
 
-            Globals.log("xxxxxxxxxxxxx  getItem" +position  );
             return mFragments.get(position);
         }
     }

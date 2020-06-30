@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <include layout="@layout/layout_custom_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_39"
+        android:paddingLeft="@dimen/dp_30"
+        android:text="昵称"
+        android:textColor="@color/color_1a1a1a"
+        android:textSize="@dimen/sp_30" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="left"
+        android:hint="请输入昵称"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_32"
+        android:maxLength="12"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/color_c3c6cb"
+        android:textSize="@dimen/sp_24" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/sp_24"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:background="@color/windowbackground"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_40"
+        android:paddingLeft="@dimen/dp_30"
+        android:text="1-12个字符，可由中英文、数字、“-”组成"
+        android:textColor="@color/color_c3c6cb"
+        android:textSize="@dimen/sp_24" />
+
+    <com.allen.library.SuperButton
+        android:id="@+id/stb_sure_update"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_98"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_81"
+        android:layout_marginRight="@dimen/dp_30"
+        android:gravity="center"
+        android:text="确认修改"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_30"
+        app:sSelectorNormalColor="@color/color_ff8e67"
+        app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+        app:sUseSelector="true" />
+
+</LinearLayout>

@@ -184,10 +184,11 @@ dependencies {
     //litepal 数据库框架
     implementation 'org.litepal.android:java:3.0.0'
     /**
-     *  注解类型无法再lib调用
+     *   注解类型无法再lib调用
      * */
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation project(path: ':baselib')
-
+    implementation project(path: ':easyPhotos')
+    implementation files('libs/isoparser-1.0.6.jar')
 }

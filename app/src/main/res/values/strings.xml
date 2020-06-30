@@ -23,4 +23,26 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
+    <string name="activity_im_chat_setting">聊天信息</string>
+    <string name="activity_chat_official_announcement">官方公告</string>
+    <string name="activity_chat_system_message">系统消息</string>
+    <string name="activity_live_loan">直播供货</string>
+    <!--  页面需要的数据  -->
+    <string name="pager_home_quit_app">再按一次退出整个应用</string>
+    <string name="pager_personal_pic_comefrom">图片来源</string>
+    <string name="pager_personal_video_comefrom">视频来源</string>
+
+    <string name="app_user_auto_start">由于Android系统限制，请您手动开启本软件自启动权限，并将此软件设置为受保护应用以及允许后台运行，从而保障软件运行的最佳环境</string>
+
+    <!-- WXPayEntryActivity -->
+    <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+
+    <string name="live_order_sup">确认供货</string>
+    <string name="live_sup_detail">供货详情</string>
+    <string name="live_cart">购物车</string>
+    <string name="sild_ver">滑动验证</string>
+    <string name="address_sup">选择地址</string>
+
+
 </resources>

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import com.leo.auction.ui.main.home.adapter.SortAdapter;
 import com.leo.auction.ui.main.home.adapter.SortRightAdapter;
 import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.utils.Globals;
+import com.leo.auction.utils.layoutManager.SortLinearSmoothScroller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,11 +101,13 @@ public class MainSortFragment extends BaseFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 //                 左侧选中并滑到中间位置
-                mSortAdapter.setSelectedPosition(position);
-                mHomeSortMin.scrollToPosition(indexMap.get(position));
+//                mHomeSortMin.scrollToPosition(indexMap.get(position));
                 LinearLayoutManager mLayoutManager =
                         (LinearLayoutManager) mHomeSortMin.getLayoutManager();
-                mLayoutManager.scrollToPositionWithOffset(indexMap.get(position), 0);
+//                mLayoutManager.scrollToPositionWithOffset(indexMap.get(position), 0);
+
+                scrollItemToTop(mLayoutManager,indexMap.get(position));
+                mSortAdapter.setSelectedPosition(position);
             }
         });
 
@@ -140,6 +144,13 @@ public class MainSortFragment extends BaseFragment {
 
 
     }
+
+    void scrollItemToTop( LinearLayoutManager mLayoutManager ,int position){
+        SortLinearSmoothScroller smoothScroller = new SortLinearSmoothScroller(getActivity());
+        smoothScroller.setTargetPosition(position);
+        mLayoutManager.startSmoothScroll(smoothScroller);
+    }
+
 
 
     @Override

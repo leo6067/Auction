@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_attr_tag"
+    android:layout_width="@dimen/dp_80"
+    android:layout_height="@dimen/dp_48"
+    android:background="@drawable/free_back_bugtype_bg_selector"
+    android:layout_marginRight="@dimen/dp_20"
+    android:ellipsize="end"
+    android:gravity="center"
+    android:singleLine="true"
+    android:textColor="@color/free_back_bugtype_text_style"
+    android:textSize="@dimen/sp_24"
+    tools:text="今明" />
+
+

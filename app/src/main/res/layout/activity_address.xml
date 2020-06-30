@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/layout_custom_title"/>
+
+    <com.aten.compiler.widget.CustRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_below="@+id/title_bar"
+        android:layout_above="@+id/stb_add"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlDragRate="0.75"
+        app:srlEnablePreviewInEditMode="true">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+    </com.aten.compiler.widget.CustRefreshLayout>
+
+    <com.allen.library.SuperButton
+        android:id="@+id/stb_add"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_98"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/dp_30"
+        android:gravity="center"
+        android:text="添加新地址"
+        android:textColor="@color/color_ff8e67"
+        android:textSize="@dimen/sp_30"
+        app:sCornersRadius="@dimen/dp_10"
+        app:sSelectorNormalColor="@color/white"
+        app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+        app:sStrokeColor="@color/color_ff3531"
+        app:sStrokeWidth="@dimen/dp_2"
+        app:sUseSelector="true" />
+
+</RelativeLayout>

@@ -4,6 +4,7 @@ package com.aten.compiler.base;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.aten.compiler.widget.loadingView.KProgressHUD;
 import com.aten.compiler.widget.title.OnTitleBarListener;
 import com.aten.compiler.widget.title.TitleBar;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.gyf.immersionbar.ImmersionBar;
@@ -215,6 +217,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public void setTitle(String title) {
         if (mTitleBar != null) {
             mTitleBar.setTitle(title);
+            mTitleBar.getTitleView().setTextColor(Color.parseColor("#000000"));
         }
     }
 
@@ -327,6 +330,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
+
+    public void showShortToast(String string){
+        ToastUtils.showShort(string);
+    }
 
     protected void closeSoftInput() {
         KeyboardUtils.hideSoftInput(this);

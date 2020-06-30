@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +33,7 @@ public class HomeSearchActivity extends BaseActivity {
     @BindView(R.id.segment_bottom)
     SlidingTabLayout mSegmentBottom;
     @BindView(R.id.view_pager)
-    CustomViewPager mViewPager;
+    ViewPager mViewPager;
     @BindView(R.id.search_back)
     ImageView mSearchBack;
     @BindView(R.id.search_search)

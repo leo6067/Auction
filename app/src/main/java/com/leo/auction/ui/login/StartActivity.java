@@ -1,33 +1,25 @@
 package com.leo.auction.ui.login;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
-import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.permission.PermissionHelper;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginModel;
 
 import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.utils.Globals;
-import com.leo.auction.utils.NetworkUtils;
 
 import java.util.HashMap;
 
@@ -101,7 +93,7 @@ public class StartActivity extends BaseActivity {
 
     //登录
     private void backLogin() {
-        LoginModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+        LoginModel.DataBean userJson = BaseSharePerence.getInstance().getLoginJson();
         if (userJson!=null){
             showWaitDialog();
             HashMap<String, String> hashMap = new HashMap<>();
@@ -117,7 +109,7 @@ public class StartActivity extends BaseActivity {
                     hideWaitDialog();
                     LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                     if (loginModel.getResult().isSuccess()){
-                        BaseSharePerence.getInstance().setUserJson(resultData);
+                        BaseSharePerence.getInstance().setLoginJson(resultData);
                         MainActivity.newIntance(StartActivity.this, 0);
                         finish();
                     }

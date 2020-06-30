@@ -51,7 +51,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     private String mUrl;
 
 
-
     private ArrayList<HomeListModel.DataBean> mArrayList = new ArrayList<>();
 
 
@@ -64,8 +63,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     };
 
 
-
-
     public HomeAllFragment() {
     }
 
@@ -74,8 +71,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     public int getLayoutId() {
         return R.layout.fragment_home_all;
     }
-
-
 
 
     @Override
@@ -87,17 +82,17 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
+        if (isVisibleToUser) {
             //可见
             onRefresh(refreshLayout);
-        }else {
+        } else {
             //不可见
         }
     }
 
     @Override
     public void initData() {
-        BroadCastReceiveUtils.registerLocalReceiver(getActivity(),Constants.Action.ACTION_REFRESH_HOME_ALL,mBroadCastReceiveUtils);
+        BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_REFRESH_HOME_ALL, mBroadCastReceiveUtils);
         super.initData();
 
     }
@@ -106,7 +101,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     protected void initAdapter() {
         recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels - ((int)getResources().getDimension(R.dimen.dp_20)) * 4);
+        mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
@@ -115,13 +110,14 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                HomeListModel.DataBean json = (HomeListModel.DataBean)mAdapter.getData().get(position);
+                HomeListModel.DataBean json = (HomeListModel.DataBean) mAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("goodsCode" ,json.getProductInstanceCode());
-                ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class,bundle);
+                bundle.putString("goodsCode", json.getProductInstanceCode());
+                ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class, bundle);
             }
         });
     }
+
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -185,6 +181,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        BroadCastReceiveUtils.unregisterLocalReceiver(getActivity(),mBroadCastReceiveUtils);
+        BroadCastReceiveUtils.unregisterLocalReceiver(getActivity(), mBroadCastReceiveUtils);
     }
 }

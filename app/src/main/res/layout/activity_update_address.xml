@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_custom_title" />
+
+    <com.aten.compiler.widget.ReboundNetScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_93"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp_24">
+
+                <TextView
+                    android:id="@+id/tv_consignee_name"
+                    android:layout_width="@dimen/dp_182"
+                    android:layout_height="wrap_content"
+                    android:text="收货人"
+                    android:textColor="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+                <EditText
+                    android:id="@+id/et_consignee_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="请输入收货人姓名"
+                    android:maxLength="64"
+                    android:singleLine="true"
+                    android:textColor="@color/color_1a1a1a"
+                    android:textColorHint="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_93"
+                android:layout_marginTop="@dimen/dp_3"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp_30"
+                android:paddingRight="@dimen/dp_30">
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="@dimen/dp_182"
+                    android:layout_height="wrap_content"
+                    android:text="手机"
+                    android:textColor="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="请输入手机号码"
+                    android:maxLength="11"
+                    android:singleLine="true"
+                    android:textColor="@color/color_1a1a1a"
+                    android:textColorHint="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_93"
+                android:layout_marginTop="@dimen/dp_3"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp_30"
+                android:paddingRight="@dimen/dp_30">
+
+                <TextView
+                    android:layout_width="@dimen/dp_182"
+                    android:layout_height="wrap_content"
+                    android:text="省市区"
+                    android:textColor="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:hint="请选择地址"
+                    android:singleLine="true"
+                    android:textColor="@color/color_1a1a1a"
+                    android:textColorHint="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_3"
+                android:background="@android:color/white"
+                android:paddingLeft="@dimen/dp_30"
+                android:paddingTop="@dimen/dp_32"
+                android:text="街道地址"
+                android:textColor="@color/color_a7a3a3"
+                android:textSize="@dimen/sp_28" />
+
+            <EditText
+                android:id="@+id/et_detail_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:hint="详细地址：如道路、门牌号、小区、楼栋号、单元室等"
+                android:paddingLeft="@dimen/dp_30"
+                android:paddingTop="@dimen/dp_40"
+                android:paddingRight="@dimen/dp_30"
+                android:paddingBottom="@dimen/dp_28"
+                android:textColor="@color/color_1a1a1a"
+                android:textColorHint="@color/color_a7a3a3"
+                android:textSize="@dimen/sp_28" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_93"
+                android:layout_marginTop="@dimen/dp_3"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp_30"
+                android:paddingRight="@dimen/dp_30">
+
+                <TextView
+                    android:id="@+id/tv_postal_code"
+                    android:layout_width="@dimen/dp_182"
+                    android:layout_height="wrap_content"
+                    android:text="邮政编码"
+                    android:textColor="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+                <EditText
+                    android:id="@+id/et_postal_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="请输入邮政编码"
+                    android:maxLength="6"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="@color/color_1a1a1a"
+                    android:textColorHint="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_default"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_93"
+                android:layout_marginTop="@dimen/dp_3"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp_30"
+                android:paddingRight="@dimen/dp_30">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="设置为默认地址"
+                    android:textColor="@color/color_a7a3a3"
+                    android:textSize="@dimen/sp_28" />
+
+                <com.aten.compiler.widget.switchButton.SwitchButton
+                    android:id="@+id/sb_default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    app:kswBackDrawable="@drawable/ic_back_drawable"
+                    app:kswThumbColor="@android:color/white" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_72"
+                android:layout_marginTop="@dimen/dp_3"
+                android:paddingLeft="@dimen/dp_30"
+                android:gravity="center_vertical"
+                android:text="一键填充"
+                android:textColor="@color/color_1a1a1a"
+                android:textSize="@dimen/sp_28"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_one_key_filling"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_157"
+                android:background="@android:color/white"
+                android:hint="示例:浙江省舟山市荔城区城乡街道897号"
+                android:gravity="left"
+                android:paddingTop="@dimen/dp_30"
+                android:paddingLeft="@dimen/dp_30"
+                android:paddingRight="@dimen/dp_30"
+                android:textColor="@color/color_1a1a1a"
+                android:textColorHint="@color/color_a7a3a3"
+                android:textSize="@dimen/sp_28" />
+
+            <com.allen.library.SuperButton
+                android:id="@+id/stb_one_key_filling"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_98"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginTop="@dimen/dp_60"
+                android:layout_marginRight="@dimen/dp_30"
+                android:gravity="center"
+                android:text="一键识别地址"
+                android:textColor="@color/color_1a1a1a"
+                android:textSize="@dimen/sp_30"
+                app:sStrokeWidth="@dimen/dp_2"
+                app:sCornersRadius="@dimen/dp_10"
+                app:sStrokeColor="@color/color_ff3531"
+                app:sSelectorNormalColor="@color/white"
+                app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+                app:sUseSelector="true" />
+
+            <com.allen.library.SuperButton
+                android:id="@+id/stb_sure"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_98"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginTop="@dimen/dp_60"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_60"
+                android:gravity="center"
+                android:text="确认修改"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_30"
+                app:sCornersRadius="@dimen/dp_10"
+                app:sSelectorNormalColor="@color/color_ff8e67"
+                app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+                app:sUseSelector="true" />
+
+        </LinearLayout>
+
+    </com.aten.compiler.widget.ReboundNetScrollView>
+
+</LinearLayout>

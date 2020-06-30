@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_90">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="请选择开奖时间"
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28" />
+
+        <FrameLayout
+            android:id="@+id/fl_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/dp_30"
+            android:paddingRight="@dimen/dp_30">
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="@dimen/dp_27"
+                android:layout_height="@dimen/dp_27"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_exchang_lottery_times_close" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_40"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="今&#12288;&#12288;明："
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28" />
+
+        <com.aten.compiler.widget.CustomeRecyclerView
+            android:id="@+id/crl_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_40"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="时&#12288;&#12288;间："
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28" />
+
+        <com.aten.compiler.widget.CustomeRecyclerView
+            android:id="@+id/crl_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_40"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="开奖时间："
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28" />
+
+        <TextView
+            android:id="@+id/tv_lottery_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:text="2019-12-04 08:00:00"
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_40"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="人数开关："
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28" />
+
+        <com.aten.compiler.widget.switchButton.SwitchButton
+            android:id="@+id/sb_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            app:kswBackDrawable="@drawable/ic_back_drawable"
+            app:kswThumbColor="@android:color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_awards_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_40"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_30"
+            android:text="人数开奖："
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28" />
+
+        <FrameLayout
+            android:id="@+id/fl_awards_number_reduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingTop="@dimen/dp_30"
+            android:paddingRight="@dimen/dp_20"
+            android:paddingBottom="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="@dimen/dp_42"
+                android:layout_height="@dimen/dp_42"
+
+                android:gravity="center"
+                android:text="-"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_28" />
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/et_awards_number"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_42"
+            android:singleLine="true"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="1"
+            android:textColor="@color/color_ff8e67"
+            android:textSize="@dimen/sp_24"
+            android:background="@drawable/exchang_lottery_times_bg"/>
+
+        <FrameLayout
+            android:id="@+id/fl_awards_number_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingTop="@dimen/dp_30"
+            android:paddingRight="@dimen/dp_20"
+            android:paddingBottom="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="@dimen/dp_42"
+                android:layout_height="@dimen/dp_42"
+
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_28" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_40"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingTop="@dimen/dp_20"
+            android:text="连续期数："
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28" />
+
+        <FrameLayout
+            android:id="@+id/fl_continuous_period_reduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_20">
+
+            <TextView
+                android:layout_width="@dimen/dp_42"
+                android:layout_height="@dimen/dp_42"
+
+                android:gravity="center"
+                android:text="-"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_28" />
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/et_continuous_period"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_42"
+            android:singleLine="true"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="1"
+            android:textColor="@color/color_ff8e67"
+            android:textSize="@dimen/sp_24"
+            android:background="@drawable/exchang_lottery_times_bg"/>
+
+        <FrameLayout
+            android:id="@+id/fl_continuous_period_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_20">
+
+            <TextView
+                android:layout_width="@dimen/dp_42"
+                android:layout_height="@dimen/dp_42"
+
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_28" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_40"
+        android:textStyle="bold"
+        android:text="*确认后无法撤销*"
+        android:textColor="@color/color_e62723"
+        android:textSize="@dimen/sp_28" />
+
+    <com.allen.library.SuperButton
+        android:id="@+id/sbtn_sure"
+        android:layout_width="@dimen/dp_240"
+        android:layout_height="@dimen/dp_70"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:text="确认"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_36"
+        app:sCornersRadius="@dimen/dp_20"
+        app:sSelectorNormalColor="@color/color_ff8e67"
+        app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+        app:sUseSelector="true" />
+
+</LinearLayout>

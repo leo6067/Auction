@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dp_24"
+    android:paddingTop="@dimen/dp_24">
+
+    <TextView
+        android:id="@+id/itemMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="@dimen/dp_4"
+        android:textSize="@dimen/sp_24"
+        tools:text="xxxxxxxxxxx"
+        android:textColor="@color/color_373737"/>
+
+    <TextView
+        android:id="@+id/itemDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:textSize="@dimen/sp_24"
+        tools:text="2016年08月03日" 
+        android:textColor="@color/color_6b6b6b"/>
+
+</LinearLayout>

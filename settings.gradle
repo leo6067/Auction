@@ -1,1 +1,1 @@
-include ':app', ':leo', ':baselib'
+include ':app', ':leo', ':baselib', ':easyPhotos'

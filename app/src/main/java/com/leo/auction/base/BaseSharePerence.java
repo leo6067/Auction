@@ -8,6 +8,7 @@ import com.leo.auction.model.home.VersionJson;
 import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.login.model.LoginModel;
 import com.leo.auction.ui.login.model.UserInfoModel;
+import com.leo.auction.ui.main.mine.model.UserModel;
 
 
 /**
@@ -49,10 +50,6 @@ public class BaseSharePerence {
      * 公共参数，等级
      */
 
-
-    /**
-     * 保存用户账号基本信息
-     */
     public void setCommonJson(String userJson) {
         mSharedPreferences.edit().putString("setCommonJson", userJson).commit();
     }
@@ -75,16 +72,16 @@ public class BaseSharePerence {
 
 
     /**
-     * 保存用户账号基本信息
+     * 保存用户登录基本信息
      */
-    public void setUserJson(String userJson) {
+    public void setLoginJson(String userJson) {
         Constants.Var.ISLOGIN = true;
-        mSharedPreferences.edit().putString("setUserJson", userJson).commit();
+        mSharedPreferences.edit().putString("setLoginJson", userJson).commit();
     }
 
-    public LoginModel.DataBean getUserJson() {
+    public LoginModel.DataBean getLoginJson() {
         LoginModel.DataBean userInfoModel = null;
-        String infoStr = mSharedPreferences.getString("setUserJson", "");
+        String infoStr = mSharedPreferences.getString("setLoginJson", "");
         if (infoStr.length() > 2) {
             LoginModel loginModel = JSONObject.parseObject(infoStr, LoginModel.class);
             userInfoModel = loginModel.getData();
@@ -92,6 +89,31 @@ public class BaseSharePerence {
         }
         return userInfoModel;
     }
+
+
+
+
+
+
+    /**
+     * 保存用户账号基本信息
+     */
+    public void setUserJson(String userJson) {
+        Constants.Var.ISLOGIN = true;
+        mSharedPreferences.edit().putString("setUserJson", userJson).commit();
+    }
+
+    public UserModel.DataBean getUserJson() {
+        UserModel.DataBean userInfoModel = null;
+        String infoStr = mSharedPreferences.getString("setUserJson", "");
+        if (infoStr.length() > 2) {
+            UserModel loginModel = JSONObject.parseObject(infoStr, UserModel.class);
+            userInfoModel = loginModel.getData();
+
+        }
+        return userInfoModel;
+    }
+
 
 
     /**

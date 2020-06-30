@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
-import com.aten.compiler.widget.CustRefreshLayout;
-import com.aten.compiler.widget.CustomViewPager;
 import com.aten.compiler.widget.glide.GlideUtils;
 import com.aten.compiler.widget.title.TitleBar;
 import com.flyco.tablayout.SlidingTabLayout;

@@ -5,4 +5,6 @@ package com.leo.auction.mvp;
  */
 
 public interface BaseModel {
+
+
 }

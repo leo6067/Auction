@@ -24,7 +24,6 @@ import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.countDownTime.CountdownView;
-import com.blankj.utilcode.util.SPUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
@@ -301,7 +300,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                 if (loginModel.getResult().isSuccess()){
                     ToastUtils.showShort("登录成功");
-                    BaseSharePerence.getInstance().setUserJson(resultData);
+                    BaseSharePerence.getInstance().setLoginJson(resultData);
                     MainActivity.newIntance(LoginActivity.this, 0);
                     finish();
                 }
@@ -347,7 +346,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                         if (loginModel.getResult().isSuccess()){
                             ToastUtils.showShort("登录成功");
-                            BaseSharePerence.getInstance().setUserJson(resultData);
+                            BaseSharePerence.getInstance().setLoginJson(resultData);
                             MainActivity.newIntance(LoginActivity.this, 0);
                             finish();
                         }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_280"
+    android:layout_height="@dimen/dp_500">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="@dimen/dp_220"
+        android:layout_gravity="center"
+>
+<!--        android:background="@drawable/corner_gold_coin">-->
+        <ImageView
+            android:id="@+id/iv_gold_coin"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/ic_gold_coin" />
+
+        <TextView
+            android:id="@+id/tv_coin_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_30"
+            android:text="金币+10"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_32" />
+
+    </RelativeLayout>
+
+</FrameLayout>

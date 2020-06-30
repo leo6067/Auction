@@ -79,8 +79,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initTitle(view);
         initView(view);
+        initTitle(view);
         if (!isLazyLoadEnabled) {
             initData();
             initEvent();

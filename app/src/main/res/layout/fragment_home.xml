@@ -21,8 +21,6 @@
 
 
 
-
-
         <LinearLayout
             android:id="@+id/title_lin"
             android:layout_width="match_parent"

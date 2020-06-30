@@ -145,7 +145,7 @@ public class LoginWxActivity extends BaseActivity {
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                         if (loginModel.getResult().isSuccess()){
                             ToastUtils.showShort("登录成功");
-                            BaseSharePerence.getInstance().setUserJson(resultData);
+                            BaseSharePerence.getInstance().setLoginJson(resultData);
                             MainActivity.newIntance(LoginWxActivity.this, 0);
                             finish();
                         }

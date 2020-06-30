@@ -46,6 +46,12 @@ public class GlideUtils {
         loadImg(path, mImageView, R.color.color_f0f0f0, R.color.color_f0f0f0);
     }
 
+    //加载网络图片
+    public static void loadImgDefault(Object path, ImageView mImageView) {
+        GlideApp.with(mImageView.getContext()).load(path).centerCrop().signature(new ObjectKey(UUID.randomUUID())).
+                placeholder(R.color.color_f0f0f0).error(R.color.color_f0f0f0) .into(mImageView);
+    }
+
     public static void loadImg(Object path, ImageView mImageView, int lodingImage, int errorImageView) {
         loadImg(path, mImageView, lodingImage, errorImageView, DiskCacheStrategy.AUTOMATIC, false,null);
     }

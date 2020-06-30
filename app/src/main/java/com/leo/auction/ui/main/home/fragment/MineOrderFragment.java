@@ -7,8 +7,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.aten.compiler.base.ActivityManager;
 import com.aten.compiler.base.BaseFragment;
 import com.leo.auction.R;
+import com.leo.auction.ui.main.mine.CommodityReleaseActivity;
+import com.leo.auction.ui.main.mine.activity.AssetDetailActivity;
+import com.leo.auction.ui.main.mine.activity.AuctionManagementActivity;
+import com.leo.auction.ui.main.mine.activity.SettingActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -88,12 +93,17 @@ public class MineOrderFragment extends BaseFragment {
             case R.id.ll_top01:
                 break;
             case R.id.mine_zcmx:
+
+                ActivityManager.JumpActivity(getActivity(), AssetDetailActivity.class);
                 break;
             case R.id.mine_cjck:
+
                 break;
             case R.id.mine_fbpp:
+                ActivityManager.JumpActivity(getActivity(), CommodityReleaseActivity.class);
                 break;
             case R.id.mine_ppgl:
+                ActivityManager.JumpActivity(getActivity(), AuctionManagementActivity.class);
                 break;
             case R.id.mine_tgzx:
                 break;
@@ -102,6 +112,7 @@ public class MineOrderFragment extends BaseFragment {
             case R.id.mine_kf:
                 break;
             case R.id.mine_setting:
+                ActivityManager.JumpActivity(getActivity(), SettingActivity.class);
                 break;
         }
     }

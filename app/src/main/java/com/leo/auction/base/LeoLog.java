@@ -81,5 +81,7 @@ public class LeoLog {
 
 //    gradlew :app:processDebugManifest --stacktrace 查看具体bug
 
+    // 状态栏
+//    https://www.jianshu.com/p/2a884e211a62
 
 }

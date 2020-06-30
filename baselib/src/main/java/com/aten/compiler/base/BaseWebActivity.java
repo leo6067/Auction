@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import com.aten.compiler.R;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.widget.title.TitleBar;
+import com.blankj.utilcode.util.LogUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +42,7 @@ public class BaseWebActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
+
         mWebview.setWebChromeClient(new WebChromeClient());
         mWebview.setWebViewClient(new WebViewClient());
         WebSettings settings = mWebview.getSettings();
@@ -60,10 +61,13 @@ public class BaseWebActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
 
         String mTitle = getIntent().getStringExtra("title");
         String url = getIntent().getStringExtra("url");
+
+        LogUtils.e("xxxxxxx" + mTitle );
+        LogUtils.e("xxxxxxx" + url );
         boolean hasNeedTitleBar = getIntent().getBooleanExtra("hasNeedTitleBar", false);
         boolean hasNeedRightView = getIntent().getBooleanExtra("hasNeedRightView", false);
         setTitle(EmptyUtils.strEmpty(mTitle));
