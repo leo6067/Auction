@@ -48,7 +48,7 @@ public class GlideUtils {
 
     //加载网络图片
     public static void loadImgDefault(Object path, ImageView mImageView) {
-        GlideApp.with(mImageView.getContext()).load(path).centerCrop().signature(new ObjectKey(UUID.randomUUID())).
+        Glide.with(mImageView.getContext()).load(path).centerCrop().signature(new ObjectKey(UUID.randomUUID())).
                 placeholder(R.color.color_f0f0f0).error(R.color.color_f0f0f0) .into(mImageView);
     }
 
@@ -86,21 +86,22 @@ public class GlideUtils {
 
         if (needRealtime) {
             if (requestOptions==null){
-                GlideApp.with(mImageView.getContext()).load(path).centerCrop().signature(new ObjectKey(UUID.randomUUID())).diskCacheStrategy(strategy).
+                Glide.with(mImageView.getContext()).load(path).centerCrop().signature(new ObjectKey(UUID.randomUUID())).diskCacheStrategy(strategy).
                         placeholder(lodingImage).error(errorImageView).into(mImageView);
             }else {
-                GlideApp.with(mImageView.getContext()).load(path).centerCrop().signature(new ObjectKey(UUID.randomUUID())).diskCacheStrategy(strategy).
+                Glide.with(mImageView.getContext()).load(path).centerCrop().signature(new ObjectKey(UUID.randomUUID())).diskCacheStrategy(strategy).
                         placeholder(lodingImage).error(errorImageView).transform(new CenterCrop(),requestOptions).into(mImageView);
             }
         } else {
             if (requestOptions==null){
-                GlideApp.with(mImageView.getContext()).load(path).centerCrop().diskCacheStrategy(strategy).placeholder(lodingImage).
+                Glide.with(mImageView.getContext()).load(path).centerCrop().diskCacheStrategy(strategy).placeholder(lodingImage).
                         error(errorImageView).into(mImageView);
             }else {
-                GlideApp.with(mImageView.getContext()).load(path).centerCrop().diskCacheStrategy(strategy).placeholder(lodingImage).
+                Glide.with(mImageView.getContext()).load(path).centerCrop().diskCacheStrategy(strategy).placeholder(lodingImage).
                         error(errorImageView).transform(new CenterCrop(),requestOptions).into(mImageView);
             }
         }
+
     }
 
     //图片加载监听
@@ -123,7 +124,7 @@ public class GlideUtils {
             }
         }
 
-        GlideApp.with(mImageView.getContext()).load(path).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(lodingImage).
+        Glide.with(mImageView.getContext()).load(path).centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(lodingImage).
                 error(lodingImage).listener(listener).into(mImageView);
     }
 
@@ -139,7 +140,7 @@ public class GlideUtils {
         }
 
         //获取图片真正的宽高
-        GlideApp.with(context)
+        Glide.with(context)
                 .asBitmap()//Glide返回一个Bitmap对象
                 .load(pathUrl)
                 .into(new SimpleTarget<Bitmap>() {

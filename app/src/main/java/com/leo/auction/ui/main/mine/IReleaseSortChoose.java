@@ -1,6 +1,7 @@
 package com.leo.auction.ui.main.mine;
 
 
+import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.ui.main.mine.model.ReleaseSortModel;
 
 /**
@@ -16,6 +17,6 @@ import com.leo.auction.ui.main.mine.model.ReleaseSortModel;
  */
 public interface IReleaseSortChoose {
 
-    void onOneSortChoose(ReleaseSortModel.DataBean oneSortData, int position);
-    void onTwoSortChoose(ReleaseSortModel.DataBean oneSortData, int position);
+    void onOneSortChoose(SortLeftModel.DataBean oneSortData, int position);
+    void onTwoSortChoose(SortLeftModel.DataBean.ChildrenBean oneSortData, int position);
 }

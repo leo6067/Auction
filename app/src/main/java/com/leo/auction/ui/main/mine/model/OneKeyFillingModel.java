@@ -1,7 +1,8 @@
 package com.leo.auction.ui.main.mine.model;
 
 import com.alibaba.fastjson.JSONObject;
-import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.base.Constants;
+import com.leo.auction.net.HttpRequest;
 
 import java.util.List;
 
@@ -17,13 +18,16 @@ import java.util.List;
  * ================================================
  */
 public class OneKeyFillingModel {
+
+
     /**
-     * data : [{"cityId":620100,"cityName":"兰州市","cityShortName":"兰州","countyId":620104,"countyName":"西固区","countyShortName":"西固","detail":"古浪路胖孑刀削面","mobile":"13919277182","name":"张兆俊","original":"张兆俊 13919277182 甘肃省 兰州市 西固区 古浪路胖孑刀削面","phone":"","provinceId":620000,"provinceName":"甘肃省","provinceShortName":"甘肃"}]
-     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1575809039175}
+     * data : [{"cityId":350100,"cityName":"福州市","cityShortName":"福州","countyId":350181,"countyName":"福清市","countyShortName":"福清","detail":"三山镇横坑村","mobile":"","name":"","original":"福建省福清市三山镇横坑村","phone":"","provinceId":350000,"provinceName":"福建省","provinceShortName":"福建"}]
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1592193242338}
      */
 
     private ResultBean result;
     private List<DataBean> data;
+
 
     public ResultBean getResult() {
         return result;
@@ -46,7 +50,7 @@ public class OneKeyFillingModel {
          * code : 0
          * message : 请求成功
          * success : true
-         * timestamp : 1575809039175
+         * timestamp : 1592193242338
          */
 
         private String code;
@@ -89,20 +93,20 @@ public class OneKeyFillingModel {
 
     public static class DataBean {
         /**
-         * cityId : 620100
-         * cityName : 兰州市
-         * cityShortName : 兰州
-         * countyId : 620104
-         * countyName : 西固区
-         * countyShortName : 西固
-         * detail : 古浪路胖孑刀削面
-         * mobile : 13919277182
-         * name : 张兆俊
-         * original : 张兆俊 13919277182 甘肃省 兰州市 西固区 古浪路胖孑刀削面
+         * cityId : 350100
+         * cityName : 福州市
+         * cityShortName : 福州
+         * countyId : 350181
+         * countyName : 福清市
+         * countyShortName : 福清
+         * detail : 三山镇横坑村
+         * mobile :
+         * name :
+         * original : 福建省福清市三山镇横坑村
          * phone :
-         * provinceId : 620000
-         * provinceName : 甘肃省
-         * provinceShortName : 甘肃
+         * provinceId : 350000
+         * provinceName : 福建省
+         * provinceShortName : 福建
          */
 
         private String cityId;
@@ -233,10 +237,11 @@ public class OneKeyFillingModel {
         }
     }
 
+
     public static void sendOneKeyFillingRequest(final String TAG, String address,
-                                                final CustomerJsonCallBack<OneKeyFillingModel> callback) {
+                                                HttpRequest.HttpCallback callback) {
         JSONObject params=new JSONObject();
         params.put("address",address);
-//        JsonRequestData.requesNetWork(TAG, Constants_Api.Api.HOMEPAGE_EXPRESS_ADDRESS_SEARCH_URL, params.toJSONString(), callback);
+        HttpRequest.httpPostString(Constants.Api.ADDRESS_SMART_URL, params, callback);
     }
 }

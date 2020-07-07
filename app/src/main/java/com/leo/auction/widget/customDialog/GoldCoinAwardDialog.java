@@ -51,7 +51,7 @@ public class GoldCoinAwardDialog extends BaseDialog<GoldCoinAwardDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         startAnim();
         tvCoinNum.setText("金币+"+rewardNum);
     }

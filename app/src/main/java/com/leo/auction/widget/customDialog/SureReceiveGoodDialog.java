@@ -63,7 +63,7 @@ public class SureReceiveGoodDialog extends BaseDialog<SureReceiveGoodDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -49,7 +49,7 @@ public class GoSettingPaypwdDialog extends BaseDialog<GoSettingPaypwdDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

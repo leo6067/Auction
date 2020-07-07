@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <com.ruffian.library.widget.RTextView
+
+        android:id="@+id/item_time"
+        android:gravity="center"
+        app:background_normal="@color/white"
+        app:border_dash_width="@dimen/dp_1"
+        app:border_color_normal="@color/gray"
+        app:border_color_pressed="@color/home_title_bg"
+        app:text_color_normal="@color/black"
+        app:text_color_pressed="@color/home_title_bg"
+        android:layout_width="@dimen/dp_120"
+        app:corner_radius="@dimen/dp_5"
+        tools:text="5分钟"
+        android:layout_height="@dimen/dp_60" />
+
+
+</LinearLayout>

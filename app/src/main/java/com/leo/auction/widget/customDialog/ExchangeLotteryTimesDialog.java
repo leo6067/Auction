@@ -60,7 +60,7 @@ public class ExchangeLotteryTimesDialog extends BaseDialog<ExchangeLotteryTimesD
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         tvSuperCoin.setText(EmptyUtils.strEmpty("" + balanceCoin));
         tvRafflesRemainingNum.setText(EmptyUtils.strEmpty("" + hasLotteryNum));
         //设置兑换次数的监听

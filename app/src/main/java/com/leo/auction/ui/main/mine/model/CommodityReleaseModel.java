@@ -12,16 +12,9 @@ public class CommodityReleaseModel {
      * result : {"success":true,"message":"请求成功"}
      */
 
-    private DataBean data;
     private ResultBean result;
 
-    public DataBean getData() {
-        return data;
-    }
 
-    public void setData(DataBean data) {
-        this.data = data;
-    }
 
     public ResultBean getResult() {
         return result;
@@ -31,21 +24,6 @@ public class CommodityReleaseModel {
         this.result = result;
     }
 
-    public static class DataBean {
-        /**
-         * saleCode : 商品编号
-         */
-
-        private String saleCode;
-
-        public String getSaleCode() {
-            return saleCode;
-        }
-
-        public void setSaleCode(String saleCode) {
-            this.saleCode = saleCode;
-        }
-    }
 
     public static class ResultBean {
         /**

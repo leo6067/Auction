@@ -50,7 +50,7 @@ public class BottomListDialog extends BottomBaseDialog<BottomListDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         setCanceledOnTouchOutside(false);
 
         if (EmptyUtils.isEmpty(title)){

@@ -1,6 +1,8 @@
 package com.leo.auction.base;
 
 
+import com.leo.auction.ui.main.mine.model.AssetDetailModel;
+
 /**
  * Created by Leo on 2017/3/8.
  */
@@ -8,19 +10,17 @@ public class Constants {
 
 
     public static boolean TestState = false;
-
-    public static String BASE_URL = "https://w.taojianlou.com/ut/";//测试
-    //    public static String BASE_URL = "https://w.taojianlou.com/";//正式
-    private static String WEB_BASE_URL = "https://w.taojianlou.com/";
+    public static String BASE_URL = "";
+    private static String WEB_BASE_URL = "https://cd.taojianlou.com/";
 
 
 
-
-    public static void init(boolean isTest){  //正式版 true ,
+    //正式版 true , 地址切换
+    public static void init(boolean isTest){
         if (isTest) {
-            BASE_URL = "https://w.taojianlou.com/";
+            BASE_URL = "https://cd.taojianlou.com/";
         } else {
-            BASE_URL = "https://w.taojianlou.com/ut/";//测试
+            BASE_URL = "https://cd.taojianlou.com/ut/";//测试
         }
         TestState = isTest;
     }
@@ -70,6 +70,10 @@ public class Constants {
         public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个
         public static int SHOP_TYPE = 0 ;//用于记录是商家店铺主页 片段中具体哪个
         public static String HOME_SORT_TYPE = "HOME_SORT_TYPE" ;//用于记录是分类id
+
+        public static int PPGL_SORT_TYPE = 0 ;//用于记录是拍品管理当前是哪个分类
+        public static int PPGL_SORT_VALUE = 0 ;//用于记录是拍品管理当前是哪个分类接口分类值
+
 
 
 
@@ -143,6 +147,8 @@ public class Constants {
 
         public static String ACTION_HOME_SEARCH = "ACTION_HOME_SEARCH";//刷新搜索
 
+
+
         public static String ACTION_VERIFIED_LOGIN = "option.receiver_verified_login";//h5验证码
 
 
@@ -190,7 +196,8 @@ public class Constants {
         //公共参数，等级图片
         public static String COMMON_URL = domain + "platform/common-params";
 
-
+        //智能解析地址
+        public static String ADDRESS_SMART_URL = "https://w.taojianlou.com/express/address-search";//
 
 
 
@@ -244,6 +251,12 @@ public class Constants {
         //上拍商品详情
         public static String GOODS_DETAIL_URL = domain + "instance/info";//
         public static String GOODS_DETAIL_BID_URL = domain + "bid";//
+        public static String GOODS_DETAIL_ATTR_URL = domain + "product/attribute";//
+        public static String GOODS_NEWEST_URL = domain + "product/newest";//
+        public static String GOODS_STORE_URL = domain + "product/store-goods";//
+
+
+
 
 
 
@@ -253,12 +266,43 @@ public class Constants {
 
 
 
+        //地址
+        public static String ADDRESS_URL = domain + "address";//
 
 
 
 
+        //余额
+        public static String BALANCE_URL = domain + "balance/info";//
+        public static String BALANCE_EXEMPT_URL = domain + "balance-exempt";//
 
 
+
+        //密码
+        public static String PAY_PWD_URL = domain + "pay-pwd";//
+        public static String RESET_PWD_URL = domain + "reset-pay-pwd";//
+
+
+
+
+        //实名认证
+        public static String REAL_NAME_URL = domain + "real-name";//
+
+
+
+
+        //拍卖管理
+        public static String CATE_PRODUCT_URL = domain + "category/product";//
+        public static String PRODUCT_URL = domain + "product";//
+        public static String PRODUCT_DRAFT_URL = domain + "product/draft";//
+        public static String GOODS_TIME_URL = domain + "product/time-node";//
+        public static String GOODS_UPPER_URL = domain + "product/upper";
+        //下架
+        public static String GOODS_LOWER_URL = domain + "product/lower";//
+
+        //最新上拍
+
+        public static String INSTANCE_NEWEST_URL = domain + "instance/instance-newest";//
 
     }
 

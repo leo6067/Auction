@@ -114,8 +114,8 @@ public class NormalDialog extends BaseAlertDialog<NormalDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
-        super.setUiBeforShow();
+    public void initView() {
+        super.initView();
         /** title */
         if (mStyle == STYLE_ONE) {
             mTvTitle.setMinHeight(dp2px(48));

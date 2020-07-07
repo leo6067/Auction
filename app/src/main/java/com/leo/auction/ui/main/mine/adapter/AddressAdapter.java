@@ -23,7 +23,7 @@ import com.leo.auction.ui.main.mine.model.AddressModel;
  * 描    述：
  * ================================================
  */
-public class AddressAdapter extends BaseQuickAdapter<AddressModel.AddressBean, BaseViewHolder> {
+public class AddressAdapter extends BaseQuickAdapter<AddressModel.DataBean, BaseViewHolder> {
     private final IAddressOption iAddressOption;
     private final String itemClickBackType;
 
@@ -34,7 +34,7 @@ public class AddressAdapter extends BaseQuickAdapter<AddressModel.AddressBean, B
     }
 
     @Override
-    protected void convert(@NonNull final BaseViewHolder helper, final AddressModel.AddressBean item) {
+    protected void convert(@NonNull final BaseViewHolder helper, final AddressModel.DataBean item) {
         SwipeMenuLayout smlLayout=helper.getView(R.id.sml_layout);
         RelativeLayout rlItem=helper.getView(R.id.rl_item);
         ShapeTextView stvDefault=helper.getView(R.id.stv_default);
@@ -72,7 +72,7 @@ public class AddressAdapter extends BaseQuickAdapter<AddressModel.AddressBean, B
     }
 
     public interface IAddressOption{
-        void onItemListener(AddressModel.AddressBean item);
+        void onItemListener(AddressModel.DataBean item);
         void onDeleteListener(String id);
     }
 }

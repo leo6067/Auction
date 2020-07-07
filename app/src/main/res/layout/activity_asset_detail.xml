@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.main.mine.activity.AssetDetailActivity">
 
@@ -24,13 +25,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:drawableStart="@drawable/asset_money"
             android:drawablePadding="@dimen/dp_7"
-            android:text="余额明细" />
+            tools:text="余额明细" />
 
 
         <TextView
+            android:id="@+id/ye_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,6 +64,7 @@
 
 
         <TextView
+            android:id="@+id/zf_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

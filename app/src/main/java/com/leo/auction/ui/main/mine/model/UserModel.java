@@ -1,5 +1,10 @@
 package com.leo.auction.ui.main.mine.model;
 
+import com.leo.auction.base.Constants;
+import com.leo.auction.net.HttpRequest;
+
+import java.util.HashMap;
+
 /**
  * ==============================================
  * 项目名称:  钱滚滚
@@ -14,8 +19,8 @@ public class UserModel {
 
 
     /**
-     * data : {"address":{"shipAddress":{"address":"北京市北京市东城区ggg","code":"jjjj","id":5,"linkman":"ghhh","phone":"13489973950","type":0},"returnAddress":{"address":"北京市北京市东城区横坑村","code":"000000","id":268,"linkman":"翁忠杰","phone":"13489973950","type":1}},"fansNum":0,"followNum":0,"headImg":"http://w.taojianlou.com/image/default/head.jpg","id":69,"level":1,"limitType":0,"nickname":"dasdas","payPwd":true,"phone":"13489973950","score":0,"type":1,"userId":"1908091213AS4weP","hxId":"3c50b86a051ec63ccf66d56f6282f935","username":"张三","idCard":"3**************X"}
-     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1590728081536}
+     * data : {"address":{"shipAddress":{"address":"北京市北京市东城区ggg","code":"jjjj","id":5,"linkman":"ghhh","phone":"13489973950","type":0},"returnAddress":{"address":"北京市北京市东城区横坑村","code":"000000","id":268,"linkman":"翁忠杰","phone":"13489973950","type":1}},"auctionCoinBalance":"0.00","auctionCoinNum":0,"balance":"1.00","balanceExempt":"XuMu","buyerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":1},"dialogConnect":true,"fansNum":4,"followNum":1,"headImg":"https://file.taojianlou.com/ut/user/2D33BF879AD5417580FA7C6B7AA52E73.jpg","hxId":"3c50b86a051ec63ccf66d56f6282f935","id":69,"idCard":"3****************X","instanceNum":0,"level":0,"limitType":0,"nickname":"翁小杰","payPwd":true,"phone":"13489973950","rate":0,"score":0,"sellerLevel":1,"sellerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":2},"sellerScore":0,"storeEnable":false,"type":1,"userId":"1908091213AS4weP","username":"翁忠杰","warrant":"0.00"}
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1593396313969}
      */
 
     private DataBean data;
@@ -40,39 +45,66 @@ public class UserModel {
     public static class DataBean {
         /**
          * address : {"shipAddress":{"address":"北京市北京市东城区ggg","code":"jjjj","id":5,"linkman":"ghhh","phone":"13489973950","type":0},"returnAddress":{"address":"北京市北京市东城区横坑村","code":"000000","id":268,"linkman":"翁忠杰","phone":"13489973950","type":1}}
-         * fansNum : 0
-         * followNum : 0
-         * headImg : http://w.taojianlou.com/image/default/head.jpg
+         * auctionCoinBalance : 0.00
+         * auctionCoinNum : 0
+         * balance : 1.00
+         * balanceExempt : XuMu
+         * buyerOrderCount : {"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":1}
+         * dialogConnect : true
+         * fansNum : 4
+         * followNum : 1
+         * headImg : https://file.taojianlou.com/ut/user/2D33BF879AD5417580FA7C6B7AA52E73.jpg
+         * hxId : 3c50b86a051ec63ccf66d56f6282f935
          * id : 69
-         * level : 1
+         * idCard : 3****************X
+         * instanceNum : 0
+         * level : 0
          * limitType : 0
-         * nickname : dasdas
+         * nickname : 翁小杰
          * payPwd : true
          * phone : 13489973950
+         * rate : 0
          * score : 0
+         * sellerLevel : 1
+         * sellerOrderCount : {"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":2}
+         * sellerScore : 0
+         * storeEnable : false
          * type : 1
          * userId : 1908091213AS4weP
-         * hxId : 3c50b86a051ec63ccf66d56f6282f935
-         * username : 张三
-         * idCard : 3**************X
+         * username : 翁忠杰
+         * warrant : 0.00
          */
 
         private AddressBean address;
+        private String auctionCoinBalance;
+        private int auctionCoinNum;
+        private String balance;
+        private String balanceExempt;
+        private BuyerOrderCountBean buyerOrderCount;
+        private boolean dialogConnect;
         private int fansNum;
         private int followNum;
         private String headImg;
+        private String hxId;
         private int id;
+        private String idCard;
+        private int instanceNum;
         private int level;
         private int limitType;
         private String nickname;
         private boolean payPwd;
         private String phone;
+        private int rate;
         private int score;
+        private int sellerLevel;
+        private SellerOrderCountBean sellerOrderCount;
+        private int sellerScore;
+        private boolean storeEnable;
+
         private int type;
         private String userId;
-        private String hxId;
         private String username;
-        private String idCard;
+        private String warrant;
 
         public AddressBean getAddress() {
             return address;
@@ -80,6 +112,54 @@ public class UserModel {
 
         public void setAddress(AddressBean address) {
             this.address = address;
+        }
+
+        public String getAuctionCoinBalance() {
+            return auctionCoinBalance;
+        }
+
+        public void setAuctionCoinBalance(String auctionCoinBalance) {
+            this.auctionCoinBalance = auctionCoinBalance;
+        }
+
+        public int getAuctionCoinNum() {
+            return auctionCoinNum;
+        }
+
+        public void setAuctionCoinNum(int auctionCoinNum) {
+            this.auctionCoinNum = auctionCoinNum;
+        }
+
+        public String getBalance() {
+            return balance;
+        }
+
+        public void setBalance(String balance) {
+            this.balance = balance;
+        }
+
+        public String getBalanceExempt() {
+            return balanceExempt;
+        }
+
+        public void setBalanceExempt(String balanceExempt) {
+            this.balanceExempt = balanceExempt;
+        }
+
+        public BuyerOrderCountBean getBuyerOrderCount() {
+            return buyerOrderCount;
+        }
+
+        public void setBuyerOrderCount(BuyerOrderCountBean buyerOrderCount) {
+            this.buyerOrderCount = buyerOrderCount;
+        }
+
+        public boolean isDialogConnect() {
+            return dialogConnect;
+        }
+
+        public void setDialogConnect(boolean dialogConnect) {
+            this.dialogConnect = dialogConnect;
         }
 
         public int getFansNum() {
@@ -106,12 +186,36 @@ public class UserModel {
             this.headImg = headImg;
         }
 
+        public String getHxId() {
+            return hxId;
+        }
+
+        public void setHxId(String hxId) {
+            this.hxId = hxId;
+        }
+
         public int getId() {
             return id;
         }
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public String getIdCard() {
+            return idCard;
+        }
+
+        public void setIdCard(String idCard) {
+            this.idCard = idCard;
+        }
+
+        public int getInstanceNum() {
+            return instanceNum;
+        }
+
+        public void setInstanceNum(int instanceNum) {
+            this.instanceNum = instanceNum;
         }
 
         public int getLevel() {
@@ -154,12 +258,52 @@ public class UserModel {
             this.phone = phone;
         }
 
+        public int getRate() {
+            return rate;
+        }
+
+        public void setRate(int rate) {
+            this.rate = rate;
+        }
+
         public int getScore() {
             return score;
         }
 
         public void setScore(int score) {
             this.score = score;
+        }
+
+        public int getSellerLevel() {
+            return sellerLevel;
+        }
+
+        public void setSellerLevel(int sellerLevel) {
+            this.sellerLevel = sellerLevel;
+        }
+
+        public SellerOrderCountBean getSellerOrderCount() {
+            return sellerOrderCount;
+        }
+
+        public void setSellerOrderCount(SellerOrderCountBean sellerOrderCount) {
+            this.sellerOrderCount = sellerOrderCount;
+        }
+
+        public int getSellerScore() {
+            return sellerScore;
+        }
+
+        public void setSellerScore(int sellerScore) {
+            this.sellerScore = sellerScore;
+        }
+
+        public boolean isStoreEnable() {
+            return storeEnable;
+        }
+
+        public void setStoreEnable(boolean storeEnable) {
+            this.storeEnable = storeEnable;
         }
 
         public int getType() {
@@ -178,14 +322,6 @@ public class UserModel {
             this.userId = userId;
         }
 
-        public String getHxId() {
-            return hxId;
-        }
-
-        public void setHxId(String hxId) {
-            this.hxId = hxId;
-        }
-
         public String getUsername() {
             return username;
         }
@@ -194,12 +330,12 @@ public class UserModel {
             this.username = username;
         }
 
-        public String getIdCard() {
-            return idCard;
+        public String getWarrant() {
+            return warrant;
         }
 
-        public void setIdCard(String idCard) {
-            this.idCard = idCard;
+        public void setWarrant(String warrant) {
+            this.warrant = warrant;
         }
 
         public static class AddressBean {
@@ -359,6 +495,118 @@ public class UserModel {
                 }
             }
         }
+
+        public static class BuyerOrderCountBean {
+            /**
+             * noPayNum : 0
+             * receiveNum : 0
+             * sendNum : 0
+             * serviceNum : 0
+             * type : 1
+             */
+
+            private int noPayNum;
+            private int receiveNum;
+            private int sendNum;
+            private int serviceNum;
+            private int type;
+
+            public int getNoPayNum() {
+                return noPayNum;
+            }
+
+            public void setNoPayNum(int noPayNum) {
+                this.noPayNum = noPayNum;
+            }
+
+            public int getReceiveNum() {
+                return receiveNum;
+            }
+
+            public void setReceiveNum(int receiveNum) {
+                this.receiveNum = receiveNum;
+            }
+
+            public int getSendNum() {
+                return sendNum;
+            }
+
+            public void setSendNum(int sendNum) {
+                this.sendNum = sendNum;
+            }
+
+            public int getServiceNum() {
+                return serviceNum;
+            }
+
+            public void setServiceNum(int serviceNum) {
+                this.serviceNum = serviceNum;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+        }
+
+        public static class SellerOrderCountBean {
+            /**
+             * noPayNum : 0
+             * receiveNum : 0
+             * sendNum : 0
+             * serviceNum : 0
+             * type : 2
+             */
+
+            private int noPayNum;
+            private int receiveNum;
+            private int sendNum;
+            private int serviceNum;
+            private int type;
+
+            public int getNoPayNum() {
+                return noPayNum;
+            }
+
+            public void setNoPayNum(int noPayNum) {
+                this.noPayNum = noPayNum;
+            }
+
+            public int getReceiveNum() {
+                return receiveNum;
+            }
+
+            public void setReceiveNum(int receiveNum) {
+                this.receiveNum = receiveNum;
+            }
+
+            public int getSendNum() {
+                return sendNum;
+            }
+
+            public void setSendNum(int sendNum) {
+                this.sendNum = sendNum;
+            }
+
+            public int getServiceNum() {
+                return serviceNum;
+            }
+
+            public void setServiceNum(int serviceNum) {
+                this.serviceNum = serviceNum;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+        }
     }
 
     public static class ResultBean {
@@ -366,7 +614,7 @@ public class UserModel {
          * code : 0
          * message : 请求成功
          * success : true
-         * timestamp : 1590728081536
+         * timestamp : 1593396313969
          */
 
         private String code;
@@ -405,5 +653,14 @@ public class UserModel {
         public void setTimestamp(long timestamp) {
             this.timestamp = timestamp;
         }
+    }
+
+
+    public static void httpUserInfo(HttpRequest.HttpCallback httpCallback){
+
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        HttpRequest.httpGetString(Constants.Api.USER_URL,hashMap ,httpCallback);
+
     }
 }

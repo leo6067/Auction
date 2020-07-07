@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseFragment;
 import com.aten.compiler.widget.CircleImageView;
@@ -133,8 +134,7 @@ public class MainMeFragment extends BaseFragment {
                 hideWaitDialog();
                 UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
                 upUI(userModel.getData());
-
-                BaseSharePerence.getInstance().setUserJson(resultData);
+                BaseSharePerence.getInstance().setUserJson( JSON.toJSONString(userModel.getData()));
             }
         });
     }

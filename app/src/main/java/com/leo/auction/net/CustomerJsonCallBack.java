@@ -14,9 +14,8 @@ import com.aten.compiler.utils.RxTool;
 
 
 import com.aten.compiler.utils.ToastUtils;
-import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
-import com.leo.auction.ui.login.model.UserInfoModel;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.litepal.LitePal;
@@ -120,7 +119,7 @@ public abstract class CustomerJsonCallBack<T> extends StringCallback {
                 if ("5002".equals(code)) {//登录超时，重新登录
                     //1.清空数据得数据
                     //2.跳转首页
-                    LitePal.deleteAll(UserInfoModel.class);
+                    LitePal.deleteAll(UserModel.class);
                     //刷新首页
                     Intent intent = new Intent(Constants.Action.ACTION_LOGIN);
                     intent.putExtra("type", "0");

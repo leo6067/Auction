@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <include layout="@layout/layout_custom_title"/>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_below="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_2"
+        android:background="@color/windowbackground"/>
+
+    <TextView
+        android:id="@+id/tv_input_pwd_tag"
+        android:layout_below="@+id/view_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_160"
+        tools:text="请输入旧密码"
+        android:textColor="@color/color_4e4e4e"
+        android:textSize="@dimen/sp_30"/>
+
+    <com.aten.compiler.widget.MNPasswordEditText
+        android:id="@+id/pwd_inputview"
+        android:layout_below="@+id/tv_input_pwd_tag"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_90"
+        android:layout_marginTop="@dimen/dp_100"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:focusableInTouchMode="true"
+        android:inputType="number"
+        android:maxLength="6"
+        android:textSize="@dimen/sp_40"
+        app:mnPsw_border_color="@color/color_fe8067"
+        app:mnPsw_border_radius="@dimen/dp_5"
+        app:mnPsw_border_selected_color="@color/color_fe8067"
+        app:mnPsw_border_width="@dimen/dp_1"
+        app:mnPsw_item_margin="@dimen/dp_20"
+        app:mnPsw_mode="Circle"
+        app:mnPsw_style="StyleOneself"
+        app:mnNeed_System_Softkeyboard="false"
+        app:mnPsw_cover_circle_color="@android:color/black" />
+
+    <com.aten.compiler.widget.CustomSafeKeyboard
+        android:id="@+id/view_keyboard"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@drawable/bg_keyboardview"
+        android:keyTextColor="#000000"
+        android:shadowColor="@android:color/transparent"
+        android:shadowRadius="0"
+        android:background="@android:color/white"
+        app:custom_cancelDrawable="@drawable/ic_arrow_down_bg"
+        app:custom_deleteBackgroundColor="@color/gray_background"
+        app:custom_deleteDrawable="@drawable/ic_keyboard_del_bg"
+        app:custom_deleteWidth="@dimen/dp_44"
+        app:custom_needtitle="false" />
+
+</RelativeLayout>

@@ -53,8 +53,10 @@ public class SupRuleDialog extends BaseDialog<SupRuleDialog> {
         return view;
     }
 
+
+
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         tvContent.setText(Html.fromHtml(content));
 
         stbCancle.setOnClickListener(new View.OnClickListener() {

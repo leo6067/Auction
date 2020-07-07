@@ -6,9 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.aten.compiler.widget.dialog.base.BaseDialog;
 import com.leo.auction.R;
-import com.leo.auction.base.BaseDialog;
 import com.leo.auction.utils.Globals;
+import com.leo.auction.widget.customDialog.RemindDialog;
 
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ import java.util.HashMap;
  * 警告或者提醒框 ----提醒文字，是否，按钮
  */
 
-public class WarningDialog extends BaseDialog implements View.OnClickListener {
+public class WarningDialog extends BaseDialog<WarningDialog> implements View.OnClickListener {
 
 
     private OnWarningClickListener mListener;
@@ -32,25 +33,31 @@ public class WarningDialog extends BaseDialog implements View.OnClickListener {
     HashMap<String, Object> mHashMap;
 
 
-    public WarningDialog(Context context, HashMap<String, Object> hashMap) {
-        super(context, hashMap);
-        mHashMap = hashMap;
-        initView(context);
-        Globals.log("mHashMap" + mHashMap.toString());
 
+    public WarningDialog(Context context, HashMap<String, Object> hashMap) {
+        super(context);
+        mHashMap = hashMap;
+        Globals.log("mHashMap" + mHashMap.toString());
     }
 
 
-    public void initView(Context context) {
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_warning, null);
-        setContentView(view);
+
+
+    @Override
+    public View onCreateView() {
+
+        View view=View.inflate(mContext, R.layout.dialog_warning, null);
         mTitleTitle = (TextView) view.findViewById(R.id.warning_title);
         mTitleText = (TextView) view.findViewById(R.id.warning_text);
         mOKTV = (TextView) view.findViewById(R.id.warning_btn_ok);
         mOKTV.setOnClickListener(this);
         mCancelTV = (TextView) view.findViewById(R.id.warning_btn_cancel);
         mCancelTV.setOnClickListener(this);
+        return view;
+    }
 
+    @Override
+    public void initView() {
 
         if (mHashMap.get("title") != null) {
             mTitleTitle.setText((String) mHashMap.get("title"));
@@ -73,6 +80,8 @@ public class WarningDialog extends BaseDialog implements View.OnClickListener {
         }
 
     }
+
+
 
 
     public interface OnWarningClickListener {

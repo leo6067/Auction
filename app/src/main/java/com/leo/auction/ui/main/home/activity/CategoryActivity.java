@@ -58,7 +58,7 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
     CustRefreshLayout mRefreshLayout;
     @BindView(R.id.iv_to_top)
     ImageView mIvToTop;
-    private int mCategoryId;
+    private String mCategoryId;
 
     private String mUrl = "";
 
@@ -112,7 +112,7 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
     @Override
     public void initData() {
         super.initData();
-        mCategoryId = getIntent().getExtras().getInt(Constants.Var.HOME_SORT_TYPE);
+        mCategoryId = getIntent().getExtras().getString(Constants.Var.HOME_SORT_TYPE);
         onRefresh(mRefreshLayout);
     }
 
@@ -153,7 +153,7 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
         mhashMap.put("keyword", keyStr);
         mhashMap.put("pageNum", mPageNum + "");
         mhashMap.put("pageSize", Constants.Var.LIST_NUMBER);
-        mhashMap.put("categoryId", mCategoryId + "");
+        mhashMap.put("categoryId", mCategoryId);
 
         showWaitDialog();
         HttpRequest.httpGetString(mUrl, mhashMap, new HttpRequest.HttpCallback() {

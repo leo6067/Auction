@@ -230,18 +230,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             return;
         }
 
-
-
-
-        SmsCodeModel.sendSmsCodeRequest(TAG, "4", etName.getText().toString().trim(), loginVerModel, new CustomerJsonCallBack<SmsCodeModel>() {
+        showWaitDialog();
+        SmsCodeModel.sendSmsCodeRequest("4", etName.getText().toString().trim(), loginVerModel, new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(SmsCodeModel returnData, String msg) {
+            public void httpError(Call call, Exception e) {
                 hideWaitDialog();
-                ToastUtils.showShort(msg);
             }
 
             @Override
-            public void onRequestSuccess(SmsCodeModel returnData) {
+            public void httpResponse(String resultData) {
                 hideWaitDialog();
                 ToastUtils.showShort("发送成功");
                 tvVerifCode.setVisibility(View.GONE);
@@ -251,6 +248,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 cvVerifCode.start(60000); // 毫秒
             }
         });
+
     }
 
     //验证码登录

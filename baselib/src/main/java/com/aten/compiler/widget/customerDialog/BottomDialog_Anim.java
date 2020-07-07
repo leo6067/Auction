@@ -52,5 +52,5 @@ public class BottomDialog_Anim extends BottomBaseDialog<BottomDialog_Anim> {
     }
 
     @Override
-    public void setUiBeforShow() {}
+    public void initView() {}
 }

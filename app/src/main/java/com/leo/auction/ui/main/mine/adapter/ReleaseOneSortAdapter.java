@@ -9,15 +9,16 @@ import com.aten.compiler.utils.EmptyUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
+import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.ui.main.mine.IReleaseSortChoose;
 import com.leo.auction.ui.main.mine.model.ReleaseSortModel;
 
 
-public class ReleaseOneSortAdapter extends BaseQuickAdapter<ReleaseSortModel.DataBean, BaseViewHolder> {
+public class ReleaseOneSortAdapter extends BaseQuickAdapter<SortLeftModel.DataBean, BaseViewHolder> {
     private final IReleaseSortChoose iReleaseSortChoose;
     //记录选中的View
     private View mSelectedView;
-    private ReleaseSortModel.DataBean mSelectedReleaseSortData;
+    private SortLeftModel.DataBean mSelectedReleaseSortData;
     private boolean isFixedSize=true;
 
     public ReleaseOneSortAdapter(IReleaseSortChoose iReleaseSortChoose) {
@@ -26,7 +27,7 @@ public class ReleaseOneSortAdapter extends BaseQuickAdapter<ReleaseSortModel.Dat
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, final ReleaseSortModel.DataBean item) {
+    protected void convert(@NonNull BaseViewHolder helper, final SortLeftModel.DataBean item) {
         TextView tvAttrTag=helper.getView(R.id.tv_attr_tag);
         ViewGroup.LayoutParams layoutParams=(ViewGroup.LayoutParams)tvAttrTag.getLayoutParams();
         if (isFixedSize){
@@ -37,7 +38,7 @@ public class ReleaseOneSortAdapter extends BaseQuickAdapter<ReleaseSortModel.Dat
         tvAttrTag.setLayoutParams(layoutParams);
 
         tvAttrTag.setText(EmptyUtils.strEmpty(item.getName()));
-        if (item.isSelect()){
+        if (item.isSelected()){
             tvAttrTag.setSelected(true);
             //初始化选中 默认第一个
             mSelectedView = tvAttrTag;
@@ -52,10 +53,10 @@ public class ReleaseOneSortAdapter extends BaseQuickAdapter<ReleaseSortModel.Dat
                 if (!view.isSelected()){
                     if (mSelectedView != null) {
                         mSelectedView.setSelected(false);
-                        mSelectedReleaseSortData.setSelect(false);
+                        mSelectedReleaseSortData.setSelected(false);
                     }
 
-                    item.setSelect(true);
+                    item.setSelected(true);
                     view.setSelected(true);
                     mSelectedView = view;
                     mSelectedReleaseSortData=item;
@@ -70,7 +71,7 @@ public class ReleaseOneSortAdapter extends BaseQuickAdapter<ReleaseSortModel.Dat
         this.isFixedSize=isFixedSize;
     }
 
-    public ReleaseSortModel.DataBean getmSelectedReleaseSortData() {
+    public SortLeftModel.DataBean getmSelectedReleaseSortData() {
         return mSelectedReleaseSortData;
     }
 }

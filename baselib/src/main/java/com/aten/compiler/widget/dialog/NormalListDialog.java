@@ -135,7 +135,7 @@ public class NormalListDialog extends BaseDialog<NormalListDialog> {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         /** title */
         float radius = dp2px(mCornerRadius);
         mTvTitle.setBackgroundDrawable(CornerUtils.cornerDrawable(mTitleBgColor, new float[]{radius, radius, radius,

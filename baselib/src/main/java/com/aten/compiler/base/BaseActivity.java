@@ -34,6 +34,7 @@ import com.umeng.message.PushAgent;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 
 import butterknife.ButterKnife;
 
@@ -54,6 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected ImmersionBar mImmersionBar;
 
 
+    public HashMap<String, String> mHashMap = new HashMap<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,9 +124,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected void initImmersionBar() {
         //在BaseActivity里初始化
-        mImmersionBar = ImmersionBar.with(this).statusBarDarkFont(true, 0.2f)
-                .statusBarColor(R.color.white)
-                .titleBarMarginTop(mTitleBar)
+        mImmersionBar = ImmersionBar.with(this)
+
+                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
+//                .autoStatusBarDarkModeEnable(true,0.2f) //自动状态栏字体变色，必须指定状态栏颜色才可以自动变色哦
+//                .transparentStatusBar()
                 .keyboardEnable(true);
         mImmersionBar.init();
     }
@@ -165,9 +169,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
-
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -180,8 +181,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onPause();
         MobclickAgent.onPause(this);
     }
-
-
 
 
     @Override
@@ -199,8 +198,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onLowMemory();
         Glide.get(this).clearMemory();
     }
-
-
 
 
     @Override
@@ -304,7 +301,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
-
     //在界面初始化之前需要做的一些判断 可以重写改方法
     public boolean FirstOnCreate() {
         return false;
@@ -330,8 +326,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
-
-    public void showShortToast(String string){
+    public void showShortToast(String string) {
         ToastUtils.showShort(string);
     }
 

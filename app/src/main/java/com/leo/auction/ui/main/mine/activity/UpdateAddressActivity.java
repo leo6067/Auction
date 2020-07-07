@@ -2,31 +2,35 @@ package com.leo.auction.ui.main.mine.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.RxTool;
+import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.switchButton.SwitchButton;
 import com.leo.auction.R;
-import com.leo.auction.mvp.BaseModel;
+import com.leo.auction.base.BaseModel;
+import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.model.AddressModel;
 import com.leo.auction.ui.main.mine.model.DistrictListModel;
 import com.leo.auction.ui.main.mine.model.OneKeyFillingModel;
 import com.leo.auction.utils.CityWheelUtils;
 import com.leo.auction.utils.TextOptionUtils;
 
+import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class UpdateAddressActivity extends BaseActivity {
-
 
 
     @BindView(R.id.tv_address)
@@ -47,11 +51,9 @@ public class UpdateAddressActivity extends BaseActivity {
     SwitchButton sbDefault;
 
     private String provinceId, cityId, areaId;
-    private String provinceName="",cityName="",areaName="";
-    private AddressModel.AddressBean item;
+    private String provinceName = "", cityName = "", areaName = "";
+    private AddressModel.DataBean item;
     private CityWheelUtils cityWheelUtils;
-
-
 
 
     @Override
@@ -69,7 +71,7 @@ public class UpdateAddressActivity extends BaseActivity {
         item = getIntent().getParcelableExtra("item");
         super.initData();
         setTitle("编辑地址");
-        cityWheelUtils=new CityWheelUtils();
+        cityWheelUtils = new CityWheelUtils();
         etConsigneeName.setText(EmptyUtils.strEmpty(item.getLinkman()));
         tvAddress.setText(item.getAddr1Name() + item.getAddr2Name() + item.getAddr3Name());
         etPhone.setText(EmptyUtils.strEmpty(item.getPhone()));
@@ -77,11 +79,11 @@ public class UpdateAddressActivity extends BaseActivity {
         etPostalCode.setText(EmptyUtils.strEmpty(item.getCode()));
 
         provinceId = item.getAddr1();
-        provinceName=item.getAddr1Name();
+        provinceName = item.getAddr1Name();
         cityId = item.getAddr2();
-        cityName=item.getAddr2Name();
+        cityName = item.getAddr2Name();
         areaId = item.getAddr3();
-        areaName=item.getAddr3Name();
+        areaName = item.getAddr3Name();
 
         if ("00B".equals(item.getStatus())) {
             sbDefault.setCheckedImmediatelyNoEvent(true);
@@ -95,7 +97,7 @@ public class UpdateAddressActivity extends BaseActivity {
         super.initEvent();
     }
 
-    @OnClick({R.id.tv_address, R.id.stb_sure,R.id.stb_one_key_filling})
+    @OnClick({R.id.tv_address, R.id.stb_sure, R.id.stb_one_key_filling})
     public void onViewClicked(View view) {
         if (!RxTool.isFastClick(RxTool.MIN_CLICK_DELAY_TIME_500)) {
             return;
@@ -118,11 +120,11 @@ public class UpdateAddressActivity extends BaseActivity {
                                              int cityPos, DistrictListModel.DistrictsBean cityItemData,
                                              int areaPos, DistrictListModel.DistrictsBean areaItemData) {
                         provinceId = provinceItemData.getAddr();
-                        provinceName=provinceItemData.getName();
+                        provinceName = provinceItemData.getName();
                         cityId = cityItemData.getAddr();
-                        cityName=cityItemData.getName();
+                        cityName = cityItemData.getName();
                         areaId = areaItemData.getAddr();
-                        areaName=areaItemData.getName();
+                        areaName = areaItemData.getName();
 
                         tvAddress.setText(provinceItemData.getName() + cityItemData.getName() + areaItemData.getName());
                     }
@@ -133,7 +135,7 @@ public class UpdateAddressActivity extends BaseActivity {
                 sureUpdate();
                 break;
             case R.id.stb_one_key_filling:
-                if (EmptyUtils.isEmpty(etOneKeyFilling.getText().toString())){
+                if (EmptyUtils.isEmpty(etOneKeyFilling.getText().toString())) {
                     return;
                 }
                 showWaitDialog();
@@ -144,14 +146,18 @@ public class UpdateAddressActivity extends BaseActivity {
 
     //获取地区
     private void getAddressData(final String level, String id) {
-        DistrictListModel.sendDistrictListRequest(TAG, id, level, new CustomerJsonCallBack<DistrictListModel>() {
+
+        showWaitDialog();
+        DistrictListModel.sendDistrictListRequest(id, level, new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(DistrictListModel returnData, String msg) {
-                showShortToast(msg);
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
             }
 
             @Override
-            public void onRequestSuccess(DistrictListModel returnData) {
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                DistrictListModel returnData = JSONObject.parseObject(resultData, DistrictListModel.class);
                 if ("1".equals(level)) {
                     cityWheelUtils.setProvinceData(returnData.getDistricts());
                     if (!returnData.getDistricts().isEmpty()) {
@@ -171,53 +177,59 @@ public class UpdateAddressActivity extends BaseActivity {
 
     //一键识别
     private void oneKeyFilling() {
-        OneKeyFillingModel.sendOneKeyFillingRequest(TAG,etOneKeyFilling.getText().toString().trim().replaceAll("\n",""),
-                new CustomerJsonCallBack<OneKeyFillingModel>() {
-                    @Override
-                    public void onRequestError(OneKeyFillingModel returnData, String msg) {
-                        hideWaitDialog();
-                        showShortToast(msg);
-                    }
 
-                    @Override
-                    public void onRequestSuccess(OneKeyFillingModel returnData) {
-                        hideWaitDialog();
-                        if (returnData.getData()!=null&&!returnData.getData().isEmpty()){
-                            OneKeyFillingModel.DataBean oneKeyFillingInfo = returnData.getData().get(0);
-                            provinceId = oneKeyFillingInfo.getProvinceId();
-                            provinceName=oneKeyFillingInfo.getProvinceName();
-                            cityId = oneKeyFillingInfo.getCityId();
-                            cityName=oneKeyFillingInfo.getCityName();
-                            areaId = oneKeyFillingInfo.getCountyId();
-                            areaName=oneKeyFillingInfo.getCountyName();
+        showWaitDialog();
+        OneKeyFillingModel.sendOneKeyFillingRequest(TAG, etOneKeyFilling.getText().toString().trim().replaceAll("\n", ""), new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
 
-                            etConsigneeName.setText(TextOptionUtils.getInstance().subLength(EmptyUtils.strEmpty(oneKeyFillingInfo.getName()),8));
-                            etPhone.setText(EmptyUtils.strEmpty(oneKeyFillingInfo.getMobile()));
-                            tvAddress.setText(EmptyUtils.strEmpty(oneKeyFillingInfo.getProvinceName()) + EmptyUtils.strEmpty(oneKeyFillingInfo.getCityName()) + EmptyUtils.strEmpty(oneKeyFillingInfo.getCountyName()));
-                            etDetailAddress.setText(EmptyUtils.strEmpty(oneKeyFillingInfo.getDetail()));
-                        }
-                    }
-                });
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                OneKeyFillingModel returnData = JSONObject.parseObject(resultData, OneKeyFillingModel.class);
+                if (returnData.getData() != null && !returnData.getData().isEmpty()) {
+                    OneKeyFillingModel.DataBean oneKeyFillingInfo = returnData.getData().get(0);
+                    provinceId = oneKeyFillingInfo.getProvinceId();
+                    provinceName = oneKeyFillingInfo.getProvinceName();
+                    cityId = oneKeyFillingInfo.getCityId();
+                    cityName = oneKeyFillingInfo.getCityName();
+                    areaId = oneKeyFillingInfo.getCountyId();
+                    areaName = oneKeyFillingInfo.getCountyName();
+
+                    etConsigneeName.setText(TextOptionUtils.getInstance().subLength(EmptyUtils.strEmpty(oneKeyFillingInfo.getName()), 8));
+                    etPhone.setText(EmptyUtils.strEmpty(oneKeyFillingInfo.getMobile()));
+                    tvAddress.setText(EmptyUtils.strEmpty(oneKeyFillingInfo.getProvinceName()) + EmptyUtils.strEmpty(oneKeyFillingInfo.getCityName()) + EmptyUtils.strEmpty(oneKeyFillingInfo.getCountyName()));
+                    etDetailAddress.setText(EmptyUtils.strEmpty(oneKeyFillingInfo.getDetail()));
+                }
+            }
+        });
+
+
     }
 
     //删除地址
     private void delete() {
         showWaitDialog();
-//        BaseModel.sendDeleteAddressRequest(TAG, item.getId(), new CustomerJsonCallBack<BaseModel>() {
-//            @Override
-//            public void onRequestError(BaseModel returnData, String msg) {
-//                hideWaitDialog();
-//                showShortToast(msg);
-//            }
-//
-//            @Override
-//            public void onRequestSuccess(BaseModel returnData) {
-//                hideWaitDialog();
-//                showShortToast("删除成功");
-//                setResult(RESULT_OK);
-//                goFinish();
-//            }
-//        });
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("addressId", item.getId());
+        showWaitDialog();
+        HttpRequest.httpDeleteString(Constants.Api.ADDRESS_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                ToastUtils.showShort("删除成功");
+                setResult(RESULT_OK);
+                goFinish();
+            }
+        });
     }
 
     //确认修改
@@ -250,35 +262,43 @@ public class UpdateAddressActivity extends BaseActivity {
         String isDefault = "";
         isDefault = sbDefault.isChecked() ? "1" : "0";
 
+
+        JSONObject jsonObject = new JSONObject();
+
+
+        jsonObject.put("linkman", etConsigneeName.getText().toString().trim());
+        jsonObject.put("addr1", provinceId);
+        jsonObject.put("addr2", cityId);
+        jsonObject.put("addr3", areaId);
+        jsonObject.put("phone", etPhone.getText().toString().trim());
+        jsonObject.put("address", etDetailAddress.getText().toString().trim());
+        jsonObject.put("code", etPostalCode.getText().toString().trim());
+        jsonObject.put("defaultAddress", isDefault);
+        jsonObject.put("type", "0");
+
         showWaitDialog();
-//        BaseModel.sendUpdateAddressRequest(TAG,item.getId() ,etConsigneeName.getText().toString().trim(), provinceId, cityId, areaId,
-//                etPhone.getText().toString().trim(), etDetailAddress.getText().toString().trim(), etPostalCode.getText().toString().trim(),
-//                isDefault, new CustomerJsonCallBack<BaseModel>() {
-//                    @Override
-//                    public void onRequestError(BaseModel returnData, String msg) {
-//                        hideWaitDialog();
-//                        showShortToast(msg);
-//                    }
-//
-//                    @Override
-//                    public void onRequestSuccess(BaseModel returnData) {
-//                        hideWaitDialog();
-//                        showShortToast("更新地址成功");
-//                        AddressModel.AddressBean addressBean=new AddressModel.AddressBean(provinceId,provinceName,cityId,cityName,areaId,areaName,
-//                                etDetailAddress.getText().toString().trim(),etPostalCode.getText().toString().trim(),item.getId(),
-//                                etConsigneeName.getText().toString().trim(),etPhone.getText().toString().trim(),sbDefault.isChecked() ? "00B" : "00A","");
-//
-//
-//                        Intent intent=new Intent();
-//                        intent.putExtra("seleteAddress",addressBean);
-//                        setResult(RESULT_OK,intent);
-//                        goFinish();
-//                    }
-//                }
-//        );
+        HttpRequest.httpPutString(Constants.Api.ADDRESS_URL, jsonObject, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                showShortToast("更新地址成功");
+                AddressModel.DataBean addressBean = new AddressModel.DataBean(provinceId, provinceName, cityId, cityName, areaId, areaName,
+                        etDetailAddress.getText().toString().trim(), etPostalCode.getText().toString().trim(), item.getId(),
+                        etConsigneeName.getText().toString().trim(), etPhone.getText().toString().trim(), sbDefault.isChecked() ? "00B" : "00A", "");
+                Intent intent = new Intent();
+                intent.putExtra("seleteAddress", addressBean);
+                setResult(RESULT_OK, intent);
+                goFinish();
+            }
+        });
     }
 
-    public static void newIntance(Activity activity, AddressModel.AddressBean item, int requestCode) {
+    public static void newIntance(Activity activity, AddressModel.DataBean item, int requestCode) {
         Intent intent = new Intent(activity, UpdateAddressActivity.class);
         intent.putExtra("item", item);
         activity.startActivityForResult(intent, requestCode);

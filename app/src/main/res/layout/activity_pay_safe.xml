@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.mine.activity.PaySafeActivity">
+
+
+    <include layout="@layout/layout_custom_title_w" />
+
+    <include layout="@layout/include_line_a" />
+
+
+    <TextView
+        android:id="@+id/reset"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:background="@color/white"
+        android:drawableEnd="@drawable/ic_enter_03"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:text="设置支付密码" />
+
+    <include layout="@layout/include_line_a" />
+
+
+    <TextView
+        android:id="@+id/forget"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:background="@color/white"
+        android:drawableEnd="@drawable/ic_enter_03"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:text="忘记支付密码" />
+
+    <include layout="@layout/include_line_a" />
+
+
+    <TextView
+        android:id="@+id/identity"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:background="@color/white"
+        android:drawableEnd="@drawable/ic_enter_03"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:text="查看身份信息" />
+
+    <include layout="@layout/include_line_a" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_60"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_15"
+            android:paddingEnd="@dimen/dp_15"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:text="余额免密支付设置"
+
+            />
+
+        <TextView
+            android:id="@+id/pay_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_enter_03"
+            android:gravity="center_vertical|end"
+            android:paddingStart="@dimen/dp_15"
+            android:paddingEnd="@dimen/dp_15"
+            android:textSize="10sp"
+            android:drawablePadding="@dimen/dp_35"
+            tools:text="已开通" />
+
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/pwd"
+        android:layout_marginTop="@dimen/dp_15"
+        android:drawableStart="@drawable/ic_question_02"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/dp_9"
+        android:text="免密支付说明"
+        android:layout_marginEnd="@dimen/dp_35"
+        android:textSize="10sp"/>
+
+
+
+</LinearLayout>

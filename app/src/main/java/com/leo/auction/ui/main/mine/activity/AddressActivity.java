@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
-import com.aten.compiler.base.BaseActivity;
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewActivity;
 import com.aten.compiler.utils.CustomerDialogUtils;
 import com.aten.compiler.utils.RxTool;
@@ -18,16 +16,18 @@ import com.aten.compiler.widget.dialog.NormalDialog;
 import com.aten.compiler.widget.dialog.listener.OnBtnClickL;
 import com.blankj.utilcode.util.SPUtils;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.Constants;
-import com.leo.auction.mvp.BaseModel;
-import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.adapter.AddressAdapter;
 import com.leo.auction.ui.main.mine.model.AddressModel;
 
+import java.util.HashMap;
+
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class AddressActivity extends BaseRecyclerViewActivity implements AddressAdapter.IAddressOption {
-
 
 
     private String type, itemClickBackType;
@@ -38,9 +38,6 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
     }
 
 
-
-
-
     @Override
     protected boolean isImmersionBarEnabled() {
         return true;
@@ -48,7 +45,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
 
     @Override
     public void initAdapter() {
-        mAdapter = new AddressAdapter(this,itemClickBackType);
+        mAdapter = new AddressAdapter(this, itemClickBackType);
     }
 
     @Override
@@ -63,44 +60,45 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
             setTitle("收货地址");
         }
 
-        showWaitDialog();
+
         onRefresh(refreshLayout);
     }
 
-    @Override
-    public void initEvent() {
-        super.initEvent();
-        setSmartHasRefreshOrLoadMore();
-        setLoadMore();
-    }
 
     @Override
     public void getData() {
-        AddressModel.sendAddressRequest(TAG, String.valueOf(mPageNum), "", "", type, new CustomerJsonCallBack<AddressModel>() {
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNum", String.valueOf(mPageNum));
+        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
+        hashMap.put("status", "00B");
+        hashMap.put("type", type);
+        showWaitDialog();
+        HttpRequest.httpGetString(Constants.Api.ADDRESS_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(AddressModel returnData, String msg) {
-                hideRefreshView();
-                ToastUtils.showShort(msg);
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
             }
 
             @Override
-            public void onRequestSuccess(AddressModel returnData) {
-                hideRefreshView();
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+
+                AddressModel addressModel = JSONObject.parseObject(resultData, AddressModel.class);
                 if (mPageNum == 1) {
-                    if (returnData.getAddress() != null && !returnData.getAddress().isEmpty()) {
-                        SPUtils.getInstance(Constants.Var.HAS_ADDRESS).put("0".equals(type) ? "ShipAddress" : "ReturnAddress", JSON.toJSONString(returnData.getAddress().get(0)));
+                    if (addressModel.getData() != null && !addressModel.getData().isEmpty()) {
+                        SPUtils.getInstance(Constants.Var.HAS_ADDRESS).put("0".equals(type) ? "ShipAddress" : "ReturnAddress", JSON.toJSONString(addressModel.getData().get(0)));
                     } else {
                         SPUtils.getInstance(Constants.Var.HAS_ADDRESS).put("0".equals(type) ? "ShipAddress" : "ReturnAddress", "");
                     }
-
-                    mAdapter.setNewData(returnData.getAddress());
+                    mAdapter.setNewData(addressModel.getData());
                 } else {
-                    mAdapter.addData(returnData.getAddress());
+                    mAdapter.addData(addressModel.getData());
                     mAdapter.loadMoreComplete();
                 }
 
-                if (mPageNum > 1 && returnData.getAddress().isEmpty()) {
-                    if (mAdapter.getData().size() < 10) {
+                if (mPageNum > 1 && addressModel.getData().isEmpty()) {
+                    if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                         mAdapter.loadMoreEnd(true);
                     } else {
                         mAdapter.loadMoreEnd();
@@ -108,11 +106,13 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
                 }
             }
         });
+
+
     }
 
     //地址列表的item点击事件
     @Override
-    public void onItemListener(AddressModel.AddressBean item) {
+    public void onItemListener(AddressModel.DataBean item) {
         if ("0".equals(itemClickBackType)) {
             UpdateAddressActivity.newIntance(AddressActivity.this, item, Constants.RequestCode.RETURNREQUEST_REFRESH_UPDATEADDRESS);
         } else if ("1".equals(itemClickBackType)) {
@@ -126,7 +126,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
     @Override
     public void onDeleteListener(String id) {
         CustomerDialogUtils.getInstance().showNormalDialog(AddressActivity.this, true, "删除",
-                "是否确认删除改地址", NormalDialog.STYLE_TWO, 2, "取消,确认", new OnBtnClickL() {
+                "是否确认删除地址", NormalDialog.STYLE_TWO, 2, "取消,确认", new OnBtnClickL() {
                     @Override
                     public void onBtnClick() {
                         CustomerDialogUtils.getInstance().dissNormalDialog();
@@ -141,23 +141,28 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
     }
 
     //删除地址
-    private void delete(String id) {
+    private void delete(String addressId) {
         showWaitDialog();
-//        BaseModel.sendDeleteAddressRequest(TAG, id, new CustomerJsonCallBack<BaseModel>() {
-//            @Override
-//            public void onRequestError(BaseModel returnData, String msg) {
-//                hideWaitDialog();
-//                ToastUtils.showShort(msg);
-//            }
-//
-//            @Override
-//            public void onRequestSuccess(BaseModel returnData) {
-//                hideWaitDialog();
-//                ToastUtils.showShort("删除成功");
-//                setResult(RESULT_OK);
-//                goFinish();
-//            }
-//        });
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("addressId", addressId);
+        showWaitDialog();
+        HttpRequest.httpDeleteString(Constants.Api.ADDRESS_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                ToastUtils.showShort("删除成功");
+                setResult(RESULT_OK);
+                goFinish();
+            }
+        });
+
+
     }
 
     @OnClick({R.id.stb_add})
@@ -184,9 +189,9 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
 
     @Override
     public void onBackPressed() {
-        if ("0".equals(itemClickBackType)&&mAdapter!=null&&!mAdapter.getData().isEmpty()){
+        if ("0".equals(itemClickBackType) && mAdapter != null && !mAdapter.getData().isEmpty()) {
             Intent intent = new Intent();
-            intent.putExtra("address", ((AddressAdapter)mAdapter).getData().get(0));
+            intent.putExtra("address", ((AddressAdapter) mAdapter).getData().get(0));
             setResult(RESULT_OK, intent);
         }
 

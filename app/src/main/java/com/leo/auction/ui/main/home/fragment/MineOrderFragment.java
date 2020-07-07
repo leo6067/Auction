@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.aten.compiler.base.ActivityManager;
 import com.aten.compiler.base.BaseFragment;
 import com.leo.auction.R;
-import com.leo.auction.ui.main.mine.CommodityReleaseActivity;
+import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
 import com.leo.auction.ui.main.mine.activity.AssetDetailActivity;
 import com.leo.auction.ui.main.mine.activity.AuctionManagementActivity;
 import com.leo.auction.ui.main.mine.activity.SettingActivity;
@@ -99,10 +99,10 @@ public class MineOrderFragment extends BaseFragment {
             case R.id.mine_cjck:
 
                 break;
-            case R.id.mine_fbpp:
+            case R.id.mine_fbpp://发布拍品
                 ActivityManager.JumpActivity(getActivity(), CommodityReleaseActivity.class);
                 break;
-            case R.id.mine_ppgl:
+            case R.id.mine_ppgl://拍品管理
                 ActivityManager.JumpActivity(getActivity(), AuctionManagementActivity.class);
                 break;
             case R.id.mine_tgzx:

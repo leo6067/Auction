@@ -162,7 +162,7 @@ public class ActionSheetDialog extends BottomBaseDialog<ActionSheetDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         /** title */
         float radius = dp2px(mCornerRadius);
         mTvTitle.setHeight(dp2px(mTitleHeight));

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_custom_title"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_74"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_4"
+        android:background="@android:color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="新密码"
+            android:textSize="@dimen/sp_28"
+            android:textColor="@color/color_06071e"/>
+
+        <EditText
+            android:id="@+id/et_new_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_marginLeft="@dimen/dp_230"
+            android:inputType="textPassword"
+            android:hint="请输入新密码"
+            android:textColorHint="@color/color_a2a2a2"
+            android:textSize="@dimen/sp_24"
+            android:textColor="@color/color_1a1a1a"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_74"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_4"
+        android:background="@android:color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="确认新密码"
+            android:textSize="@dimen/sp_28"
+            android:textColor="@color/color_06071e"/>
+
+        <EditText
+            android:id="@+id/et_again_new_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_marginLeft="@dimen/dp_230"
+            android:inputType="textPassword"
+            android:hint="请再次输入新密码"
+            android:textColorHint="@color/color_a2a2a2"
+            android:textSize="@dimen/sp_24"
+            android:textColor="@color/color_1a1a1a"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_74"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_4"
+        android:background="@android:color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="手机号"
+            android:textSize="@dimen/sp_28"
+            android:textColor="@color/color_06071e"/>
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_marginLeft="@dimen/dp_230"
+            android:hint="请输入绑定的手机号"
+            android:textColorHint="@color/color_a2a2a2"
+            android:textSize="@dimen/sp_24"
+            android:textColor="@color/color_1a1a1a"/>
+
+    </FrameLayout>
+
+    <com.allen.library.SuperButton
+        android:id="@+id/stb_sure"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_98"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_86"
+        android:layout_marginRight="@dimen/dp_30"
+        android:gravity="center"
+        android:text="确认修改"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_30"
+        app:sSelectorNormalColor="@color/color_ff8e67"
+        app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+        app:sCornersRadius="@dimen/dp_10"
+        app:sUseSelector="true" />
+
+</LinearLayout>

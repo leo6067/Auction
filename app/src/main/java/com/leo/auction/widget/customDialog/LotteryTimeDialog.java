@@ -86,7 +86,7 @@ public class LotteryTimeDialog extends BaseDialog<LotteryTimeDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         crlDate.setHasFixedSize(true);
         crlDate.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         LotteryTimeAdapter lotteryTimeAdapter01 = new LotteryTimeAdapter(lotteryAttributeModels01, new LotteryTimeAdapter.ILotteryAttribute() {

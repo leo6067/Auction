@@ -36,8 +36,9 @@
             android:singleLine="true"
             android:textColor="@color/color_1a1a1a"
             android:textColorHint="@color/color_b4b4b4"
+            android:visibility="gone"
             android:textSize="@dimen/sp_24"
-            android:visibility="gone"/>
+          />
 
         <com.aten.compiler.widget.CustomeRecyclerView
             android:id="@+id/crl_attri_list"

@@ -54,6 +54,10 @@ public class MainActivity extends BaseActivity {
         initImmersionBar(R.color.home_title_bg);
     }
 
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
 
     public void initImmersionBar(int color) {
         //在BaseActivity里初始化

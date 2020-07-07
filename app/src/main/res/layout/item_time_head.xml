@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/dp_30"
+    android:paddingTop="@dimen/dp_6"
+    android:paddingEnd="@dimen/dp_30">
+
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/home_title_bg"
+        tools:text="快速截拍" />
+
+
+    <TextView
+        android:id="@+id/item_delay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/collect_cancel"
+        android:textSize="11sp"
+        tools:text="1分种延时竞价" />
+
+</LinearLayout>

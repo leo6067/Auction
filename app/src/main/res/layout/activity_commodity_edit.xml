@@ -5,23 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_custom_title" />
+    <include layout="@layout/layout_custom_title_w" />
 
     <com.aten.compiler.widget.ZzHorizontalProgressBar
         android:id="@+id/zpb_progress"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_6"
+        android:visibility="gone"
         app:zpb_bg_color="#d8d8d8"
         app:zpb_pb_color="@android:color/holo_red_light"
         app:zpb_progress="0"
-        app:zpb_show_mode="rect"
-        android:visibility="gone"/>
+        app:zpb_show_mode="rect" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_89"
-        android:background="@android:color/white"
         android:layout_marginBottom="@dimen/dp_4"
+        android:background="@android:color/white"
         android:paddingRight="@dimen/dp_30">
 
         <TextView
@@ -82,8 +82,8 @@
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@android:color/white"
                 android:paddingLeft="@dimen/dp_20"
-                android:paddingRight="@dimen/dp_20"
-                android:paddingTop="@dimen/dp_30" />
+                android:paddingTop="@dimen/dp_30"
+                android:paddingRight="@dimen/dp_20" />
 
             <FrameLayout
                 android:id="@+id/fl_open_close_01"
@@ -103,6 +103,7 @@
             </FrameLayout>
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
                 android:layout_marginTop="@dimen/dp_5"
@@ -121,8 +122,8 @@
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@android:color/white"
                 android:paddingLeft="@dimen/dp_20"
-                android:paddingRight="@dimen/dp_20"
-                android:paddingTop="@dimen/dp_30" />
+                android:paddingTop="@dimen/dp_30"
+                android:paddingRight="@dimen/dp_20" />
 
             <FrameLayout
                 android:id="@+id/fl_open_close_02"
@@ -142,6 +143,7 @@
             </FrameLayout>
 
             <FrameLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
                 android:layout_marginTop="@dimen/dp_10"
@@ -186,8 +188,8 @@
                 android:layout_height="@dimen/dp_89"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/white"
-                android:paddingLeft="@dimen/dp_30"
                 android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_30"
                 android:text="【介绍】"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30" />
@@ -203,7 +205,8 @@
                 android:maxLength="500"
                 android:padding="@dimen/dp_30"
                 android:textColorHint="@color/color_b4b4b4"
-                android:textSize="@dimen/sp_24" />
+                android:textSize="@dimen/sp_24"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -247,6 +250,38 @@
 
             </com.aten.compiler.widget.CustomeRecyclerView>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_89"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_30"
+                    android:text="截拍时间"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/sp_30"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/goods_jpsj"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_88"
+                    android:layout_weight="1"
+                    android:drawableEnd="@drawable/ic_enter_03"
+                    android:paddingEnd="@dimen/dp_30" />
+
+
+            </LinearLayout>
+
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
@@ -261,7 +296,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/white"
-                    android:text="销售价"
+                    android:text="起拍价"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_30"
                     android:textStyle="bold" />
@@ -273,8 +308,8 @@
                     android:layout_marginLeft="@dimen/dp_215"
                     android:background="@null"
                     android:ellipsize="end"
+                    android:hint="请设置拍品期起拍价"
                     android:inputType="numberDecimal"
-                    android:hint="请设置商品销售价"
                     android:singleLine="true"
                     android:textColor="@color/color_1a1a1a"
                     android:textColorHint="@color/color_b4b4b4"
@@ -296,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/white"
-                    android:text="供货价"
+                    android:text="加价幅度"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_30"
                     android:textStyle="bold" />
@@ -308,7 +343,7 @@
                     android:layout_marginLeft="@dimen/dp_215"
                     android:background="@null"
                     android:ellipsize="end"
-                    android:hint="请设置商品供货价"
+                    android:hint="请设置拍品单次加价幅度"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textColor="@color/color_1a1a1a"
@@ -317,41 +352,6 @@
 
             </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@android:color/white"
-                    android:text="库存"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/sp_30"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/et_stock"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_215"
-                    android:background="@null"
-                    android:ellipsize="end"
-                    android:hint="如1-9999商品库存数量"
-                    android:inputType="number"
-                    android:singleLine="true"
-                    android:maxLength="4"
-                    android:textColor="@color/color_1a1a1a"
-                    android:textColorHint="@color/color_b4b4b4"
-                    android:textSize="@dimen/sp_24" />
-
-            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -388,8 +388,53 @@
 
             </FrameLayout>
 
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/white"
+                    android:text="配送方式"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/sp_30" />
+
+
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/baoyou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="包邮" />
+
+                    <RadioButton
+                        android:text="到付"
+                        android:id="@+id/daofu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+
+
             <FrameLayout
-                android:id="@+id/fl_freight"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
                 android:layout_marginTop="@dimen/dp_4"
@@ -403,48 +448,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/white"
-                    android:text="【运费】"
+                    android:text="是否包退"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_30" />
-
-                <EditText
-                    android:id="@+id/et_freight"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_215"
-                    android:background="@null"
-                    android:ellipsize="end"
-                    android:hint="运费包邮可修改"
-                    android:inputType="numberDecimal"
-                    android:singleLine="true"
-                    android:textColor="@color/color_1a1a1a"
-                    android:textColorHint="@color/color_b4b4b4"
-                    android:textSize="@dimen/sp_24" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/fl_free_shipping"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_4"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@android:color/white"
-                    android:text="【包邮】"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/sp_30" />
-
 
                 <com.aten.compiler.widget.switchButton.SwitchButton
-                    android:id="@+id/sbt_free_shipping"
+                    android:checked="true"
+                    android:clickable="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -453,40 +463,15 @@
 
             </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_4"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@android:color/white"
-                    android:text="【到付】"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/sp_30" />
 
-                <com.aten.compiler.widget.switchButton.SwitchButton
-                    android:id="@+id/sbt_to_pay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    app:kswBackDrawable="@drawable/ic_back_drawable"
-                    app:kswThumbColor="@android:color/white" />
-
-            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/arl_agree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp_30"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/dp_30"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -494,20 +479,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:button="@drawable/shoppingcar_checkbox_style"/>
+                    android:button="@drawable/shoppingcar_checkbox_style" />
 
                 <TextView
                     android:id="@+id/tv_agree"
-                    android:layout_toRightOf="@+id/cb_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:lineSpacingExtra="@dimen/dp_10"
-                    android:layout_gravity="center_vertical"
-                    android:text="发布即同意《超级仓库交易服务用户协议》"
                     android:layout_centerVertical="true"
-                    android:textSize="@dimen/sp_20"
-                    android:textColor="@color/color_9e9e9e" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_toRightOf="@+id/cb_check"
+                    android:lineSpacingExtra="@dimen/dp_10"
+                    android:text="发布即同意《淘捡漏交易服务用户协议》"
+                    android:textColor="@color/color_9e9e9e"
+                    android:textSize="@dimen/sp_20" />
 
             </LinearLayout>
 

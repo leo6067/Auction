@@ -60,7 +60,7 @@ public class UpdateDialog extends BaseDialog<UpdateDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         llLogs.removeAllViews();
         //设置头部
         if (EmptyUtils.isEmpty(title)){

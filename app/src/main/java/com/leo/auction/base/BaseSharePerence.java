@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.model.home.VersionJson;
 import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.login.model.LoginModel;
-import com.leo.auction.ui.login.model.UserInfoModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 
 
@@ -66,11 +65,6 @@ public class BaseSharePerence {
     }
 
 
-
-
-
-
-
     /**
      * 保存用户登录基本信息
      */
@@ -91,10 +85,6 @@ public class BaseSharePerence {
     }
 
 
-
-
-
-
     /**
      * 保存用户账号基本信息
      */
@@ -104,16 +94,9 @@ public class BaseSharePerence {
     }
 
     public UserModel.DataBean getUserJson() {
-        UserModel.DataBean userInfoModel = null;
         String infoStr = mSharedPreferences.getString("setUserJson", "");
-        if (infoStr.length() > 2) {
-            UserModel loginModel = JSONObject.parseObject(infoStr, UserModel.class);
-            userInfoModel = loginModel.getData();
-
-        }
-        return userInfoModel;
+        return JSONObject.parseObject(infoStr, UserModel.DataBean.class);
     }
-
 
 
     /**

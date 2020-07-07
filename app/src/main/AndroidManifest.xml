@@ -50,7 +50,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.WebViewActivity"></activity>
+        <activity android:name=".ui.main.mine.activity.AuctionUpperActivity"></activity>
+        <activity android:name=".ui.main.mine.activity.PutawayActivity" />
+        <activity android:name=".ui.main.mine.activity.SuperHouseActivity" />
+        <activity android:name=".ui.main.mine.activity.SetPayPwdActivity" />
+        <activity android:name=".ui.main.mine.activity.IdentityActivity" />
+        <activity android:name=".ui.main.mine.activity.ForgetPwdActivity" />
+        <activity android:name=".ui.main.mine.activity.ResetPwdActivity" />
+        <activity android:name=".ui.main.mine.activity.PaySafeActivity" />
+        <activity android:name=".ui.main.mine.activity.BalanceActivity" />
+        <activity android:name=".ui.main.WebViewActivity" />
         <activity android:name=".ui.main.mine.activity.CommodityEditActivity" />
         <activity android:name=".ui.main.mine.activity.AuctionManagementActivity" />
         <activity android:name=".ui.main.mine.activity.AssetDetailActivity" />
@@ -61,7 +70,7 @@
         <activity android:name=".ui.main.mine.activity.UpdateNickNameActivity" />
         <activity android:name=".ui.main.mine.activity.SettingActivity" />
         <activity android:name=".ui.main.mine.activity.VideoPlayerActivity" />
-        <activity android:name=".ui.main.mine.CommodityReleaseActivity" />
+        <activity android:name=".ui.main.mine.activity.CommodityReleaseActivity" />
         <activity android:name=".ui.main.home.activity.ShopActivity" />
         <activity android:name=".ui.main.home.activity.HomeSearchActivity" />
         <activity android:name=".ui.main.home.activity.AuctionDetailActivity" />
@@ -69,7 +78,6 @@
         <activity android:name=".ui.login.AgreementActivity" />
         <activity android:name=".ui.login.LoginWxActivity" />
         <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".mvp.LoginMvpActivity" />
         <activity
             android:name=".ui.login.StartActivity"
             android:theme="@style/startTheme">
@@ -82,7 +90,14 @@
         <service android:name=".tool.polling.OnlyService" /> <!-- 全面屏适配 -->
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.2" /> <!-- 版本更新配置    包名 -->
+            android:value="2.4" /> <!-- 适配华为（huawei）刘海屏 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+
         <provider
             android:name=".tool.version.VersionFileProvider"
             android:authorities=".tool.version.VersionFileProvider"

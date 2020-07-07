@@ -65,7 +65,7 @@ public class RuleProtocolDialog extends BaseDialog<RuleProtocolDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
 //        tvContent.setText(Html.fromHtml(content));
 
         HtmlFromUtils.setTextFromHtml((Activity) mContext,tvContent,content);

@@ -103,7 +103,8 @@ public abstract class BaseDialog<T extends BaseDialog<T>> extends Dialog {
     }
 
     /** set Ui data or logic opreation before attatched window(在对话框显示之前,设置界面数据或者逻辑) */
-    public abstract void setUiBeforShow();
+    public abstract void initView();
+ 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +155,8 @@ public abstract class BaseDialog<T extends BaseDialog<T>> extends Dialog {
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-        setUiBeforShow();
+        initView();
+        
 
         int width;
         if (mWidthScale == 0) {

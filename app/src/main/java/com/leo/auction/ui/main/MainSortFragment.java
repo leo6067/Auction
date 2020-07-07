@@ -117,7 +117,7 @@ public class MainSortFragment extends BaseFragment {
             public void ItemClick(SortLeftModel.DataBean.ChildrenBean item) {
 
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constants.Var.HOME_SORT_TYPE,item.getId());
+                bundle.putString(Constants.Var.HOME_SORT_TYPE,item.getId());
                 ActivityManager.JumpActivity(getActivity(), CategoryActivity.class,bundle);
             }
         });
@@ -156,11 +156,8 @@ public class MainSortFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("type", "1");
         showWaitDialog();
-        HttpRequest.httpGetString(Constants.Api.SORT_SORT_URL, hashMap, new HttpRequest.HttpCallback() {
+        SortLeftModel.httpSort(new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();
@@ -176,7 +173,7 @@ public class MainSortFragment extends BaseFragment {
                 for (int i = 0; i < mSortLeftList.size(); i++) {
                     SortLeftModel.DataBean.ChildrenBean childrenBean = new SortLeftModel.DataBean.ChildrenBean();
                     childrenBean.setIcon("");
-                    childrenBean.setId(0);
+                    childrenBean.setId("0");
                     childrenBean.setName(mSortLeftList.get(i).getName());
                     childrenBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
                     childrenBean.setPosition(i);
@@ -191,7 +188,6 @@ public class MainSortFragment extends BaseFragment {
                         mSortRightList.add(childrenBeanB);
                     }
                 }
-
 
 
                 // 点击左侧需要知道对应右侧的位置，用map先保存起来

@@ -74,7 +74,7 @@ public abstract class BaseBubblePopup<T extends BaseBubblePopup<T>> extends Inte
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         mLlContent.setBackgroundDrawable(
                 CornerUtils.cornerDrawable(mBubbleColor, mCornerRadius));
         mLayoutParams.setMargins(mMarginLeft, 0, mMarginRight, 0);

@@ -27,5 +27,5 @@ public class BottomDialog extends BottomBaseDialog<BottomDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {}
+    public void initView() {}
 }

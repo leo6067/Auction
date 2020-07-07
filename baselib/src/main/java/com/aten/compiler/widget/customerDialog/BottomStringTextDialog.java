@@ -43,7 +43,7 @@ public class BottomStringTextDialog extends BottomBaseDialog<BottomStringTextDia
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         tvDialogTitle.setText(EmptyUtils.strEmpty(title));
         tvTextContent.setText(EmptyUtils.strEmpty(contentText));
         tvDialogCancle.setText(EmptyUtils.strEmpty(BottomBtntext));

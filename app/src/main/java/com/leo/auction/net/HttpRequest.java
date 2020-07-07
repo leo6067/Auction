@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * ================================================
@@ -28,49 +29,70 @@ import okhttp3.MediaType;
  * ================================================
  */
 public class HttpRequest {
-    public static void requesNetWork(String TAG, String url, String dataParams, Callback callback) {
-//        LogUtils.e("url:" + url);
-
-        JSONObject jsonObject = JSON.parseObject(dataParams);
-//        jsonObject.put("client", "4");
+    public static void httpPostString( String url, JSONObject jsonObject, HttpRequest.HttpCallback httpCallback) {
+        jsonObject.put("client", "4");
 //        LogUtils.e("dataParams:"+jsonObject.toJSONString());
         OkHttpUtils
                 .postString()
                 .url(url)
-                .tag(TAG)
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .content(jsonObject.toJSONString())
                 .build()
-                .execute(callback);
-        LogUtils.e("dataParams:" + url + jsonObject.toString());
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        httpCallback.httpError(call, e);
+                        Globals.log("log XHttpUtils 后台错误url=" + url);
+                    }
 
+                    @Override
+                    public void onResponse(String result, int id) {
+                        Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+                        try {
+                            httpCallback.httpResponse(result);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Globals.log("log XHttpUtils 代码报错url=" + url);
+                        }
+                    }
+                });
     }
 
-    public static void requesNetWork_Get(String TAG, String url, Callback callback) {
-        LogUtils.e("url:" + url);
 
-        OkHttpUtils
-                .get()
-                .url(url)
-                .tag(TAG)
-                .build()
-                .execute(callback);
-    }
 
-    public static void requesNetWork_notag(String url, String dataParams, Callback callback) {
-        LogUtils.e("url:" + url);
+    public static void httpPostString( String url, JSONObject jsonObject, CustomerJsonCallBack httpCallback) {
 
-        JSONObject jsonObject = JSON.parseObject(dataParams);
         jsonObject.put("client", "4");
-        LogUtils.e("dataParams:" + jsonObject.toJSONString());
+//        LogUtils.e("dataParams:"+jsonObject.toJSONString());
         OkHttpUtils
                 .postString()
                 .url(url)
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .content(jsonObject.toJSONString())
                 .build()
-                .execute(callback);
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        httpCallback.onError(  call,   e,   id);
+                        Globals.log("log XHttpUtils 后台错误url=" + url);
+                    }
+
+                    @Override
+                    public void onResponse(String result, int id) {
+                        Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+                        try {
+                            httpCallback.onRequestSuccess(result);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Globals.log("log XHttpUtils 代码报错url=" + url);
+                        }
+                    }
+                });
+
     }
+
+
+
 
 
     //容器参数
@@ -129,6 +151,75 @@ public class HttpRequest {
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .url(url)
                 .content(JSON.toJSONString(data))
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                httpCallback.httpError(call, e);
+                Globals.log("log XHttpUtils 后台错误url=" + url);
+            }
+
+            @Override
+            public void onResponse(String result, int id) {
+                Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+                try {
+                    httpCallback.httpResponse(result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Globals.log("log XHttpUtils 代码报错url=" + url);
+                }
+            }
+        });
+    }
+
+
+    public static void httpPutString(final String url, final JSONObject jsonObject  , final HttpCallback httpCallback) {
+        jsonObject.put("client", "4");
+
+        if (url.length() == 0) {
+            ToastUtils.showShort("请求路径有误！");
+            return;
+        }
+
+
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(mediaType, jsonObject.toJSONString());
+        OkHttpUtils.put()
+                .url(url)
+                .requestBody(body)
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                httpCallback.httpError(call, e);
+                Globals.log("log XHttpUtils 后台错误url=" + url);
+            }
+
+            @Override
+            public void onResponse(String result, int id) {
+                Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+                try {
+                    httpCallback.httpResponse(result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Globals.log("log XHttpUtils 代码报错url=" + url);
+                }
+            }
+        });
+    }
+
+
+    public static void httpDeleteString(final String url, final HashMap<String, String> data, final HttpCallback httpCallback) {
+        data.put("client", "4");
+        if (url.length() == 0) {
+            ToastUtils.showShort("请求路径有误！");
+            return;
+        }
+        Globals.log("log XHttpUtils  data " + url + data.toString());
+
+        MediaType mediaType = MediaType.parse("multipart/form-data; charset=utf-8");
+        RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(data));
+        OkHttpUtils.delete()
+                .url(url)
+                .requestBody(body)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {

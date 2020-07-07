@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.razerdp:BasePopup-compat-support:2.2.1@aar">
+    <CLASSES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/9c326afb955b14c0a1a511531ab235fa/BasePopup-compat-support-2.2.1/jars/classes.jar!/" />
+      <root url="file://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/9c326afb955b14c0a1a511531ab235fa/BasePopup-compat-support-2.2.1/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.github.razerdp/BasePopup-compat-support/2.2.1/7ea60851f637bce42de5c8d86d53b52516d41d33/BasePopup-compat-support-2.2.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.github.razerdp/BasePopup-compat-support/2.2.1/f9b0b808535d09d54aaa18ea2c20f40f1d3ac81f/BasePopup-compat-support-2.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

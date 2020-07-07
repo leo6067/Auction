@@ -65,14 +65,16 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
     }
 
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
 
     @Override
     public void initView() {
         super.initView();
         mTitleBar.getTitleView().setText("设置");
         BaseSharePerence.getInstance().getUserJson();
-
-
 
     }
 
@@ -89,7 +91,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rl_real_name_auth:  //实名认证
                 break;
-            case R.id.rl_address:
+            case R.id.rl_address: //收货地址
                 AddressActivity.newIntance(SettingActivity.this, "0","0" ,Constants.RequestCode.RETURNREQUEST_REFRESH_SETTING_ADDRESS);
                 break;
             case R.id.rl_return:  //退货地址

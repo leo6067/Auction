@@ -1,4 +1,4 @@
-package com.leo.auction.ui.main.mine;
+package com.leo.auction.ui.main.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,9 +19,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.DesUtil;
 import com.aten.compiler.utils.EmptyUtils;
@@ -39,12 +42,15 @@ import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.huantansheng.easyphotos.utils.video.ReleaseVideoModel;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseModel;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.OssTokenModel;
-import com.leo.auction.ui.login.model.UserInfoModel;
 import com.leo.auction.ui.main.home.activity.ImageShowActivity;
-import com.leo.auction.ui.main.mine.activity.VideoPlayerActivity;
+import com.leo.auction.ui.main.home.model.SortLeftModel;
+import com.leo.auction.ui.main.mine.IReleaseSortChoose;
 import com.leo.auction.ui.main.mine.adapter.ReleaseAttributeAdapter;
 import com.leo.auction.ui.main.mine.adapter.ReleaseOneSortAdapter;
 import com.leo.auction.ui.main.mine.adapter.ReleasePostOssImglistAdapter;
@@ -53,11 +59,16 @@ import com.leo.auction.ui.main.mine.adapter.ReleaseSortAttributeMoreAdapter;
 import com.leo.auction.ui.main.mine.adapter.ReleaseTwoSortAdapter;
 import com.leo.auction.ui.main.mine.dialog.ReleaseProtocolDialog;
 import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
+import com.leo.auction.ui.main.mine.dialog.TimeDialog;
+import com.leo.auction.ui.main.mine.model.AuctionTimeModel;
 import com.leo.auction.ui.main.mine.model.CommodityReleaseModel;
 import com.leo.auction.ui.main.mine.model.NewestReleaseProductModel;
 import com.leo.auction.ui.main.mine.model.ProtocolInfoModel;
+import com.leo.auction.ui.main.mine.model.ReleaseAuctionAttrModel;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.ui.main.mine.model.ReleaseSortModel;
+import com.leo.auction.ui.main.mine.model.TimeDialogModel;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.TextLightUtils;
 import com.leo.auction.utils.TextOptionUtils;
@@ -67,14 +78,13 @@ import com.leo.auction.utils.ossUpload.CompressUploadVideoUtils;
 import com.leo.auction.utils.ossUpload.DecryOssDataModel;
 import com.leo.auction.utils.ossUpload.OssVideoUtils;
 
-import org.litepal.LitePal;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class CommodityReleaseActivity extends BaseActivity implements IReleaseSortChoose, CompressUploadPicUtils.IChoosePic, CompressUploadVideoUtils.IChooseVideo {
 
@@ -95,45 +105,48 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     @BindView(R.id.rv_videolist)
     CustomeRecyclerView rvVideolist;
     @BindView(R.id.et_selling_price)
-    EditText etSellingPrice;
+    EditText etSellingPrice;  //起拍价
     @BindView(R.id.et_supply_price)
-    EditText etSupplyPrice;
-    @BindView(R.id.et_stock)
-    EditText etStock;
+    EditText etSupplyPrice;  //加价幅度
+
     @BindView(R.id.et_remarks)
     EditText etRemarks;
-    @BindView(R.id.et_freight)
-    EditText etFreight;
-    @BindView(R.id.sbt_free_shipping)
-    SwitchButton sbtFreeShipping;
-    @BindView(R.id.sbt_to_pay)
-    SwitchButton sbtToPay;
+
+    @BindView(R.id.goods_jpsj)
+    TextView goodsJpsj;
+
     @BindView(R.id.ll_attribute_contain)
     LinearLayout llAttributeContain;
     @BindView(R.id.zpb_progress)
     ZzHorizontalProgressBar zpbProgress;
-    @BindView(R.id.fl_freight)
-    FrameLayout flFreight;
-    @BindView(R.id.fl_free_shipping)
-    FrameLayout flFreeShipping;
+
     @BindView(R.id.cb_check)
     CheckBox cbCheck;
     @BindView(R.id.tv_agree)
     TextView tvAgree;
 
+    @BindView(R.id.radio_group)
+    RadioGroup mRadioGroup;
+
+    @BindView(R.id.baoyou)
+    RadioButton mRadioYou;
+
+    @BindView(R.id.daofu)
+    RadioButton mRadioFu;
+
     private ReleaseOneSortAdapter releaseOneSortAdapter;//大类的适配器
     private ReleaseTwoSortAdapter releaseTwoSortAdapter;//小类的适配器
-    private List<ReleaseSortModel.DataBean> dataOneBeans;//记录大类的数据
-    private ReleaseSortModel.DataBean releaseOneSortData;//记录选中的大类数据
-    private List<ReleaseSortModel.DataBean> dataTwoBeans;//记录小类的数据
-    private ReleaseSortModel.DataBean releaseTwoSortData;//记录选中的小类数据
+    private List<SortLeftModel.DataBean> dataOneBeans;//记录大类的数据
+    private SortLeftModel.DataBean releaseOneSortData;//记录选中的大类数据
+    private List<SortLeftModel.DataBean.ChildrenBean> dataTwoBeans;//记录小类的数据
+    private SortLeftModel.DataBean.ChildrenBean releaseTwoSortData;//记录选中的小类数据
     private CenterLayoutManager centerOneSortLayoutManager;
     private CenterLayoutManager centerTwoSortLayoutManager;
     private ReleasePostOssImglistAdapter postImglistAdapter;//商品图片适配器
     private ReleasePostOssVideolistAdapter postVideolistAdapter;//商品视频适配器
-    private ArrayList<ReleaseSortModel.DataBean.AttributesBean> attributes = new ArrayList<>();//商品属性信息
-    private UserInfoModel userInfoModel;
-    private NewestReleaseProductModel.InfoBean newestReleaseProduct;
+    private List<ReleaseAuctionAttrModel.DataBean> attributes = new ArrayList<>();//商品属性信息
+    private UserModel.DataBean userInfoModel;
+    private NewestReleaseProductModel newestReleaseProduct;
     private String isPublish = "1";//发布的类型 默认是发布1 保存0
     private DecryOssDataModel decryOssDataModel;//oss上传需要的必备参数
 
@@ -143,6 +156,13 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     private OssVideoUtils ossVideoUtils;
     private DialogUtils dialogUtils;
     private TextLightUtils textLightUtils;
+
+    private String timeNode = "";  //时间节点
+    private String distributeType = "";//1-包邮  2-到付
+    private String sourceType = "1";  // 1-自行发布 2-产品库
+
+    private String timeType = ""; //快速截拍
+    private String goodId = ""; //
 
     @Override
     protected boolean isImmersionBarEnabled() {
@@ -162,7 +182,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         uploadVideoUtils = new CompressUploadVideoUtils();
         textLightUtils = new TextLightUtils();
         super.initData();
-        userInfoModel = LitePal.findFirst(UserInfoModel.class);
+        userInfoModel = BaseSharePerence.getInstance().getUserJson();
         //初始化大类的数据
         crlOneSort.setHasFixedSize(true);
         centerOneSortLayoutManager = new CenterLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -184,7 +204,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         postImglistAdapter = new ReleasePostOssImglistAdapter();
         rvImglist.setAdapter(postImglistAdapter);
         //初始化图片上传
-        uploadPicUtils.initChoosePic(CommodityReleaseActivity.this, true, 9, Constants.Api.OSS_FOLDER_IMG_GOODS,this);
+        uploadPicUtils.initChoosePic(CommodityReleaseActivity.this, true, 9, Constants.Api.OSS_FOLDER_IMG_GOODS, this);
         //设置拖拽监听
         OnItemDragListener listener = new OnItemDragListener() {
             @Override
@@ -261,7 +281,9 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
         ossUtils = new OssUtils();
         ossVideoUtils = new OssVideoUtils();
+
         getNewestReleaseProductData();
+
         geOssToken();
     }
 
@@ -309,41 +331,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         });
     }
 
-    //获取最新发布得商品数据
-    private void getNewestReleaseProductData() {
-        NewestReleaseProductModel.sendNewestReleaseProductRequest(TAG, userInfoModel.getShopUri(), new CustomerJsonCallBack<NewestReleaseProductModel>() {
-            @Override
-            public void onRequestError(NewestReleaseProductModel returnData, String msg) {
-                ToastUtils.showShort(msg);
-                getOneSortData();
-            }
-
-            @Override
-            public void onRequestSuccess(NewestReleaseProductModel returnData) {
-                if (returnData.getInfo() != null) {
-                    setPageInitData(returnData.getInfo());
-                }else {
-                    getOneSortData();
-                }
-            }
-        });
-    }
-
-    //设置页面得初始数据
-    private void setPageInitData(NewestReleaseProductModel.InfoBean info) {
-        this.newestReleaseProduct = info;
-        etTitle.setText(EmptyUtils.strEmpty(info.getTitle()));
-        etContent.setText(EmptyUtils.strEmpty(info.getContent()));
-//        etSellingPrice.setText(EmptyUtils.strEmpty(info.getPrice()));
-//        etSupplyPrice.setText(EmptyUtils.strEmpty(info.getAgentPrice()));
-        etStock.setText(EmptyUtils.strEmpty(info.getStock()));
-//        etRemarks.setText(EmptyUtils.strEmpty(info.getComment()));
-        etFreight.setText(EmptyUtils.strEmpty(info.getFreight()));
-        sbtFreeShipping.setChecked(info.isFreeShip());
-        sbtToPay.setChecked(info.isToPay());
-
-        getOneSortData();
-    }
 
     @Override
     public void initEvent() {
@@ -389,47 +376,48 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             }
         });
         etSupplyPrice.setFilters(new InputFilter[]{new MoneyValueFilter()});
-        //设置库存数量的监听
-        textLightUtils.onTextChangedListener(etStock, "9999");
-        //设置运费价格的监听
-        textLightUtils.onTextChangedListener(etFreight, "99");
-        etFreight.setFilters(new InputFilter[]{new MoneyValueFilter()});
+        //设置加价幅度的监听
+        textLightUtils.onTextChangedListener(etSupplyPrice, "9999");
+//        //设置运费价格的监听
+//        textLightUtils.onTextChangedListener(etFreight, "99");
+//        etFreight.setFilters(new InputFilter[]{new MoneyValueFilter()});
+//
+//        sbtFreeShipping.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    etFreight.setText("0.00");
+//                    RxTool.setEditTextCursorLocation(etFreight);
+//                }
+//            }
+//        });
 
-        sbtFreeShipping.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    etFreight.setText("0.00");
-                    RxTool.setEditTextCursorLocation(etFreight);
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == mRadioYou.getId()) {
+                    distributeType = "1";
+                }
+
+                if (checkedId == mRadioFu.getId()) {
+                    distributeType = "2";
                 }
             }
         });
 
-        sbtToPay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    flFreight.setVisibility(View.GONE);
-                    flFreeShipping.setVisibility(View.GONE);
-                } else {
-                    flFreight.setVisibility(View.VISIBLE);
-                    flFreeShipping.setVisibility(View.VISIBLE);
-                }
-                sbtFreeShipping.setChecked(false);
-                etFreight.setText("0.00");
-                RxTool.setEditTextCursorLocation(etFreight);
-            }
-        });
 
         cbCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "1");
                     cbCheck.setEnabled(false);
                 }
             }
         });
+
+
     }
 
     //获oss请求的必要参数
@@ -460,27 +448,73 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         });
     }
 
-    //获取大类的数据
-    private void getOneSortData() {
-        ReleaseSortModel.sendReleaseSortRequest(TAG, "-1", "", "0", new CustomerJsonCallBack<ReleaseSortModel>() {
+    //获取最新发布得商品数据
+    private void getNewestReleaseProductData() {
+
+        showWaitDialog();
+        NewestReleaseProductModel.httpNewestRelease(new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(ReleaseSortModel returnData, String msg) {
+            public void httpError(Call call, Exception e) {
                 hideWaitDialog();
-                ToastUtils.showShort(msg);
+                getOneSortData();
             }
 
             @Override
-            public void onRequestSuccess(ReleaseSortModel returnData) {
+            public void httpResponse(String resultData) {
                 hideWaitDialog();
+                NewestReleaseProductModel newestReleaseProductModel = JSONObject.parseObject(resultData, NewestReleaseProductModel.class);
+                if (newestReleaseProductModel != null) {
+                    setPageInitData(newestReleaseProductModel);
+                } else {
+                    getOneSortData();
+                }
+            }
+        });
+    }
+
+
+    //设置页面得初始数据
+    private void setPageInitData(NewestReleaseProductModel info) {
+        this.newestReleaseProduct = info;
+//        etTitle.setText(EmptyUtils.strEmpty(info.getTitle()));
+//        etContent.setText(EmptyUtils.strEmpty(info.getContent()));
+////        etSellingPrice.setText(EmptyUtils.strEmpty(info.getPrice()));
+////        etSupplyPrice.setText(EmptyUtils.strEmpty(info.getAgentPrice()));
+//        etStock.setText(EmptyUtils.strEmpty(info.getStock()));
+////        etRemarks.setText(EmptyUtils.strEmpty(info.getComment()));
+//        etFreight.setText(EmptyUtils.strEmpty(info.getFreight()));
+//        sbtFreeShipping.setChecked(info.isFreeShip());
+//        sbtToPay.setChecked(info.isToPay());
+
+
+//        List<NewestReleaseProductModel.AttributesBean> attributes = info.getAttributes();
+
+
+        getOneSortData();
+    }
+
+    //获取大类的数据
+    private void getOneSortData() {
+
+        showWaitDialog();
+        SortLeftModel.httpSort(new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                SortLeftModel returnData = JSONObject.parseObject(resultData, SortLeftModel.class);
                 if (returnData.getData() != null && !returnData.getData().isEmpty()) {
                     dataOneBeans = returnData.getData();
-
-                    if (newestReleaseProduct != null && !EmptyUtils.isEmpty(newestReleaseProduct.getCategoryParentId())) {
+                    if (newestReleaseProduct != null && !EmptyUtils.isEmpty(newestReleaseProduct.getParentCategoryId())) {
                         boolean tag = false;
                         int position = 0;
                         for (int i = 0; i < dataOneBeans.size(); i++) {
-                            if (dataOneBeans.get(i).getId().equals(newestReleaseProduct.getCategoryParentId())) {
-                                dataOneBeans.get(i).setSelect(true);
+                            if (dataOneBeans.get(i).getId().equals(newestReleaseProduct.getParentCategoryId())) {
+                                dataOneBeans.get(i).setSelected(true);
                                 releaseOneSortData = dataOneBeans.get(i);
                                 position = i;
                                 tag = true;
@@ -493,94 +527,84 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                                 centerOneSortLayoutManager.smoothScrollToPosition(crlOneSort, new RecyclerView.State(), position);
                             }
                         } else {
-                            dataOneBeans.get(0).setSelect(true);
+                            dataOneBeans.get(0).setSelected(true);
                             releaseOneSortData = dataOneBeans.get(0);
                         }
                     } else {
-                        dataOneBeans.get(0).setSelect(true);
+                        dataOneBeans.get(0).setSelected(true);
                         releaseOneSortData = dataOneBeans.get(0);
                     }
                     releaseOneSortAdapter.setNewData(dataOneBeans);
-                    getTwoSortData();
+                    getTwoSortData(0); //默认选中0
                 }
             }
         });
     }
+
 
     //获取小类的数据
-    private void getTwoSortData() {
-        ReleaseSortModel.sendReleaseSortRequest(TAG, releaseOneSortData.getId(), "", "0", new CustomerJsonCallBack<ReleaseSortModel>() {
-            @Override
-            public void onRequestError(ReleaseSortModel returnData, String msg) {
-                hideWaitDialog();
-                ToastUtils.showShort(msg);
-            }
-
-            @Override
-            public void onRequestSuccess(ReleaseSortModel returnData) {
-                hideWaitDialog();
-                if (returnData.getData() != null && !returnData.getData().isEmpty()) {
-                    dataTwoBeans = returnData.getData();
-                    if (newestReleaseProduct != null && !EmptyUtils.isEmpty(newestReleaseProduct.getCategoryId())) {
-                        boolean tag = false;
-                        int position = 0;
-                        for (int i = 0; i < dataTwoBeans.size(); i++) {
-                            if (dataTwoBeans.get(i).getId().equals(newestReleaseProduct.getCategoryId())) {
-                                dataTwoBeans.get(i).setSelect(true);
-                                releaseTwoSortData = dataTwoBeans.get(i);
-                                tag = true;
-                                break;
-                            }
-                        }
-                        if (tag) {
-                            if (!ivOpenClose02.isSelected()) {
-                                centerTwoSortLayoutManager.smoothScrollToPosition(crlTwoSort, new RecyclerView.State(), position);
-                            }
-                        } else {
-                            dataTwoBeans.get(0).setSelect(true);
-                            releaseTwoSortData = dataTwoBeans.get(0);
-                        }
-                    } else {
-                        dataTwoBeans.get(0).setSelect(true);
-                        releaseTwoSortData = dataTwoBeans.get(0);
-                    }
-
-                    releaseTwoSortAdapter.setNewData(dataTwoBeans);
-                    getAttributeData();
+    private void getTwoSortData(int onePosition) {
+        dataTwoBeans = dataOneBeans.get(onePosition).getChildren();
+        if (newestReleaseProduct != null && !EmptyUtils.isEmpty(newestReleaseProduct.getCategoryId())) {
+            boolean tag = false;
+            int position = 0;
+            for (int i = 0; i < dataTwoBeans.size(); i++) {
+                if (dataTwoBeans.get(i).getId().equals(newestReleaseProduct.getCategoryId())) {
+                    dataTwoBeans.get(i).setSelect(true);
+                    releaseTwoSortData = dataTwoBeans.get(i);
+                    tag = true;
+                    break;
                 }
             }
-        });
+            if (tag) {
+                if (!ivOpenClose02.isSelected()) {
+                    centerTwoSortLayoutManager.smoothScrollToPosition(crlTwoSort, new RecyclerView.State(), position);
+                }
+            } else {
+                dataTwoBeans.get(0).setSelect(true);
+                releaseTwoSortData = dataTwoBeans.get(0);
+            }
+        } else {
+            dataTwoBeans.get(0).setSelect(true);
+            releaseTwoSortData = dataTwoBeans.get(0);
+        }
+
+        releaseTwoSortAdapter.setNewData(dataTwoBeans);
+        getAttributeData(dataTwoBeans.get(0).getId());
     }
 
+
     //获取属性信息
-    private void getAttributeData() {
-        ReleaseSortModel.sendReleaseSortRequest(TAG, releaseOneSortData.getId(), releaseTwoSortData.getId(), "1", new CustomerJsonCallBack<ReleaseSortModel>() {
+    private void getAttributeData(String twoId) {
+
+        showWaitDialog();
+        ReleaseAuctionAttrModel.httpReleaseAttr(twoId, new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(ReleaseSortModel returnData, String msg) {
+            public void httpError(Call call, Exception e) {
                 hideWaitDialog();
-                ToastUtils.showShort(msg);
             }
 
             @Override
-            public void onRequestSuccess(ReleaseSortModel returnData) {
+            public void httpResponse(String resultData) {
                 hideWaitDialog();
-                if (returnData.getData() != null && !returnData.getData().isEmpty()) {
-                    setAttributeData(returnData.getData().get(0).getAttributes());
-                }
+                ReleaseAuctionAttrModel releaseAuctionAttrModel = JSONObject.parseObject(resultData, ReleaseAuctionAttrModel.class);
+                setAttributeData(releaseAuctionAttrModel.getData());
             }
         });
+
+
     }
 
     //设置属性信息
-    private void setAttributeData(ArrayList<ReleaseSortModel.DataBean.AttributesBean> attributesBeans) {
+    private void setAttributeData(List<ReleaseAuctionAttrModel.DataBean> attributesBeans) {
         this.attributes = attributesBeans;
         llAttributeContain.removeAllViews();
 
-        if (attributesBeans==null){
+        if (attributesBeans == null) {
             return;
         }
 
-        for (ReleaseSortModel.DataBean.AttributesBean attribute : attributesBeans) {
+        for (ReleaseAuctionAttrModel.DataBean attribute : attributesBeans) {
             View view = LayoutInflater.from(this).inflate(R.layout.layout_release_attribute_item, llAttributeContain, false);
             TextView tvAttriName = view.findViewById(R.id.tv_attri_name);
             EditText etAttriValue = view.findViewById(R.id.et_attri_value);
@@ -595,11 +619,11 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 crlAttriList.setVisibility(View.VISIBLE);
                 tvMore.setVisibility(View.VISIBLE);
 
-                if (newestReleaseProduct != null&&newestReleaseProduct.getAttributes()!=null) {
-                    for (NewestReleaseProductModel.InfoBean.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
+                if (newestReleaseProduct != null && newestReleaseProduct.getAttributes() != null) {
+                    for (NewestReleaseProductModel.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
                         if (newestReleaseProductAttribute.getTitle().equals(attribute.getTitle())) {
-                            for (ReleaseSortModel.DataBean.AttributesBean.TagsBean tag : attribute.getTags()) {
-                                if (tag!=null&&tag.getName().equals(newestReleaseProductAttribute.getValue())) {
+                            for (ReleaseAuctionAttrModel.DataBean.TagsBean tag : attribute.getTags()) {
+                                if (tag != null && tag.getName().equals(newestReleaseProductAttribute.getValue())) {
                                     tag.setSelect(true);
                                     break;
                                 }
@@ -660,8 +684,8 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     etAttriValue.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Integer.valueOf(EmptyUtils.strEmpty(attribute.getLength())))});
                 }
 
-                if (newestReleaseProduct != null&&newestReleaseProduct.getAttributes()!=null) {
-                    for (NewestReleaseProductModel.InfoBean.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
+                if (newestReleaseProduct != null && newestReleaseProduct.getAttributes() != null) {
+                    for (NewestReleaseProductModel.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
                         if (newestReleaseProductAttribute.getTitle().equals(attribute.getTitle())) {
                             etAttriValue.setText(newestReleaseProductAttribute.getValue());
                         }
@@ -686,7 +710,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         }
     }
 
-    @OnClick({R.id.fl_open_close_01, R.id.fl_open_close_02, R.id.tv_save, R.id.stb_release})
+    @OnClick({R.id.fl_open_close_01, R.id.fl_open_close_02, R.id.tv_save, R.id.goods_jpsj, R.id.stb_release})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fl_open_close_01:
@@ -713,6 +737,11 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 }
                 releaseTwoSortAdapter.notifyDataSetChanged();
                 break;
+
+            case R.id.goods_jpsj:
+                showTimeWindow();
+                break;
+
             case R.id.tv_save:
                 isPublish = "0";
                 preRelease();
@@ -725,22 +754,22 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     }
 
     @Override
-    public void onOneSortChoose(ReleaseSortModel.DataBean oneSortData, int position) {
+    public void onOneSortChoose(SortLeftModel.DataBean oneSortData, int position) {
         releaseOneSortData = oneSortData;
         if (!ivOpenClose01.isSelected()) {
             centerOneSortLayoutManager.smoothScrollToPosition(crlOneSort, new RecyclerView.State(), position);
         }
 
-        getTwoSortData();
+        getTwoSortData(position);
     }
 
     @Override
-    public void onTwoSortChoose(ReleaseSortModel.DataBean oneSortData, int position) {
+    public void onTwoSortChoose(SortLeftModel.DataBean.ChildrenBean oneSortData, int position) {
         releaseTwoSortData = oneSortData;
         if (!ivOpenClose02.isSelected()) {
             centerTwoSortLayoutManager.smoothScrollToPosition(crlTwoSort, new RecyclerView.State(), position);
         }
-        getAttributeData();
+        getAttributeData(releaseTwoSortData.getId());
     }
 
     //选择发布图片的类型选择点击事件
@@ -897,7 +926,8 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
     //视频压缩回调
     @Override
-    public void onCompressedResult_video(ArrayList<ReleaseVideoModel> albumOrCameraChooseDataLists) {
+    public void onCompressedResult_video
+    (ArrayList<ReleaseVideoModel> albumOrCameraChooseDataLists) {
         postVideolistAdapter.setNewData(albumOrCameraChooseDataLists);
     }
 
@@ -954,35 +984,22 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             return;
         }
 
-        if (postImglistAdapter.getData().size() <7) {
+        if (postImglistAdapter.getData().size() < 7) {
             ToastUtils.showShort("商品图片不能少于6张");
             return;
         }
 
         if (EmptyUtils.isEmpty(etSellingPrice.getText().toString())) {
-            ToastUtils.showShort("请设置商品销售价");
+            ToastUtils.showShort("请设置拍品销售价");
             return;
         }
 
         if (EmptyUtils.isEmpty(etSupplyPrice.getText().toString())) {
-            ToastUtils.showShort("请设置商品供货价");
+            ToastUtils.showShort("请设置拍品加价幅度");
             return;
         }
 
-        if (new BigDecimal(etSellingPrice.getText().toString()).subtract(new BigDecimal(etSupplyPrice.getText().toString()).multiply(new BigDecimal(1.05))).doubleValue() < 0) {
-            ToastUtils.showShort("销售价不得低于供货价的1.05倍");
-            return;
-        }
 
-        if (new BigDecimal(etSellingPrice.getText().toString()).subtract(new BigDecimal(etSupplyPrice.getText().toString()).multiply(new BigDecimal(20))).doubleValue() > 0) {
-            ToastUtils.showShort("销售价不得高于供货价的20倍");
-            return;
-        }
-
-        if (EmptyUtils.isEmpty(etStock.getText().toString()) || new BigDecimal(etStock.getText().toString()).doubleValue() < 1) {
-            ToastUtils.showShort("请设置1-9999商品库存数量");
-            return;
-        }
         //判断属性信息是否都按要求填写
         if (attributes != null) {
             if (llAttributeContain.getChildCount() != attributes.size()) {
@@ -990,7 +1007,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 return;
             }
             for (int i = 0; i < attributes.size(); i++) {
-                ReleaseSortModel.DataBean.AttributesBean attribute = attributes.get(i);
+                ReleaseAuctionAttrModel.DataBean attribute = attributes.get(i);
                 View attributeView = llAttributeContain.getChildAt(i);
                 EditText etAttriValue = attributeView.findViewById(R.id.et_attri_value);
                 final CustomeRecyclerView crlAttriList = attributeView.findViewById(R.id.crl_attri_list);
@@ -1011,13 +1028,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             }
         }
 
-        //判断是否需要输入运费
-        if (!sbtFreeShipping.isChecked() && !sbtToPay.isChecked()) {
-            if (EmptyUtils.isEmpty(etFreight.getText().toString())) {
-                ToastUtils.showShort("请设置商品运费");
-                return;
-            }
-        }
 
         if (zpbProgress.getVisibility() == View.VISIBLE) {
             ToastUtils.showShort(zpbProgress.getTag() + "正在上传，请稍等");
@@ -1045,54 +1055,60 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             }
         }
 
-        ArrayList<ReleaseSortModel.DataBean.AttributesBean> releaseAttributesModels = new ArrayList<>();
-        for (int i = 0; i < (attributes==null?0:attributes.size()); i++) {
-            ReleaseSortModel.DataBean.AttributesBean attribute = attributes.get(i);
+        ArrayList<ReleaseAuctionAttrModel.DataBean> releaseAttributesModels = new ArrayList<>();
+        for (int i = 0; i < (attributes == null ? 0 : attributes.size()); i++) {
+            ReleaseAuctionAttrModel.DataBean attribute = attributes.get(i);
             View attributeView = llAttributeContain.getChildAt(i);
             EditText etAttriValue = attributeView.findViewById(R.id.et_attri_value);
             final CustomeRecyclerView crlAttriList = attributeView.findViewById(R.id.crl_attri_list);
 
-            String value="";
+            String value = "";
             if (attribute.getTags() != null && !attribute.getTags().isEmpty()) {
-                if (((ReleaseAttributeAdapter) crlAttriList.getAdapter()).getmSelectedReleaseSortData()!=null){
+                if (((ReleaseAttributeAdapter) crlAttriList.getAdapter()).getmSelectedReleaseSortData() != null) {
                     value = ((ReleaseAttributeAdapter) crlAttriList.getAdapter()).getmSelectedReleaseSortData().getName();
-                }else {
-                    value="";
+                } else {
+                    value = "";
                 }
             } else {
-                value = etAttriValue.getText()==null?"":etAttriValue.getText().toString().trim();
+                value = etAttriValue.getText() == null ? "" : etAttriValue.getText().toString().trim();
             }
 
             attribute.setValue(value);
             releaseAttributesModels.add(attribute);
         }
 
-        CommodityReleaseModel.sendCommodityReleaseRequest(TAG, releaseTwoSortData.getId(), userInfoModel.getShopUri(),
-                TextOptionUtils.getInstance().subLength(etTitle.getText().toString(), 30),
+
+        //发布商品
+        BaseModel.httpReleaseGoods(TextOptionUtils.getInstance().subLength(etTitle.getText().toString(), 30),
                 TextOptionUtils.getInstance().subLength(etContent.getText().toString(), 500),
-                etSellingPrice.getText().toString(), etStock.getText().toString(), etSupplyPrice.getText().toString(),
-                sbtFreeShipping.isChecked() ? "1" : "0", sbtToPay.isChecked() ? "1" : "0", sbtFreeShipping.isChecked() ? "0" : etFreight.getText().toString(),
-                ossPaths, ossVideoPaths, cutPic, releaseAttributesModels, isPublish,
+                releaseTwoSortData.getId(),
                 TextOptionUtils.getInstance().subLength(etRemarks.getText().toString().trim(), 15),
-                new CustomerJsonCallBack<CommodityReleaseModel>() {
+                etSellingPrice.getText().toString(),
+                etSupplyPrice.getText().toString(),
+                ossVideoPaths, cutPic,
+                sourceType, isPublish, distributeType, timeNode, timeType,
+                releaseAttributesModels,
+                ossPaths, goodId,
+                new HttpRequest.HttpCallback() {
                     @Override
-                    public void onRequestError(CommodityReleaseModel returnData, String msg) {
-                        hideWaitDialog();
-                        ToastUtils.showShort(msg);
+                    public void httpError(Call call, Exception e) {
+
                     }
 
                     @Override
-                    public void onRequestSuccess(CommodityReleaseModel returnData) {
-                        hideWaitDialog();
+                    public void httpResponse(String resultData) {
+                        BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if ("1".equals(isPublish)) {
                             ToastUtils.showShort("商品发布成功");
                         } else {
                             ToastUtils.showShort("商品保存成功");
                         }
-
                         cleanRelease();
                     }
-                });
+                }
+        );
+
+
     }
 
     //发布成功 清空发布的数据
@@ -1101,7 +1117,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         etContent.setText("");
         //清空上传的图片
         postImglistAdapter.clearImgViews();
-        uploadPicUtils.initChoosePic(CommodityReleaseActivity.this, true, 9, Constants.Api.OSS_FOLDER_IMG_GOODS,this);
+        uploadPicUtils.initChoosePic(CommodityReleaseActivity.this, true, 9, Constants.Api.OSS_FOLDER_IMG_GOODS, this);
         //清空上传的视频
         uploadVideoUtils.initChooseVideo(CommodityReleaseActivity.this, this);
 
@@ -1123,12 +1139,120 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         if (dialogUtils != null) {
             dialogUtils.dissReleaseProtocolDialog();
             dialogUtils.dissRuleProtocolDialog();
-            dialogUtils=null;
+            dialogUtils = null;
         }
     }
 
-    public static void newIntance(Context context) {
-        Intent intent = new Intent(context, CommodityReleaseActivity.class);
-        context.startActivity(intent);
+
+
+    private void showTimeWindow() {
+        showWaitDialog();
+        AuctionTimeModel.httpTimeModel(new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                AuctionTimeModel auctionTimeModel = JSONObject.parseObject(resultData, AuctionTimeModel.class);
+                AuctionTimeModel.DataBean data = auctionTimeModel.getData();
+                ArrayList<TimeDialogModel> TimeDialogModelLists = new ArrayList<>();
+
+
+                //快速截拍
+                TimeDialogModel quickBean = new TimeDialogModel();
+                quickBean.setDelayText(data.getQuick().getDelayText());
+                quickBean.setDelayTime(data.getQuick().getDelayTime());
+                quickBean.setInterceptId(data.getQuick().getInterceptId());
+                quickBean.setType(data.getQuick().getType());
+                quickBean.setTypeName(data.getQuick().getTypeName());
+                quickBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
+                TimeDialogModelLists.add(quickBean);
+
+                for (int i = 0; i < data.getQuick().getTimeNodes().size(); i++) {
+                    TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
+                    timeNodesBeanXXX.setShowText(data.getQuick().getTimeNodes().get(i).getShowText());
+                    timeNodesBeanXXX.setTimeNode(data.getQuick().getTimeNodes().get(i).getTimeNode());
+                    timeNodesBeanXXX.setTimeNodeId(data.getQuick().getTimeNodes().get(i).getTimeNodeId());
+                    timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
+                    timeNodesBeanXXX.setTimeType("quick");
+                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                }
+
+
+                //今天
+                TimeDialogModel todayBean = new TimeDialogModel();
+                todayBean.setDelayText(data.getToday().getDelayText());
+                todayBean.setDelayTime(data.getToday().getDelayTime());
+                todayBean.setInterceptId(data.getToday().getInterceptId());
+                todayBean.setType(data.getToday().getType());
+                todayBean.setTypeName(data.getToday().getTypeName());
+                quickBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
+                TimeDialogModelLists.add(todayBean);
+                for (int i = 0; i < data.getToday().getTimeNodes().size(); i++) {
+                    TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
+                    timeNodesBeanXXX.setShowText(data.getToday().getTimeNodes().get(i).getShowText());
+                    timeNodesBeanXXX.setTimeNode(data.getToday().getTimeNodes().get(i).getTimeNode());
+                    timeNodesBeanXXX.setTimeNodeId(data.getToday().getTimeNodes().get(i).getTimeNodeId());
+                    timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
+                    timeNodesBeanXXX.setTimeType("today");
+                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                }
+
+
+                //明天
+                TimeDialogModel tomorrowBean = new TimeDialogModel();
+                tomorrowBean.setDelayText(data.getTomorrow().getDelayText());
+                tomorrowBean.setDelayTime(data.getTomorrow().getDelayTime());
+                tomorrowBean.setInterceptId(data.getTomorrow().getInterceptId());
+                tomorrowBean.setType(data.getTomorrow().getType());
+                tomorrowBean.setTypeName(data.getTomorrow().getTypeName());
+                tomorrowBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
+                TimeDialogModelLists.add(tomorrowBean);
+                for (int i = 0; i < data.getTomorrow().getTimeNodes().size(); i++) {
+                    TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
+                    timeNodesBeanXXX.setShowText(data.getTomorrow().getTimeNodes().get(i).getShowText());
+                    timeNodesBeanXXX.setTimeNode(data.getTomorrow().getTimeNodes().get(i).getTimeNode());
+                    timeNodesBeanXXX.setTimeNodeId(data.getTomorrow().getTimeNodes().get(i).getTimeNodeId());
+                    timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
+                    timeNodesBeanXXX.setTimeType("tomorrow");
+                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                }
+
+
+                //后天
+                TimeDialogModel affterTomorrowBean = new TimeDialogModel();
+                affterTomorrowBean.setDelayText(data.getAfter_tomorrow().getDelayText());
+                affterTomorrowBean.setDelayTime(data.getAfter_tomorrow().getDelayTime());
+                affterTomorrowBean.setInterceptId(data.getAfter_tomorrow().getInterceptId());
+                affterTomorrowBean.setType(data.getAfter_tomorrow().getType());
+                affterTomorrowBean.setTypeName(data.getAfter_tomorrow().getTypeName());
+                affterTomorrowBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
+                TimeDialogModelLists.add(affterTomorrowBean);
+                for (int i = 0; i < data.getAfter_tomorrow().getTimeNodes().size(); i++) {
+                    TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
+                    timeNodesBeanXXX.setShowText(data.getAfter_tomorrow().getTimeNodes().get(i).getShowText());
+                    timeNodesBeanXXX.setTimeNode(data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNode());
+                    timeNodesBeanXXX.setTimeNodeId(data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId());
+                    timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
+                    timeNodesBeanXXX.setTimeType("after_tomorrow");
+                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                }
+
+
+                TimeDialog timeDialog = new TimeDialog(CommodityReleaseActivity.this, TimeDialogModelLists, new TimeDialog.InterTimeDialog() {
+                    @Override
+                    public void itemTimeClick(TimeDialogModel timeDialogModel) {
+                        timeType = timeDialogModel.getTimeType();
+                        timeNode = timeDialogModel.getTimeNodeId()+"";
+                    }
+                });
+                timeDialog.show();
+            }
+        });
+
+
     }
 }

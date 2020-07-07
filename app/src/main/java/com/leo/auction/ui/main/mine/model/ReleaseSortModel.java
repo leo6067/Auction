@@ -2,9 +2,12 @@ package com.leo.auction.ui.main.mine.model;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -247,12 +250,13 @@ public class ReleaseSortModel {
     //使用例子： 进入发布界面的时候，你的参数传递parentId=-1即可 ，这时候会返回一级分类给你。
     //你点击一级分类的时候，还是传递parentId=#{该一级分类的id} 参数即可，这时候会返回二级分类，
     //这时候点击二级分类，二级分类id要放置categoryId上 type=1 开启属性和标签 这样就可以了。
-    public static void sendReleaseSortRequest(final String TAG, String parentId,String categoryId,String type,
-                                              final CustomerJsonCallBack<ReleaseSortModel> callback) {
+    public static void sendReleaseSortRequest(final String TAG, String parentId,String categoryId,String type,HashMap<String,String> hashMap,
+                                              HttpRequest.HttpCallback httpCallback) {
         JSONObject params=new JSONObject();
         params.put("parentId",parentId);//-1的时候 取的是一级分类
         params.put("categoryId",categoryId);//二级分类标识
         params.put("type",type);//0-不开启  1-开启 是否展示属性和标签
 //        JsonRequestData.requesNetWork(TAG, Constants_Api.Api.HOMEPAGE_CATEGORY_PUB_LIST_URL, params.toJSONString(), callback);
+        HttpRequest.httpPostString(Constants.Api.GOODS_DETAIL_ATTR_URL, params,httpCallback);
     }
 }

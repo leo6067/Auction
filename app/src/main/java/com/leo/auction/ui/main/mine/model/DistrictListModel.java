@@ -4,8 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.widget.wheel.entity.IWheelEntity;
+import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 
 
 import java.util.HashMap;
@@ -157,11 +160,11 @@ public class DistrictListModel {
         }
     }
 
-    //静默登录
-    public static void sendDistrictListRequest(String TAG, String id, String level, CustomerJsonCallBack<DistrictListModel> callback) {
-        HashMap<String,String> value=new HashMap<>();
-        value.put("id",id);
-        value.put("level",level);
-//        JsonRequestData.requesNetWork(TAG, Constants_Api.Api.HOMEPAGE_DISTRICT_CHILDREN_LIST_URL, JSON.toJSONString(value), callback);
+
+    public static void sendDistrictListRequest(String id, String level, HttpRequest.HttpCallback httpCallback) {
+        HashMap<String,String> mHash = new HashMap<>();
+        mHash.put("id",id);
+        mHash.put("level",level);
+        HttpRequest.httpGetString(Constants.Api.ADDRESS_URL, mHash, httpCallback);
     }
 }

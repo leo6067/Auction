@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dp_600"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tv_tag01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_88"
+        android:paddingLeft="@dimen/dp_42"
+        android:text="价格区间（元）"/>
+
+    <LinearLayout
+        android:layout_below="@+id/tv_tag01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_54"
+        android:paddingLeft="@dimen/dp_42"
+        android:paddingRight="@dimen/dp_42"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_min_price"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_48"
+            android:layout_weight="1"
+            android:background="@drawable/sort_search_bg"
+            android:gravity="center"
+            android:singleLine="true"
+            android:hint="最低价"
+            android:textSize="@dimen/sp_24"
+            android:textColor="@color/color_1a1a1a"
+            android:textColorHint="@color/color_d0d0d0"/>
+
+        <View
+            android:layout_width="@dimen/dp_51"
+            android:layout_height="@dimen/dp_4"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_gravity="center_vertical"
+            android:background="@color/color_cfcfcf"/>
+
+        <EditText
+            android:id="@+id/et_max_price"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_48"
+            android:layout_weight="1"
+            android:background="@drawable/sort_search_bg"
+            android:singleLine="true"
+            android:gravity="center"
+            android:hint="最高价"
+            android:textSize="@dimen/sp_24"
+            android:textColorHint="@color/color_d0d0d0"/>
+    </LinearLayout>
+
+    <com.allen.library.SuperButton
+        android:id="@+id/sbtn_sure"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_30"
+        android:layout_width="@dimen/dp_129"
+        android:layout_height="@dimen/dp_59"
+        android:layout_marginBottom="@dimen/dp_44"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_24"
+        app:sCornersRadius="@dimen/dp_20"
+        app:sSelectorNormalColor="@color/color_ff8e67"
+        app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+        app:sUseSelector="true" />
+
+    <com.allen.library.SuperButton
+        android:id="@+id/sbtn_reset"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/sbtn_sure"
+        android:layout_width="@dimen/dp_129"
+        android:layout_height="@dimen/dp_59"
+        android:layout_marginRight="@dimen/dp_31"
+        android:layout_marginBottom="@dimen/dp_44"
+        android:text="重置"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_24"
+        app:sCornersRadius="@dimen/dp_20"
+        app:sSelectorNormalColor="@color/color_fc0632"
+        app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+        app:sUseSelector="true" />
+
+</RelativeLayout>

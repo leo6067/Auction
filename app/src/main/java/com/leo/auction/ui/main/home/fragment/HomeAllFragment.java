@@ -3,37 +3,26 @@ package com.leo.auction.ui.main.home.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
-import com.aten.compiler.utils.EmptyUtils;
-import com.aten.compiler.widget.banner.listener.OnBannerClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.login.model.UserInfoModel;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
-import com.leo.auction.ui.main.home.adapter.HomeBAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
-import com.leo.auction.utils.Globals;
-
-import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -146,7 +135,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
         hashMap.put("keyword", "");
         hashMap.put("pageNum", "" + mPageNum);
-        hashMap.put("pageSize", "20");
+        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
@@ -167,7 +156,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size() < 20) {
+                } else if (mAdapter.getData().size() < Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

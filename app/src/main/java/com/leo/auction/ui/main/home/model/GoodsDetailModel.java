@@ -90,9 +90,27 @@ public class GoodsDetailModel {
         private int status;
         private TimeBean time;
         private String title;
+        private String cutPic;
+        private String video;
         private List<AttributesBean> attributes;
         private List<BidBean> bid;
         private List<String> images;
+
+        public String getCutPic() {
+            return cutPic;
+        }
+
+        public void setCutPic(String cutPic) {
+            this.cutPic = cutPic;
+        }
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
+        }
 
         public int getBidNum() {
             return bidNum;

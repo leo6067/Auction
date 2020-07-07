@@ -8,14 +8,15 @@ import com.aten.compiler.utils.EmptyUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
+import com.leo.auction.ui.main.mine.model.ReleaseAuctionAttrModel;
 import com.leo.auction.ui.main.mine.model.ReleaseSortModel;
 
 
-public class ReleaseSortAttributeMoreAdapter extends BaseQuickAdapter<ReleaseSortModel.DataBean.AttributesBean.TagsBean, BaseViewHolder> {
+public class ReleaseSortAttributeMoreAdapter extends BaseQuickAdapter<ReleaseAuctionAttrModel.DataBean.TagsBean, BaseViewHolder> {
     private ISortAttributeMore iSortAttributeMore;
     //记录选中的View
     private View mSelectedView;
-    private ReleaseSortModel.DataBean.AttributesBean.TagsBean mSelectedReleaseSortData;
+    private ReleaseAuctionAttrModel.DataBean.TagsBean mSelectedReleaseSortData;
 
     public ReleaseSortAttributeMoreAdapter() {
         super(R.layout.layout_release_sort_item, null);
@@ -28,7 +29,7 @@ public class ReleaseSortAttributeMoreAdapter extends BaseQuickAdapter<ReleaseSor
     }
 
     @Override
-    protected void convert(@NonNull final BaseViewHolder helper, final ReleaseSortModel.DataBean.AttributesBean.TagsBean item) {
+    protected void convert(@NonNull final BaseViewHolder helper, final ReleaseAuctionAttrModel.DataBean.TagsBean item) {
         TextView tvAttrTag = helper.getView(R.id.tv_attr_tag);
 
         tvAttrTag.setText(EmptyUtils.strEmpty(item.getName()));
@@ -64,7 +65,7 @@ public class ReleaseSortAttributeMoreAdapter extends BaseQuickAdapter<ReleaseSor
     }
 
     //获取被选中的数据
-    public ReleaseSortModel.DataBean.AttributesBean.TagsBean getmSelectedReleaseSortData() {
+    public ReleaseAuctionAttrModel.DataBean.TagsBean getmSelectedReleaseSortData() {
         return mSelectedReleaseSortData;
     }
     //获取被选中的view

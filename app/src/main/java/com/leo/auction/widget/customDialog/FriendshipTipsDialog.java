@@ -64,16 +64,17 @@ public class FriendshipTipsDialog extends BaseDialog<FriendshipTipsDialog> {
 
 
 
-    public void initView(){
+
+
+    @Override
+    public void initView() {
+
         String contentStr = mHashMap.get("contentStr");
         String sureStr = mHashMap.get("sureStr");
         tvSure.setText(sureStr);
         tvContent.setText(contentStr);
-    }
 
 
-    @Override
-    public void setUiBeforShow() {
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -3,11 +3,6 @@ package com.leo.auction.ui.main.mine.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.alibaba.fastjson.JSONObject;
-import com.aten.compiler.utils.EmptyUtils;
-import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
-
 import java.util.List;
 
 /**
@@ -22,13 +17,14 @@ import java.util.List;
  * ================================================
  */
 public class AddressModel {
+
     /**
-     * address : [{"addr1":350000,"addr1Name":"福建省","addr2":350300,"addr2Name":"莆田市","addr3":350304,"addr3Name":"荔城区","address":"新度镇港利村","code":"351142","id":89,"linkman":"彭俊鸿","phone":"15060338985","status":"00B","userAccountId":1966}]
-     * result : {"code":"0","message":"请求成功","success":true}
+     * data : [{"addr1":350000,"addr1Name":"福建省","addr2":350300,"addr2Name":"莆田市","addr3":350322,"addr3Name":"仙游县","address":"榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","status":"00B","userAccountId":1998}]
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1593508262289}
      */
 
     private ResultBean result;
-    private List<AddressBean> address;
+    private List<DataBean> data;
 
     public ResultBean getResult() {
         return result;
@@ -38,12 +34,12 @@ public class AddressModel {
         this.result = result;
     }
 
-    public List<AddressBean> getAddress() {
-        return address;
+    public List<DataBean> getData() {
+        return data;
     }
 
-    public void setAddress(List<AddressBean> address) {
-        this.address = address;
+    public void setData(List<DataBean> data) {
+        this.data = data;
     }
 
     public static class ResultBean {
@@ -51,11 +47,13 @@ public class AddressModel {
          * code : 0
          * message : 请求成功
          * success : true
+         * timestamp : 1593508262289
          */
 
         private String code;
         private String message;
         private boolean success;
+        private long timestamp;
 
         public String getCode() {
             return code;
@@ -80,23 +78,31 @@ public class AddressModel {
         public void setSuccess(boolean success) {
             this.success = success;
         }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(long timestamp) {
+            this.timestamp = timestamp;
+        }
     }
 
-    public static class AddressBean implements Parcelable {
+    public static class DataBean implements Parcelable {
         /**
          * addr1 : 350000
          * addr1Name : 福建省
          * addr2 : 350300
          * addr2Name : 莆田市
-         * addr3 : 350304
-         * addr3Name : 荔城区
-         * address : 新度镇港利村
-         * code : 351142
-         * id : 89
-         * linkman : 彭俊鸿
-         * phone : 15060338985
+         * addr3 : 350322
+         * addr3Name : 仙游县
+         * address : 榜头镇天易世博
+         * code : 000000
+         * id : 271
+         * linkman : 谢伟杰
+         * phone : 17750656067
          * status : 00B
-         * userAccountId : 1966
+         * userAccountId : 1998
          */
 
         private String addr1;
@@ -112,11 +118,13 @@ public class AddressModel {
         private String phone;
         private String status;
         private String userAccountId;
-        private boolean isChoose;
 
-        public AddressBean(String addr1, String addr1Name, String addr2, String addr2Name, String addr3,
-                           String addr3Name, String address, String code, String id, String linkman,
-                           String phone, String status, String userAccountId) {
+        public DataBean() {
+        }
+
+        public DataBean(String addr1, String addr1Name, String addr2, String addr2Name, String addr3,
+                        String addr3Name, String address, String code, String id, String linkman,
+                        String phone, String status, String userAccountId) {
             this.addr1 = addr1;
             this.addr1Name = addr1Name;
             this.addr2 = addr2;
@@ -131,6 +139,34 @@ public class AddressModel {
             this.status = status;
             this.userAccountId = userAccountId;
         }
+
+        protected DataBean(Parcel in) {
+            addr1 = in.readString();
+            addr1Name = in.readString();
+            addr2 = in.readString();
+            addr2Name = in.readString();
+            addr3 = in.readString();
+            addr3Name = in.readString();
+            address = in.readString();
+            code = in.readString();
+            id = in.readString();
+            linkman = in.readString();
+            phone = in.readString();
+            status = in.readString();
+            userAccountId = in.readString();
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
 
         public String getAddr1() {
             return addr1;
@@ -236,14 +272,6 @@ public class AddressModel {
             this.userAccountId = userAccountId;
         }
 
-        public boolean isChoose() {
-            return isChoose;
-        }
-
-        public void setChoose(boolean choose) {
-            isChoose = choose;
-        }
-
         @Override
         public int describeContents() {
             return 0;
@@ -251,69 +279,20 @@ public class AddressModel {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.addr1);
-            dest.writeString(this.addr1Name);
-            dest.writeString(this.addr2);
-            dest.writeString(this.addr2Name);
-            dest.writeString(this.addr3);
-            dest.writeString(this.addr3Name);
-            dest.writeString(this.address);
-            dest.writeString(this.code);
-            dest.writeString(this.id);
-            dest.writeString(this.linkman);
-            dest.writeString(this.phone);
-            dest.writeString(this.status);
-            dest.writeString(this.userAccountId);
+            dest.writeString(addr1);
+            dest.writeString(addr1Name);
+            dest.writeString(addr2);
+            dest.writeString(addr2Name);
+            dest.writeString(addr3);
+            dest.writeString(addr3Name);
+            dest.writeString(address);
+            dest.writeString(code);
+            dest.writeString(id);
+            dest.writeString(linkman);
+            dest.writeString(phone);
+            dest.writeString(status);
+            dest.writeString(userAccountId);
         }
 
-        public AddressBean() {
-        }
-
-        protected AddressBean(Parcel in) {
-            this.addr1 = in.readString();
-            this.addr1Name = in.readString();
-            this.addr2 = in.readString();
-            this.addr2Name = in.readString();
-            this.addr3 = in.readString();
-            this.addr3Name = in.readString();
-            this.address = in.readString();
-            this.code = in.readString();
-            this.id = in.readString();
-            this.linkman = in.readString();
-            this.phone = in.readString();
-            this.status = in.readString();
-            this.userAccountId = in.readString();
-        }
-
-        public static final Creator<AddressBean> CREATOR = new Creator<AddressBean>() {
-            @Override
-            public AddressBean createFromParcel(Parcel source) {
-                return new AddressBean(source);
-            }
-
-            @Override
-            public AddressBean[] newArray(int size) {
-                return new AddressBean[size];
-            }
-        };
-    }
-
-    //获取地址列表数据
-    public static void sendAddressRequest(final String TAG,final String pageNum,String addressId,String status,String type,
-                                          final CustomerJsonCallBack<AddressModel> callback) {
-        JSONObject params=new JSONObject();
-        JSONObject value=new JSONObject();
-        value.put("pageNum",pageNum);
-        value.put("pageSize","10");
-        params.put("page",value);
-        if (!EmptyUtils.isEmpty(addressId)){
-            params.put("addressId",addressId);
-        }
-        if (!EmptyUtils.isEmpty(status)){
-            params.put("status",status);
-        }
-        params.put("type",type);
-
-//        JsonRequestData.requesNetWork(TAG, Constants.Api.HOMEPAGE_ADDRESS_LIST_URL, params.toJSONString(), callback);
     }
 }

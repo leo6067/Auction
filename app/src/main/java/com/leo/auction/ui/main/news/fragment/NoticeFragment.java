@@ -9,15 +9,14 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
-import com.aten.compiler.base.BaseWebActivity;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.WebViewActivity;
-import com.leo.auction.ui.main.home.model.HomeListModel;
-import com.leo.auction.ui.main.mine.fragment.CommodityManagementFragment;
+
 import com.leo.auction.ui.main.news.adapter.NewsAdapter;
 import com.leo.auction.ui.main.news.model.NewsModel;
 
@@ -69,9 +68,7 @@ public class NoticeFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
-
         onRefresh(refreshLayout);
-
     }
 
     @Override
@@ -79,12 +76,9 @@ public class NoticeFragment extends BaseRecyclerViewFragment {
         super.getData();
 
         HashMap<String, String> hashMap = new HashMap<>();
-
         hashMap.put("type", "2");  // 1-系统消息 2-官方公告
         hashMap.put("pageNum", String.valueOf(mPageNum));
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
-
-
         showWaitDialog();
         HttpRequest.httpGetString(Constants.Api.NEWS_SYS_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
@@ -96,7 +90,6 @@ public class NoticeFragment extends BaseRecyclerViewFragment {
             public void httpResponse(String resultData) {
                 hideWaitDialog();
                 NewsModel newsModel = JSONObject.parseObject(resultData, NewsModel.class);
-                hideRefreshView();
                 if (mPageNum == 1) {
                     mAdapter.setNewData(newsModel.getData());
                 } else {
@@ -106,7 +99,7 @@ public class NoticeFragment extends BaseRecyclerViewFragment {
 
                 if (newsModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size() < 20) {
+                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

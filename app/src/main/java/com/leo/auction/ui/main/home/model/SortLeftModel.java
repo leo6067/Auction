@@ -1,7 +1,10 @@
 package com.leo.auction.ui.main.home.model;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.leo.auction.base.Constants;
+import com.leo.auction.net.HttpRequest;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -94,7 +97,7 @@ public class SortLeftModel {
          * name : 玉翠珠宝
          */
 
-        private int id;
+        private String id;
         private String name;
         private List<ChildrenBean> children;
 
@@ -110,11 +113,11 @@ public class SortLeftModel {
             this.selected = selected;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
@@ -142,7 +145,7 @@ public class SortLeftModel {
              */
 
             private String icon;
-            private int id;
+            private String id;
             private String name;
 
 
@@ -150,6 +153,15 @@ public class SortLeftModel {
 
             private int position ;
 
+            private boolean select;
+
+            public boolean isSelect() {
+                return select;
+            }
+
+            public void setSelect(boolean select) {
+                this.select = select;
+            }
 
             public void setItemType(int itemType) {
                 mItemType = itemType;
@@ -173,11 +185,11 @@ public class SortLeftModel {
                 this.icon = icon;
             }
 
-            public int getId() {
+            public String getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(String id) {
                 this.id = id;
             }
 
@@ -198,12 +210,24 @@ public class SortLeftModel {
             public String toString() {
                 return "ChildrenBean{" +
                         "icon='" + icon + '\'' +
-                        ", id=" + id +
+                        ", id='" + id + '\'' +
                         ", name='" + name + '\'' +
                         ", mItemType=" + mItemType +
                         ", position=" + position +
+                        ", select=" + select +
                         '}';
             }
         }
     }
+
+
+
+
+    public static void httpSort(HttpRequest.HttpCallback httpCallback){
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("type", "1");
+        HttpRequest.httpGetString(Constants.Api.SORT_SORT_URL,hashMap,httpCallback);
+    }
+
+
 }

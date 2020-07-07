@@ -65,7 +65,7 @@ public class LogisticsDialog extends BaseDialog<LogisticsDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         GlideUtils.loadImg(contents.getLogo(),rivOrderPic);
         tvOrderId.setText("订单编号："+orderCode);
         tvOrderCreateTime.setText("下单时间："+createTiem);

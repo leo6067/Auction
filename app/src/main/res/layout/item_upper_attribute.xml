@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_89"
+        android:layout_marginTop="@dimen/dp_4"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+        <TextView
+            android:id="@+id/tv_attri_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@android:color/white"
+            tools:text="【运费】"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sp_30" />
+
+        <EditText
+            android:id="@+id/et_attri_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_215"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="运费包邮可修改"
+            android:maxLength="30"
+            android:singleLine="true"
+            android:textColor="@color/color_1a1a1a"
+            android:textColorHint="@color/color_b4b4b4"
+
+            android:textSize="@dimen/sp_24"
+          />
+
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
+

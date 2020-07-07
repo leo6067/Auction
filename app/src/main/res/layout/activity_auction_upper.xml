@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".ui.main.mine.activity.AuctionUpperActivity">
+
+    <include layout="@layout/layout_custom_title_w" />
+
+
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/item_release"
+
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_65"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:text="发布"
+        app:background_normal="@color/home_title_bg"
+        app:corner_radius="@dimen/dp_9"
+        app:text_color_normal="@color/white" />
+
+    <include layout="@layout/include_line_a" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商品详情"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/item_detail"
+            android:layout_width="0dp"
+            android:hint="点击查看图文介绍"
+            android:textSize="12sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:layout_weight="1"
+            android:drawableEnd="@drawable/ic_enter_03" />
+
+    </LinearLayout>
+
+    <include layout="@layout/include_line_a" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/item_recycler"
+        android:layout_marginStart="@dimen/dp_55"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <com.aten.compiler.widget.CustomeRecyclerView
+        android:id="@+id/item_recycler_image"
+        android:layout_marginStart="@dimen/dp_55"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <com.aten.compiler.widget.CustomeRecyclerView
+        android:id="@+id/item_recycler_video"
+        android:layout_marginStart="@dimen/dp_55"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/ll_attribute_contain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="截拍时间"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:hint="请点击选择截拍时间"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:drawableEnd="@drawable/ic_enter_03" />
+
+    </LinearLayout>
+
+    <include layout="@layout/include_line_a" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="起拍价"
+            android:textColor="@color/black" />
+
+
+        <EditText
+            android:id="@+id/item_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:layout_weight="1"
+            android:background="@null"
+            android:inputType="number"
+            android:text="0"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
+
+    <include layout="@layout/include_line_a" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加价幅度"
+            android:textColor="@color/black" />
+
+
+        <EditText
+            android:id="@+id/item_range"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:background="@null"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:hint="请输入加价幅度"
+            android:textSize="12sp"
+           />
+
+    </LinearLayout>
+
+    <include layout="@layout/include_line_a" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="备注"
+            android:textColor="@color/black" />
+
+
+        <EditText
+            android:id="@+id/item_remark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:background="@null"
+            android:hint="备注信息仅自己订单详情可见，用户看不见"
+            android:textSize="12sp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <include layout="@layout/include_line_a" />
+
+
+    <LinearLayout
+        android:id="@+id/lin_ps"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="配送方式"
+            android:textColor="@color/black" />
+
+
+        <RadioGroup
+            android:id="@+id/item_radio_group"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/dp_35">
+
+
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/item_radio_you"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="包邮"
+
+                android:textColor="@drawable/selector_group_sort" />
+
+
+            <RadioButton
+                android:id="@+id/item_radio_fu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/selector_group_sort"
+                android:text="到付" />
+
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <include layout="@layout/include_line_a" />
+
+
+    <LinearLayout
+        android:id="@+id/lin_tui"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_88"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="是否包退"
+            android:textColor="@color/black" />
+
+
+        <com.aten.compiler.widget.switchButton.SwitchButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:checked="true"
+            android:clickable="false"
+            app:kswBackDrawable="@drawable/ic_back_drawable"
+            app:kswThumbColor="@android:color/white" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

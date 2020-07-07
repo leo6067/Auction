@@ -3,6 +3,7 @@ package com.leo.auction.ui.main.mine.model;
 import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 
 /**
  * ================================================
@@ -106,7 +107,7 @@ public class AddAddressModel {
     //添加地址
     public static void sendAddressRequest(final String TAG, String linkman, String addr1, String addr2, String addr3,
                                           String phone, String address, String code, String defaultAddress, String type,
-                                          final CustomerJsonCallBack<AddAddressModel> callback) {
+                                          final HttpRequest.HttpCallback callback) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("linkman", linkman);
         jsonObject.put("addr1", addr1);
@@ -117,6 +118,7 @@ public class AddAddressModel {
         jsonObject.put("code", code);
         jsonObject.put("defaultAddress", defaultAddress);
         jsonObject.put("type", type);
-//        JsonRequestData.requesNetWork(TAG, Constants.Api.HOMEPAGE_ADDRESS_ADD_URL, jsonObject.toJSONString(), callback);
+
+        HttpRequest.httpPostString(Constants.Api.ADDRESS_URL, jsonObject, callback);
     }
 }

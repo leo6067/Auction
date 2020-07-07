@@ -54,7 +54,7 @@ public class ReleaseProtocolDialog extends BaseDialog<ReleaseProtocolDialog> {
     }
 
     @Override
-    public void setUiBeforShow() {
+    public void initView() {
         tvContent.setText(Html.fromHtml(content));
 
         stbCancle.setOnClickListener(new View.OnClickListener() {
