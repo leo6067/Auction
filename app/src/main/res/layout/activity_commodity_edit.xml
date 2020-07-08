@@ -31,7 +31,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dp_30"
             android:paddingRight="@dimen/dp_30"
-            android:text="保存"
+            android:text="修改"
             android:textColor="@android:color/black"
             android:textSize="@dimen/sp_30"
             android:textStyle="bold" />
@@ -204,9 +204,10 @@
                 android:hint="商品描述需5-500个字..."
                 android:maxLength="500"
                 android:padding="@dimen/dp_30"
+                android:textColor="@color/black"
                 android:textColorHint="@color/color_b4b4b4"
                 android:textSize="@dimen/sp_24"
-                android:visibility="gone" />
+             />
 
             <TextView
                 android:layout_width="match_parent"
@@ -344,7 +345,7 @@
                     android:background="@null"
                     android:ellipsize="end"
                     android:hint="请设置拍品单次加价幅度"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:singleLine="true"
                     android:textColor="@color/color_1a1a1a"
                     android:textColorHint="@color/color_b4b4b4"
@@ -391,9 +392,12 @@
 
 
             <LinearLayout
-
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_30"
+                android:paddingRight="@dimen/dp_30"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
 
@@ -404,6 +408,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/white"
                     android:text="配送方式"
+                    android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_30" />
 
@@ -411,6 +416,7 @@
 
                 <RadioGroup
                     android:id="@+id/radio_group"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -418,11 +424,17 @@
                         android:id="@+id/baoyou"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_30"
+                        android:textStyle="bold"
                         android:text="包邮" />
 
                     <RadioButton
                         android:text="到付"
                         android:id="@+id/daofu"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_30"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -435,9 +447,10 @@
 
 
             <FrameLayout
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_4"
+
                 android:background="@android:color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/dp_30"
@@ -449,6 +462,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/white"
                     android:text="是否包退"
+                    android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_30" />
 

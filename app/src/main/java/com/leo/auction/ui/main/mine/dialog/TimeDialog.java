@@ -5,10 +5,14 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.aten.compiler.utils.SizeUtils;
 import com.aten.compiler.widget.dialog.base.BaseDialog;
+import com.aten.compiler.widget.dialog.base.BottomBaseDialog;
 import com.aten.compiler.widget.dialog.utils.CornerUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
@@ -30,13 +34,13 @@ import java.util.ArrayList;
  * 修    改：
  * ===============================================
  */
-public class TimeDialog extends BaseDialog<TimeDialog> {
+public class TimeDialog extends BottomBaseDialog<TimeDialog> {
 
-    private  Context mContext;
-    private  ArrayList<TimeDialogModel> todayBeans= new ArrayList<>();
+    private Context mContext;
+    private ArrayList<TimeDialogModel> todayBeans = new ArrayList<>();
     private InterTimeDialog mInterTimeDialog;
 
-    public TimeDialog(@NonNull Context context, ArrayList<TimeDialogModel> todayBean,InterTimeDialog interTimeDialog) {
+    public TimeDialog(@NonNull Context context, ArrayList<TimeDialogModel> todayBean, InterTimeDialog interTimeDialog) {
         super(context);
         mContext = context;
         todayBeans = todayBean;
@@ -44,12 +48,9 @@ public class TimeDialog extends BaseDialog<TimeDialog> {
     }
 
 
-
-
-
     @Override
     public View onCreateView() {
-        View view=View.inflate(mContext, R.layout.dialog_time, null);
+        View view = View.inflate(mContext, R.layout.dialog_time, null);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 3);
@@ -69,10 +70,13 @@ public class TimeDialog extends BaseDialog<TimeDialog> {
             @Override
             public void timeItemClick(TimeDialogModel position) {
                 mInterTimeDialog.itemTimeClick(position);
+                dismiss();
+
             }
         });
-        recyclerView.setAdapter(timeDialogAdapter);
 
+
+        recyclerView.setAdapter(timeDialogAdapter);
 
 
         view.setBackgroundDrawable(CornerUtils.cornerDrawable(Color.parseColor("#ffffff"), SizeUtils.dp2px(10)));
@@ -83,15 +87,14 @@ public class TimeDialog extends BaseDialog<TimeDialog> {
     @Override
     public void initView() {
 
+
     }
 
 
-    public interface InterTimeDialog{
+    public interface InterTimeDialog {
 
         void itemTimeClick(TimeDialogModel position);
     }
-
-
 
 
 }

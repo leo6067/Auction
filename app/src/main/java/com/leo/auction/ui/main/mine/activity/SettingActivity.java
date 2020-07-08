@@ -13,8 +13,10 @@ import com.aten.compiler.widget.dialog.NormalDialog;
 import com.aten.compiler.widget.dialog.listener.OnBtnClickL;
 import com.aten.compiler.widget.title.TitleBar;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
+import com.leo.auction.ui.login.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -111,7 +113,7 @@ public class SettingActivity extends BaseActivity {
                             @Override
                             public void onBtnClick() {
                                 showWaitDialog();
-//                                exitLogin();
+                                ActivityManager.JumpActivity(SettingActivity.this, LoginActivity.class);
                             }
                         });
                 break;

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_custom_title"/>
+    <include layout="@layout/layout_custom_title_w"/>
 
     <View
         android:id="@+id/view_title"

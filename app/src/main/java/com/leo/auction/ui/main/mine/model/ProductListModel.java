@@ -115,7 +115,7 @@ public class ProductListModel {
         private String statusName;
         private String sourceType;
         private String agentPrice;
-        private String bidNum;
+        private int bidNum;
         private String goodsId;
         private int markupRange;
         private int startPrice;
@@ -208,11 +208,11 @@ public class ProductListModel {
             this.agentPrice = agentPrice;
         }
 
-        public String getBidNum() {
+        public int getBidNum() {
             return bidNum;
         }
 
-        public void setBidNum(String bidNum) {
+        public void setBidNum(int bidNum) {
             this.bidNum = bidNum;
         }
 

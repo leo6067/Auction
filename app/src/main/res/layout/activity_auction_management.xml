@@ -7,6 +7,8 @@
 
     <include layout="@layout/layout_custom_title_w"/>
 
+    <include layout="@layout/include_line_a"/>
+
     <com.aten.compiler.widget.tabLayout.SlidingTabLayout
         android:id="@+id/stb_order"
         android:layout_width="match_parent"

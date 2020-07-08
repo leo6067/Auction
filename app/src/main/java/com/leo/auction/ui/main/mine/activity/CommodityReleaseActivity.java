@@ -1,7 +1,6 @@
 package com.leo.auction.ui.main.mine.activity;
 
-import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +24,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.allen.library.SuperButton;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.DesUtil;
 import com.aten.compiler.utils.EmptyUtils;
@@ -34,8 +34,8 @@ import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.VibratorUtils;
 import com.aten.compiler.widget.CustomeRecyclerView;
 import com.aten.compiler.widget.ZzHorizontalProgressBar;
-import com.aten.compiler.widget.switchButton.SwitchButton;
 import com.aten.compiler.widget.text.MoneyValueFilter;
+import com.aten.compiler.widget.title.TitleBar;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
@@ -61,12 +61,10 @@ import com.leo.auction.ui.main.mine.dialog.ReleaseProtocolDialog;
 import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.dialog.TimeDialog;
 import com.leo.auction.ui.main.mine.model.AuctionTimeModel;
-import com.leo.auction.ui.main.mine.model.CommodityReleaseModel;
 import com.leo.auction.ui.main.mine.model.NewestReleaseProductModel;
 import com.leo.auction.ui.main.mine.model.ProtocolInfoModel;
 import com.leo.auction.ui.main.mine.model.ReleaseAuctionAttrModel;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
-import com.leo.auction.ui.main.mine.model.ReleaseSortModel;
 import com.leo.auction.ui.main.mine.model.TimeDialogModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.DialogUtils;
@@ -83,6 +81,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
@@ -133,6 +132,18 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
     @BindView(R.id.daofu)
     RadioButton mRadioFu;
+    @BindView(R.id.title_bar)
+    TitleBar mTitleBar;
+    @BindView(R.id.tv_save)
+    TextView mTvSave;
+    @BindView(R.id.stb_release)
+    SuperButton mStbRelease;
+    @BindView(R.id.fl_open_close_01)
+    FrameLayout mFlOpenClose01;
+    @BindView(R.id.fl_open_close_02)
+    FrameLayout mFlOpenClose02;
+    @BindView(R.id.arl_agree)
+    LinearLayout mArlAgree;
 
     private ReleaseOneSortAdapter releaseOneSortAdapter;//大类的适配器
     private ReleaseTwoSortAdapter releaseTwoSortAdapter;//小类的适配器
@@ -178,6 +189,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
     @Override
     public void initData() {
+        mTitleBar.setTitle("发布拍品");
         uploadPicUtils = new CompressUploadPicUtils();
         uploadVideoUtils = new CompressUploadVideoUtils();
         textLightUtils = new TextLightUtils();
@@ -359,20 +371,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
             @Override
             public void afterTextChanged(Editable s) {
-                String maxSupplyPrice = new BigDecimal(EmptyUtils.isEmpty(etSellingPrice.getText().toString()) ? "0" : etSellingPrice.getText().toString())
-                        .divide(new BigDecimal("1.05"), 2, BigDecimal.ROUND_DOWN).toString();
-                if (EmptyUtils.isEmpty(maxSupplyPrice)) {
-                    etSupplyPrice.setText("0");
-                    return;
-                }
-                if (s != null && EmptyUtils.isEmpty(s.toString())) {
-                    return;
-                }
 
-                if (new BigDecimal(s.toString()).subtract(new BigDecimal(maxSupplyPrice)).doubleValue() > 0) {
-                    etSupplyPrice.setText(maxSupplyPrice);
-                    RxTool.setEditTextCursorLocation(etSupplyPrice);
-                }
             }
         });
         etSupplyPrice.setFilters(new InputFilter[]{new MoneyValueFilter()});
@@ -422,18 +421,20 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
     //获oss请求的必要参数
     private void geOssToken() {
-        OssTokenModel.sendOssTokenRequest(TAG, new CustomerJsonCallBack<OssTokenModel>() {
+
+        OssTokenModel.sendOssTokenRequest(new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(OssTokenModel returnData, String msg) {
-                ToastUtils.showShort(msg);
+            public void httpError(Call call, Exception e) {
+
             }
 
             @Override
-            public void onRequestSuccess(OssTokenModel returnData) {
-                if (returnData.getData() != null) {
+            public void httpResponse(String resultData) {
+                OssTokenModel ossTokenModel = JSONObject.parseObject(resultData, OssTokenModel.class);
+                if (ossTokenModel.getData() != null) {
                     String decryptData = "";
                     try {
-                        decryptData = DesUtil.decrypt(returnData.getData().getEncryptedData(), Constants.Nouns.OSS_KEY);
+                        decryptData = DesUtil.decrypt(ossTokenModel.getData().getEncryptedData(), Constants.Nouns.OSS_KEY);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -446,6 +447,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 }
             }
         });
+
     }
 
     //获取最新发布得商品数据
@@ -488,6 +490,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
 
 //        List<NewestReleaseProductModel.AttributesBean> attributes = info.getAttributes();
+
 
 
         getOneSortData();
@@ -743,11 +746,11 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 break;
 
             case R.id.tv_save:
-                isPublish = "0";
+                isPublish = "1";
                 preRelease();
                 break;
             case R.id.stb_release:
-                isPublish = "1";
+                isPublish = "2";
                 preRelease();
                 break;
         }
@@ -810,21 +813,41 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             final int pos = (int) v.getTag(R.id.tag_2);
             //判断图片是否已上传完成
             if (item.isUploadComplete()) {
-                showWaitDialog();
-                ossUtils.initOssOption(CommodityReleaseActivity.this, decryOssDataModel.getAccessKeyId(), decryOssDataModel.getSecret(), "",
-                        decryOssDataModel.getEndPoint(), decryOssDataModel.getBucketName());
-                ossUtils.deleteOssObject(item.getImgPth(), new OssUtils.OssDeleteListener() {
+
+
+
+                BaseModel.httpDeteleFile(item.getImgPth(), null, new HttpRequest.HttpCallback() {
                     @Override
-                    public void deleteSuccess() {
-                        hideWaitDialog();
-                        postImglistAdapter.clearImgViews();
-                        postImglistAdapter.getData().remove(pos);
-                        postImglistAdapter.notifyDataSetChanged();
+                    public void httpError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void httpResponse(String resultData) {
+
                     }
                 });
-            } else {
-                ToastUtils.showShort("图片还未上传完成");
+
             }
+
+//                ossUtils.initOssOption(CommodityReleaseActivity.this, decryOssDataModel.getAccessKeyId(), decryOssDataModel.getSecret(), "",
+//                        decryOssDataModel.getEndPoint(), decryOssDataModel.getBucketName());
+//                ossUtils.deleteOssObject(item.getImgPth(), new OssUtils.OssDeleteListener() {
+//                    @Override
+//                    public void deleteSuccess() {
+//                        hideWaitDialog();
+//                        postImglistAdapter.clearImgViews();
+//                        postImglistAdapter.getData().remove(pos);
+//                        postImglistAdapter.notifyDataSetChanged();
+//                    }
+//                });
+//            } else {
+//                ToastUtils.showShort("图片还未上传完成");
+//            }
+
+             postImglistAdapter.clearImgViews();
+                        postImglistAdapter.getData().remove(pos);
+                        postImglistAdapter.notifyDataSetChanged();
         }
     };
 
@@ -851,7 +874,9 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             ReleaseVideoModel item = (ReleaseVideoModel) v.getTag(R.id.tag_2);
             switch (item.getUploadCompleteStatus()) {
                 case "0"://未压缩 未上传
-                    ToastUtils.showShort("视频还在处理中");
+//                    ToastUtils.showShort("视频还在处理中");
+
+                    VideoPlayerActivity.newIntance(CommodityReleaseActivity.this, item.getVideoPath(), false);
                     break;
                 case "1"://压缩 未上传
                     VideoPlayerActivity.newIntance(CommodityReleaseActivity.this, item.getVideoPath(), true);
@@ -869,21 +894,35 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         public void onClick(View v) {
             final ReleaseVideoModel item = (ReleaseVideoModel) v.getTag(R.id.tag_1);
             final int pos = (int) v.getTag(R.id.tag_2);
-            if ("2".equals(item.getUploadCompleteStatus())) {
-                showWaitDialog();
-                ossVideoUtils.initOssOption(CommodityReleaseActivity.this, decryOssDataModel.getAccessKeyId(), decryOssDataModel.getSecret(), "",
-                        decryOssDataModel.getEndPoint(), decryOssDataModel.getBucketName());
-                ossVideoUtils.deleteOssObject(postVideolistAdapter.getData().get(pos).getVideoPath(), new OssVideoUtils.OssDeleteListener() {
-                    @Override
-                    public void deleteSuccess() {
-                        hideWaitDialog();
-                        postVideolistAdapter.getData().remove(pos);
-                        postVideolistAdapter.notifyDataSetChanged();
-                    }
-                });
-            } else {
-                ToastUtils.showShort("视频正在处理中");
-            }
+//            if ("2".equals(item.getUploadCompleteStatus())) {
+//                showWaitDialog();
+//                ossVideoUtils.initOssOption(CommodityReleaseActivity.this, decryOssDataModel.getAccessKeyId(), decryOssDataModel.getSecret(), "",
+//                        decryOssDataModel.getEndPoint(), decryOssDataModel.getBucketName());
+//                ossVideoUtils.deleteOssObject(postVideolistAdapter.getData().get(pos).getVideoPath(), new OssVideoUtils.OssDeleteListener() {
+//                    @Override
+//                    public void deleteSuccess() {
+//                        hideWaitDialog();
+//                        postVideolistAdapter.getData().remove(pos);
+//                        postVideolistAdapter.notifyDataSetChanged();
+//                    }
+//                });
+//            } else {
+//                ToastUtils.showShort("视频正在处理中");
+//            }
+
+            BaseModel.httpDeteleFile(item.getVideoPath(), null, new HttpRequest.HttpCallback() {
+                @Override
+                public void httpError(Call call, Exception e) {
+
+                }
+
+                @Override
+                public void httpResponse(String resultData) {
+
+                }
+            });
+            postVideolistAdapter.getData().remove(pos);
+            postVideolistAdapter.notifyDataSetChanged();
         }
     };
 
@@ -1034,7 +1073,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             return;
         }
 
-        showWaitDialog();
         release();
     }
 
@@ -1076,7 +1114,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             attribute.setValue(value);
             releaseAttributesModels.add(attribute);
         }
-
+        showWaitDialog();
 
         //发布商品
         BaseModel.httpReleaseGoods(TextOptionUtils.getInstance().subLength(etTitle.getText().toString(), 30),
@@ -1092,18 +1130,20 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
-
+                        hideWaitDialog();
                     }
 
                     @Override
                     public void httpResponse(String resultData) {
+                        hideWaitDialog();
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-                        if ("1".equals(isPublish)) {
-                            ToastUtils.showShort("商品发布成功");
-                        } else {
-                            ToastUtils.showShort("商品保存成功");
+                        if (baseModel.getResult().isSuccess()) {
+                            ToastUtils.showShort("发布拍品成功");
+                        }else {
+                            ToastUtils.showShort("发布拍品失败");
                         }
                         cleanRelease();
+                        finish();
                     }
                 }
         );
@@ -1142,7 +1182,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             dialogUtils = null;
         }
     }
-
 
 
     private void showTimeWindow() {
@@ -1246,7 +1285,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     @Override
                     public void itemTimeClick(TimeDialogModel timeDialogModel) {
                         timeType = timeDialogModel.getTimeType();
-                        timeNode = timeDialogModel.getTimeNodeId()+"";
+                        timeNode = timeDialogModel.getTimeNodeId() + "";
                     }
                 });
                 timeDialog.show();
@@ -1255,4 +1294,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
 
     }
+
+
 }

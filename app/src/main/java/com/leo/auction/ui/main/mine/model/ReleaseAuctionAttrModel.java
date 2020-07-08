@@ -99,9 +99,9 @@ public class ReleaseAuctionAttrModel {
          * title : 样式
          */
 
-        private int id;
+        private String id;
         private String length;
-        private int option;
+        private String option;
         private String tab;
         private String title;
         private List<TagsBean> tags;
@@ -126,11 +126,11 @@ public class ReleaseAuctionAttrModel {
             this.select = select;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
@@ -142,11 +142,11 @@ public class ReleaseAuctionAttrModel {
             this.length = length;
         }
 
-        public int getOption() {
+        public String getOption() {
             return option;
         }
 
-        public void setOption(int option) {
+        public void setOption(String option) {
             this.option = option;
         }
 

@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -511,7 +512,11 @@ public class AuctionUpperActivity extends BaseActivity {
                         timeNodeId = timeDialogModel.getTimeNodeId() + "";
                     }
                 });
+
+                timeDialog.getWindow().setGravity(Gravity.BOTTOM);
+
                 timeDialog.show();
+
             }
         });
     }

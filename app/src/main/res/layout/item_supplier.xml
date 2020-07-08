@@ -13,7 +13,7 @@
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"
         app:corner_radius="@dimen/dp_15"
-        app:icon_src_normal="@drawable/logo_icon" />
+        app:icon_src_normal="@drawable/logo" />
 
 
     <RelativeLayout

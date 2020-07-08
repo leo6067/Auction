@@ -70,6 +70,7 @@ import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.ui.main.mine.model.TimeDialogModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.DialogUtils;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.TextLightUtils;
 import com.leo.auction.utils.TextOptionUtils;
 import com.leo.auction.utils.layoutManager.CenterLayoutManager;
@@ -170,18 +171,17 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
     private TextLightUtils textLightUtils;
 
 
-    private String id, status;
-    private String type = "0";
-
-
-    private String timeNode = "";  //时间节点
+    private String timeNodeId = "";  //时间节点
     private String distributeType = "";//1-包邮  2-到付
     private String sourceType = "1";  // 1-自行发布 2-产品库
 
     private String timeType = ""; //快速截拍
     private String goodId = ""; //
-    private String productId ="";
+    private String productId = "";
     private TimeDialogModel mTimeDialogModel;
+
+
+    ArrayList<TimeDialogModel> TimeDialogModelLists = new ArrayList<>();
 
 
     @Override
@@ -197,8 +197,9 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
     @Override
     public void initData() {
-        id = getIntent().getStringExtra("id");
-        status = getIntent().getStringExtra("status");
+
+        productId = getIntent().getExtras().getString("value");
+
         uploadPicUtils = new CompressUploadPicUtils();
         uploadVideoUtils = new CompressUploadVideoUtils();
         ossUtils = new OssUtils();
@@ -301,7 +302,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
     private void getProductDetailData() {
 
         showWaitDialog();
-        ReleaseEditModel.httpReleaseEdit(id, new HttpRequest.HttpCallback() {
+        ReleaseEditModel.httpReleaseEditGet(productId, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();
@@ -348,9 +349,10 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             postImglistAdapter.notifyDataSetChanged();
         }
 
+
         if (info.getVideo() != null && !info.getVideo().isEmpty()) {
             ReleaseVideoModel releaseVideoModel = new ReleaseVideoModel("2", null, info.getCutPic(), info.getVideo(), "", "");
-            releaseVideoModel.setUploadCompleteStatus("3");
+            releaseVideoModel.setUploadCompleteStatus("0");
             postVideolistAdapter.getData().add(postVideolistAdapter.getData().size() - 1, releaseVideoModel);
             postVideolistAdapter.notifyDataSetChanged();
         }
@@ -359,9 +361,13 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
         mTimeDialogModel = new TimeDialogModel();
         mTimeDialogModel.setItemType(Constants.Var.LAYOUT_TYPE);
         mTimeDialogModel.setTimeNodeId(info.getTime().getTimeNodeId());
+        mTimeDialogModel.setTimeType(info.getTime().getType());
 
 
-        productId = String.valueOf(info.getProductId());
+        timeType = mTimeDialogModel.getTimeType();
+        timeNodeId = mTimeDialogModel.getTimeNodeId() + "";
+        httpTimeData();
+
 
         getOneSortData();
     }
@@ -438,20 +444,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
             @Override
             public void afterTextChanged(Editable s) {
-                String maxSupplyPrice = new BigDecimal(EmptyUtils.isEmpty(etSellingPrice.getText().toString()) ? "0" : etSellingPrice.getText().toString())
-                        .divide(new BigDecimal("1.05"), 2, BigDecimal.ROUND_DOWN).toString();
-                if (EmptyUtils.isEmpty(maxSupplyPrice)) {
-                    etSupplyPrice.setText("0");
-                    return;
-                }
-                if (s != null && EmptyUtils.isEmpty(s.toString())) {
-                    return;
-                }
 
-                if (new BigDecimal(s.toString()).subtract(new BigDecimal(maxSupplyPrice)).doubleValue() > 0) {
-                    etSupplyPrice.setText(maxSupplyPrice);
-                    RxTool.setEditTextCursorLocation(etSupplyPrice);
-                }
             }
         });
         etSupplyPrice.setFilters(new InputFilter[]{new MoneyValueFilter()});
@@ -501,18 +494,20 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
     //获oss请求的必要参数
     private void geOssToken() {
-        OssTokenModel.sendOssTokenRequest(TAG, new CustomerJsonCallBack<OssTokenModel>() {
+
+        OssTokenModel.sendOssTokenRequest(new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(OssTokenModel returnData, String msg) {
-                ToastUtils.showShort(msg);
+            public void httpError(Call call, Exception e) {
+
             }
 
             @Override
-            public void onRequestSuccess(OssTokenModel returnData) {
-                if (returnData.getData() != null) {
+            public void httpResponse(String resultData) {
+                OssTokenModel ossTokenModel = JSONObject.parseObject(resultData, OssTokenModel.class);
+                if (ossTokenModel.getData() != null) {
                     String decryptData = "";
                     try {
-                        decryptData = DesUtil.decrypt(returnData.getData().getEncryptedData(), Constants.Nouns.OSS_KEY);
+                        decryptData = DesUtil.decrypt(ossTokenModel.getData().getEncryptedData(), Constants.Nouns.OSS_KEY);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -525,6 +520,8 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 }
             }
         });
+
+
     }
 
 
@@ -654,7 +651,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 tvMore.setVisibility(View.VISIBLE);
 
                 if (newestReleaseProduct != null && newestReleaseProduct.getAttributes() != null) {
-                    for (ReleaseEditModel.DataBean.AttributesBean  newestReleaseProductAttribute: newestReleaseProduct.getAttributes()) {
+                    for (ReleaseEditModel.DataBean.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
                         if (newestReleaseProductAttribute.getTitle().equals(attribute.getTitle())) {
                             for (ReleaseAuctionAttrModel.DataBean.TagsBean tag : attribute.getTags()) {
                                 if (tag != null && tag.getName().equals(newestReleaseProductAttribute.getValue())) {
@@ -773,15 +770,15 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 break;
 
             case R.id.goods_jpsj:
-                showTimeWindow();
+                showTimeDialog();
                 break;
 
             case R.id.tv_save:
-                isPublish = "0";
+                isPublish = "1";
                 preRelease();
                 break;
             case R.id.stb_release:
-                isPublish = "1";
+                isPublish = "2";
                 preRelease();
                 break;
         }
@@ -844,21 +841,37 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             final int pos = (int) v.getTag(R.id.tag_2);
             //判断图片是否已上传完成
             if (item.isUploadComplete()) {
-                showWaitDialog();
-                ossUtils.initOssOption(CommodityEditActivity.this, decryOssDataModel.getAccessKeyId(), decryOssDataModel.getSecret(), "",
-                        decryOssDataModel.getEndPoint(), decryOssDataModel.getBucketName());
-                ossUtils.deleteOssObject(item.getImgPth(), new OssUtils.OssDeleteListener() {
+
+//                ossUtils.initOssOption(CommodityEditActivity.this, decryOssDataModel.getAccessKeyId(), decryOssDataModel.getSecret(), "",
+//                        decryOssDataModel.getEndPoint(), decryOssDataModel.getBucketName());
+//                ossUtils.deleteOssObject(item.getImgPth(), new OssUtils.OssDeleteListener() {
+//                    @Override
+//                    public void deleteSuccess() {
+//                        hideWaitDialog();
+//                        postImglistAdapter.clearImgViews();
+//                        postImglistAdapter.getData().remove(pos);
+//                        postImglistAdapter.notifyDataSetChanged();
+//                    }
+//                });
+
+
+                BaseModel.httpDeteleFile(item.getImgPth(), null, new HttpRequest.HttpCallback() {
                     @Override
-                    public void deleteSuccess() {
-                        hideWaitDialog();
-                        postImglistAdapter.clearImgViews();
-                        postImglistAdapter.getData().remove(pos);
-                        postImglistAdapter.notifyDataSetChanged();
+                    public void httpError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void httpResponse(String resultData) {
+
                     }
                 });
-            } else {
-                ToastUtils.showShort("图片还未上传完成");
+
             }
+            postImglistAdapter.clearImgViews();
+            postImglistAdapter.getData().remove(pos);
+            postImglistAdapter.notifyDataSetChanged();
+
         }
     };
 
@@ -885,7 +898,8 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             ReleaseVideoModel item = (ReleaseVideoModel) v.getTag(R.id.tag_2);
             switch (item.getUploadCompleteStatus()) {
                 case "0"://未压缩 未上传
-                    ToastUtils.showShort("视频还在处理中");
+//                    ToastUtils.showShort("视频还在处理中");
+                    VideoPlayerActivity.newIntance(CommodityEditActivity.this, item.getVideoPath(), false);
                     break;
                 case "1"://压缩 未上传
                     VideoPlayerActivity.newIntance(CommodityEditActivity.this, item.getVideoPath(), true);
@@ -903,21 +917,35 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
         public void onClick(View v) {
             final ReleaseVideoModel item = (ReleaseVideoModel) v.getTag(R.id.tag_1);
             final int pos = (int) v.getTag(R.id.tag_2);
-            if ("2".equals(item.getUploadCompleteStatus())) {
-                showWaitDialog();
-                ossVideoUtils.initOssOption(CommodityEditActivity.this, decryOssDataModel.getAccessKeyId(), decryOssDataModel.getSecret(), "",
-                        decryOssDataModel.getEndPoint(), decryOssDataModel.getBucketName());
-                ossVideoUtils.deleteOssObject(postVideolistAdapter.getData().get(pos).getVideoPath(), new OssVideoUtils.OssDeleteListener() {
-                    @Override
-                    public void deleteSuccess() {
-                        hideWaitDialog();
-                        postVideolistAdapter.getData().remove(pos);
-                        postVideolistAdapter.notifyDataSetChanged();
-                    }
-                });
-            } else {
-                ToastUtils.showShort("视频正在处理中");
-            }
+            postVideolistAdapter.getData().remove(pos);
+            postVideolistAdapter.notifyDataSetChanged();
+//            if ("2".equals(item.getUploadCompleteStatus())) {
+//                showWaitDialog();
+//                ossVideoUtils.initOssOption(CommodityEditActivity.this, decryOssDataModel.getAccessKeyId(), decryOssDataModel.getSecret(), "",
+//                        decryOssDataModel.getEndPoint(), decryOssDataModel.getBucketName());
+//                ossVideoUtils.deleteOssObject(postVideolistAdapter.getData().get(pos).getVideoPath(), new OssVideoUtils.OssDeleteListener() {
+//                    @Override
+//                    public void deleteSuccess() {
+//                        hideWaitDialog();
+//                        postVideolistAdapter.getData().remove(pos);
+//                        postVideolistAdapter.notifyDataSetChanged();
+//                    }
+//                });
+//            }
+
+
+            BaseModel.httpDeteleFile(item.getVideoPath(), null, new HttpRequest.HttpCallback() {
+                @Override
+                public void httpError(Call call, Exception e) {
+
+                }
+
+                @Override
+                public void httpResponse(String resultData) {
+
+                }
+            });
+
         }
     };
 
@@ -1068,12 +1096,18 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             return;
         }
 
-        showWaitDialog();
-        release();
+
+        if ("1".equals(isPublish)) {  //草稿箱--修改保存
+            editGood();
+        } else {// 发布
+            release();
+        }
+
+
     }
 
-    //发布
-    private void release() {
+    //编辑
+    private void editGood() {
         ArrayList<String> ossPaths = new ArrayList<>();//oos上传后最终的图片数据
         ArrayList<String> ossVideoPaths = new ArrayList<>();//oos上传后最终的视频数据
         String cutPic = "";//视频首帧地址
@@ -1111,8 +1145,8 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             releaseAttributesModels.add(attribute);
         }
 
+        showWaitDialog();
 
-        //发布商品
         BaseModel.httpReleaseEditGoods(TextOptionUtils.getInstance().subLength(etTitle.getText().toString(), 30),
                 TextOptionUtils.getInstance().subLength(etContent.getText().toString(), 500),
                 releaseTwoSortData.getId(),
@@ -1120,30 +1154,110 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 etSellingPrice.getText().toString(),
                 etSupplyPrice.getText().toString(),
                 ossVideoPaths, cutPic,
-                sourceType, isPublish, distributeType, timeNode, timeType,
+                sourceType, isPublish, distributeType, timeNodeId, timeType,
                 releaseAttributesModels,
-                ossPaths, goodId,productId,
+                ossPaths, goodId, productId,
                 new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
-
+                        hideWaitDialog();
                     }
 
                     @Override
                     public void httpResponse(String resultData) {
+                        hideWaitDialog();
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-                        if ("1".equals(isPublish)) {
-                            ToastUtils.showShort("商品发布成功");
-                        } else {
-                            ToastUtils.showShort("商品保存成功");
+
+                        if (baseModel.getResult().isSuccess()) {
+                            ToastUtils.showShort("修改拍品成功");
+                        }else {
+                            ToastUtils.showShort("修改拍品失败");
                         }
                         cleanRelease();
+                        finish();
+                    }
+                }
+        );
+    }
+
+    //发布
+    private void release() {
+        ArrayList<String> ossPaths = new ArrayList<>();//oos上传后最终的图片数据
+        ArrayList<String> ossVideoPaths = new ArrayList<>();//oos上传后最终的视频数据
+
+        String cutPic = "";//视频首帧地址
+
+        for (int i = 0; i < postImglistAdapter.getData().size() - 1; i++) {
+            ossPaths.add(postImglistAdapter.getData().get(i).imgPth);
+        }
+
+        if (postVideolistAdapter.getData() != null && postVideolistAdapter.getData().size() > 1) {
+            for (int i = 0; i < postVideolistAdapter.getData().size() - 1; i++) {
+                ossVideoPaths.add(postVideolistAdapter.getData().get(i).getVideoPath());
+                cutPic = postVideolistAdapter.getData().get(i).getImgPath2();
+            }
+        }
+
+        ArrayList<ReleaseAuctionAttrModel.DataBean> releaseAttributesModels = new ArrayList<>();
+        for (int i = 0; i < (attributes == null ? 0 : attributes.size()); i++) {
+            ReleaseAuctionAttrModel.DataBean attribute = attributes.get(i);
+            View attributeView = llAttributeContain.getChildAt(i);
+            EditText etAttriValue = attributeView.findViewById(R.id.et_attri_value);
+            final CustomeRecyclerView crlAttriList = attributeView.findViewById(R.id.crl_attri_list);
+
+            String value = "";
+            if (attribute.getTags() != null && !attribute.getTags().isEmpty()) {
+                if (((ReleaseAttributeAdapter) crlAttriList.getAdapter()).getmSelectedReleaseSortData() != null) {
+                    value = ((ReleaseAttributeAdapter) crlAttriList.getAdapter()).getmSelectedReleaseSortData().getName();
+                } else {
+                    value = "";
+                }
+            } else {
+                value = etAttriValue.getText() == null ? "" : etAttriValue.getText().toString().trim();
+            }
+
+            attribute.setValue(value);
+            releaseAttributesModels.add(attribute);
+        }
+
+        showWaitDialog();
+        //发布商品
+        BaseModel.httpReleaseGoods(TextOptionUtils.getInstance().subLength(etTitle.getText().toString(), 30),
+                TextOptionUtils.getInstance().subLength(etContent.getText().toString(), 500),
+                releaseTwoSortData.getId(),
+                TextOptionUtils.getInstance().subLength(etRemarks.getText().toString().trim(), 15),
+                etSellingPrice.getText().toString(),
+                etSupplyPrice.getText().toString(),
+                ossVideoPaths, cutPic,
+                sourceType, isPublish, distributeType, timeNodeId, timeType,
+                releaseAttributesModels,
+                ossPaths, goodId,
+                new HttpRequest.HttpCallback() {
+                    @Override
+                    public void httpError(Call call, Exception e) {
+                        hideWaitDialog();
+                    }
+
+                    @Override
+                    public void httpResponse(String resultData) {
+                        hideWaitDialog();
+                        BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+
+                        if (baseModel.getResult().isSuccess()) {
+                            ToastUtils.showShort("发布拍品成功");
+                        }else {
+                            ToastUtils.showShort("发布拍品失败");
+                        }
+                        cleanRelease();
+                        finish();
+
                     }
                 }
         );
 
 
     }
+
 
     //发布成功 清空发布的数据
     private void cleanRelease() {
@@ -1178,7 +1292,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
     }
 
 
-    private void showTimeWindow() {
+    private void httpTimeData() {
         showWaitDialog();
         AuctionTimeModel.httpTimeModel(new HttpRequest.HttpCallback() {
             @Override
@@ -1191,8 +1305,8 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 hideWaitDialog();
                 AuctionTimeModel auctionTimeModel = JSONObject.parseObject(resultData, AuctionTimeModel.class);
                 AuctionTimeModel.DataBean data = auctionTimeModel.getData();
-                ArrayList<TimeDialogModel> TimeDialogModelLists = new ArrayList<>();
 
+                TimeDialogModelLists.clear();
 
                 //快速截拍
                 TimeDialogModel quickBean = new TimeDialogModel();
@@ -1211,8 +1325,10 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setTimeNodeId(data.getQuick().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("quick");
-                    if (data.getQuick().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()){
+                    if (data.getQuick().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
+                            && mTimeDialogModel.getTimeType().equals("quick")) {
                         timeNodesBeanXXX.setSelect(true);
+                        goodsJpsj.setText(data.getQuick().getTypeName() + mTimeDialogModel.getShowText());
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
                 }
@@ -1234,8 +1350,10 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setTimeNodeId(data.getToday().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("today");
-                    if (data.getToday().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()){
+                    if (data.getToday().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
+                            && mTimeDialogModel.getTimeType().equals("today")) {
                         timeNodesBeanXXX.setSelect(true);
+                        goodsJpsj.setText(data.getToday().getTypeName() + mTimeDialogModel.getShowText());
                     }
 
                     TimeDialogModelLists.add(timeNodesBeanXXX);
@@ -1258,8 +1376,10 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setTimeNodeId(data.getTomorrow().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("tomorrow");
-                    if (data.getTomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()){
+                    if (data.getTomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
+                            && mTimeDialogModel.getTimeType().equals("tomorrow")) {
                         timeNodesBeanXXX.setSelect(true);
+                        goodsJpsj.setText(data.getTomorrow().getTypeName() + mTimeDialogModel.getShowText());
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
                 }
@@ -1281,23 +1401,34 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setTimeNodeId(data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("after_tomorrow");
-                    if (data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()){
+                    if (data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
+                            && mTimeDialogModel.getTimeType().equals("after_tomorrow")) {
                         timeNodesBeanXXX.setSelect(true);
+                        goodsJpsj.setText(data.getAfter_tomorrow().getTypeName() + mTimeDialogModel.getShowText());
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
 
-                TimeDialog timeDialog = new TimeDialog(CommodityEditActivity.this, TimeDialogModelLists, new TimeDialog.InterTimeDialog() {
-                    @Override
-                    public void itemTimeClick(TimeDialogModel timeDialogModel) {
-                        timeType = timeDialogModel.getTimeType();
-                        timeNode = timeDialogModel.getTimeNodeId() + "";
-                    }
-                });
-                timeDialog.show();
             }
         });
+    }
+
+
+    private void showTimeDialog() {
+
+        TimeDialog timeDialog = new TimeDialog(CommodityEditActivity.this, TimeDialogModelLists, new TimeDialog.InterTimeDialog() {
+            @Override
+            public void itemTimeClick(TimeDialogModel timeDialogModel) {
+                timeType = timeDialogModel.getTimeType();
+                timeNodeId = timeDialogModel.getTimeNodeId() + "";
+                mTimeDialogModel.setTimeNodeId(timeDialogModel.getTimeNodeId());
+                mTimeDialogModel.setTimeType(timeType);
+                goodsJpsj.setText(timeDialogModel.getTypeName() + timeDialogModel.getShowText());
+            }
+        });
+        timeDialog.show();
+
     }
 
 

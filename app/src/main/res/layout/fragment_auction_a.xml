@@ -90,7 +90,7 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    <include layout="@layout/include_line_a"/>
 
 
     <com.aten.compiler.widget.CustRefreshLayout

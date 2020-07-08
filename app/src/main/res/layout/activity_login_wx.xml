@@ -33,7 +33,7 @@
             android:layout_height="@dimen/dp_180"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_5"
-            android:src="@drawable/logo_icon" />
+            android:src="@drawable/logo" />
 
 
 

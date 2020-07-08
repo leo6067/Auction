@@ -1,6 +1,7 @@
 package com.leo.auction.ui.main.mine.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,10 +19,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.allen.library.SuperButton;
 import com.aten.compiler.base.BaseFragment;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
+import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.KeyboardUtils;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
+import com.aten.compiler.widget.itemDecoration.timeLine.LinearDividerItemDecoration;
 import com.billy.android.swipe.SmartSwipe;
 import com.billy.android.swipe.SmartSwipeWrapper;
 import com.billy.android.swipe.SwipeConsumer;
@@ -33,8 +36,11 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
+import com.leo.auction.common.widget.LinearLayoutDivider;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.mine.activity.AuctionUpperActivity;
+import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
 import com.leo.auction.ui.main.mine.adapter.AuctionManagementAdapter;
 import com.leo.auction.ui.main.mine.model.ProductListModel;
 
@@ -46,7 +52,7 @@ import okhttp3.Call;
 
 
 //竞拍中
-public class AuctionAFragment extends BaseRecyclerViewFragment   {
+public class AuctionAFragment extends BaseRecyclerViewFragment {
 
 
     @BindView(R.id.iv_time)
@@ -75,6 +81,15 @@ public class AuctionAFragment extends BaseRecyclerViewFragment   {
 
     private String startPrice = "", endPrice = "", sortField = "", timeStr = "", priceStr = "";
 
+
+    BroadCastReceiveUtils mBroadCastReceiveUtils = new BroadCastReceiveUtils() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onRefresh(refreshLayout);
+        }
+    };
+
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_auction_a;
@@ -85,29 +100,24 @@ public class AuctionAFragment extends BaseRecyclerViewFragment   {
     public void initView(View view) {
         super.initView(view);
         initDrawerLayout();
-
+        BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_MANAGEMENT_TYPE, mBroadCastReceiveUtils);
     }
 
     @Override
     protected void initAdapter() {
         super.initAdapter();
 
-        mAdapter = new AuctionManagementAdapter(new AuctionManagementAdapter.InterAuctionManage() {
+
+        mAdapter = new AuctionManagementAdapter(0, new AuctionManagementAdapter.InterAuctionManage() {
             @Override
             public void setOnAuctionUpListener(ProductListModel.DataBean item) {
-
                 Bundle bundle = new Bundle();
 
-                if (Constants.Var.PPGL_SORT_TYPE == 3) {
-                    bundle.putString("value", item.getProductId() + "");
+                if ("2".equals(item.getSourceType())) {
+                    bundle.putString("value", item.getGoodsId());
                 } else {
-                    if ("2".equals(item.getSourceType())) {
-                        bundle.putString("value", item.getGoodsId());
-                    } else {
-                        bundle.putString("value", item.getProductInstanceCode());
-                    }
+                    bundle.putString("value", item.getProductInstanceCode());
                 }
-
 
                 bundle.putString("type", item.getSourceType());
                 ActivityManager.JumpActivity(getActivity(), AuctionUpperActivity.class, bundle);
@@ -142,8 +152,16 @@ public class AuctionAFragment extends BaseRecyclerViewFragment   {
 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                ProductListModel.DataBean item = (ProductListModel.DataBean) mAdapter.getData().get(position);
+                Bundle bundle = new Bundle();
+                if ("2".equals(item.getSourceType())) {
+                    bundle.putString("goodsCode", item.getGoodsId());
+                } else {
+                    bundle.putString("goodsCode", item.getProductInstanceCode());
+                }
+                bundle.putString("type", item.getSourceType());
+                ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class,bundle);
             }
         });
     }
@@ -218,7 +236,7 @@ public class AuctionAFragment extends BaseRecyclerViewFragment   {
         //已截拍 时间排序按 intercept_time
         //已失败 时间排序按 modify_time
         //价格排序 按 currentPrice
-
+        Constants.Var.PPGL_SORT_TYPE = 0;
         HashMap<String, String> mhash = new HashMap<>();
 
         mhash.put("status", Constants.Var.PPGL_SORT_VALUE + "");
@@ -307,8 +325,6 @@ public class AuctionAFragment extends BaseRecyclerViewFragment   {
 //        ivPrice.setImageResource(R.drawable.ic_no_select);
 
 
-
-
     private void httpDownAuction(String productInstanceCode) {
         showWaitDialog();
         BaseModel.httpDownAuction(productInstanceCode, new HttpRequest.HttpCallback() {
@@ -326,6 +342,9 @@ public class AuctionAFragment extends BaseRecyclerViewFragment   {
         });
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BroadCastReceiveUtils.unregisterLocalReceiver(getActivity(), mBroadCastReceiveUtils);
+    }
 }

@@ -1,10 +1,12 @@
 package com.leo.auction.ui.main.mine.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -15,6 +17,7 @@ import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.ui.main.mine.model.AuctionTimeModel;
 import com.leo.auction.ui.main.mine.model.TimeDialogModel;
 import com.leo.auction.utils.GlideUtils;
+import com.leo.auction.utils.Globals;
 import com.ruffian.library.widget.RTextView;
 
 import java.util.List;
@@ -38,7 +41,7 @@ public class TimeDialogAdapter extends BaseMultiItemQuickAdapter<TimeDialogModel
 
     private InterTimeClick mInterTimeClick;
 
-    public TimeDialogAdapter(Context context,List<TimeDialogModel> data,InterTimeClick interTimeClick) {
+    public TimeDialogAdapter(Context context, List<TimeDialogModel> data, InterTimeClick interTimeClick) {
         super(data);
         // 绑定 layout 对应的 type
         addItemType(Constants.Var.LAYOUT_TYPE_HEAD, R.layout.item_time_head);
@@ -49,13 +52,11 @@ public class TimeDialogAdapter extends BaseMultiItemQuickAdapter<TimeDialogModel
     }
 
 
-
-    public void setSelect(int position){
+    public void setSelect(int position) {
         mModelList.get(mSelectedPosition).setSelect(false);
-        notifyItemChanged(mSelectedPosition);
         mModelList.get(position).setSelect(true);
-        notifyItemChanged(position);
         mSelectedPosition = position;
+        notifyDataSetChanged();
     }
 
 
@@ -72,16 +73,18 @@ public class TimeDialogAdapter extends BaseMultiItemQuickAdapter<TimeDialogModel
 
                 break;
             case Constants.Var.LAYOUT_TYPE:
-
-                RTextView itemTime = helper.getView(R.id.item_time);
+                LinearLayout itemLin = helper.getView(R.id.item_lin);
+                TextView itemTime = helper.getView(R.id.item_time);
                 itemTime.setText(item.getShowText());
-
-
-                if (item.isSelect()){
-                    itemTime.setSelected(true);
-//                    itemTime.getHelper().setTypeface()
-
+                if (item.isSelect()) {
+                    itemLin.setBackgroundColor(mContext.getResources().getColor(R.color.home_title_bg));
+                    itemTime.setTextColor(mContext.getResources().getColor(R.color.home_title_bg));
+                } else {
+                    itemTime.setTextColor(mContext.getResources().getColor(R.color.black));
+                    itemLin.setBackgroundColor(mContext.getResources().getColor(R.color.gray));
                 }
+
+
                 itemTime.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -95,7 +98,7 @@ public class TimeDialogAdapter extends BaseMultiItemQuickAdapter<TimeDialogModel
     }
 
 
-    public interface InterTimeClick{
+    public interface InterTimeClick {
         void timeItemClick(TimeDialogModel position);
     }
 

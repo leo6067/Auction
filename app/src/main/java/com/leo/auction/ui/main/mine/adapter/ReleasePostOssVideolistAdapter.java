@@ -43,6 +43,8 @@ public class ReleasePostOssVideolistAdapter extends BaseQuickAdapter<ReleaseVide
         ImageView ivPhoto = (ImageView) helper.getView(R.id.iv_photo);
         ImageView ivDelete = (ImageView) helper.getView(R.id.iv_delete);
 
+
+
         if ("1".equals(item.getTag())){
             GlideUtils.loadImg(R.drawable.ic_add_video_icon,ivPhoto);
             ivDelete.setVisibility(View.GONE);

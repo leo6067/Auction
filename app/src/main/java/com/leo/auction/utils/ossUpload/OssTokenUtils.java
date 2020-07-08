@@ -1,16 +1,20 @@
 package com.leo.auction.utils.ossUpload;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.utils.DesUtil;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.LogUtils;
 import com.aten.compiler.utils.ToastUtils;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.OssTokenModel;
 import com.leo.auction.ui.main.mine.model.DecryOssDataModel_table;
 
 import org.litepal.LitePal;
+
+import okhttp3.Call;
 
 /**
  * ================================================
@@ -43,18 +47,21 @@ public class OssTokenUtils {
 
     //获oss请求的必要参数
     public void geOssTokenPre(IOssToken iOssToken) {
-        OssTokenModel.sendOssTokenRequest("OssTokenModel", new CustomerJsonCallBack<OssTokenModel>() {
+
+        OssTokenModel.sendOssTokenRequest(new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(OssTokenModel returnData, String msg) {
+            public void httpError(Call call, Exception e) {
                 iOssToken.onError();
             }
 
             @Override
-            public void onRequestSuccess(OssTokenModel returnData) {
-                if (returnData.getData() != null) {
+            public void httpResponse(String resultData) {
+
+                OssTokenModel ossTokenModel = JSONObject.parseObject(resultData, OssTokenModel.class);
+                if (ossTokenModel.getData() != null) {
                     String decryptData = "";
                     try {
-                        decryptData = DesUtil.decrypt(returnData.getData().getEncryptedData(), Constants.Nouns.OSS_KEY);
+                        decryptData = DesUtil.decrypt(ossTokenModel.getData().getEncryptedData(), Constants.Nouns.OSS_KEY);
                     } catch (Exception e) {
                         LogUtils.e("======"+e.getMessage());
                     }
@@ -76,6 +83,8 @@ public class OssTokenUtils {
                 }
             }
         });
+
+
     }
 
     public void getOSSData(IOssToken iOssToken){

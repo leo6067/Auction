@@ -1,7 +1,9 @@
 package com.leo.auction.ui.login.model;
 
 import com.alibaba.fastjson.JSON;
+import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 
 
 import java.util.HashMap;
@@ -94,8 +96,11 @@ public class OssTokenModel {
         }
     }
 
-    public static void sendOssTokenRequest(final String TAG, final CustomerJsonCallBack<OssTokenModel> callback) {
+    public static void sendOssTokenRequest(HttpRequest.HttpCallback callback) {
         HashMap<String,String> value=new HashMap<>();
-//        JsonRequestData.requesNetWork(TAG, Constants_Api.Api.HOMEPAGE_PLATFORM_OSS_URL, JSON.toJSONString(value), callback);
+
+        HttpRequest.httpGetString(Constants.Api.OSS_COMMON_URL,value,callback);
+
+
     }
 }

@@ -34,13 +34,14 @@ public class AssetDetailActivity extends BaseActivity {
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_asset_detail);
-        mTitleBar.setTitle("余额明细");
+
     }
 
 
     @Override
     public void initData() {
         super.initData();
+        mTitleBar.setTitle("余额明细");
         showWaitDialog();
         HttpRequest.httpGetString(Constants.Api.BALANCE_URL, mHashMap, new HttpRequest.HttpCallback() {
             @Override

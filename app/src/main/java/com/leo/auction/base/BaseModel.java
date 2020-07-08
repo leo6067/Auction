@@ -8,6 +8,7 @@ import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.ui.main.mine.model.ReleaseAuctionAttrModel;
 import com.leo.auction.ui.main.mine.model.ReleaseEditModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,8 +140,10 @@ public class BaseModel {
         params.put("comment", comment);//'备注'
         params.put("startPrice", startPrice);//'起拍价'
         params.put("markupRange", markupRange);//'加价幅度'
-        params.put("video", video);//'视频路径'
-        params.put("cutPic", cutPic);//''视频首帧''
+        if (video.size() > 0) {
+            params.put("video", video);//'视频路径'
+            params.put("cutPic", cutPic);//''视频首帧''
+        }
         params.put("sourceType", sourceType);//''来源类型 1-自行发布 2-产品库',''
         params.put("actionType", actionType);//''动作类型 1-保存 2-发拍',''
 
@@ -180,8 +183,11 @@ public class BaseModel {
         params.put("startPrice", startPrice);//'起拍价'
         params.put("markupRange", markupRange);//'加价幅度'
         params.put("productId", productId);//'商品id'
-        params.put("video", video);//'视频路径'
-        params.put("cutPic", cutPic);//''视频首帧''
+        if (video.size() > 0) {
+            params.put("video", video);//'视频路径'
+            params.put("cutPic", cutPic);//''视频首帧''
+        }
+
         params.put("sourceType", sourceType);//''来源类型 1-自行发布 2-产品库',''
         params.put("actionType", actionType);//''动作类型 1-保存 2-发拍',''
 
@@ -197,6 +203,10 @@ public class BaseModel {
         params.put("time", time);//'时间节点标识'
         params.put("attributes", attributes);//
         params.put("images", images);//
+
+        Globals.log("xxxxxxxx修改 商品" + params.toString());
+
+
         HttpRequest.httpPutString(Constants.Api.PRODUCT_URL, params, httpCallback);
     }
 
@@ -204,7 +214,7 @@ public class BaseModel {
     //拍品管理--上架
     public static void httpUpper(List<ReleaseEditModel.DataBean.AttributesBean> attributes, String categoryId, String comment, String content,
                                  String cutPic, int distributeType, String goodsId, List<String> images,
-                                 String markupRange, String sourceType, String startPrice,   String timeNode,
+                                 String markupRange, String sourceType, String startPrice, String timeNode,
                                  String timeNodeId, String type, String title, String video,
                                  HttpRequest.HttpCallback httpCallback) {
 
@@ -219,7 +229,14 @@ public class BaseModel {
         jsonObject.put("categoryId", categoryId);
         jsonObject.put("comment", comment);
         jsonObject.put("content", content);
+//        if (video.size() > 0) {
+//            params.put("video", video);//'视频路径'
+//            params.put("cutPic", cutPic);//''视频首帧''
+//        }
+
+
         jsonObject.put("cutPic", cutPic);
+        jsonObject.put("video", video);
         jsonObject.put("distributeType", distributeType);
 
         if (sourceType.equals("2")) {
@@ -234,7 +251,7 @@ public class BaseModel {
         jsonObject.put("time", time);
         jsonObject.put("type", type);
         jsonObject.put("title", title);
-        jsonObject.put("video", video);
+
 
         HttpRequest.httpPostString(Constants.Api.GOODS_UPPER_URL, jsonObject, httpCallback);
 
@@ -257,4 +274,18 @@ public class BaseModel {
         HttpRequest.httpDeleteString(Constants.Api.PRODUCT_DRAFT_URL, hashMap, httpCallback);
     }
 
+
+    //删除文件
+    public static void httpDeteleFile(String filePath, ArrayList<String> filePaths, HttpRequest.HttpCallback httpCallback) {
+
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("file", filePath);
+        if (filePaths != null && filePaths.size() > 0) {
+            jsonObject.put("files", filePaths);
+        }
+
+        HttpRequest.httpPostString(Constants.Api.FILE_DEL, jsonObject, httpCallback);
+
+    }
 }

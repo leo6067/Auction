@@ -4,9 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="horizontal"
-    android:padding="@dimen/dp_8">
+
+    android:orientation="vertical"
+ >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_8">
 
     <com.aten.compiler.widget.RadiusImageView
         android:id="@+id/riv_product_pic"
@@ -97,34 +106,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_25"
                 android:layout_weight="1"
-                android:gravity="center" />
-
-
-            <com.ruffian.library.widget.RTextView
-                android:id="@+id/tv_01"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_41"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="@dimen/sp_24"
-                app:background_normal="@color/color_ff8e67"
-                app:corner_radius="@dimen/dp_10"
-                android:visibility="gone"
-                app:text_color_normal="@color/white"
-                android:text="上架" />
-
-            <com.ruffian.library.widget.RTextView
-                android:id="@+id/tv_02"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_41"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="@dimen/sp_24"
-                app:background_normal="@color/color_ff8e67"
-                app:corner_radius="@dimen/dp_10"
-                app:text_color_normal="@color/white"
-                android:visibility="gone"
-                android:text="下架" />
+                android:gravity="start"
+              />
 
             <com.ruffian.library.widget.RTextView
                 android:id="@+id/tv_03"
@@ -132,18 +115,50 @@
                 android:layout_height="@dimen/dp_41"
                 android:layout_weight="1"
                 android:gravity="center"
+
+                android:text="删除"
                 android:textSize="@dimen/sp_24"
+                android:visibility="gone"
+                app:background_normal="@color/item_baoyou"
+                app:corner_radius="@dimen/dp_10"
+                app:text_color_normal="@color/white" />
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/tv_01"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_41"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="上架"
+                android:textSize="@dimen/sp_24"
+                android:visibility="gone"
                 app:background_normal="@color/color_ff8e67"
                 app:corner_radius="@dimen/dp_10"
-                app:text_color_normal="@color/white"
+                app:text_color_normal="@color/white" />
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/tv_02"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_height="@dimen/dp_41"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="下架"
+                android:textSize="@dimen/sp_24"
                 android:visibility="gone"
-                android:text="删除" />
+                app:background_normal="@color/color_ff8e67"
+                app:corner_radius="@dimen/dp_10"
+                app:text_color_normal="@color/white" />
+
 
 
         </LinearLayout>
 
 
     </LinearLayout>
+    </LinearLayout>
 
+    <include layout="@layout/include_line_a"/>
 </LinearLayout>
 

@@ -205,6 +205,16 @@ public abstract class BaseDialog<T extends BaseDialog<T>> extends Dialog {
         }
     }
 
+    public void setBottomShow(){
+        Window window = this.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(params);
+
+    }
+
 
     @Override
     public void setCanceledOnTouchOutside(boolean cancel) {

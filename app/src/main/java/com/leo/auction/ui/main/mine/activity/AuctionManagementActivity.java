@@ -32,7 +32,6 @@ import okhttp3.Call;
 
 public class AuctionManagementActivity extends BaseActivity {
 
-
     String[] titles = new String[]{"竞拍中", "已截拍", "已失效", "草稿箱"};
     @BindView(R.id.stb_order)
     SlidingTabLayout stbOrder;
@@ -126,6 +125,7 @@ public class AuctionManagementActivity extends BaseActivity {
                 }
 
 
+                BroadCastReceiveUtils.sendLocalBroadCast(AuctionManagementActivity.this,Constants.Action.ACTION_MANAGEMENT_TYPE);
             }
 
             @Override
@@ -133,6 +133,8 @@ public class AuctionManagementActivity extends BaseActivity {
 
             }
         });
+
+
 
         Constants.Var.PPGL_SORT_TYPE = 0;
         Constants.Var.PPGL_SORT_VALUE = mDataBeanList.get(0).getId();

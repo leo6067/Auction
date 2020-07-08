@@ -146,6 +146,7 @@ public class Constants {
 
 
         public static String ACTION_HOME_SEARCH = "ACTION_HOME_SEARCH";//刷新搜索
+        public static String ACTION_MANAGEMENT_TYPE = "ACTION_MANAGEMENT_TYPE";//拍卖管理竞拍中已截拍等
 
 
 
@@ -201,8 +202,14 @@ public class Constants {
 
 
 
+        //文件
+        public static String FILE_DEL = domain+"upload/del-file";
+
+
+
         //oss
         public static String OSS_FOLDER = BASE_URL+"Android";
+        public static String OSS_COMMON_URL = domain+"platform/oss";
         public static String OSS_FOLDER_IMG_GOODS = OSS_FOLDER+"/goods/img";
         public static String OSS_FOLDER_IMG_USER = OSS_FOLDER+"/user/img";
         public static String OSS_FOLDER_VIDEO = OSS_FOLDER+"/video";

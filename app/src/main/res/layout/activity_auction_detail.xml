@@ -8,7 +8,7 @@
     tools:context=".ui.main.home.activity.AuctionDetailActivity">
 
 
-    <include layout="@layout/layout_custom_title" />
+    <include layout="@layout/layout_custom_title_w" />
 
 
     <com.aten.compiler.widget.ReboundNetScrollView

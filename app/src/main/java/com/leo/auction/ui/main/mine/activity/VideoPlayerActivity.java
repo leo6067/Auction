@@ -10,11 +10,12 @@ import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.base.BaseGlobal;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.VideoDownLoadUtils;
+import com.aten.compiler.widget.video.MyJzvdStd;
 import com.bumptech.glide.Glide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.huantansheng.easyphotos.utils.video.RecordVideoUtils;
 import com.leo.auction.R;
-import com.leo.auction.widget.video.MyJzvdStd;
+
 
 import java.io.File;
 
@@ -37,14 +38,6 @@ public class VideoPlayerActivity extends BaseActivity {
         return true;
     }
 
-    @Override
-    protected void initImmersionBar() {
-        //在BaseActivity里初始化
-        mImmersionBar = ImmersionBar.with(this).statusBarDarkFont(false)
-                .keyboardEnable(true);
-        mImmersionBar.init();
-    }
-
 
 
     @Override
@@ -61,7 +54,7 @@ public class VideoPlayerActivity extends BaseActivity {
         isLocalVideo = getIntent().getBooleanExtra("isLocalVideo", false);
         super.initData();
         setTitle("视频播放");
-        ImmersionBar.setTitleBarMarginTop(this, mTitleBar);
+
         setRightTitleView("下载");
 
         if (isLocalVideo) {

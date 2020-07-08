@@ -180,7 +180,7 @@ public class HttpRequest {
             return;
         }
 
-
+        Globals.log("log XHttpUtils jsonObject= 参数" + jsonObject.toJSONString());
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(mediaType, jsonObject.toJSONString());
         OkHttpUtils.put()
