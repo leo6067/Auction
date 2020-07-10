@@ -1,5 +1,9 @@
 package com.leo.auction.ui.main.home.model;
 
+import com.leo.auction.base.Constants;
+import com.leo.auction.net.HttpRequest;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -149,4 +153,18 @@ public class HomeListModel {
             this.refund = refund;
         }
     }
+
+
+    public static void httpHomeList(String shopUri,String pageNum,HttpRequest.HttpCallback httpCallback){
+
+        HashMap<String, String> hashMap = new HashMap<>();
+
+
+        hashMap.put("shopUri",shopUri);
+        hashMap.put("pageNum", pageNum);
+        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
+
+        HttpRequest.httpGetString(Constants.Api.SHOP_NEWEST_URL, hashMap, httpCallback);
+    }
+
 }

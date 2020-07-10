@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ruffian.library.widget.RLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    app:corner_radius_top_left="@dimen/dp_7"
+    app:corner_radius_top_right="@dimen/dp_7"
+    android:layout_height="@dimen/dp_567"
+   app:background_normal="@color/white"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_35"
+        android:text="宝贝很抢手，请立即出价"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_35"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="领先价： "
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/dialog_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/home_title_bg"
+            android:textSize="15sp"
+            tools:text="222 " />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_35"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/item_one"
+            android:layout_width="@dimen/dp_170"
+            android:layout_height="@dimen/dp_77"
+            android:layout_marginStart="@dimen/dp_35"
+            android:layout_marginEnd="@dimen/dp_35"
+            android:textColor="@color/home_title_bg"
+            android:gravity="center"
+            app:border_color_normal="@color/home_title_bg"
+            app:border_width_normal="@dimen/dp_2"
+            app:corner_radius="@dimen/dp_8" />
+
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/item_two"
+            android:layout_width="@dimen/dp_170"
+            android:layout_height="@dimen/dp_77"
+            android:layout_marginStart="@dimen/dp_35"
+            android:layout_marginEnd="@dimen/dp_35"
+            android:gravity="center"
+            app:border_color_normal="@color/gray"
+            app:border_width_normal="@dimen/dp_2"
+            app:corner_radius="@dimen/dp_8" />
+
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/item_three"
+            android:layout_width="@dimen/dp_170"
+            android:layout_height="@dimen/dp_77"
+            android:layout_marginStart="@dimen/dp_35"
+            android:layout_marginEnd="@dimen/dp_35"
+            android:gravity="center"
+            android:text="其他方式"
+            app:border_color_normal="@color/gray"
+            app:border_width_normal="@dimen/dp_2"
+            app:corner_radius="@dimen/dp_8" />
+
+
+    </LinearLayout>
+
+
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/item_ok"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_77"
+        android:layout_marginStart="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_55"
+        android:layout_marginEnd="@dimen/dp_35"
+        android:gravity="center"
+        android:text="确认"
+        app:background_normal="@color/home_title_bg"
+        app:corner_radius="@dimen/dp_5"
+        app:text_color_normal="@color/white" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_35"
+        android:layout_marginBottom="@dimen/dp_35"
+        android:gravity="center"
+        android:text="出价即表示同意《锤定交易服务协议》 《隐私保护政策》"
+        android:textSize="10sp" />
+
+
+</com.ruffian.library.widget.RLinearLayout>

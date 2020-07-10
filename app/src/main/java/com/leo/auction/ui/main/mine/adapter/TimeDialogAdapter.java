@@ -77,6 +77,7 @@ public class TimeDialogAdapter extends BaseMultiItemQuickAdapter<TimeDialogModel
                 TextView itemTime = helper.getView(R.id.item_time);
                 itemTime.setText(item.getShowText());
                 if (item.isSelect()) {
+
                     itemLin.setBackgroundColor(mContext.getResources().getColor(R.color.home_title_bg));
                     itemTime.setTextColor(mContext.getResources().getColor(R.color.home_title_bg));
                 } else {

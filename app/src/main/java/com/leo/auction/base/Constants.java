@@ -49,13 +49,8 @@ public class Constants {
         //友盟 key
         public static String QQAPPID = "101731440";
         public static String QQAPPKEY = "f06eae4b68d8f8ddde0f2fb3616cbc25";
-        public static String WEIXINAPPID = "wx083c4267d81c8961";
+        public static String WEIXINAPPID = "wx083c4267d81c8961"; //7.10 新版
         public static String WEIXINAPPKEY = "2dc8dd30dd5d0db67e09af2e55dea168";
-
-
-
-
-
 
 
 
@@ -82,8 +77,8 @@ public class Constants {
         //参数
         public final static int LAYOUT_TYPE_HEAD = 0 ;
         public final static int LAYOUT_TYPE = 1 ;
-        public final static String LIST_NUMBER = "20" ;
-        public final static int LIST_NUMBER_INT = 20 ;
+        public final static String LIST_NUMBER = "25" ;
+        public final static int LIST_NUMBER_INT = 25 ;
         public final static String COMMON_PROTOCOL = "common_Protocol";
         public final static String HAS_ADDRESS = "has_address";
 
@@ -206,6 +201,9 @@ public class Constants {
         public static String FILE_DEL = domain+"upload/del-file";
 
 
+        //用户行为
+        public static String ACTION_USER = domain+"action/user";
+
 
         //oss
         public static String OSS_FOLDER = BASE_URL+"Android";
@@ -257,7 +255,7 @@ public class Constants {
 
         //上拍商品详情
         public static String GOODS_DETAIL_URL = domain + "instance/info";//
-        public static String GOODS_DETAIL_BID_URL = domain + "bid";//
+        public static String GOODS_DETAIL_BID_URL = domain + "bid";//出价  //列表
         public static String GOODS_DETAIL_ATTR_URL = domain + "product/attribute";//
         public static String GOODS_NEWEST_URL = domain + "product/newest";//
         public static String GOODS_STORE_URL = domain + "product/store-goods";//
@@ -310,6 +308,11 @@ public class Constants {
         //最新上拍
 
         public static String INSTANCE_NEWEST_URL = domain + "instance/instance-newest";//
+
+
+
+        //支付
+        public static String PAY_ORDER_URL = domain + "pay/unified-order";//
 
     }
 

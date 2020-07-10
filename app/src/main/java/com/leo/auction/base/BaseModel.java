@@ -70,6 +70,21 @@ public class BaseModel {
     }
 
 
+    //用户记录
+    public static void sendActionLogRequest(String channelType, String actionType, String productInstanceId,
+                                       String status,
+                                            HttpRequest.HttpCallback httpCallback) {
+        JSONObject params = new JSONObject();
+        params.put("channelType", channelType);//'频道类型  1-超级购  2-超人气 3-精选 4-首页 5-分类 6-店铺首页 7-收藏关注 8-抽奖活动'
+        params.put("actionType", actionType);//'动作类型   1-点击  2-收藏 3-付款  4-分享 5-分享新用户 6-分享到朋友圈 7-加入到购物车'
+        params.put("productInstanceId", productInstanceId);//'商品标识'
+
+        params.put("status", status);//'1-非取消动作取1   -1-类似取消这种动作用-1'
+        HttpRequest.httpPostString(Constants.Api.ACTION_USER, params, httpCallback);
+    }
+
+
+
     //密码
     //设置支付密码
     public static void sendUserAddpaypwdRequest(final String payPwd,

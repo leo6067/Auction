@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_567"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:background="#f7f7f7"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:text="领先价"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/dialog_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:textColor="@color/home_title_bg" />
+
+
+        <ImageView
+            android:id="@+id/dialog_close"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:src="@drawable/close_a" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:text="出价"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+
+        <EditText
+            android:id="@+id/dialog_bid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:background="@null" />
+
+
+    </LinearLayout>
+
+
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/dialog_ok"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_77"
+        android:layout_marginStart="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_35"
+        android:layout_marginEnd="@dimen/dp_35"
+        android:gravity="center"
+        android:text="确认"
+        android:textColor="@color/white"
+        app:background_normal="@color/home_title_bg"
+        app:corner_radius="@dimen/dp_5" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_35"
+        android:layout_marginBottom="@dimen/dp_35"
+        android:gravity="center"
+        android:text="出价即表示同意《锤定交易服务协议》 《隐私保护政策》"
+        android:textSize="10sp" />
+
+
+</LinearLayout>

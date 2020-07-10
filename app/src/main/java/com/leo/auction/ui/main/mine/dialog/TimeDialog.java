@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -51,6 +52,7 @@ public class TimeDialog extends BottomBaseDialog<TimeDialog> {
     @Override
     public View onCreateView() {
         View view = View.inflate(mContext, R.layout.dialog_time, null);
+
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 3);
@@ -68,16 +70,21 @@ public class TimeDialog extends BottomBaseDialog<TimeDialog> {
         recyclerView.setLayoutManager(gridLayoutManager);
         TimeDialogAdapter timeDialogAdapter = new TimeDialogAdapter(mContext, todayBeans, new TimeDialogAdapter.InterTimeClick() {
             @Override
-            public void timeItemClick(TimeDialogModel position) {
-                mInterTimeDialog.itemTimeClick(position);
+            public void timeItemClick(TimeDialogModel item) {
+
+                mInterTimeDialog.itemTimeClick(item);
                 dismiss();
 
             }
         });
 
-
+        timeDialogAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                timeDialogAdapter.setSelect(i);
+            }
+        });
         recyclerView.setAdapter(timeDialogAdapter);
-
 
         view.setBackgroundDrawable(CornerUtils.cornerDrawable(Color.parseColor("#ffffff"), SizeUtils.dp2px(10)));
 

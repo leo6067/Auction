@@ -26,7 +26,6 @@ import java.util.List;
  */
 public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean.BidBean, BaseViewHolder> {
 
-
     private int mBidStaus = 0;
 
     public DetailBidAdapter() {
@@ -42,17 +41,12 @@ public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, GoodsDetailModel.DataBean.BidBean item) {
-
-
         helper.setText(R.id.item_name,item.getNickname());
         RTextView itemStatus = helper.getView(R.id.item_status);
-
         //第一条，且状态是未成交。显示领先， 成交显示成交
 //        if(get)bidStaus
 
-
         int parentPosition = getParentPosition(item);
-
 
         if (parentPosition == 0 && mBidStaus == 1){
             itemStatus.setText( "领先");
@@ -62,11 +56,8 @@ public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean
             itemStatus.setTextColor(Color.parseColor("#a0a0a0"));
         }
 
-
-
-        helper.setText(R.id.item_price,item.getBidPrice());
+        helper.setText(R.id.item_price,item.getBidPrice()+"");
         helper.setText(R.id.item_time,item.getCreateTime()+"");
-
 
     }
 }

@@ -139,10 +139,12 @@ public class PaySafeActivity extends BaseActivity {
             public void httpResponse(String resultData) {
                 hideWaitDialog();
                 JSONObject jsonObject = JSONObject.parseObject(resultData);
-                String data = jsonObject.getString("data");//免密字符串
+                String data = jsonObject.getString("data");//免密字符串  免密字符串   开启返回四位数  取消返回空字符串
                 mDataBean = BaseSharePerence.getInstance().getUserJson();
                 mDataBean.setBalanceExempt(data);
                 BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(mDataBean));
+
+
             }
         });
     }

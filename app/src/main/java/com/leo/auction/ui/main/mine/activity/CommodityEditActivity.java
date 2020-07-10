@@ -1242,7 +1242,6 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     public void httpResponse(String resultData) {
                         hideWaitDialog();
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("发布拍品成功");
                         }else {
@@ -1250,11 +1249,9 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                         }
                         cleanRelease();
                         finish();
-
                     }
                 }
         );
-
 
     }
 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:gravity="center"
+        android:text="确认支付"
+        android:textColor="@color/color_404040"
+        android:textSize="@dimen/sp_30" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_2"
+        android:background="@color/windowbackground" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_40"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥"
+            android:textColor="@color/color_ff8e67"
+            android:textSize="@dimen/sp_48"/>
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="8.01"
+            android:textColor="@color/color_ff8e67"
+            android:textSize="@dimen/sp_60"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_30"
+        android:text="请选择支付方式："
+        android:textColor="@color/color_9a9a9a"
+        android:textSize="@dimen/sp_30" />
+
+    <com.aten.compiler.widget.CustomeRecyclerView
+        android:id="@+id/crl_pay_tytpe"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </com.aten.compiler.widget.CustomeRecyclerView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
+        android:paddingLeft="@dimen/dp_30"
+        android:text="为避免订单失效，建议您在30分钟内完成支付"
+        android:textColor="@color/color_fe8067"
+        android:textSize="@dimen/sp_24" />
+
+
+    <TextView
+        android:id="@+id/tv_sure"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_83"
+        android:background="@drawable/ic_cancle_order_btn_bg"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_120"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:gravity="center"
+        android:text="立即支付"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_26"/>
+
+</LinearLayout>

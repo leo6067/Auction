@@ -74,12 +74,12 @@ public class GoodsDetailModel {
         private boolean collect;
         private String content;
         private long createTime;
-        private String currentPrice;
+        private int currentPrice;
         private int delayTime;
         private int distributeType;
         private boolean follow;
         private long interceptTime;
-        private String markupRange;
+        private int markupRange;
         private int parentCategoryId;
         private String parentCategoryName;
         private String productInstanceCode;
@@ -160,11 +160,11 @@ public class GoodsDetailModel {
             this.createTime = createTime;
         }
 
-        public String getCurrentPrice() {
+        public int getCurrentPrice() {
             return currentPrice;
         }
 
-        public void setCurrentPrice(String currentPrice) {
+        public void setCurrentPrice(int currentPrice) {
             this.currentPrice = currentPrice;
         }
 
@@ -200,11 +200,11 @@ public class GoodsDetailModel {
             this.interceptTime = interceptTime;
         }
 
-        public String getMarkupRange() {
+        public int getMarkupRange() {
             return markupRange;
         }
 
-        public void setMarkupRange(String markupRange) {
+        public void setMarkupRange(int markupRange) {
             this.markupRange = markupRange;
         }
 
@@ -676,7 +676,7 @@ public class GoodsDetailModel {
              * userAccountId : 72
              */
 
-            private String bidPrice;
+            private int bidPrice;
             private long createTime;
             private String headImg;
             private int level;
@@ -686,11 +686,11 @@ public class GoodsDetailModel {
 
             private String ensureMoney;
 
-            public String getBidPrice() {
+            public int getBidPrice() {
                 return bidPrice;
             }
 
-            public void setBidPrice(String bidPrice) {
+            public void setBidPrice(int bidPrice) {
                 this.bidPrice = bidPrice;
             }
 

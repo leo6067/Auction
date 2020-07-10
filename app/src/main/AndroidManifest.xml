@@ -73,7 +73,8 @@
         <activity android:name=".ui.main.mine.activity.CommodityReleaseActivity" />
         <activity android:name=".ui.main.home.activity.ShopActivity" />
         <activity android:name=".ui.main.home.activity.HomeSearchActivity" />
-        <activity android:name=".ui.main.home.activity.AuctionDetailActivity" />
+        <activity android:name=".ui.main.home.activity.AuctionDetailActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".ui.main.home.activity.CategoryActivity" />
         <activity android:name=".ui.login.AgreementActivity" />
         <activity android:name=".ui.login.LoginWxActivity" />
@@ -97,6 +98,45 @@
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
+
+
+
+        <activity
+            android:name=".ui.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent101731440" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- 友盟分享集成 end -->
+        <!-- 微信支付 start -->
+        <activity
+            android:name=".ui.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wxcf78ef0e38764358" />
+            </intent-filter>
+        </activity> <!-- 微信支付 end -->
+
 
         <provider
             android:name=".tool.version.VersionFileProvider"
