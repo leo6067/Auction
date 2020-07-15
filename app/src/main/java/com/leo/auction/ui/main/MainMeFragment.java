@@ -1,12 +1,15 @@
 package com.leo.auction.ui.main;
 
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,23 +19,24 @@ import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseFragment;
 import com.aten.compiler.widget.CircleImageView;
 import com.aten.compiler.widget.glide.GlideUtils;
-import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.main.home.fragment.MineOrderFragment;
 import com.leo.auction.ui.main.mine.model.UserModel;
-import com.leo.auction.utils.Globals;
-import com.ruffian.library.widget.RTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import okhttp3.Call;
 
 /**
@@ -76,6 +80,9 @@ public class MainMeFragment extends BaseFragment {
 
 
     ArrayList<BaseFragment> mFragments = new ArrayList<>();
+    @BindView(R.id.title_lin)
+    LinearLayout mTitleLin;
+
     private OrderPagerAdapter mOrderPagerAdapter;
 
 
@@ -94,6 +101,25 @@ public class MainMeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         httpUser();
+    }
+
+
+    @OnClick({R.id.civ_head, R.id.tv_name, R.id.fl_shop, R.id.ll_follow, R.id.ll_fans})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.civ_head:
+                break;
+            case R.id.tv_name:
+                break;
+            case R.id.fl_shop:
+                break;
+            case R.id.ll_follow:
+                ActivityManager.mainActivity.setCurrentItem(2);
+
+                break;
+            case R.id.ll_fans:
+                break;
+        }
     }
 
 
@@ -134,7 +160,7 @@ public class MainMeFragment extends BaseFragment {
                 hideWaitDialog();
                 UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
                 upUI(userModel.getData());
-                BaseSharePerence.getInstance().setUserJson( JSON.toJSONString(userModel.getData()));
+                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
             }
         });
     }
@@ -170,11 +196,10 @@ public class MainMeFragment extends BaseFragment {
         }
 
 
-        mFragments.add(new MineOrderFragment());
-        mFragments.add(new MineOrderFragment());
+        mFragments.add(MineOrderFragment.newIntance(1));
+        mFragments.add(MineOrderFragment.newIntance(2));
 
-
-
+        Constants.Var.MINE_TYPE = 0;
         mOrderPagerAdapter = new OrderPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mOrderPagerAdapter);
         mCommonTab.setViewPager(mViewPager);
@@ -183,11 +208,12 @@ public class MainMeFragment extends BaseFragment {
             @Override
             public void onTabSelect(int position) {
 //                mViewPager.setCurrentItem(position);
+                Constants.Var.MINE_TYPE = position;
             }
 
             @Override
             public void onTabReselect(int position) {
-
+                Constants.Var.MINE_TYPE = position;
             }
         });
 
@@ -198,8 +224,9 @@ public class MainMeFragment extends BaseFragment {
             }
 
             @Override
-            public void onPageSelected(int i) {
+            public void onPageSelected(int position) {
 //                mCommonTab.setCurrentTab(i);
+                Constants.Var.MINE_TYPE = position;
             }
 
             @Override

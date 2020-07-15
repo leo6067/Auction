@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/item_baotui"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_35">
+
+        <include layout="@layout/layout_custom_title_w" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_193"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30"
+            android:src="@drawable/ic_complete_evaluation_bg" />
+
+        <LinearLayout
+            android:id="@+id/ll_go_look"
+            android:layout_width="@dimen/dp_170"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_42"
+            android:background="@drawable/ic_go_again_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dp_27"
+                android:layout_height="@dimen/dp_33"
+                android:src="@drawable/ic_go_again" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:text="再去逛逛"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_20" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_evaluation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>

@@ -65,10 +65,10 @@ public class HomeFragment extends BaseFragment {
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
+                Constants.Var.HOME_TYPE = position;
                 if (position == 0) {
                     BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_REFRESH_HOME_ALL);
                 }
-                Constants.Var.HOME_TYPE = position;
                 mViewPager.setCurrentItem(position);
             }
 
@@ -87,6 +87,11 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
+
+                if (position == 0) {
+                    BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_REFRESH_HOME_ALL);
+                }
+                Constants.Var.HOME_TYPE = position;
                 mSegmentTabLayout.setCurrentTab(position);
             }
 

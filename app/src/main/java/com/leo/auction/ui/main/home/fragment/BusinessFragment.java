@@ -71,11 +71,10 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 SupplierModel.DataBean dataBean = (SupplierModel.DataBean)mAdapter.getData().get(position);
-
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("value",dataBean.getProductUser());
+                bundle.putString("shopUri",dataBean.getProductUser().getUserId());
+                bundle.putString("shopName",dataBean.getProductUser().getNickname());
                 ActivityManager.JumpActivity(getActivity(), ShopActivity.class,bundle);
 
             }
@@ -119,7 +118,7 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
 
 
                 if (mPageNum > 1 && supplierModel.getData().isEmpty()) {
-                    if (mAdapter.getData().size() < 10) {
+                    if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                         mAdapter.loadMoreEnd(true);
                     } else {
                         mAdapter.loadMoreEnd();

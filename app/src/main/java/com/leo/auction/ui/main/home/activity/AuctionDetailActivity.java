@@ -1,6 +1,5 @@
 package com.leo.auction.ui.main.home.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,17 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
-import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewActivity;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
 import com.aten.compiler.utils.EmptyUtils;
-import com.aten.compiler.utils.RxClipboardTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.easyPay.EasyPay;
 import com.aten.compiler.utils.easyPay.callback.IPayCallback;
@@ -30,6 +26,7 @@ import com.aten.compiler.widget.title.TitleBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.CommonlyUsedData;
 import com.leo.auction.base.Constants;
@@ -41,7 +38,6 @@ import com.leo.auction.ui.main.home.adapter.PicGridNineAdapter;
 import com.leo.auction.ui.main.home.dialog.BidDialog;
 import com.leo.auction.ui.main.home.dialog.EarnestDialog;
 import com.leo.auction.ui.main.home.dialog.PayPwdBoardUtils;
-import com.leo.auction.ui.main.home.dialog.SetPaypwdUtils;
 import com.leo.auction.ui.main.home.model.BidListModel;
 import com.leo.auction.ui.main.home.model.BidModel;
 import com.leo.auction.ui.main.home.model.GoodsDetailModel;
@@ -50,23 +46,19 @@ import com.leo.auction.ui.main.home.model.PayModel;
 import com.leo.auction.ui.main.home.model.PicGridNineModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.order.model.OrderPayTypeModel;
-import com.leo.auction.utils.Globals;
+import com.leo.auction.utils.SetPaypwdUtils;
 import com.leo.auction.utils.SpannableStringUtils;
 import com.leo.auction.utils.wxPay.WXPay;
 import com.leo.auction.utils.wxPay.WXPayBean;
 import com.ruffian.library.widget.RImageView;
 import com.ruffian.library.widget.RTextView;
 
-import org.litepal.LitePal;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.Call;
 
 public class AuctionDetailActivity extends BaseActivity implements PicGridNineAdapter.IGridNine, CountdownView.OnCountdownEndListener, EarnestDialog.InterEarnestPay, PayPwdBoardUtils.IPayType, SetPaypwdUtils.IComplete {
@@ -209,7 +201,24 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         mDetailCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mGoodsDetailModel != null) {
+                    boolean collect = mGoodsDetailModel.getData().isCollect();
+                    int collectType = 0;
+                    if (collect) {
+                        collectType = 0;
+                    } else {
+                        collectType = 1;
+                    }
+                    BaseModel.httpCollectGood(mGoodsDetailModel.getData().getProductInstanceId(), collectType, new HttpRequest.HttpCallback() {
+                        @Override
+                        public void httpError(Call call, Exception e) {
+                        }
+                        @Override
+                        public void httpResponse(String resultData) {
 
+                        }
+                    });
+                }
             }
         }); //分享
         mDetailShare.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +321,15 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         //设置列表数据
         mPicGridNineAdapter.clearImgViews();
         mPicGridNineAdapter.setNewData(mPicList);
+
+
+        boolean collect = mGoodsDetailModel.getData().isCollect();
+
+        if (collect){
+            mDetailCollect.setBackgroundResource(R.drawable.goods_collect);
+        }else {
+            mDetailCollect.setBackgroundResource(R.drawable.goods_uncollect);
+        }
 
 
         String content = "【介绍】" + goodsDetailModel.getContent() + " ";
@@ -500,13 +518,24 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
+
+
+                JSONObject jsonObject = JSONObject.parseObject(resultData);
+
+                String result = jsonObject.getString("result");
+
+                JSONObject json = JSONObject.parseObject(result);
+                if (!json.getBoolean("success")) {
+                    ToastUtils.showShort(json.getString("message"));
+                    return;
+                }
+
+
                 BidModel bidModel = JSONObject.parseObject(resultData, BidModel.class);
                 if (bidModel.getData().getBssCode() == 105) {
                     ToastUtils.showShort("请缴纳保证金");
-
                     mBidModelData = bidModel.getData();
                     HashMap<String, String> mHash = new HashMap<>();
-
                     EarnestDialog earnestDialog = new EarnestDialog(AuctionDetailActivity.this, mHash, AuctionDetailActivity.this);
                     earnestDialog.show();
                 } else {
@@ -569,16 +598,11 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     @Override
     public void earnestPay() {
 
-
 //        利用回调 到详情页支付
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-
         ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonlyUsedData.getInstance().getOrderPayTypeData(
                 userJson.getBalance(), String.valueOf(mBidModelData.getMoney()));
-
         mPayPwdBoardUtils.showPayTypeDialog(AuctionDetailActivity.this, String.valueOf(mBidModelData.getMoney()), orderPayTypeModels, AuctionDetailActivity.this);
-
-
     }
 
     /*
@@ -586,8 +610,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
      * 支付*/
     @Override
     public void choosePayType(int pos) {
-
-
         mPayPwdBoardUtils.dismissPayTypeDialog();
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         if (pos == 0) {
@@ -637,8 +659,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 setPaySuccess();
             }
         });
-
-
     }
 
     //微信支付

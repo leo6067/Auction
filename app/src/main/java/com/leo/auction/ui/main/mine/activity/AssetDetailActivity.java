@@ -34,7 +34,6 @@ public class AssetDetailActivity extends BaseActivity {
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_asset_detail);
-
     }
 
 
@@ -53,7 +52,7 @@ public class AssetDetailActivity extends BaseActivity {
             public void httpResponse(String resultData) {
                 hideWaitDialog();
                 AssetDetailModel assetDetailModel = JSONObject.parseObject(resultData, AssetDetailModel.class);
-                mYeTv.setText(assetDetailModel.getData().getBalance() + "");
+                mYeTv.setText(assetDetailModel.getData().getBalance());
             }
         });
     }

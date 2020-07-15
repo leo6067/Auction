@@ -1,9 +1,14 @@
 package com.leo.auction.ui.main.mine.model;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 
 import java.util.HashMap;
+
+import okhttp3.Call;
 
 /**
  * ==============================================
@@ -661,6 +666,25 @@ public class UserModel {
         HashMap<String, String> hashMap = new HashMap<>();
 
         HttpRequest.httpGetString(Constants.Api.USER_URL,hashMap ,httpCallback);
+
+    }
+
+    public static void httpUpdateUser( ){
+
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+            }
+        });
 
     }
 }

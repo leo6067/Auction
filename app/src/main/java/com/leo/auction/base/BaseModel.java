@@ -1,20 +1,16 @@
 package com.leo.auction.base;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.ui.main.mine.model.ReleaseAuctionAttrModel;
 import com.leo.auction.ui.main.mine.model.ReleaseEditModel;
-import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.order.model.CommitEvaluationModel;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import okhttp3.Call;
 
 /**
  * Created by Leo on 2019/4/10.
@@ -72,7 +68,7 @@ public class BaseModel {
 
     //用户记录
     public static void sendActionLogRequest(String channelType, String actionType, String productInstanceId,
-                                       String status,
+                                            String status,
                                             HttpRequest.HttpCallback httpCallback) {
         JSONObject params = new JSONObject();
         params.put("channelType", channelType);//'频道类型  1-超级购  2-超人气 3-精选 4-首页 5-分类 6-店铺首页 7-收藏关注 8-抽奖活动'
@@ -82,7 +78,6 @@ public class BaseModel {
         params.put("status", status);//'1-非取消动作取1   -1-类似取消这种动作用-1'
         HttpRequest.httpPostString(Constants.Api.ACTION_USER, params, httpCallback);
     }
-
 
 
     //密码
@@ -303,4 +298,104 @@ public class BaseModel {
         HttpRequest.httpPostString(Constants.Api.FILE_DEL, jsonObject, httpCallback);
 
     }
+
+
+    //收藏商品
+    public static void httpCollectGood(int productInstanceId, int type, HttpRequest.HttpCallback httpCallback) {
+
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("productInstanceId", productInstanceId);
+        jsonObject.put("type", type);//类型  0-取消 1-收藏
+
+        HttpRequest.httpPostString(Constants.Api.SORT_COLLECT_URL, jsonObject, httpCallback);
+
+    }
+
+
+    //提醒发货
+    public static void httpSendGoodN(String orderCode, HttpRequest.HttpCallback httpCallback) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode", orderCode);
+        HttpRequest.httpPostString(Constants.Api.ORDER_REMIND_SEND_URL, jsonObject, httpCallback);
+
+    }
+
+
+    //当面交易
+    public static void httpFaceTrade(String orderCode, int type, HttpRequest.HttpCallback httpCallback) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode", orderCode);
+        jsonObject.put("type", type); //操作类型  1-申请当面交易  2-同意当面交易  4-拒绝当面交易
+
+        HttpRequest.httpPostString(Constants.Api.ORDER_FACE_TRADE_URL, jsonObject, httpCallback);
+
+    }
+
+
+    //确认收货
+    public static void httpTakeGood(String orderCode, HttpRequest.HttpCallback httpCallback) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode", orderCode);
+        HttpRequest.httpPostString(Constants.Api.ORDER_CONFIRM_TAKE_URL, jsonObject, httpCallback);
+
+    }
+
+    //延迟发货
+    public static void httpDelaySendGood(String orderCode, int type, HttpRequest.HttpCallback httpCallback) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode", orderCode);
+        jsonObject.put("type", type);  //操作类型  1-申请延迟发货  2-同意延迟发货  4-拒绝延迟发货
+        HttpRequest.httpPostString(Constants.Api.ORDER_DELAY_SEND_URL, jsonObject, httpCallback);
+
+    }
+
+    //确认发货
+    public static void httpSendGood(String orderCode, String shippingCode, String shippingNum, HttpRequest.HttpCallback httpCallback) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode", orderCode);
+        jsonObject.put("shippingCode", orderCode);
+        jsonObject.put("shippingNum", shippingNum);
+        HttpRequest.httpPostString(Constants.Api.ORDER_CONFIRM_SEND_URL, jsonObject, httpCallback);
+
+    }
+
+    //延迟收货
+    public static void httpDelayTake(String orderCode, HttpRequest.HttpCallback httpCallback) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode", orderCode);
+        HttpRequest.httpPostString(Constants.Api.ORDER_DELAY_CONFIRM_TAKE_URL, jsonObject, httpCallback);
+    }
+
+    //申请延迟付款
+    public static void httpDelayPay(String orderCode, HttpRequest.HttpCallback httpCallback) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode", orderCode);
+        HttpRequest.httpPostString(Constants.Api.ORDER_DELAY_PAY_URL, jsonObject, httpCallback);
+
+    }
+
+    //修改单号
+    public static void httpExpress(String orderCode, HttpRequest.HttpCallback httpCallback) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode", orderCode);
+        jsonObject.put("shippingNum", orderCode);//快递单号
+        jsonObject.put("shippingCode", orderCode);//快递编码
+        HttpRequest.httpPostString(Constants.Api.ORDER_EXPRESS_URL, jsonObject, httpCallback);
+
+    }
+
+
+
+    //提交评价
+    public static void httpOrderEvaluate(String orderCode,  CommitEvaluationModel.DataBean dataList,
+                                         HttpRequest.HttpCallback httpCallback){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("orderCode",orderCode);
+        jsonObject.put("data",dataList);
+        HttpRequest.httpPostString(Constants.Api.ORDER_ESTIMATE_URL,jsonObject,httpCallback);
+    }
+
+
+
 }

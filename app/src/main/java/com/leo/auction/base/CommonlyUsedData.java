@@ -3,6 +3,7 @@ package com.leo.auction.base;
 import com.aten.compiler.utils.DateUtil;
 import com.aten.compiler.utils.ToastUtils;
 import com.leo.auction.R;
+import com.leo.auction.model.CommonModel;
 import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.ui.order.model.CancelReasonModel;
 import com.leo.auction.ui.order.model.CancleOrderModel;
@@ -183,4 +184,25 @@ public class CommonlyUsedData {
         arrayList.add("乘");
         return arrayList;
     }
+
+
+
+    public ArrayList<CommonModel> getCommonLabelList(){
+
+        //标签列表
+        ArrayList<CommonModel> commonModels = new ArrayList<>();
+        commonModels.add(new CommonModel("物超所值", 1, false));
+        commonModels.add(new CommonModel("物流给力", 2, false));
+        commonModels.add(new CommonModel("服务贴心", 4, false));
+        commonModels.add(new CommonModel("包装精美", 8, false));
+        commonModels.add(new CommonModel("捡到漏了", 16, false));
+        commonModels.add(new CommonModel("值得信赖", 32, false));
+
+        return commonModels;
+
+    }
+
+
+
+
 }

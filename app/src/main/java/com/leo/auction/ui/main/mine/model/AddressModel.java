@@ -3,6 +3,13 @@ package com.leo.auction.ui.main.mine.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.SPUtils;
+import com.leo.auction.base.Constants;
+import com.leo.auction.net.HttpRequest;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -294,5 +301,15 @@ public class AddressModel {
             dest.writeString(userAccountId);
         }
 
+    }
+
+
+    public static void httpAddressList(int mPageNum, String status, String type, HttpRequest.HttpCallback httpCallback){
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNum", String.valueOf(mPageNum));
+        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
+        hashMap.put("status", status);//00A-普通地址  00B-默认地址
+        hashMap.put("type", type);//0-收货地址  1-退货地址
+        HttpRequest.httpGetString(Constants.Api.ADDRESS_URL, hashMap,httpCallback);
     }
 }

@@ -12,6 +12,7 @@ import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.customerDialog.BottomDialogUtils;
 import com.aten.compiler.widget.loadingView.SpinView02;
 import com.leo.auction.R;
+import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.ui.common.logisticsDialog.LogisticsDialog;
 import com.leo.auction.ui.common.model.LogisticsTrajectoryModel;
 import com.leo.auction.ui.main.mine.dialog.ReleaseProtocolDialog;
@@ -42,6 +43,25 @@ import java.util.HashMap;
  * ================================================
  */
 public class DialogUtils {
+
+
+
+    private WarningDialog mWarningDialog;
+
+
+    public void showWarnDialog(Context context,HashMap<String,Object> hashMap){
+
+        mWarningDialog = new WarningDialog(context, hashMap);
+        mWarningDialog.show();
+    }
+
+
+
+
+
+
+
+
     /*********************************************   LogisticsDialog   start ****************************************************/
     private LogisticsDialog logisticsDialog;
     //显示materisDialog
@@ -62,23 +82,18 @@ public class DialogUtils {
             logisticsDialog=null;
         }
     }
-    /*********************************************   LogisticsDialog  end ****************************************************/
 
 
-    /*********************************************   LogisticsDialog   start ****************************************************/
+
+    /*********************************************   SureReceiveGoodDialog   start ****************************************************/
     private SureReceiveGoodDialog sureReceiveGoodDialog;
-    private FriendshipTipsDialog sureFriendshipTipsDialogDialog;
+
     //显示materisDialog
     public void showSureReceiveGoodDialog(Context context, SureReceiveGoodDialog.IReceiveGoods iReceiveGoods){
         sureReceiveGoodDialog=new SureReceiveGoodDialog(context,iReceiveGoods);
         sureReceiveGoodDialog.show();
     }
 
-   //显示materisDialog----确认取消供货
-    public void showFriendshipTipsDialog(Context context,HashMap<String,String> mhash, FriendshipTipsDialog.IReceiveLinsten iReceiveGoods ){
-        sureFriendshipTipsDialogDialog=new FriendshipTipsDialog(context,iReceiveGoods,mhash);
-        sureFriendshipTipsDialogDialog.show();
-    }
 
     //关闭aterisDialogm
     public void dissSureReceiveGoodDialog(){
@@ -87,7 +102,7 @@ public class DialogUtils {
             sureReceiveGoodDialog=null;
         }
     }
-    /*********************************************   LogisticsDialog  end ****************************************************/
+
 
     /*********************************************   GoldCoinAwardDialog   start ****************************************************/
     private GoldCoinAwardPop goldCoinAwardDialog;
@@ -114,7 +129,7 @@ public class DialogUtils {
             goldCoinAwardDialog=null;
         }
     }
-    /*********************************************   GoldCoinAwardDialog  end ****************************************************/
+
 
     /*********************************************   ExchangeLotteryTimesDialog   start ****************************************************/
     private ExchangeLotteryTimesDialog exchangeLotteryTimesDialog;
@@ -131,7 +146,7 @@ public class DialogUtils {
             exchangeLotteryTimesDialog=null;
         }
     }
-    /*********************************************   ExchangeLotteryTimesDialog  end ****************************************************/
+
 
 
     /*********************************************   showRefundReason   start ****************************************************/
@@ -174,7 +189,7 @@ public class DialogUtils {
     public interface IRefundReason{
         void RefundReasonTrue(CancleOrderModel cancleOrderModel);
     }
-    /*********************************************   showRefundReason  end ****************************************************/
+
 
     /*********************************************   ReleaseProtocolDialog   start ****************************************************/
     private ReleaseProtocolDialog releaseProtocolDialoge;
@@ -195,9 +210,9 @@ public class DialogUtils {
 
 
 
-    //确认供货的规则说明
+    //发布协议弹框
   private SupRuleDialog SupRuleDialogDialog;
-    //显示materisDialog
+
     public void showSupRuleDialog(Context context, String content,  SupRuleDialog.IButtonListener iButtonListener){
         SupRuleDialogDialog=new SupRuleDialog(context,content,iButtonListener);
         SupRuleDialogDialog.show();
@@ -211,11 +226,11 @@ public class DialogUtils {
         }
     }
 
-    /*********************************************   ReleaseProtocolDialog   end ****************************************************/
 
     /*********************************************   LotteryTimeDialog   start ****************************************************/
+
+    //物流信息
     private LotteryTimeDialog lotteryTimeDialog;
-    //显示materisDialog
     public void showLotteryTimeDialog(Context context, ArrayList<LotteryAttributeModel> lotteryAttributeModels01,
                                       ArrayList<LotteryAttributeModel> lotteryAttributeModels02, LotteryTimeDialog.ILotteryTime iLotteryTime){
         lotteryTimeDialog=new LotteryTimeDialog(context,lotteryAttributeModels01,lotteryAttributeModels02,iLotteryTime);
@@ -230,11 +245,10 @@ public class DialogUtils {
         }
     }
 
-    /*********************************************   LotteryTimeDialog   end ****************************************************/
 
     /*********************************************   RuleProtocolDialog   start ****************************************************/
+    //规则
     private RuleProtocolDialog ruleProtocolDialog;
-    //显示materisDialog
     public void showRuleProtocolDialog(Context context, String content, RuleProtocolDialog.IButtonListener iButtonListener){
         ruleProtocolDialog=new RuleProtocolDialog(context,content,iButtonListener);
         ruleProtocolDialog.show();
@@ -248,24 +262,29 @@ public class DialogUtils {
         }
     }
 
-    /*********************************************   RuleProtocolDialog   end ****************************************************/
 
-    /*********************************************   UserAgreementDailog   start ****************************************************/
-//    private UserAgreementDailog userAgreementDailog;
-//    //显示materisDialog
-//    public void showUserAgreementDailog(Context context){
-//        userAgreementDailog=new UserAgreementDailog(context);
-//        userAgreementDailog.show();
-//    }
-//
-//    //关闭aterisDialogm
-//    public void dissUserAgreementDailog(){
-//        if (userAgreementDailog!=null&&userAgreementDailog.isShowing()){
-//            userAgreementDailog.dismiss();
-//            userAgreementDailog=null;
-//        }
-//    }
 
-    /*********************************************   UserAgreementDailog   end ****************************************************/
+
+
+    /**
+     * 订单温馨提示
+     * */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

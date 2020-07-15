@@ -82,13 +82,8 @@ public class ShopActivity extends BaseActivity {
     public void initView() {
         super.initView();
 
-
-        SupplierModel.DataBean.ProductUserBean dataBean = (SupplierModel.DataBean.ProductUserBean)getIntent().getParcelableExtra("value");
-        shopName = dataBean.getNickname();
-        shopUri = dataBean.getUserId();
-
-
-
+        shopUri = getIntent().getExtras().getString("shopUri");
+        shopName =   getIntent().getExtras().getString("shopName");
 
        mShopName.setText(shopName);
 
@@ -190,19 +185,19 @@ public class ShopActivity extends BaseActivity {
     private void upUi(ShopModel.DataBean dataBean) {
 
         GlideUtils.loadImg(dataBean.getHeadImg(),mShopHead);
-
 //        dataBean.getLevel();  mShopLevel
-
-
 //        mShopName.setText(dataBean.g);
-
-
         mShopMark.setText(dataBean.getRate());
         mShopFan.setText(dataBean.getFansNum());
 
         mShopRz.setVisibility(dataBean.isCompanyAuth() ? View.VISIBLE :View.GONE);
         mShopStatus.setVisibility(dataBean.isCompanyAuth() ? View.VISIBLE :View.GONE);
 
+        if (dataBean.isCompanyAuth()){
+            mShopStatus.setText("企业认证");
+        }else {
+            mShopStatus.setText("个人认证");
+        }
 
     }
 

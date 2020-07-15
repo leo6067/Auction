@@ -2,6 +2,7 @@ package com.leo.auction.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -92,6 +93,16 @@ public class MainActivity extends BaseActivity {
         mCommonBottom.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
+
+                if (position ==0 ){
+                    Constants.Var.HOME_TYPE = 0;
+                }
+
+
+                if (position==2){
+                    Constants.Var.HOME_TYPE = 5;
+                }
+
                 if (position == 2 || position ==3){
                     if (! Constants.Var.ISLOGIN) {
                         ToastUtils.showShort("请先登录");
@@ -133,6 +144,17 @@ public class MainActivity extends BaseActivity {
 
         mViewPager.setCurrentItem(0);
 
+//        mCommonBottom.canScrollHorizontally(0);
+//        mCommonBottom.canScrollVertically(0);
+
+
+    }
+
+
+
+    public void setCurrentItem(int position){
+
+        mViewPager.setCurrentItem(position);
     }
 
 

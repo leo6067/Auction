@@ -50,7 +50,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.mine.activity.AuctionUpperActivity"/>
+        <activity android:name=".ui.order.activity.OrderCompleteEvaluationActivity"></activity>
+        <activity android:name=".ui.order.activity.OrderEvaluationActivity" />
+        <activity android:name=".ui.order.activity.OrderRefuseGoodActivity" />
+        <activity android:name=".ui.order.activity.OrderRefuseActivity" />
+        <activity android:name=".ui.order.activity.OrederLogisticsActivity" />
+        <activity android:name=".ui.order.activity.OrderConfirmActivity" />
+        <activity android:name=".ui.order.activity.OrderDetailActivity" />
+        <activity android:name=".ui.order.activity.OrderActivity" />
+        <activity android:name=".ui.main.mine.banlance.BalanceDetailActivity" />
+        <activity android:name=".ui.main.mine.banlance.WithdrawalActivity" />
+        <activity android:name=".ui.main.mine.activity.AuctionUpperActivity" />
         <activity android:name=".ui.main.mine.activity.PutawayActivity" />
         <activity android:name=".ui.main.mine.activity.SuperHouseActivity" />
         <activity android:name=".ui.main.mine.activity.SetPayPwdActivity" />
@@ -73,8 +83,9 @@
         <activity android:name=".ui.main.mine.activity.CommodityReleaseActivity" />
         <activity android:name=".ui.main.home.activity.ShopActivity" />
         <activity android:name=".ui.main.home.activity.HomeSearchActivity" />
-        <activity android:name=".ui.main.home.activity.AuctionDetailActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.main.home.activity.AuctionDetailActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.main.home.activity.CategoryActivity" />
         <activity android:name=".ui.login.AgreementActivity" />
         <activity android:name=".ui.login.LoginWxActivity" />
@@ -98,8 +109,6 @@
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
-
-
 
         <activity
             android:name=".ui.wxapi.WXEntryActivity"
@@ -136,8 +145,6 @@
                 <data android:scheme="wxcf78ef0e38764358" />
             </intent-filter>
         </activity> <!-- 微信支付 end -->
-
-
         <provider
             android:name=".tool.version.VersionFileProvider"
             android:authorities=".tool.version.VersionFileProvider"

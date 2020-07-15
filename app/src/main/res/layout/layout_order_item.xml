@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_15"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_96"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+        <com.aten.compiler.widget.CircleImageView
+            android:id="@+id/civ_order_head"
+            android:layout_width="@dimen/dp_56"
+            android:layout_height="@dimen/dp_56"
+            android:layout_centerVertical="true"
+            app:civ_border_color="@color/color_ff9466"
+            app:civ_border_width="@dimen/dp_3"
+            tools:src="@android:color/white" />
+
+        <TextView
+            android:id="@+id/civ_order_shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_toRightOf="@+id/civ_order_head"
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28"
+            android:textStyle="bold"
+            tools:text="黑檀木商店" />
+
+        <TextView
+            android:id="@+id/civ_order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:textColor="@color/color_ff8e67"
+            android:textSize="@dimen/sp_24"
+            tools:text="已发货" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/all_order_product_contain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/all_aggregate_payment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_82"
+        android:layout_marginTop="@dimen/dp_2"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:background="@android:color/white"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_freight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginRight="@dimen/dp_30"
+            android:textColor="@color/color_979797"
+            android:textSize="@dimen/sp_26"
+            tools:text="运费：¥8.01" />
+
+
+        <TextView
+            android:id="@+id/tv_real_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_525252"
+            android:textSize="@dimen/sp_26"
+            tools:text="¥8.01" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_89"
+        android:background="@android:color/white"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_30">
+
+
+
+        <TextView
+            android:id="@+id/tv_count_down"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_e62723"
+            android:textSize="@dimen/sp_24"
+            android:visibility="gone"
+            tools:text="2分30秒" />
+
+        <FrameLayout
+            android:id="@+id/fl_01"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_15">
+
+            <com.allen.library.shape.ShapeTextView
+                android:id="@+id/tv_01"
+                android:layout_width="wrap_content"
+                android:minWidth="@dimen/dp_110"
+                android:layout_height="@dimen/dp_41"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_24"
+                app:shapeCornersRadius="@dimen/dp_10"
+                app:shapeStrokeColor="@color/color_ff8e67"
+                app:shapeStrokeWidth="@dimen/dp_2"
+                tools:text="延长收货" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_02"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_15">
+
+            <com.allen.library.shape.ShapeTextView
+                android:id="@+id/tv_02"
+                android:layout_width="wrap_content"
+                android:minWidth="@dimen/dp_110"
+                android:layout_height="@dimen/dp_41"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_24"
+                app:shapeCornersRadius="@dimen/dp_10"
+                app:shapeStrokeColor="@color/color_ff8e67"
+                app:shapeStrokeWidth="@dimen/dp_2"
+                tools:text="取消订单" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_03"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_15">
+
+            <com.allen.library.shape.ShapeTextView
+                android:id="@+id/tv_03"
+                android:layout_width="wrap_content"
+                android:minWidth="@dimen/dp_110"
+                android:layout_height="@dimen/dp_41"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_24"
+                app:shapeCornersRadius="@dimen/dp_10"
+                app:shapeStrokeColor="@color/color_ff8e67"
+                app:shapeStrokeWidth="@dimen/dp_2"
+                tools:text="付款" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_04"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_15"
+           >
+
+            <com.allen.library.shape.ShapeTextView
+                android:id="@+id/tv_04"
+                android:layout_width="wrap_content"
+                android:minWidth="@dimen/dp_110"
+                android:layout_height="@dimen/dp_41"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                android:singleLine="true"
+                android:text="拒绝延迟发货"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_24"
+                app:shapeCornersRadius="@dimen/dp_10"
+                app:shapeStrokeColor="@color/color_ff8e67"
+                app:shapeStrokeWidth="@dimen/dp_2" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_05"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_15"
+          >
+
+            <com.allen.library.shape.ShapeTextView
+                android:id="@+id/tv_05"
+                android:layout_width="wrap_content"
+                android:minWidth="@dimen/dp_110"
+                android:layout_height="@dimen/dp_41"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                android:singleLine="true"
+                android:text="填写 "
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_24"
+                app:shapeCornersRadius="@dimen/dp_10"
+                app:shapeStrokeColor="@color/color_ff8e67"
+                app:shapeStrokeWidth="@dimen/dp_2" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

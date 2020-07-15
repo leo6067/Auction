@@ -97,6 +97,7 @@ public class EarnestDialog extends BottomBaseDialog {
             @Override
             public void onClick(View v) {
                 mInterEarnestPay.earnestPay();
+                dismiss();
             }
         });
 

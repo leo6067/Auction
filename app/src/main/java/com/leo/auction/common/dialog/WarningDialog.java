@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 /**
  * Created by Leo on 2017/8/30.
- *
+ * <p>
  * 警告或者提醒框 ----提醒文字，是否，按钮
  */
 
@@ -33,20 +33,17 @@ public class WarningDialog extends BaseDialog<WarningDialog> implements View.OnC
     HashMap<String, Object> mHashMap;
 
 
-
     public WarningDialog(Context context, HashMap<String, Object> hashMap) {
         super(context);
         mHashMap = hashMap;
-        Globals.log("mHashMap" + mHashMap.toString());
+
     }
-
-
 
 
     @Override
     public View onCreateView() {
 
-        View view=View.inflate(mContext, R.layout.dialog_warning, null);
+        View view = View.inflate(mContext, R.layout.dialog_warning, null);
         mTitleTitle = (TextView) view.findViewById(R.id.warning_title);
         mTitleText = (TextView) view.findViewById(R.id.warning_text);
         mOKTV = (TextView) view.findViewById(R.id.warning_btn_ok);
@@ -80,8 +77,6 @@ public class WarningDialog extends BaseDialog<WarningDialog> implements View.OnC
         }
 
     }
-
-
 
 
     public interface OnWarningClickListener {

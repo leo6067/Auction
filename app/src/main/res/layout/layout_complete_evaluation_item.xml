@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_4"
+    android:paddingBottom="@dimen/dp_20"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_96"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+        <com.aten.compiler.widget.CircleImageView
+            android:id="@+id/civ_order_head"
+            android:layout_width="@dimen/dp_56"
+            android:layout_height="@dimen/dp_56"
+            android:layout_centerVertical="true"
+            android:src="@android:color/white"
+            app:civ_border_color="@color/color_ff9466"
+            app:civ_border_width="@dimen/dp_3" />
+
+        <TextView
+            android:id="@+id/civ_order_shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_toRightOf="@+id/civ_order_head"
+            android:text="黑檀木商店"
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/civ_order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:text="交易成功"
+            android:textColor="@color/color_ff8e67"
+            android:textSize="@dimen/sp_28"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_3"
+        android:background="@color/windowbackground" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_42"
+        android:paddingRight="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_42">
+
+        <com.aten.compiler.widget.RadiusImageView
+            android:id="@+id/item_head"
+            android:layout_width="@dimen/dp_157"
+            android:layout_height="@dimen/dp_185"
+            android:layout_marginRight="@dimen/dp_28"
+            app:qmui_corner_radius="@dimen/dp_20"
+            tools:src="@color/color_ff9466" />
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_50"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_toRightOf="@+id/item_head"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/color_525252"
+            android:textSize="@dimen/sp_30"
+            tools:text="【一毛钱免费送】黑檀木手黑檀木手黑檀木手黑檀木手黑檀木手黑檀木手" />
+
+
+
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_title"
+            android:layout_toRightOf="@+id/item_head"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_50"
+            tools:text="成交时间"
+            android:textColor="@color/color_868686"
+            android:textSize="@dimen/sp_20"
+            android:includeFontPadding="false"/>
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_time"
+            android:layout_toRightOf="@+id/item_head"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_50"
+            tools:text="成交金额："
+            android:textColor="@color/color_868686"
+            android:textSize="@dimen/sp_20"
+            android:includeFontPadding="false"/>
+
+
+
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_14"
+        android:background="@color/windowbackground" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_89"
+        android:layout_marginTop="@dimen/dp_14"
+        android:background="@android:color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/dp_30"
+            android:text="评价内容"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/dp_28"
+            android:textStyle="bold" />
+
+        <com.aten.compiler.widget.ratingbar.ScaleRatingBar
+            android:id="@+id/srb_standard"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            app:srb_isIndicator="true"
+            app:srb_numStars="5"
+            app:srb_starHeight="@dimen/dp_26"
+            app:srb_starPadding="@dimen/dp_20"
+            app:srb_starWidth="@dimen/dp_26"
+            app:srb_stepSize="1" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_30">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="评价标签"
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28"
+            android:textStyle="bold" />
+
+        <com.aten.compiler.widget.CustomeRecyclerView
+            android:id="@+id/crl_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:paddingLeft="@dimen/dp_30" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_16"
+        android:background="@color/windowbackground" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/dp_170"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_30"
+        android:text="对商品满意吗？说说你对它的评价吧！"
+        android:textColor="@color/color_a2a2a2"
+        android:textSize="@dimen/dp_26" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/crl_evaluation_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10" />
+
+</LinearLayout>

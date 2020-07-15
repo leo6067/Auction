@@ -22,7 +22,7 @@ public class Constants {
         } else {
             BASE_URL = "https://cd.taojianlou.com/ut/";//测试
         }
-        TestState = isTest;
+        TestState = !isTest;
     }
 
 
@@ -62,12 +62,19 @@ public class Constants {
 
         //变量
         public static boolean ISLOGIN = false;//是否处于登录状态
-        public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个
+        public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个     // 5开始是关注
         public static int SHOP_TYPE = 0 ;//用于记录是商家店铺主页 片段中具体哪个
+        public static int MINE_TYPE = 0 ;//用于记录是个人中心是 买入 还是卖出订单
         public static String HOME_SORT_TYPE = "HOME_SORT_TYPE" ;//用于记录是分类id
 
         public static int PPGL_SORT_TYPE = 0 ;//用于记录是拍品管理当前是哪个分类
         public static int PPGL_SORT_VALUE = 0 ;//用于记录是拍品管理当前是哪个分类接口分类值
+
+        public static int MONEY_NO_PWD = 300 ;//设置免密支付金额
+
+
+        public static String AA = "00A" ;
+        public static String BB = "00B" ;
 
 
 
@@ -235,6 +242,17 @@ public class Constants {
         public static String HOME_SEARCH_INT_URL = domain + "instance/search-about-intercept";//
 
 
+
+        //关注
+        public static String SORT_FOLLOW_URL = domain + "follow/product";//
+        public static String SORT_FOLLOW_SHOP_URL = domain + "follow/shop";//
+        public static String SORT_COLLECT_URL = domain + "collect";//
+        public static String SORT_PARTAKE_URL = domain + "follow/partake";//
+        public static String SORT_FOOT_PARTAKE_URL = domain + "follow/footmark";//
+
+
+
+
         //商家列表
         public static String HOME_SEARCH_SUPPLIER_URL = domain + "supplier";//
         public static String SHOP_URL = domain + "shop/info";//
@@ -273,6 +291,8 @@ public class Constants {
 
         //地址
         public static String ADDRESS_URL = domain + "address";//
+        public static String ADDRESS_INFO_URL = domain + "address/info";//
+        public static String ADDRESS_DISTRICT_URL = domain + "address/district-children";//
 
 
 
@@ -280,6 +300,11 @@ public class Constants {
         //余额
         public static String BALANCE_URL = domain + "balance/info";//
         public static String BALANCE_EXEMPT_URL = domain + "balance-exempt";//
+        public static String BALANCE_WITHDRAWNUM_URL = domain + "balance/withdraw-num";//
+        public static String BALANCE_CATEGORY_URL = domain + "category/balance";//
+        public static String BALANCE_WITHDRAW_URL = domain + "balance/withdraw";//
+        public static String BALANCE_DETAIL_URL = domain + "balance/detail";//
+        public static String BALANCE_LOG_URL = domain + "balance/log";//
 
 
 
@@ -313,6 +338,39 @@ public class Constants {
 
         //支付
         public static String PAY_ORDER_URL = domain + "pay/unified-order";//
+
+
+
+
+        //订单
+        public static String ORDER_LIST_URL = domain + "order/list";//
+
+
+
+
+        //提交评价
+        public static String ORDER_ESTIMATE_URL = domain + "order/estimate";//
+
+        //获取评价详情
+        public static String ORDER_INFO_URL = domain + "order/info";//
+
+        //提醒发货
+        public static String ORDER_REMIND_SEND_URL = domain + "order/remind-send";//
+        //延迟发货
+        public static String ORDER_DELAY_SEND_URL = domain + "order/delay-send";
+        //确认发货
+        public static String ORDER_CONFIRM_SEND_URL = domain + "order/confirm-send";
+        //确认收货
+        public static String ORDER_CONFIRM_TAKE_URL = domain + "order/confirm-take";
+        //延迟收货
+        public static String ORDER_DELAY_CONFIRM_TAKE_URL = domain + "order/delay-confirm-take";
+       //当面交易
+        public static String ORDER_FACE_TRADE_URL = domain + "order/face-trade";
+        //延迟付款
+        public static String ORDER_DELAY_PAY_URL = domain + "order/delay-pay";
+
+        //修改单号
+        public static String ORDER_EXPRESS_URL = domain + "order/express";
 
     }
 

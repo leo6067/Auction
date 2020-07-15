@@ -54,7 +54,7 @@ public class LogisticsDialog extends BaseDialog<LogisticsDialog> {
         View view=View.inflate(mContext, R.layout.layout_logistics_dialog, null);
         alLogisticsHeadInfo=view.findViewById(R.id.al_logistics_head_info);
         rivOrderPic=view.findViewById(R.id.riv_order_pic);
-        tvOrderId=view.findViewById(R.id.tv_order_id);
+        tvOrderId=view.findViewById(R.id.order_status);
         tvOrderCreateTime=view.findViewById(R.id.tv_order_create_time);
         tvLogisticsCompany=view.findViewById(R.id.tv_logistics_company);
         tvWaybillNumber=view.findViewById(R.id.tv_waybill_number);

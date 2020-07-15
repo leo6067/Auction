@@ -163,17 +163,24 @@
 
 
     <com.aten.compiler.widget.tabLayout.SlidingTabLayout
-        android:id="@+id/sliding_tab"
+        android:id="@+id/stb_tablayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_88"
+        android:layout_height="@dimen/dp_90"
+        android:background="@android:color/white"
+        android:layout_marginTop="@dimen/dp_1"
+        app:tl_indicator_color="@color/color_fe7f67"
+        app:tl_indicator_corner_radius="@dimen/dp_2"
+        app:tl_indicator_height="@dimen/dp_4"
         app:tl_textSelectColor="@color/home_blue"
-        app:tl_textUnselectColor="@color/black" />
-
+        app:tl_textUnselectColor="@color/color_191919"
+        app:tl_textsize="@dimen/sp_28"
+        app:tl_textSelectSize="@dimen/sp_28"
+        app:tl_underline_color="@color/windowbackground"
+        app:tl_underline_height="@dimen/dp_0_5"
+        app:tl_indicator_width_equal_title="true"/>
 
     <com.aten.compiler.widget.CustomViewPager
-        android:id="@+id/custom"
+        android:id="@+id/vp_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
+        android:layout_height="match_parent" />
 </LinearLayout>

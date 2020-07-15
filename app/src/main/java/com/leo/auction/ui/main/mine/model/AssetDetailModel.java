@@ -46,49 +46,49 @@ public class AssetDetailModel {
          * freezeMoney : 0
          */
 
-        private int balance;
-        private int noPayMoney;
-        private int receiveMoney;
-        private int sendMoney;
-        private int freezeMoney;
+        private String balance;
+        private String noPayMoney;
+        private String receiveMoney;
+        private String sendMoney;
+        private String freezeMoney;
 
-        public int getBalance() {
+        public String getBalance() {
             return balance;
         }
 
-        public void setBalance(int balance) {
+        public void setBalance(String balance) {
             this.balance = balance;
         }
 
-        public int getNoPayMoney() {
+        public String getNoPayMoney() {
             return noPayMoney;
         }
 
-        public void setNoPayMoney(int noPayMoney) {
+        public void setNoPayMoney(String noPayMoney) {
             this.noPayMoney = noPayMoney;
         }
 
-        public int getReceiveMoney() {
+        public String getReceiveMoney() {
             return receiveMoney;
         }
 
-        public void setReceiveMoney(int receiveMoney) {
+        public void setReceiveMoney(String receiveMoney) {
             this.receiveMoney = receiveMoney;
         }
 
-        public int getSendMoney() {
+        public String getSendMoney() {
             return sendMoney;
         }
 
-        public void setSendMoney(int sendMoney) {
+        public void setSendMoney(String sendMoney) {
             this.sendMoney = sendMoney;
         }
 
-        public int getFreezeMoney() {
+        public String getFreezeMoney() {
             return freezeMoney;
         }
 
-        public void setFreezeMoney(int freezeMoney) {
+        public void setFreezeMoney(String freezeMoney) {
             this.freezeMoney = freezeMoney;
         }
     }
@@ -138,6 +138,8 @@ public class AssetDetailModel {
             this.timestamp = timestamp;
         }
     }
+
+
 
 
 }

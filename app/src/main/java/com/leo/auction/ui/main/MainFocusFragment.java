@@ -10,9 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.aten.compiler.base.BaseFragment;
+import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.Constants;
+import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.fragment.FocusShopFragment;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
 
@@ -62,12 +66,18 @@ public class MainFocusFragment extends BaseFragment {
         mFragments.add(new HomeAllFragment());
         mFragments.add(new HomeAllFragment());
         mFragments.add(new HomeAllFragment());
-
-        TitlePagerAdapter titlePagerAdapter = new  TitlePagerAdapter(getFragmentManager());
+        Constants.Var.HOME_TYPE = 5;
+        TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(titlePagerAdapter);
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
+
+                Constants.Var.HOME_TYPE = position + 5;
+                if (position == 0) {
+                    BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_REFRESH_HOME_ALL);
+                }
+
                 mViewPager.setCurrentItem(position);
             }
 
@@ -100,9 +110,6 @@ public class MainFocusFragment extends BaseFragment {
     }
 
 
-
-
-
     private class TitlePagerAdapter extends FragmentPagerAdapter {
 
         public TitlePagerAdapter(FragmentManager fm) {
@@ -125,8 +132,8 @@ public class MainFocusFragment extends BaseFragment {
         }
     }
 
-
     @OnClick(R.id.title_lin)
     public void onViewClicked() {
+        ActivityManager.JumpActivity(getActivity(), HomeSearchActivity.class);
     }
 }

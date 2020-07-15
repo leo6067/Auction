@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_cancle_order"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_422"/>
+
+        <com.aten.compiler.widget.loadingView.SpinView02
+            android:id="@+id/iv_spinView"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:layout_gravity="center"
+            app:sw_drawble="@drawable/ic_spinner_02"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_83"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_marginBottom="@dimen/dp_25"
+        android:background="@drawable/ic_cancle_order_btn_bg"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_cancle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="暂不取消"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_26"
+            android:textStyle="bold"/>
+
+        <View
+            android:layout_width="@dimen/dp_7"
+            android:layout_height="@dimen/dp_39"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_corner_cancle_order"/>
+
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="确定取消"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_26"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

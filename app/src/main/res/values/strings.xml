@@ -45,4 +45,16 @@
     <string name="address_sup">选择地址</string>
 
 
+    <string name="warn_sure_good">确认收货后订单交易完成，无法进行退货</string>
+    <string name="warn_cancel_reject">拒绝退货后，买家可以申请客服介入，会影响店铺权重</string>
+    <string name="warn_cancel_tk">取消退款后订单可以正常确认收货，取消后无法再申请退款</string>
+    <string name="warn_cancel_th">取消退货后订单可以正常确认收货，取消后无法再申请退货</string>
+    <string name="warn_cancel">确认退货后，买家支付的货款将原路退回给买家</string>
+    <string name="warn_sure_th">同意退货后，买家可以进行退货，收货货收及时处理退款</string>
+    <string name="warn_sure_tk">同意退款后，买家支付的货款将原路退回给买家</string>
+    <string name="warn_reject_tk">拒绝退款后，买家可以申请客服介入，会影响店铺权重</string>
+    <string name="warn_sure_dm">同意当面交易后，订单为用户自己当面交易。平台不对该笔交易进行担保，货款无需通过平台支付，不增加买家积分</string>
+    <string name="warn_reject_dm">拒绝当面交易后，订单只能通过平台进行交易。平台对该笔交易进行担保交易，安全有保障</string>
+
+
 </resources>

@@ -163,8 +163,8 @@ public class DistrictListModel {
 
     public static void sendDistrictListRequest(String id, String level, HttpRequest.HttpCallback httpCallback) {
         HashMap<String,String> mHash = new HashMap<>();
-        mHash.put("id",id);
+        mHash.put("parentId",id);
         mHash.put("level",level);
-        HttpRequest.httpGetString(Constants.Api.ADDRESS_URL, mHash, httpCallback);
+        HttpRequest.httpGetString(Constants.Api.ADDRESS_DISTRICT_URL, mHash, httpCallback);
     }
 }

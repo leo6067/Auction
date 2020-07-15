@@ -175,7 +175,7 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size() < Constants.Var.LIST_NUMBER_INT) {
+                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

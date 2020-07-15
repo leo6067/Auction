@@ -53,28 +53,19 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
         type = getIntent().getStringExtra("type");
         itemClickBackType = getIntent().getStringExtra("itemClickBackType");
         super.initData();
-
         if ("1".equals(type)) {
             setTitle("退货地址");
         } else {
             setTitle("收货地址");
         }
-
-
         onRefresh(refreshLayout);
     }
 
 
     @Override
     public void getData() {
-
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("pageNum", String.valueOf(mPageNum));
-        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
-        hashMap.put("status", "00B");
-        hashMap.put("type", type);
         showWaitDialog();
-        HttpRequest.httpGetString(Constants.Api.ADDRESS_URL, hashMap, new HttpRequest.HttpCallback() {
+        AddressModel.httpAddressList(mPageNum, "00B", type, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();
@@ -83,7 +74,6 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
-
                 AddressModel addressModel = JSONObject.parseObject(resultData, AddressModel.class);
                 if (mPageNum == 1) {
                     if (addressModel.getData() != null && !addressModel.getData().isEmpty()) {
@@ -106,8 +96,6 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
                 }
             }
         });
-
-
     }
 
     //地址列表的item点击事件

@@ -46,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_30"
-                        android:layout_marginTop="@dimen/dp_90"
+                        android:layout_marginTop="@dimen/dp_60"
                         android:layout_marginEnd="@dimen/dp_30"
                         android:orientation="vertical"
                         app:background_normal="@color/white"
@@ -88,19 +88,22 @@
 
                             <ImageView
                                 android:id="@+id/shop_rz"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="@dimen/dp_40"
+                                android:layout_height="@dimen/dp_40"
                                 android:layout_below="@+id/shop_name"
                                 android:layout_marginStart="@dimen/dp_30"
+                                android:src="@drawable/seller_rz"
                                 android:layout_toRightOf="@+id/shop_head" />
 
                             <TextView
+                                android:layout_marginTop="@dimen/dp_5"
                                 android:id="@+id/shop_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/shop_name"
                                 android:layout_toRightOf="@+id/shop_rz"
                                 android:textColor="@color/home_title_bg"
+                                android:textSize="12sp"
                                 tools:text="个人认证" />
 
 
@@ -182,6 +185,7 @@
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_80"
+
                     android:background="@color/home_title_bg"
                     app:tl_tab_space_equal="true"
                     app:tl_indicator_color="@color/white"
@@ -196,7 +200,7 @@
             </android.support.design.widget.AppBarLayout>
 
 
-            <com.aten.compiler.widget.CustomViewPager
+            <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

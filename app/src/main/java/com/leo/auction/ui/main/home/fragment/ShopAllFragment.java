@@ -136,7 +136,7 @@ public class ShopAllFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 1;
-                } else if (mAdapter.getData().size() < 20) {
+                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

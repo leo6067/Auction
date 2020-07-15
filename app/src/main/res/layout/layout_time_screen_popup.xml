@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_type"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_start"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_80"
+        android:gravity="center"
+        android:text="起始时间"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/sp_24" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/line" />
+
+    <TextView
+        android:id="@+id/tv_end"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_80"
+        android:gravity="center"
+        android:text="结束时间"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/sp_24" />
+
+</LinearLayout>

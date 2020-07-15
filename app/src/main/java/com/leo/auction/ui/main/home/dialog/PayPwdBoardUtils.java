@@ -17,6 +17,7 @@ import com.leo.auction.R;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.ui.main.mine.activity.SetPayPwdActivity;
 import com.leo.auction.ui.order.model.OrderPayTypeModel;
+import com.leo.auction.utils.SetPaypwdUtils;
 import com.leo.auction.widget.customDialog.GoSettingPaypwdDialog;
 
 import org.litepal.LitePal;
@@ -40,7 +41,7 @@ public class PayPwdBoardUtils {
     //-------------------------------------------弹出支付方式选择框  start-------------------------------------------------
 
     //显示支付方式的dialog
-    public     void showPayTypeDialog(Context context, String payMoney, ArrayList<OrderPayTypeModel> orderPayTypeModels, final IPayType iPayType) {
+    public void showPayTypeDialog(Context context, String payMoney, ArrayList<OrderPayTypeModel> orderPayTypeModels, final IPayType iPayType) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomChooseLayout = inflater.inflate(R.layout.layout_pay_input_type, null);
         TextView tvMoney= (TextView) bottomChooseLayout.findViewById(R.id.tv_money);
@@ -70,7 +71,7 @@ public class PayPwdBoardUtils {
         payTypeBottomDialog.show();
     }
     //关闭支付方式的dialog
-    public   void dismissPayTypeDialog(){
+    public void dismissPayTypeDialog(){
         if (payTypeBottomDialog!=null){
             payTypeBottomDialog.dismiss();
             payTypeBottomDialog=null;
@@ -86,7 +87,7 @@ public class PayPwdBoardUtils {
     //-------------------------------------------弹出密码支付框  start-------------------------------------------------
 
     //显示支付密码的dialog
-    public void showPayPasswordDialog(Context context,String money,SetPaypwdUtils.IComplete iComplete) {
+    public void showPayPasswordDialog(Context context, String money, SetPaypwdUtils.IComplete iComplete) {
         //若选择余额支付，那么需要先判断是否设置支付密码
 
         boolean payPwd = BaseSharePerence.getInstance().getUserJson().isPayPwd();

@@ -49,6 +49,7 @@
     <com.ruffian.library.widget.RLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:background_normal="@color/white"
         android:layout_marginTop="@dimen/dp_77"
         android:orientation="vertical"
         android:paddingStart="@dimen/dp_11"

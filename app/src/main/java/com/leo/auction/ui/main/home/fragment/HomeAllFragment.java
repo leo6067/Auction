@@ -122,31 +122,44 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
         int homeType = Constants.Var.HOME_TYPE;
 
         if (homeType == 0) {
-            mUrl = Constants.Api.HOME_ALL_URL;
-        } else if (homeType == 1) {
+            mUrl = Constants.Api.HOME_ALL_URL;    //首页--全部
+        } else if (homeType == 1) {//首页--全部
             mUrl = Constants.Api.HOME_UNITARY_URL;
-        } else if (homeType == 2) {
+        } else if (homeType == 2) {//首页--全部
             mUrl = Constants.Api.HOME_PICK_URL;
-        } else if (homeType == 3) {
+        } else if (homeType == 3) {//首页--全部
             mUrl = Constants.Api.HOME_NEWEST_URL;
-        } else if (homeType == 4) {
+        } else if (homeType == 4) {//首页--截拍
             mUrl = Constants.Api.HOME_ABOUT_URL;
+        } else if (homeType== 5){  //关注---拍品
+            mUrl = Constants.Api.SORT_FOLLOW_URL;
+        }else if (homeType== 7){//关注---
+            mUrl = Constants.Api.SORT_COLLECT_URL;
+        }else if (homeType== 8){//关注---
+            mUrl = Constants.Api.SORT_PARTAKE_URL;
+        }else if (homeType== 9){//关注--
+            mUrl = Constants.Api.SORT_FOOT_PARTAKE_URL;
+        }else {
+            mUrl = Constants.Api.HOME_ALL_URL;    //首页--全部
         }
+
 
         hashMap.put("keyword", "");
         hashMap.put("pageNum", "" + mPageNum);
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
+        showWaitDialog();
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideRefreshView();
+                hideWaitDialog();
             }
 
             @Override
             public void httpResponse(String resultData) {
+                hideWaitDialog();
                 HomeListModel homeListModel = JSONObject.parseObject(resultData, HomeListModel.class);
-                hideRefreshView();
+
                 if (mPageNum == 1) {
                     mAdapter.setNewData(homeListModel.getData());
                 } else {
@@ -156,7 +169,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size() < Constants.Var.LIST_NUMBER_INT) {
+                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dp_100"
+    android:layout_height="@dimen/dp_100"
+    android:layout_marginLeft="@dimen/dp_20"
+    android:layout_marginRight="@dimen/dp_20">
+    
+    <com.aten.compiler.widget.RadiusImageView
+        android:id="@+id/riv_img"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
+        tools:background="@android:color/holo_red_light"
+        android:scaleType="centerCrop"
+        app:qmui_corner_radius="@dimen/dp_10"/>
+
+</FrameLayout>

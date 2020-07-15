@@ -186,7 +186,7 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
 
 
                 if (mPageNum > 1 && homeListModel.getData().isEmpty()) {
-                    if (mAdapter.getData().size() < 10) {
+                    if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                         mAdapter.loadMoreEnd(true);
                     } else {
                         mAdapter.loadMoreEnd();

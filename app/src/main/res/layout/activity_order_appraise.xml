@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/layout_custom_title_w" />
+
+
+
+    <com.aten.compiler.widget.ReboundNetScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/layout_order_evaluation_product"/>
+
+
+    </com.aten.compiler.widget.ReboundNetScrollView>
+
+
+    <com.allen.library.SuperButton
+        android:id="@+id/stb_immediate_purchase"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_109"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="提交评价"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_36"
+        app:sSelectorNormalColor="@color/color_ff7957"
+        app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+        app:sUseSelector="true" />
+
+</RelativeLayout>
