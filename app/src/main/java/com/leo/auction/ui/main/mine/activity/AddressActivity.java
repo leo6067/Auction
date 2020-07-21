@@ -53,7 +53,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
         type = getIntent().getStringExtra("type");
         itemClickBackType = getIntent().getStringExtra("itemClickBackType");
         super.initData();
-        if ("1".equals(type)) {
+        if ("1".equals(type)) {  //0-收货地址  1-退货地址
             setTitle("退货地址");
         } else {
             setTitle("收货地址");
@@ -193,10 +193,10 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
         context.startActivity(intent);
     }
 
-    //itemClickBackType 列表item点击时操作 0：默认直接修改地址 1：直接把item的数据带返回
+    //itemClickBackType 列表item点击时操作 0：默认直接修改地址 1：直接把item的数据带返回  0-收货地址  1-退货地址
     public static void newIntance(Activity activity, String type, String itemClickBackType, int requestCode) {
         Intent intent = new Intent(activity, AddressActivity.class);
-        intent.putExtra("type", type);
+        intent.putExtra("type", type);  //0-收货地址  1-退货地址
         intent.putExtra("itemClickBackType", itemClickBackType);
         activity.startActivityForResult(intent, requestCode);
     }

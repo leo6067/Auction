@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
@@ -36,6 +37,7 @@ import com.leo.auction.ui.login.model.LoginVerModel;
 import com.leo.auction.ui.login.model.SmsCodeModel;
 
 import com.leo.auction.ui.main.MainActivity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -178,6 +180,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     jsonStr = jsonStr.substring(5);
                     /* Globals.log("xxxxxxxxxxxxxxxshouldOverrideUrlLoading  "  +  jsonStr );*/
                     LoginVerModel loginVerModel = JSONObject.parseObject(jsonStr, LoginVerModel.class);
+                    BaseSharePerence.getInstance().setLoginView(jsonStr);
                     getVerifCode(loginVerModel);
                     return true;
                 } else {
@@ -284,25 +287,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         hashMap.put("number",etName.getText().toString().trim());
         hashMap.put("code",etVerifCode.getText().toString().trim());
 
-
         HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_PHONE_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();
-
             }
 
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
+                Globals.log("xxxxxx resultData"  +resultData);
                 LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                 if (loginModel.getResult().isSuccess()){
                     ToastUtils.showShort("登录成功");
+                    httpUser();
                     BaseSharePerence.getInstance().setLoginJson(resultData);
                     MainActivity.newIntance(LoginActivity.this, 0);
                     finish();
                 }
-
             }
         });
     }
@@ -344,6 +346,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                         if (loginModel.getResult().isSuccess()){
                             ToastUtils.showShort("登录成功");
+                            httpUser();
                             BaseSharePerence.getInstance().setLoginJson(resultData);
                             MainActivity.newIntance(LoginActivity.this, 0);
                             finish();
@@ -370,6 +373,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
 
+
+    private void httpUser() {
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+            }
+        });
+    }
 
 
 

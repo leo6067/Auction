@@ -40,7 +40,7 @@ public class AssetDetailActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-        mTitleBar.setTitle("余额明细");
+        mTitleBar.setTitle("资产明细");
         showWaitDialog();
         HttpRequest.httpGetString(Constants.Api.BALANCE_URL, mHashMap, new HttpRequest.HttpCallback() {
             @Override

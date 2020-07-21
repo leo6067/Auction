@@ -129,7 +129,7 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
                 ProductListModel.DataBean item = (ProductListModel.DataBean) mAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
-                if ("2".equals(item.getSourceType())) {
+                if ("2".equals(item.getSourceType())) {  // 1-自行发拍  2-产品库
                     bundle.putString("goodsCode", item.getGoodsId());
                 } else {
                     bundle.putString("goodsCode", item.getProductInstanceCode());

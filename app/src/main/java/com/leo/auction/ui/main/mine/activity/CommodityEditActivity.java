@@ -494,11 +494,9 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
     //获oss请求的必要参数
     private void geOssToken() {
-
         OssTokenModel.sendOssTokenRequest(new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-
             }
 
             @Override
@@ -520,8 +518,6 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 }
             }
         });
-
-
     }
 
 

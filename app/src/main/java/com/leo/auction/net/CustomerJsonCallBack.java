@@ -16,6 +16,7 @@ import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.leo.auction.base.Constants;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.utils.Globals;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.litepal.LitePal;
@@ -76,6 +77,7 @@ public abstract class CustomerJsonCallBack<T> extends StringCallback {
             // 如果没有通过构造函数传进来，就自动解析父类泛型的真实类型（有局限性，继承后就无法解析到）
             T t = null;
             if (success) {//成功
+
                 try {
                     Type type = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
                     t = Convert.fromJson(response, type);
@@ -86,7 +88,7 @@ public abstract class CustomerJsonCallBack<T> extends StringCallback {
                 onRequestSuccess(t);
             } else {
 
-//                Globals.log("xxxxxxxxxxxxx  code"  +code);
+                Globals.log("xxxxxxxxxxxxx  code"  +code);
 //                if ("5002".equals(code)){//登录超时，重新登录
 //                    //1.清空数据得数据
 //                    //2.跳转首页
@@ -116,7 +118,7 @@ public abstract class CustomerJsonCallBack<T> extends StringCallback {
 //                }
 
 
-                if ("5002".equals(code)) {//登录超时，重新登录
+                if ("5002".equals(code) || "5004".equals(code)) {//登录超时，重新登录
                     //1.清空数据得数据
                     //2.跳转首页
                     LitePal.deleteAll(UserModel.class);

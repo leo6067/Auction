@@ -24,12 +24,13 @@ public class UserModel {
 
 
     /**
-     * data : {"address":{"shipAddress":{"address":"北京市北京市东城区ggg","code":"jjjj","id":5,"linkman":"ghhh","phone":"13489973950","type":0},"returnAddress":{"address":"北京市北京市东城区横坑村","code":"000000","id":268,"linkman":"翁忠杰","phone":"13489973950","type":1}},"auctionCoinBalance":"0.00","auctionCoinNum":0,"balance":"1.00","balanceExempt":"XuMu","buyerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":1},"dialogConnect":true,"fansNum":4,"followNum":1,"headImg":"https://file.taojianlou.com/ut/user/2D33BF879AD5417580FA7C6B7AA52E73.jpg","hxId":"3c50b86a051ec63ccf66d56f6282f935","id":69,"idCard":"3****************X","instanceNum":0,"level":0,"limitType":0,"nickname":"翁小杰","payPwd":true,"phone":"13489973950","rate":0,"score":0,"sellerLevel":1,"sellerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":2},"sellerScore":0,"storeEnable":false,"type":1,"userId":"1908091213AS4weP","username":"翁忠杰","warrant":"0.00"}
+     * data : {"address":{"shipAddress":{"address":"北京市北京市东城区ggg","code":"jjjj","id":5,"linkman":"ghhh","phone":"13489973950","type":0},"returnAddress":{"address":"北京市北京市东城区横坑村","code":"000000","id":268,"linkman":"翁忠杰","phone":"13489973950","type":1}},"auctionCoinBalance":"0.00","auctionCoinNum":0,"balance":"1.00","balanceExempt":"XuMu","buyerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":1},"dialogConnect":true,"fansNum":4,"exclusiveFansNum":12,"limitProductFansNum":50,"followNum":1,"headImg":"https://file.taojianlou.com/ut/user/2D33BF879AD5417580FA7C6B7AA52E73.jpg","hxId":"3c50b86a051ec63ccf66d56f6282f935","id":69,"idCard":"3****************X","instanceNum":0,"level":0,"limitType":0,"nickname":"翁小杰","payPwd":true,"phone":"13489973950","rate":0,"score":0,"sellerLevel":1,"sellerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":2},"sellerScore":0,"storeEnable":false,"type":1,"userId":"1908091213AS4weP","username":"翁忠杰","warrant":"0.00","subsidyMoney":"12","appToken":"akhdajdhakjda","mpToken":"akhdajdhakjda","h5Token":"akhdajdhakjda","webToken":"akhdajdhakjda"}
      * result : {"code":"0","message":"请求成功","success":true,"timestamp":1593396313969}
      */
 
     private DataBean data;
     private ResultBean result;
+
 
     public DataBean getData() {
         return data;
@@ -57,6 +58,8 @@ public class UserModel {
          * buyerOrderCount : {"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":1}
          * dialogConnect : true
          * fansNum : 4
+         * exclusiveFansNum : 12
+         * limitProductFansNum : 50
          * followNum : 1
          * headImg : https://file.taojianlou.com/ut/user/2D33BF879AD5417580FA7C6B7AA52E73.jpg
          * hxId : 3c50b86a051ec63ccf66d56f6282f935
@@ -78,6 +81,11 @@ public class UserModel {
          * userId : 1908091213AS4weP
          * username : 翁忠杰
          * warrant : 0.00
+         * subsidyMoney : 12
+         * appToken : akhdajdhakjda
+         * mpToken : akhdajdhakjda
+         * h5Token : akhdajdhakjda
+         * webToken : akhdajdhakjda
          */
 
         private AddressBean address;
@@ -88,6 +96,8 @@ public class UserModel {
         private BuyerOrderCountBean buyerOrderCount;
         private boolean dialogConnect;
         private int fansNum;
+        private int exclusiveFansNum;
+        private int limitProductFansNum;
         private int followNum;
         private String headImg;
         private String hxId;
@@ -105,11 +115,15 @@ public class UserModel {
         private SellerOrderCountBean sellerOrderCount;
         private int sellerScore;
         private boolean storeEnable;
-
         private int type;
         private String userId;
         private String username;
         private String warrant;
+        private String subsidyMoney;
+        private String appToken;
+        private String mpToken;
+        private String h5Token;
+        private String webToken;
 
         public AddressBean getAddress() {
             return address;
@@ -173,6 +187,22 @@ public class UserModel {
 
         public void setFansNum(int fansNum) {
             this.fansNum = fansNum;
+        }
+
+        public int getExclusiveFansNum() {
+            return exclusiveFansNum;
+        }
+
+        public void setExclusiveFansNum(int exclusiveFansNum) {
+            this.exclusiveFansNum = exclusiveFansNum;
+        }
+
+        public int getLimitProductFansNum() {
+            return limitProductFansNum;
+        }
+
+        public void setLimitProductFansNum(int limitProductFansNum) {
+            this.limitProductFansNum = limitProductFansNum;
         }
 
         public int getFollowNum() {
@@ -341,6 +371,46 @@ public class UserModel {
 
         public void setWarrant(String warrant) {
             this.warrant = warrant;
+        }
+
+        public String getSubsidyMoney() {
+            return subsidyMoney;
+        }
+
+        public void setSubsidyMoney(String subsidyMoney) {
+            this.subsidyMoney = subsidyMoney;
+        }
+
+        public String getAppToken() {
+            return appToken;
+        }
+
+        public void setAppToken(String appToken) {
+            this.appToken = appToken;
+        }
+
+        public String getMpToken() {
+            return mpToken;
+        }
+
+        public void setMpToken(String mpToken) {
+            this.mpToken = mpToken;
+        }
+
+        public String getH5Token() {
+            return h5Token;
+        }
+
+        public void setH5Token(String h5Token) {
+            this.h5Token = h5Token;
+        }
+
+        public String getWebToken() {
+            return webToken;
+        }
+
+        public void setWebToken(String webToken) {
+            this.webToken = webToken;
         }
 
         public static class AddressBean {
@@ -660,7 +730,6 @@ public class UserModel {
         }
     }
 
-
     public static void httpUserInfo(HttpRequest.HttpCallback httpCallback){
 
         HashMap<String, String> hashMap = new HashMap<>();
@@ -687,4 +756,5 @@ public class UserModel {
         });
 
     }
+
 }

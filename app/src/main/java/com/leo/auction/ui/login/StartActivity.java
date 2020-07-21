@@ -8,6 +8,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.permission.PermissionHelper;
@@ -19,6 +20,7 @@ import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginModel;
 
 import com.leo.auction.ui.main.MainActivity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
@@ -110,6 +112,7 @@ public class StartActivity extends BaseActivity {
                     LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                     if (loginModel.getResult().isSuccess()){
                         BaseSharePerence.getInstance().setLoginJson(resultData);
+                        httpUser();
                         MainActivity.newIntance(StartActivity.this, 0);
                         finish();
                     }
@@ -120,6 +123,22 @@ public class StartActivity extends BaseActivity {
             MainActivity.newIntance(StartActivity.this, 0);
             finish();
         }
+    }
+    private void httpUser() {
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+            }
+        });
     }
 
 

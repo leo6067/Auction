@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 提交订单
+ * 提交订单  --提交评价
  */
 public class CommitEvaluationModel {
     /**

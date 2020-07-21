@@ -2,6 +2,7 @@ package com.leo.auction.ui.login;
 
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.utils.Globals;
 
 
 import okhttp3.Call;
@@ -19,13 +20,14 @@ import okhttp3.Call;
  */
 public class UserActionUtils {
     /*
-     * channelType:'频道类型 频道类型  1-首页 2-分类频道 3-店铺推荐  4-关注-拍品 5-参拍  6-足迹  7-收藏
-     * actionType:'动作类型  动作类型   1-点击  2-收藏 3-出价  4-分享 5-分享新用户 6-分享朋友圈
-     *goodsId:'商品标识',//必须
-     *shopUri:'店铺ID',
-     *status:'1-非取消动作取1   -1-类似取消这种动作用-1' //必须
+     * channelType:频道类型  1-首页 2-分类频道 3-店铺推荐  4-关注-拍品 5-参拍  6-足迹  7-收藏
+     * actionType:'动作类型   1-点击  2-收藏 3-出价  4-分享 5-分享新用户 6-分享朋友圈
+     *productInstanceId:'商品标识',//必须
+
+     *status:'	状态 1-(默认)  2-取消
      */
     public static void actionLog(String channelType, String actionType, String productInstanceId,   String status) {
+
         BaseModel.sendActionLogRequest(channelType, actionType, productInstanceId, status, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -34,6 +36,10 @@ public class UserActionUtils {
 
             @Override
             public void httpResponse(String resultData) {
+
+                Globals.log("action log xxxxx" + resultData);
+
+
 
             }
         });

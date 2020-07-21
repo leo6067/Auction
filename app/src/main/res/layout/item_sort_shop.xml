@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_100"
-
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -77,6 +76,8 @@
             android:layout_marginEnd="@dimen/dp_35"
             android:drawableEnd="@drawable/ic_enter_03"
             android:drawablePadding="@dimen/dp_25"
+            android:textSize="12sp"
+            tools:text="14123"
             android:textColor="@color/home_title_bg" />
 
 

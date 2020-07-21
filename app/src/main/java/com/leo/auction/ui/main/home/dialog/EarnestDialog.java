@@ -96,8 +96,8 @@ public class EarnestDialog extends BottomBaseDialog {
         mDialogPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterEarnestPay.earnestPay();
                 dismiss();
+                mInterEarnestPay.earnestPay();
             }
         });
 

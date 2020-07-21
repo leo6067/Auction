@@ -44,15 +44,15 @@ public class PayPwdBoardUtils {
     public void showPayTypeDialog(Context context, String payMoney, ArrayList<OrderPayTypeModel> orderPayTypeModels, final IPayType iPayType) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomChooseLayout = inflater.inflate(R.layout.layout_pay_input_type, null);
-        TextView tvMoney= (TextView) bottomChooseLayout.findViewById(R.id.tv_money);
+        TextView tvMoney = (TextView) bottomChooseLayout.findViewById(R.id.tv_money);
         CustomeRecyclerView crlPayTytpe = (CustomeRecyclerView) bottomChooseLayout.findViewById(R.id.crl_pay_tytpe);
-        TextView tvSure= (TextView) bottomChooseLayout.findViewById(R.id.tv_sure);
+        TextView tvSure = (TextView) bottomChooseLayout.findViewById(R.id.tv_sure);
         //设置金额
         tvMoney.setText(EmptyUtils.strEmpty(payMoney));
         //设置支付列表
         crlPayTytpe.setHasFixedSize(true);
-        crlPayTytpe.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false));
-        final PayTypeAdapter payTypeAdapter=new PayTypeAdapter(iPayType);
+        crlPayTytpe.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        final PayTypeAdapter payTypeAdapter = new PayTypeAdapter(iPayType);
         crlPayTytpe.setAdapter(payTypeAdapter);
         payTypeAdapter.setNewData(orderPayTypeModels);
 
@@ -63,22 +63,24 @@ public class PayPwdBoardUtils {
                     return;
                 }
 
+
                 iPayType.choosePayType(payTypeAdapter.getChoosePos());
             }
         });
 
-        BottomDialog  payTypeBottomDialog = new BottomDialog(context, bottomChooseLayout);
+        payTypeBottomDialog = new BottomDialog(context, bottomChooseLayout);
         payTypeBottomDialog.show();
     }
+
     //关闭支付方式的dialog
-    public void dismissPayTypeDialog(){
-        if (payTypeBottomDialog!=null){
+    public void dismissPayTypeDialog() {
+        if (payTypeBottomDialog != null) {
             payTypeBottomDialog.dismiss();
-            payTypeBottomDialog=null;
+            payTypeBottomDialog = null;
         }
     }
 
-    public interface IPayType{
+    public interface IPayType {
         void choosePayType(int pos);
     }
     //-------------------------------------------弹出支付方式选择框  end-------------------------------------------------
@@ -92,8 +94,8 @@ public class PayPwdBoardUtils {
 
         boolean payPwd = BaseSharePerence.getInstance().getUserJson().isPayPwd();
 
-        if (!payPwd){
-            goSettingPaypwdDialog=new GoSettingPaypwdDialog(context, new GoSettingPaypwdDialog.IGoSetting() {
+        if (!payPwd) {
+            goSettingPaypwdDialog = new GoSettingPaypwdDialog(context, new GoSettingPaypwdDialog.IGoSetting() {
                 @Override
                 public void goSetting() {
                     goSettingPaypwdDialog.dismiss();
@@ -108,13 +110,13 @@ public class PayPwdBoardUtils {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomChooseLayout = inflater.inflate(R.layout.layout_pay_input_password, null);
         FrameLayout flClose = (FrameLayout) bottomChooseLayout.findViewById(R.id.fl_close);
-        TextView tvMoney= (TextView) bottomChooseLayout.findViewById(R.id.tv_money);
+        TextView tvMoney = (TextView) bottomChooseLayout.findViewById(R.id.tv_money);
         pwdInputview = (MNPasswordEditText) bottomChooseLayout.findViewById(R.id.pwd_inputview);
         viewKeyboard = (CustomSafeKeyboard) bottomChooseLayout.findViewById(R.id.view_keyboard);
 
         tvMoney.setText(EmptyUtils.strEmpty(money));
 
-        setPaypwdUtils=new SetPaypwdUtils(pwdInputview,viewKeyboard,iComplete);
+        setPaypwdUtils = new SetPaypwdUtils(pwdInputview, viewKeyboard, iComplete);
 
         flClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,18 +135,18 @@ public class PayPwdBoardUtils {
     }
 
     //关闭支付密码的dialog
-    public void dismissPayPasswordDialog(){
-        if (bottomDialog!=null&&bottomDialog.isShowing()){
+    public void dismissPayPasswordDialog() {
+        if (bottomDialog != null && bottomDialog.isShowing()) {
             bottomDialog.dismiss();
-            bottomDialog=null;
+            bottomDialog = null;
         }
     }
 
     //关闭设置支付密码的dialog
-    public void dismissGoSettingPaypwdDialog(){
-        if (goSettingPaypwdDialog!=null){
+    public void dismissGoSettingPaypwdDialog() {
+        if (goSettingPaypwdDialog != null) {
             goSettingPaypwdDialog.dismiss();
-            goSettingPaypwdDialog=null;
+            goSettingPaypwdDialog = null;
         }
     }
 

@@ -32,7 +32,7 @@
 
             <com.ruffian.library.widget.RRelativeLayout
                 android:layout_width="@dimen/dp_661"
-                android:layout_height="@dimen/dp_276"
+                android:layout_height="@dimen/dp_285"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_35"
                 app:background_normal="@color/white"
@@ -63,7 +63,6 @@
                     tools:text="Tom Design" />
 
                 <LinearLayout
-                    android:visibility="invisible"
                     android:id="@+id/fl_shop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -245,7 +244,6 @@
         </LinearLayout>
 
         <com.flyco.tablayout.SlidingTabLayout
-
             android:id="@+id/sliding_tab"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"

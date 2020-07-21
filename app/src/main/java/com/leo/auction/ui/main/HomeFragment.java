@@ -39,7 +39,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
-    private String[] mTitlesStr = {"全部", "一元拍", "捡漏", "最新发布", "即将截拍"};
+    private String[] mTitlesStr = {"百亿补贴", "一元拍", "捡漏", "最新发布", "即将截拍"};
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
 
@@ -66,10 +66,8 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onTabSelect(int position) {
                 Constants.Var.HOME_TYPE = position;
-                if (position == 0) {
-                    BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_REFRESH_HOME_ALL);
-                }
                 mViewPager.setCurrentItem(position);
+                BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_HOME_TYPE);
             }
 
             @Override
@@ -88,10 +86,6 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
 
-                if (position == 0) {
-                    BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_REFRESH_HOME_ALL);
-                }
-                Constants.Var.HOME_TYPE = position;
                 mSegmentTabLayout.setCurrentTab(position);
             }
 

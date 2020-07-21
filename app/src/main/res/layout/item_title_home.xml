@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dp_200"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp_5"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_200">
+
+
+        <ImageView
+            android:id="@+id/item_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_exchang_lottery_bg" />
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/item_price"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/item_img"
+            android:textColor="@color/white"
+            app:background_normal="@color/home_title_bg"
+            app:corner_radius_bottom_right="@dimen/dp_9"
+            app:corner_radius_top_right="@dimen/dp_9"
+            tools:text="21211" />
+
+
+    </RelativeLayout>
+
+
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/item_hint"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center"
+        android:textColor="@color/color_191919"
+        app:background_normal="@color/mine_money"
+        app:corner_radius="@dimen/dp_15"
+
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_2"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剩余时间:"
+            android:textSize="10sp" />
+
+
+        <com.aten.compiler.widget.countDownTime.CountdownView
+            android:id="@+id/item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isConvertDaysToHours="true"
+            app:isShowHour="false"
+            app:suffixGravity="center"
+            app:suffixTextSize="@dimen/sp_26"
+            app:timeTextColor="@color/gray"
+            app:timeTextSize="10sp" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

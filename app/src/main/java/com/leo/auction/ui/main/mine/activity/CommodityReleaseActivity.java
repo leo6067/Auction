@@ -175,10 +175,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     private String timeType = ""; //快速截拍
     private String goodId = ""; //
 
-    @Override
-    protected boolean isImmersionBarEnabled() {
-        return true;
-    }
+
 
 
     @Override

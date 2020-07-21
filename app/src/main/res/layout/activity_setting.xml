@@ -13,9 +13,11 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/iv_bottom"
         android:layout_below="@+id/title_bar"
+
         android:layout_marginTop="@dimen/dp_4">
 
         <LinearLayout
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -25,8 +27,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_117"
                 android:background="@drawable/item_selector"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_marginEnd="@dimen/dp_30"
+              >
 
 
                 <TextView
@@ -58,14 +61,16 @@
 
             </RelativeLayout>
 
+            <include layout="@layout/include_line_a"/>
+
             <RelativeLayout
                 android:id="@+id/rl_contacts_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_83"
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@drawable/item_selector"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_marginEnd="@dimen/dp_30">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -90,14 +95,16 @@
 
             </RelativeLayout>
 
+            <include layout="@layout/include_line_a"/>
+
             <RelativeLayout
                 android:id="@+id/rl_contacts_phone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_83"
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@drawable/item_selector"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_marginEnd="@dimen/dp_30">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,8 +140,8 @@
                 android:layout_height="@dimen/dp_83"
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@android:color/white"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
+                android:layout_marginEnd="@dimen/dp_30"
+                android:layout_marginStart="@dimen/dp_30">
 
                 <TextView
 
@@ -170,7 +177,7 @@
                     android:src="@drawable/ic_hook_press" />
 
             </RelativeLayout>
-
+            <include layout="@layout/include_line_a"/>
 
             <RelativeLayout
                 android:id="@+id/rl_address"
@@ -178,8 +185,8 @@
                 android:layout_height="@dimen/dp_83"
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@drawable/item_selector"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_marginEnd="@dimen/dp_30">
 
                 <TextView
 
@@ -208,7 +215,7 @@
                     tools:text="福建省莆田市仙游县榜头镇" />
 
             </RelativeLayout>
-
+            <include layout="@layout/include_line_a"/>
 
             <RelativeLayout
                 android:id="@+id/rl_return"
@@ -216,8 +223,8 @@
                 android:layout_height="@dimen/dp_83"
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@drawable/item_selector"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_marginEnd="@dimen/dp_30">
 
                 <TextView
 
@@ -246,15 +253,15 @@
 
             </RelativeLayout>
 
-
+            <include layout="@layout/include_line_a"/>
             <RelativeLayout
                 android:id="@+id/rl_about"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_83"
+                android:layout_height="@dimen/dp_88"
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@drawable/item_selector"
-                android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_marginEnd="@dimen/dp_30">
 
                 <TextView
 
@@ -271,7 +278,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-
                     android:layout_centerVertical="true"
                     android:drawableEnd="@drawable/ic_enter_03"
                     android:drawablePadding="@dimen/dp_30"

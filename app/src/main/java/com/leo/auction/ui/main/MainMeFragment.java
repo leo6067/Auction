@@ -27,6 +27,7 @@ import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.CommonModel;
+import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.home.fragment.MineOrderFragment;
 import com.leo.auction.ui.main.mine.model.UserModel;
 
@@ -85,6 +86,9 @@ public class MainMeFragment extends BaseFragment {
 
     private OrderPagerAdapter mOrderPagerAdapter;
 
+    private String shopUri= "";
+    private String shopName= "";
+
 
     public MainMeFragment() {
         // Required empty public constructor
@@ -110,12 +114,16 @@ public class MainMeFragment extends BaseFragment {
             case R.id.civ_head:
                 break;
             case R.id.tv_name:
+
                 break;
             case R.id.fl_shop:
+                Bundle bundle = new Bundle();
+                bundle.putString("shopUri",shopUri);
+                bundle.putString("shopName",shopName);
+                ActivityManager.JumpActivity(getActivity(), ShopActivity.class);
                 break;
             case R.id.ll_follow:
                 ActivityManager.mainActivity.setCurrentItem(2);
-
                 break;
             case R.id.ll_fans:
                 break;
@@ -161,30 +169,16 @@ public class MainMeFragment extends BaseFragment {
                 UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
                 upUI(userModel.getData());
                 BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+
+                shopUri = userModel.getData().getUserId();
+                shopName = userModel.getData().getNickname();
+
             }
         });
     }
 
 
     private void upUI(UserModel.DataBean userInfo) {
-
-        CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
-
-        String[] myLevelVPicS = commonJson.getMy_level_v_pic().get(0).split("my_level_v_pic_");
-        String vipUrl = myLevelVPicS[0] + "my_level_v_pic_" + userInfo.getLevel() + ".png";
-
-
-        String[] myLevelPicS = commonJson.getMy_level_pic().get(0).split("auction_level_hd_");
-        String LevelUrl = myLevelPicS[0] + "auction_level_hd_" + userInfo.getLevel() + ".png";
-
-        GlideUtils.loadImg(userInfo.getHeadImg(), mCivHead);
-        GlideUtils.loadImgDefault(vipUrl, mMineVip);
-        GlideUtils.loadImgDefault(LevelUrl, mMineLevel);
-
-        mTvName.setText(userInfo.getNickname());
-        mTvFollowNum.setText(String.valueOf(userInfo.getFollowNum()));
-        mTvFansNum.setText(String.valueOf(userInfo.getFansNum()));
-        mTvCoinNum.setText(String.valueOf(userInfo.getScore()));
 
         mTitleList.clear();
         if (userInfo.getType() == 1) {   // 1 买家 2 卖家
@@ -194,7 +188,7 @@ public class MainMeFragment extends BaseFragment {
             mTitleList.add("买入订单");
             mTitleList.add("卖出订单");
         }
-
+        upUserLevel(userInfo, false);
 
         mFragments.add(MineOrderFragment.newIntance(1));
         mFragments.add(MineOrderFragment.newIntance(2));
@@ -209,6 +203,11 @@ public class MainMeFragment extends BaseFragment {
             public void onTabSelect(int position) {
 //                mViewPager.setCurrentItem(position);
                 Constants.Var.MINE_TYPE = position;
+                if (position == 0) {
+                    upUserLevel(userInfo, false);
+                } else {
+                    upUserLevel(userInfo, true);
+                }
             }
 
             @Override
@@ -227,6 +226,12 @@ public class MainMeFragment extends BaseFragment {
             public void onPageSelected(int position) {
 //                mCommonTab.setCurrentTab(i);
                 Constants.Var.MINE_TYPE = position;
+
+                if (position == 0) {
+                    upUserLevel(userInfo, false);
+                } else {
+                    upUserLevel(userInfo, true);
+                }
             }
 
             @Override
@@ -234,8 +239,53 @@ public class MainMeFragment extends BaseFragment {
 
             }
         });
-
         mViewPager.setCurrentItem(0);
+    }
+
+    public void upUserLevel(UserModel.DataBean userInfo, boolean isSeller) {
+
+        if (!isSeller) {   //买家
+
+            CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
+
+            String[] myLevelVPicS = commonJson.getMy_level_v_pic().get(0).split("my_level_v_pic_");
+            String vipUrl = myLevelVPicS[0] + "my_level_v_pic_" + userInfo.getLevel() + ".png";
+
+
+            String[] myLevelPicS = commonJson.getMy_level_pic().get(0).split("auction_level_hd_");
+            String LevelUrl = myLevelPicS[0] + "auction_level_hd_" + userInfo.getLevel() + ".png";
+
+            GlideUtils.loadImg(userInfo.getHeadImg(), mCivHead);
+            GlideUtils.loadImgDefault(vipUrl, mMineVip);
+            GlideUtils.loadImgDefault(LevelUrl, mMineLevel);
+
+            mTvName.setText(userInfo.getNickname());
+            mTvFollowNum.setText(String.valueOf(userInfo.getFollowNum()));
+            mTvFansNum.setText(String.valueOf(userInfo.getFansNum()));
+            mTvCoinNum.setText(String.valueOf(userInfo.getScore()));
+            mFlShop.setVisibility(View.INVISIBLE);
+
+        } else {
+
+            CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
+
+            String[] myLevelVPicS = commonJson.getSeller_level_pic().get(0).split("seller_level_");
+            String vipUrl = myLevelVPicS[0] + "seller_level_" + userInfo.getSellerLevel() + ".png";
+
+
+            GlideUtils.loadImg(userInfo.getHeadImg(), mCivHead);
+            GlideUtils.loadImgDefault(vipUrl, mMineVip);
+//            GlideUtils.loadImgDefault(LevelUrl, mMineLevel);
+
+            mMineLevel.setVisibility(View.GONE);
+            mFlShop.setVisibility(View.VISIBLE);
+            mTvName.setText(userInfo.getNickname());
+            mTvFollowNum.setText(String.valueOf(userInfo.getFollowNum()));
+            mTvFansNum.setText(String.valueOf(userInfo.getFansNum()));
+            mTvCoinNum.setText(String.valueOf(userInfo.getSellerScore()));
+
+        }
+
 
     }
 

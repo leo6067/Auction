@@ -34,7 +34,7 @@
                 android:id="@+id/iv_time"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_28"
-                android:src="@drawable/tip_top"/>
+                />
 
         </LinearLayout>
 
@@ -59,7 +59,7 @@
                 android:id="@+id/iv_price"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_28"
-                android:src="@drawable/ic_no_select"/>
+                />
 
         </LinearLayout>
 

@@ -1,15 +1,24 @@
 package com.leo.auction.net;
 
+import android.content.Intent;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.LogUtils;
 
 
+import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
+import com.leo.auction.base.Constants;
+import com.leo.auction.ui.login.LoginActivity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.litepal.LitePal;
 
 import java.util.HashMap;
 
@@ -31,7 +40,7 @@ import okhttp3.RequestBody;
 public class HttpRequest {
     public static void httpPostString( String url, JSONObject jsonObject, HttpRequest.HttpCallback httpCallback) {
         jsonObject.put("client", "4");
-//        LogUtils.e("dataParams:"+jsonObject.toJSONString());
+        LogUtils.e("dataParams:"+jsonObject.toJSONString());
         OkHttpUtils
                 .postString()
                 .url(url)
@@ -48,6 +57,14 @@ public class HttpRequest {
                     @Override
                     public void onResponse(String result, int id) {
                         Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+
+                        ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
+                        if ("5002".equals(jsonObject.getResult().getCode()) || "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+                            //刷新首页
+                            LoginActivity.newIntance(RxTool.getContext());
+                            ToastUtils.showShort(jsonObject.getResult().getMessage());
+                            return;
+                        }
                         try {
                             httpCallback.httpResponse(result);
                         } catch (Exception e) {
@@ -63,7 +80,7 @@ public class HttpRequest {
     public static void httpPostString( String url, JSONObject jsonObject, CustomerJsonCallBack httpCallback) {
 
         jsonObject.put("client", "4");
-//        LogUtils.e("dataParams:"+jsonObject.toJSONString());
+        LogUtils.e("dataParams:"+jsonObject.toJSONString());
         OkHttpUtils
                 .postString()
                 .url(url)
@@ -80,6 +97,13 @@ public class HttpRequest {
                     @Override
                     public void onResponse(String result, int id) {
                         Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+                        ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
+                        if ("5002".equals(jsonObject.getResult().getCode()) || "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+                            //刷新首页
+                            LoginActivity.newIntance(RxTool.getContext());
+                            ToastUtils.showShort(jsonObject.getResult().getMessage());
+                            return;
+                        }
                         try {
                             httpCallback.onRequestSuccess(result);
                         } catch (Exception e) {
@@ -105,8 +129,6 @@ public class HttpRequest {
         }
 
         Globals.log("log XHttpUtils  data " + url + data.toString());
-
-
         OkHttpUtils.get().url(url).params(data).build().execute(new CustomerJsonCallBack() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -126,7 +148,14 @@ public class HttpRequest {
 
             @Override
             public void onResponse(String result, int id) {
-                Globals.log("log XHttpUtils ", url + "" + result);
+                Globals.log("log XHttpUtils "+url + "" + result);
+                ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
+                if ("5002".equals(jsonObject.getResult().getCode()) || "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+                    //刷新首页
+                    LoginActivity.newIntance(RxTool.getContext());
+                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+                    return;
+                }
                 try {
                     httpCallback.httpResponse(result);
                 } catch (Exception e) {
@@ -161,6 +190,14 @@ public class HttpRequest {
             @Override
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+                ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
+                if ("5002".equals(jsonObject.getResult().getCode()) || "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+                    //刷新首页
+                    LoginActivity.newIntance(RxTool.getContext());
+                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+                    return;
+                }
+
                 try {
                     httpCallback.httpResponse(result);
                 } catch (Exception e) {
@@ -196,6 +233,13 @@ public class HttpRequest {
             @Override
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+                ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
+                if ("5002".equals(jsonObject.getResult().getCode()) || "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+                    //刷新首页
+                    LoginActivity.newIntance(RxTool.getContext());
+                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+                    return;
+                }
                 try {
                     httpCallback.httpResponse(result);
                 } catch (Exception e) {
@@ -230,6 +274,13 @@ public class HttpRequest {
             @Override
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
+                ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
+                if ("5002".equals(jsonObject.getResult().getCode()) || "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+                    //刷新首页
+                    LoginActivity.newIntance(RxTool.getContext());
+                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+                    return;
+                }
                 try {
                     httpCallback.httpResponse(result);
                 } catch (Exception e) {

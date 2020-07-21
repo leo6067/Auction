@@ -63,6 +63,8 @@ public class SellerOrderAdapter extends BaseQuickAdapter<OrderListModel.DataBean
     long timeSpan;
 
 
+    private String orderType = "ssssssssssssssss";
+
     private Handler.Callback mCallback = new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -97,9 +99,10 @@ public class SellerOrderAdapter extends BaseQuickAdapter<OrderListModel.DataBean
         this.onBtnListsner = onBtnListsner;
     }
 
-    public SellerOrderAdapter(boolean neetTime) {
+    public SellerOrderAdapter(boolean neetTime, String orderType) {
         super(R.layout.layout_order_item, null);
         this.neetTime = neetTime;
+        this.orderType = orderType;
         if (neetTime) {
             orderTimeSets = new HashSet<>();
             mExecutorService = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
@@ -165,26 +168,28 @@ public class SellerOrderAdapter extends BaseQuickAdapter<OrderListModel.DataBean
                 timeSpan = TimeUtils.getTimeSpan(fitTimeSpan, oddsTime, TimeConstants.MSEC);
                 if (!item.isFaceTrade() && timeSpan > 0) {
                     tv01.setText("当面交易");
+                } else {
+                    tv01.setText("查看详情");
                 }
-                long oddsDelaySendTime = item.getDelayMinute() * 60 * 1000;
-                long DelaytimeSpan = TimeUtils.getTimeSpan(fitTimeSpan, oddsDelaySendTime, TimeConstants.MSEC);
-                if (!item.isDelaySend() && DelaytimeSpan > 0) {
-                    tv02.setText("延迟付款");
-                }
+//                long oddsDelaySendTime = item.getDelayMinute() * 60 * 1000;
+//                long DelaytimeSpan = TimeUtils.getTimeSpan(fitTimeSpan, oddsDelaySendTime, TimeConstants.MSEC);
+//                if (!item.isDelaySend() && DelaytimeSpan > 0) {
+//                    tv02.setText("延迟付款");
+//                }
                 setLayoutVisibility(helper);
                 break;
             case "2"://待发货
                 civOrderStatus.setText("待发货");
                 tv01.setText("立即发货");
-                if (item.getAddressUpdate() == 0) {
-                    tv02.setText("修改地址");
-                }
+//                if (item.getAddressUpdate() == 0) {
+//                    tv02.setText("修改地址");
+//                }
                 //获取某时间与当前时间的  时间差 TimeConstants.MSEC单位毫秒
                 fitTimeSpan = TimeUtils.getTimeSpanByNow(item.getCreateTime(), TimeConstants.MSEC);
                 oddsTime = item.getDelayConfirmTakeViewMinute() * 60 * 1000;
                 timeSpan = TimeUtils.getTimeSpan(fitTimeSpan, oddsTime, TimeConstants.MSEC);
                 if (!item.isDelayConfirmTake() && timeSpan > 0) {
-                    tv03.setText("延迟收货");
+                    tv03.setText("延迟发货");
                 }
 
                 tv04.setText("一键代发");
@@ -192,27 +197,26 @@ public class SellerOrderAdapter extends BaseQuickAdapter<OrderListModel.DataBean
                 break;
             case "4"://待收货
                 civOrderStatus.setText("已发货");
-                tv01.setText("查看详情");
+//                tv01.setText("查看详情");
                 if (item.getExpressUpdate() == 0) {
-                    tv02.setText("修改物流单号");
+                    tv02.setText("修改单号");
                 }
                 setLayoutVisibility(helper);
                 break;
             case "8"://待评价
-                civOrderStatus.setText("待评价");
-
-                tv01.setText("立即评价");
-                try {
-                    if (item.getConsignTime() > 0) {
-                        tv02.setText("申请退货");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                civOrderStatus.setText("");
+                tv01.setText("查看详情");
                 setLayoutVisibility(helper);
                 break;
 
-
+            case "64"://售后
+                if ("".equals(orderType)) { //全部订单的时候才可以出现
+                    if (item.getRefund().getStatus() == 1) {
+                        tv02.setText("同意退款");
+                        tv02.setText("拒绝退款");
+                    }
+                }
+                break;
         }
 
         allOrderProductContain.removeAllViews();
@@ -231,10 +235,10 @@ public class SellerOrderAdapter extends BaseQuickAdapter<OrderListModel.DataBean
             TextView itemTimeTV = productLayout.findViewById(R.id.item_time);
             TextView itemTimePrice = productLayout.findViewById(R.id.item_price);
 
-            GlideUtils.loadImg(itemsBean.getFirstPic(),rivProductPic);
+            GlideUtils.loadImg(itemsBean.getFirstPic(), rivProductPic);
             tvProductTitle.setText(itemsBean.getTitle());
-            itemTimeTV.setText("付款时间 ："+item.getPaymentTime());
-            itemTimePrice.setText("成交金额 ￥"+item.getPayment());
+            itemTimeTV.setText("付款时间 ：" + item.getPaymentTime());
+            itemTimePrice.setText("成交金额 ￥" + item.getPayment());
 
             allOrderProductContain.addView(productLayout);
         }

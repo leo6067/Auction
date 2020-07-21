@@ -4,12 +4,19 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aten.compiler.widget.glide.GlideUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseSharePerence;
+import com.leo.auction.base.CommonlyUsedData;
+import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.main.home.model.GoodsDetailModel;
+import com.leo.auction.utils.Globals;
 import com.ruffian.library.widget.RTextView;
 
 import java.util.List;
@@ -39,25 +46,41 @@ public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean
     }
 
 
+
     @Override
     protected void convert(@NonNull BaseViewHolder helper, GoodsDetailModel.DataBean.BidBean item) {
         helper.setText(R.id.item_name,item.getNickname());
         RTextView itemStatus = helper.getView(R.id.item_status);
+        ImageView headIV = helper.getView(R.id.item_head);
+        ImageView ImgIV = helper.getView(R.id.item_img);
         //第一条，且状态是未成交。显示领先， 成交显示成交
 //        if(get)bidStaus
 
-        int parentPosition = getParentPosition(item);
+        int position = helper.getAdapterPosition();
 
-        if (parentPosition == 0 && mBidStaus == 1){
+//        Globals.log("xxxxx   mDetailBidAdapter  000 LevelUrl" + mBidStaus  +"     " +position);
+        if (position == 0 && mBidStaus == 1){
             itemStatus.setText( "领先");
+            itemStatus.setTextColor(Color.parseColor("#7c1313"));
+            itemStatus.getHelper().setBorderColorNormal(Color.parseColor("#7c1313"));
         }else {
             itemStatus.setText( "出局");
-            itemStatus.setClickable(false);
             itemStatus.setTextColor(Color.parseColor("#a0a0a0"));
-        }
+            itemStatus.getHelper().setBorderColorNormal(Color.parseColor("#a0a0a0"));
+    }
 
         helper.setText(R.id.item_price,item.getBidPrice()+"");
-        helper.setText(R.id.item_time,item.getCreateTime()+"");
+        helper.setText(R.id.item_time, TimeUtils.millis2String(item.getCreateTime(),"yyyy-MM-dd HH:mm"));
 
+
+        GlideUtils.loadImg(item.getHeadImg(),headIV);
+
+        CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
+        String[] myLevelPicS = commonJson.getMy_level_pic().get(0).split("auction_level_hd_");
+        String LevelUrl = myLevelPicS[0] + "auction_level_hd_" + item.getLevel() + ".png";
+
+
+        Globals.log("xxxxx  LevelUrl" + LevelUrl);
+        GlideUtils.loadImg(LevelUrl,ImgIV);
     }
 }

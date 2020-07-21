@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_66"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退货信息" />
+
+
+        <TextView
+            android:id="@+id/tv_logistics_th"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="物流信息 >"
+            android:textColor="@color/home_title_bg" />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/include_line_a" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_66"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+
+        <TextView
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/dp_30"
+            android:text="收货人" />
+
+
+        <TextView
+            android:id="@+id/tv_name_th"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_191919"
+            tools:text="2312" />
+
+        <TextView
+            android:id="@+id/tv_phone_th"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_35"
+            android:textColor="@color/color_191919"
+            tools:text="15415151515154" />
+
+
+        <ImageView
+            android:id="@+id/name_copy_th"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:src="@drawable/icon_copy" />
+
+    </LinearLayout>
+
+
+    <include layout="@layout/include_line_a"/>
+
+    <TextView
+        android:layout_marginStart="@dimen/dp_180"
+        android:paddingEnd="@dimen/dp_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_191919"
+        tools:text="455641564165656565656565656565656515 \n"/>
+
+
+    <include layout="@layout/include_line_a"/>
+
+    <LinearLayout
+        android:id="@+id/lin_ems_way_th"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_66"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30"
+        android:orientation="horizontal">
+
+
+
+        <TextView
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="wrap_content"
+            android:text="发货方式"/>
+
+
+        <TextView
+            android:id="@+id/tv_ems_way_th"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_191919"
+            />
+
+        <ImageView
+            android:id="@+id/way_copy_th"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:src="@drawable/icon_copy" />
+
+    </LinearLayout>
+
+</LinearLayout>

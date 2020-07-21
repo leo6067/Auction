@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_service_pic"
+        android:layout_width="@dimen/dp_551"
+        android:layout_height="@dimen/dp_776"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:src="@drawable/ic_service_icon" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:background="@color/color_fffafa"/>
+
+    <com.aten.compiler.widget.CustomeRecyclerView
+        android:id="@+id/crl_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_left_right_corner_normal" />
+
+    <TextView
+        android:id="@+id/tv_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:background="@drawable/item_selector"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/color_06071e"
+        android:textSize="@dimen/sp_32" />
+
+</LinearLayout>

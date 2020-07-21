@@ -113,42 +113,48 @@ public class MineOrderFragment extends BaseFragment {
         //创建红点View(待付款)
         YCRedDotView rdWaitPay = new YCRedDotView(BaseAppContext.getInstance());
         rdWaitPay.setTargetView(mIvWaitPay);
-        rdWaitPay.setBadgeMargin(0, 0, 10, 0);
+        rdWaitPay.setBadgeMargin(12, 0, 0, 0);
         //创建红点View(待发货)
         YCRedDotView rdSendGood = new YCRedDotView(BaseAppContext.getInstance());
         rdSendGood.setTargetView(mIvSendGood);
-        rdSendGood.setBadgeMargin(0, 0, 10, 0);
+        rdSendGood.setBadgeMargin(12, 0, 0, 0);
         //创建红点View(待收货)
         YCRedDotView rdReceivedGood = new YCRedDotView(BaseAppContext.getInstance());
         rdReceivedGood.setTargetView(mIvDsh);
-        rdReceivedGood.setBadgeMargin(0, 0, 10, 0);
+        rdReceivedGood.setBadgeMargin(12, 0, 0, 0);
 
         //创建红点View(售后)
         YCRedDotView  rdAfterSale = new YCRedDotView(BaseAppContext.getInstance());
         rdAfterSale.setTargetView(mIvServer);
-        rdAfterSale.setBadgeMargin(0, 0, 10, 0);
+        rdAfterSale.setBadgeMargin(12, 0, 0, 0);
 
 
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
 
-        if( Constants.Var.MINE_TYPE == 0){   //买入
-            int noPayNum = userJson.getBuyerOrderCount().getNoPayNum();
-            int sendNum = userJson.getBuyerOrderCount().getSendNum();
-            int receiveNum = userJson.getBuyerOrderCount().getReceiveNum();
-            int serviceNum = userJson.getBuyerOrderCount().getServiceNum();
-            rdWaitPay.setBadgeCount(noPayNum);
-            rdSendGood.setBadgeCount(sendNum);
-            rdReceivedGood.setBadgeCount(receiveNum);
-            rdAfterSale.setBadgeCount(serviceNum);
-        }else {
-            int noPayNum = userJson.getSellerOrderCount().getNoPayNum();
-            int sendNum = userJson.getSellerOrderCount().getSendNum();
-            int receiveNum = userJson.getSellerOrderCount().getReceiveNum();
-            int serviceNum = userJson.getSellerOrderCount().getServiceNum();
-            rdWaitPay.setBadgeCount(noPayNum);
-            rdSendGood.setBadgeCount(sendNum);
-            rdReceivedGood.setBadgeCount(receiveNum);
-            rdAfterSale.setBadgeCount(serviceNum);
+
+        try {
+            mMineZcmx.setText(userJson.getBalance()+"元");
+            if( Constants.Var.MINE_TYPE == 0){   //买入
+                int noPayNum = userJson.getBuyerOrderCount().getNoPayNum();
+                int sendNum = userJson.getBuyerOrderCount().getSendNum();
+                int receiveNum = userJson.getBuyerOrderCount().getReceiveNum();
+                int serviceNum = userJson.getBuyerOrderCount().getServiceNum();
+                rdWaitPay.setBadgeCount(noPayNum);
+                rdSendGood.setBadgeCount(sendNum);
+                rdReceivedGood.setBadgeCount(receiveNum);
+                rdAfterSale.setBadgeCount(serviceNum);
+            }else {
+                int noPayNum = userJson.getSellerOrderCount().getNoPayNum();
+                int sendNum = userJson.getSellerOrderCount().getSendNum();
+                int receiveNum = userJson.getSellerOrderCount().getReceiveNum();
+                int serviceNum = userJson.getSellerOrderCount().getServiceNum();
+                rdWaitPay.setBadgeCount(noPayNum);
+                rdSendGood.setBadgeCount(sendNum);
+                rdReceivedGood.setBadgeCount(receiveNum);
+                rdAfterSale.setBadgeCount(serviceNum);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 

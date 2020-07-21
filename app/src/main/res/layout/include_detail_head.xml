@@ -24,25 +24,19 @@
             app:is_circle="true" />
 
 
-        <com.ruffian.library.widget.RTextView
+        <ImageView
             android:id="@+id/detail_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_35"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_toRightOf="@+id/detail_head"
-            android:drawableStart="@drawable/mine_vip"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/dp_10"
-            android:paddingEnd="@dimen/dp_10"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:background_normal="@color/home_title_bg"
-            app:corner_radius="@dimen/dp_30"
-            tool:text="2" />
+            android:gravity="center"
+
+            />
 
 
         <TextView
-            android:id="@+id/detail_title"
+            android:id="@+id/detail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_30"
@@ -55,7 +49,7 @@
             android:id="@+id/detail_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/detail_title"
+            android:layout_below="@+id/detail_name"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_8"
             android:layout_toRightOf="@+id/detail_head"
@@ -66,7 +60,7 @@
             android:id="@+id/detail_fan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/detail_title"
+            android:layout_below="@+id/detail_name"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_8"
             android:layout_toRightOf="@+id/detail_mark"
@@ -118,8 +112,8 @@
 
         <com.ruffian.library.widget.RTextView
             android:id="@+id/detail_you"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_50"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_40"
             android:gravity="center"
             android:text="包邮"
             android:textColor="@color/white"
@@ -129,8 +123,8 @@
 
         <com.ruffian.library.widget.RTextView
             android:id="@+id/detail_tui"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_50"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_40"
             android:layout_marginStart="@dimen/dp_20"
             android:gravity="center"
             android:text="包退"
@@ -141,8 +135,8 @@
 
         <com.ruffian.library.widget.RTextView
             android:id="@+id/detail_fu"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_50"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_40"
             android:layout_marginStart="@dimen/dp_20"
             android:gravity="center"
             android:text="到付"
@@ -193,7 +187,6 @@
 
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="收藏" />
@@ -201,8 +194,7 @@
         <ImageView
             android:id="@+id/detail_collect"
             android:layout_width="@dimen/dp_35"
-            android:layout_height="@dimen/dp_50"
-            android:src="@drawable/ic_collection_normal" />
+            android:layout_height="@dimen/dp_50" />
 
         <TextView
             android:id="@+id/detail_share"
@@ -229,7 +221,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:drawableStart="@drawable/mine_vip"
+            android:drawableStart="@drawable/detail_bz"
             android:text="1000万消费者保障基金保驾护航" />
 
         <LinearLayout
@@ -282,8 +274,36 @@
 
 
     <com.ruffian.library.widget.RLinearLayout
+        android:id="@+id/subsidy_lin"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_75"
+        android:layout_height="@dimen/dp_88"
+        android:layout_marginTop="@dimen/dp_15"
+        android:gravity="center_vertical"
+        app:background_normal="#f5e1dd"
+        app:corner_radius="@dimen/dp_9">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="全店参与百亿补贴（最高立减50%）"
+            android:textColor="@color/home_title_bg" />
+
+
+        <ImageView
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:src="@drawable/next_red" />
+
+    </com.ruffian.library.widget.RLinearLayout>
+
+
+    <com.ruffian.library.widget.RLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
         android:layout_marginTop="@dimen/dp_15"
         android:gravity="center_vertical"
         app:background_normal="#f5e1dd"
@@ -296,6 +316,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_15"
             android:layout_weight="1"
+            android:drawableStart="@drawable/detail_jp"
+            android:drawablePadding="@dimen/dp_15"
             android:text="正在竞拍"
             android:textColor="@color/home_title_bg" />
 
@@ -343,8 +365,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_66"
         android:layout_marginTop="@dimen/dp_15"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
 
@@ -355,6 +378,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:lines="1"
+            android:textSize="12sp"
             android:text="起拍价： " />
 
 
@@ -363,6 +387,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="12sp"
             android:text="加价幅度" />
 
 

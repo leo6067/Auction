@@ -78,6 +78,9 @@ public class HomeListModel {
          * currentPrice : 当前价格
          * distributeType : 1-包邮 2-到付
          * refund : 1-包退 0-不包退
+         *  subsidyMoney 当前补贴额度 (最新领先价格的50%)
+         * data.subsidyProduct
+         * 是否是补贴拍品
          */
 
         private String productInstanceId;
@@ -88,6 +91,35 @@ public class HomeListModel {
         private String currentPrice;
         private String distributeType;
         private String refund;
+        private String subsidyMoney;
+        private boolean subsidyProduct;
+
+
+        private int status;
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public String getSubsidyMoney() {
+            return subsidyMoney;
+        }
+
+        public void setSubsidyMoney(String subsidyMoney) {
+            this.subsidyMoney = subsidyMoney;
+        }
+
+        public boolean isSubsidyProduct() {
+            return subsidyProduct;
+        }
+
+        public void setSubsidyProduct(boolean subsidyProduct) {
+            this.subsidyProduct = subsidyProduct;
+        }
 
         public String getProductInstanceId() {
             return productInstanceId;

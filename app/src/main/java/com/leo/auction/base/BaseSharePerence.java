@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.model.home.VersionJson;
 import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.login.model.LoginModel;
+import com.leo.auction.ui.login.model.LoginVerModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 
 
@@ -62,6 +63,21 @@ public class BaseSharePerence {
 
         }
         return userInfoModel;
+    }
+
+
+    /**
+     * 保存验证码 返回
+     */
+    public void setLoginView(String userJson) {
+        mSharedPreferences.edit().putString("setLoginView", userJson).commit();
+    }
+
+    public LoginVerModel getLoginView() {
+        LoginVerModel loginVerModel = null;
+        String jsonStr = mSharedPreferences.getString("setLoginView", "");
+        loginVerModel = JSONObject.parseObject(jsonStr, LoginVerModel.class);
+        return loginVerModel;
     }
 
 

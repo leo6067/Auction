@@ -2,8 +2,8 @@ package com.leo.auction.ui.main.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -11,14 +11,18 @@ import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.widget.CustomSafeKeyboard;
 import com.aten.compiler.widget.MNPasswordEditText;
+import com.aten.compiler.widget.title.TitleBar;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.SetPaypwdUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import okhttp3.Call;
 
 public class SetPayPwdActivity extends BaseActivity implements SetPaypwdUtils.IComplete {
     @BindView(R.id.tv_input_pwd_tag)
@@ -27,10 +31,13 @@ public class SetPayPwdActivity extends BaseActivity implements SetPaypwdUtils.IC
     MNPasswordEditText pwdInputview;
     @BindView(R.id.view_keyboard)
     CustomSafeKeyboard viewKeyboard;
+    @BindView(R.id.title_bar)
+    TitleBar mTitleBar;
+    @BindView(R.id.view_line)
+    View mViewLine;
 
     private SetPaypwdUtils setPaypwdUtils;
     private String oldPwd;
-
 
 
     @Override
@@ -47,6 +54,7 @@ public class SetPayPwdActivity extends BaseActivity implements SetPaypwdUtils.IC
     public void initData() {
         oldPwd = getIntent().getStringExtra("oldPwd");
         super.initData();
+        mTitleBar.setTitle("支付密码");
 
         if (EmptyUtils.isEmpty(oldPwd)) {
             tvInputPwdTag.setText("请输入支付密码");
@@ -68,7 +76,7 @@ public class SetPayPwdActivity extends BaseActivity implements SetPaypwdUtils.IC
             goFinish();
         } else {
             if (oldPwd.equals(text)) {
-                showWaitDialog();
+
                 setPwdRequest(text);
             } else {
                 SetPayPwdActivity.newIntance(this, "");
@@ -80,15 +88,15 @@ public class SetPayPwdActivity extends BaseActivity implements SetPaypwdUtils.IC
 
     //设置支付密码
     private void setPwdRequest(String pwd) {
-        BaseModel.sendUserAddpaypwdRequest(pwd, new CustomerJsonCallBack<BaseModel>() {
+        showWaitDialog();
+        BaseModel.sendUserAddpaypwdRequest(pwd, new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(BaseModel returnData, String msg) {
+            public void httpError(Call call, Exception e) {
                 hideWaitDialog();
-                showShortToast(msg);
             }
 
             @Override
-            public void onRequestSuccess(BaseModel returnData) {
+            public void httpResponse(String resultData) {
                 hideWaitDialog();
                 showShortToast("设置支付密码成功");
                 UserModel.DataBean mDataBean = BaseSharePerence.getInstance().getUserJson();
@@ -106,4 +114,6 @@ public class SetPayPwdActivity extends BaseActivity implements SetPaypwdUtils.IC
         intent.putExtra("oldPwd", oldPwd);
         context.startActivity(intent);
     }
+
+
 }

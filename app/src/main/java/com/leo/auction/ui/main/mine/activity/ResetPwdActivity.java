@@ -13,9 +13,11 @@ import com.aten.compiler.widget.MNPasswordEditText;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.net.CustomerJsonCallBack;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.utils.SetPaypwdUtils;
 
 import butterknife.BindView;
+import okhttp3.Call;
 
 
 //重置密码支付
@@ -76,7 +78,7 @@ public class ResetPwdActivity extends BaseActivity implements SetPaypwdUtils.ICo
             goFinish();
         }else {
             if (onePwd.equals(text)){
-                showWaitDialog();
+
                 reSetPwdRequest(text,oldPwd);
             }else {
                 ResetPwdActivity.newIntance(this,"","");
@@ -88,20 +90,22 @@ public class ResetPwdActivity extends BaseActivity implements SetPaypwdUtils.ICo
 
     //重置支付密码
     private void reSetPwdRequest(String pwd,String oldPwd) {
-        BaseModel.sendUserResetpaypwdRequest(oldPwd, pwd, new CustomerJsonCallBack<BaseModel>() {
+        showWaitDialog();
+        BaseModel.sendUserResetpaypwdRequest(oldPwd, pwd, new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(BaseModel returnData, String msg) {
+            public void httpError(Call call, Exception e) {
                 hideWaitDialog();
-                showShortToast(msg);
             }
 
             @Override
-            public void onRequestSuccess(BaseModel returnData) {
+            public void httpResponse(String resultData) {
                 hideWaitDialog();
                 showShortToast("重置支付密码成功");
                 goFinish();
             }
         });
+
+
     }
 
     public static void newIntance(Context context, String oldPwd, String onePwd) {

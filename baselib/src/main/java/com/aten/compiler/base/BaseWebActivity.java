@@ -66,22 +66,30 @@ public class BaseWebActivity extends BaseActivity {
         String mTitle = getIntent().getStringExtra("title");
         String url = getIntent().getStringExtra("url");
 
-        LogUtils.e("xxxxxxx" + mTitle );
-        LogUtils.e("xxxxxxx" + url );
         boolean hasNeedTitleBar = getIntent().getBooleanExtra("hasNeedTitleBar", false);
         boolean hasNeedRightView = getIntent().getBooleanExtra("hasNeedRightView", false);
+        boolean hasNeedLeftView = getIntent().getBooleanExtra("hasNeedLeftView", false);
         setTitle(EmptyUtils.strEmpty(mTitle));
 
 
         if (hasNeedTitleBar) {
             mTitleBar.setVisibility(View.VISIBLE);
+
         } else {
             mTitleBar.setVisibility(View.GONE);
+        }
+
+        if (hasNeedLeftView) {
+            mTitleBar.getLeftView().setVisibility(View.VISIBLE);
+
+        } else {
+            mTitleBar.getLeftView().setVisibility(View.GONE);
         }
 
         if (hasNeedRightView) {
             setRightIcon(getResources().getDrawable(com.aten.compiler.R.drawable.ic_launcher));
         }
+
 
         webLoad(url);
     }
@@ -122,6 +130,7 @@ public class BaseWebActivity extends BaseActivity {
 //                    mTextBreach.setVisibility(View.GONE);
 //                    mTextBack.setVisibility(View.VISIBLE);
 //                }
+
                 return true;
             }
         };
@@ -150,7 +159,7 @@ public class BaseWebActivity extends BaseActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                String substring = title.substring(title.length() - 3, title.length());
+//                String substring = title.substring(title.length() - 3, title.length());
 //                if ("直播间".equals(substring)) {
 //                    mTextBreach.setVisibility(View.VISIBLE);
 //                    mTextBack.setVisibility(View.GONE);
@@ -158,6 +167,8 @@ public class BaseWebActivity extends BaseActivity {
 //                    mTextBreach.setVisibility(View.GONE);
 //                    mTextBack.setVisibility(View.VISIBLE);
 //                }
+
+                mTitleBar.setTitle(title);
             }
         });
 

@@ -17,6 +17,7 @@ import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
+import com.leo.auction.ui.main.home.fragment.FocusAllFragment;
 import com.leo.auction.ui.main.home.fragment.FocusShopFragment;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
 
@@ -61,28 +62,26 @@ public class MainFocusFragment extends BaseFragment {
 
         mSegmentTabLayout.setTabData(mTitlesStr);
 
-        mFragments.add(new HomeAllFragment());
+        Constants.Var.FOCUS_TYPE = 0 ;
+        mFragments.add(new FocusAllFragment());
         mFragments.add(new FocusShopFragment());
-        mFragments.add(new HomeAllFragment());
-        mFragments.add(new HomeAllFragment());
-        mFragments.add(new HomeAllFragment());
-        Constants.Var.HOME_TYPE = 5;
+        mFragments.add(new FocusAllFragment());
+        mFragments.add(new FocusAllFragment());
+        mFragments.add(new FocusAllFragment());
         TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(titlePagerAdapter);
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-
-                Constants.Var.HOME_TYPE = position + 5;
-                if (position == 0) {
-                    BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_REFRESH_HOME_ALL);
-                }
-
+                Constants.Var.FOCUS_TYPE = position ;
                 mViewPager.setCurrentItem(position);
+                BroadCastReceiveUtils.sendLocalBroadCast(getActivity(),Constants.Action.ACTION_FOCUS_TYPE);
             }
 
             @Override
             public void onTabReselect(int position) {
+
+
             }
         });
 
@@ -95,6 +94,7 @@ public class MainFocusFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
+
                 mSegmentTabLayout.setCurrentTab(position);
             }
 
@@ -105,7 +105,6 @@ public class MainFocusFragment extends BaseFragment {
         });
 
         mViewPager.setCurrentItem(0);
-
 
     }
 

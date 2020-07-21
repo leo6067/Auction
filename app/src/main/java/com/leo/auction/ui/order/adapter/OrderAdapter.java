@@ -239,6 +239,13 @@ public class OrderAdapter extends BaseQuickAdapter<OrderListModel.DataBean, Orde
                     tv03.setText("延迟收货");
                 }
 
+                if (item.getRefund().getStatus() == 1 || item.getRefund().getStatus() ==2
+                ||item.getRefund().getStatus() ==16 ||item.getRefund().getStatus() ==128){
+                    tv04.setText("取消退款");
+                }
+
+
+
                 setLayoutVisibility(helper);
                 break;
             case "8"://待评价

@@ -1,7 +1,5 @@
 package com.leo.auction.base;
 
-import android.content.Context;
-import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.aten.compiler.base.BaseApplication;
@@ -117,7 +115,7 @@ public class AppApplication extends BaseApplication {
         SpiderMan.getInstance()
                 .init(this)
                 //设置是否捕获异常，不弹出崩溃框
-                .setEnable(Constants.TestState)
+                .setEnable(!Constants.logGone)
                 //设置是否显示崩溃信息展示页面
                 .showCrashMessage(true)
                 //是否回调异常信息，友盟等第三方崩溃信息收集平台会用到,

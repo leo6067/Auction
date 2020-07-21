@@ -19,6 +19,7 @@ import com.aten.compiler.utils.easyPay.EasyPay;
 import com.aten.compiler.utils.easyPay.callback.IPayCallback;
 import com.aten.compiler.widget.customerDialog.BottomDialogUtils;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.CommonlyUsedData;
@@ -30,7 +31,11 @@ import com.leo.auction.ui.main.home.dialog.PayPwdBoardUtils;
 import com.leo.auction.ui.main.home.model.PayModel;
 import com.leo.auction.ui.main.mine.activity.AddressActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.order.activity.OrderCompleteEvaluationActivity;
+import com.leo.auction.ui.order.activity.OrderConfirmActivity;
 import com.leo.auction.ui.order.activity.OrderDetailActivity;
+import com.leo.auction.ui.order.activity.OrderEvaluationActivity;
+import com.leo.auction.ui.order.activity.OrderRefuseGoodActivity;
 import com.leo.auction.ui.order.adapter.OrderAdapter;
 import com.leo.auction.ui.order.adapter.SellerOrderAdapter;
 import com.leo.auction.ui.order.model.OrderListModel;
@@ -50,7 +55,7 @@ import okhttp3.Call;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SellerOrderFragment extends BaseRecyclerViewFragment implements SetPaypwdUtils.IComplete, PayPwdBoardUtils.IPayType, WarningDialog.OnWarningClickListener{
+public class SellerOrderFragment extends BaseRecyclerViewFragment implements SetPaypwdUtils.IComplete, PayPwdBoardUtils.IPayType, WarningDialog.OnWarningClickListener {
 
 
 //    public SellerOrderFragment() {
@@ -64,7 +69,6 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
 //        // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_seller_order, container, false);
 //    }
-
 
 
     private String status = "";//页面状态
@@ -83,7 +87,7 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
     private String warnString = "";  //定义提示弹窗是什么类型
 
 
-    private View statusView ;  //状态点击按钮，拒绝当面交易等，点击之后消失隐藏
+    private View statusView;  //状态点击按钮，拒绝当面交易等，点击之后消失隐藏
 
     //刷新订单列表页面
     private BroadCastReceiveUtils refreshOrderList = new BroadCastReceiveUtils() {
@@ -137,7 +141,7 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
 
     @Override
     protected void initAdapter() {
-        mAdapter = new SellerOrderAdapter(neetTime);
+        mAdapter = new SellerOrderAdapter(neetTime,status);
     }
 
     @Override
@@ -149,7 +153,6 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
         ((SellerOrderAdapter) mAdapter).setOnItemListsner(mOnItemListsner);
         ((SellerOrderAdapter) mAdapter).setOnBtnListsner(mOnBtnListsner);
     }
-
 
 
     @Override
@@ -197,8 +200,14 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
             }
 
             OrderListModel.DataBean item = (OrderListModel.DataBean) v.getTag();
-            OrderDetailActivity.newIntance(SellerOrderFragment.this, item.getOrderCode(), isSeller,
-                    Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
+//            OrderDetailActivity.newIntance(SellerOrderFragment.this, item.getOrderCode(), isSeller,
+//                    Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("orderCode", item.getOrderCode());
+            bundle.putBoolean("isSeller", false);
+            bundle.putString("actionType", "查看详情");
+            ActivityManager.JumpActivity(getActivity(), OrderDetailActivity.class, bundle);
         }
     };
 
@@ -211,24 +220,33 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
             }
             OrderListModel.DataBean item = (OrderListModel.DataBean) viw.getTag(R.id.tag_2);
             orderCode = item.getOrderCode();
-            HashMap<String, Object> hashMap = new HashMap<>();
-
             pos = (int) viw.getTag(R.id.tag_3);
-
             statusView = viw;
-
+            HashMap<String, Object> hashMap = new HashMap<>();
+            Bundle bundle = new Bundle();
             switch ((String) viw.getTag(R.id.tag_1)) {
                 case "当面交易":
-                    AddressActivity.newIntance(getActivity(), "2", "0");
+//                    AddressActivity.newIntance(getActivity(), "2", "0");
+
+
+
                     break;
                 case "立即付款":
-                    payItemTag = item;
-                    payment = item.getPayment();
-                    orderCode = item.getOrderCode();
-                    pay();
+
+                    bundle.clear();
+                    bundle.putString("payment", payment);
+                    bundle.putString("orderCode", orderCode);
+                    bundle.putParcelable("payItemTag", payItemTag);
+                    ActivityManager.JumpActivity(getActivity(), OrderConfirmActivity.class, bundle);
                     break;
                 case "查看详情":
-                    OrderDetailActivity.newIntance(SellerOrderFragment.this, item.getOrderCode(), isSeller, Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
+
+                    bundle.clear();
+                    bundle.putString("orderCode", orderCode);
+                    bundle.putBoolean("isSeller", true);
+                    bundle.putString("actionType", "查看详情");
+                    ActivityManager.JumpActivity(getActivity(), OrderDetailActivity.class, bundle);
+//                    OrderDetailActivity.newIntance(SellerOrderFragment.this, item.getOrderCode(), isSeller, Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
                     break;
 
                 case "确认收货":
@@ -238,104 +256,46 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
                     warnString = "确认收货";
                     break;
                 case "立即评价":
-
-
-                    break;
-                case "申请退货":
-
-//                    OrderDetailActivity.newIntance(SellerOrderFragment.this, item.getId(), item.getOrderType(), Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
-                    break;
-
-                case "延迟付款":
-                    break;
-                case "同意当面交易":
-                    hashMap.clear();
-                    hashMap.put("content", getString(R.string.warn_sure_dm));
-                    dialogUtils.showWarnDialog(getActivity(), hashMap);
-                    warnString = "同意当面交易";
-                    break;
-                case "拒绝当面交易":
-                    hashMap.clear();
-                    hashMap.put("content", getString(R.string.warn_reject_dm));
-                    dialogUtils.showWarnDialog(getActivity(), hashMap);
-                    warnString = "拒绝当面交易";
-                    break;
-                case "同意延迟发货":
-                    httpDelaySendGood(2);
-                    break;
-                case "拒绝延迟发货":
-                    httpDelaySendGood(4);
-                    break;
-                case "提醒发货":
-                    httpSendGoodN();
-                    break;
-                case "申请退款":
-
-
-                    break;
-                case "延迟收货":
-                    httpDelayTake();
+                    bundle.clear();
+                    bundle.putString("orderCode", orderCode);
+                    ActivityManager.JumpActivity(getActivity(), OrderEvaluationActivity.class, bundle);
                     break;
                 case "查看评价":
-//                    CompleteEvaluationActivity.newIntance(getContext(), item.getId(), item.getOrderType());
+                    bundle.clear();
+                    bundle.putString("orderCode", orderCode);
+                    ActivityManager.JumpActivity(getActivity(), OrderCompleteEvaluationActivity.class, bundle);
                     break;
+                case "立即发货":
+                    bundle.clear();
+                    bundle.putString("orderCode", orderCode);
+                    bundle.putBoolean("isSeller", true);
+                    bundle.putString("actionType", "立即发货");
+                    ActivityManager.JumpActivity(getActivity(), OrderDetailActivity.class, bundle);
+//                    OrderDetailActivity.newIntance(SellerOrderFragment.this, item.getOrderCode(), isSeller, Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
+                    break;
+                case "修改地址":
+                    AddressActivity.newIntance(getActivity(), "2", "0");
+                    break;
+                case "延迟发货":
+                    httpDelaySendGood(1);
+                    break;
+                case "一键代发":
 
-
+                    break;
+                case "修改单号":
+                    bundle.clear();
+                    bundle.putString("orderCode", orderCode);
+                    bundle.putBoolean("isSeller", true);
+                    bundle.putString("actionType", "修改单号");
+                    ActivityManager.JumpActivity(getActivity(), OrderDetailActivity.class, bundle);
+//                    OrderDetailActivity.newIntance(SellerOrderFragment.this, item.getOrderCode(), isSeller, Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
+                    break;
                 case "客服介入":
 //                    customerServiceIntervention(item.getRefundId());
                     break;
             }
         }
     };
-
-    //付款
-    private void pay() {
-        if (EmptyUtils.isEmpty(orderCode) || EmptyUtils.isEmpty(payment)) {
-            ToastUtils.showShort("订单数据有误");
-            return;
-        }
-        userInfoModel = BaseSharePerence.getInstance().getUserJson();
-        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonlyUsedData.getInstance().getOrderPayTypeData(userInfoModel.getBalance(), payment);
-
-        payInputPwdBoardUtils.showPayTypeDialog(getContext(), payment,
-                orderPayTypeModels, this);
-    }
-
-
-    // 确认收货
-    private void httpTakeGood() {
-        showWaitDialog();
-        BaseModel.httpTakeGood(orderCode, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-                hideWaitDialog();
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-                hideWaitDialog();
-                mAdapter.remove(pos);
-            }
-        });
-    }
-
-
-    //同意当面交易
-    private void httpFaceJY() {
-        showWaitDialog();
-        BaseModel.httpFaceTrade(orderCode, 2, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-                hideWaitDialog();
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-                hideWaitDialog();
-                mAdapter.remove(pos);
-            }
-        });
-    }
 
 
     //同意 拒绝 延迟发货
@@ -350,46 +310,30 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
-                statusView.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    //提醒发货
-    private void httpSendGoodN() {
-        showWaitDialog();
-        BaseModel.httpSendGoodN(orderCode, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-                hideWaitDialog();
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-                hideWaitDialog();
-                statusView.setVisibility(View.GONE);
+                BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                if (baseModel.getResult().isSuccess()) {
+                    ToastUtils.showShort("操作成功");
+                    statusView.setVisibility(View.GONE);
+                } else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
             }
         });
     }
 
 
-    //延迟收货
-    private void httpDelayTake() {
-        showWaitDialog();
-        BaseModel.httpDelayTake(orderCode, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-                hideWaitDialog();
-            }
+    //付款
+    private void pay() {
+        if (EmptyUtils.isEmpty(orderCode) || EmptyUtils.isEmpty(payment)) {
+            ToastUtils.showShort("订单数据有误");
+            return;
+        }
+        userInfoModel = BaseSharePerence.getInstance().getUserJson();
+        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonlyUsedData.getInstance().getOrderPayTypeData(userInfoModel.getBalance(), payment);
 
-            @Override
-            public void httpResponse(String resultData) {
-                hideWaitDialog();
-                statusView.setVisibility(View.GONE);
-            }
-        });
+        payInputPwdBoardUtils.showPayTypeDialog(getContext(), payment,
+                orderPayTypeModels, this);
     }
-
 
 
     @Override
@@ -569,15 +513,6 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
     @Override
     public void onWarningOk() {
 
-        switch (warnString) {
-            case "确认收货":
-                httpTakeGood();
-                break;
-            case "同意当面交易":
-                httpFaceJY();
-                break;
-        }
-
     }
 
     @Override
@@ -591,8 +526,6 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
         super.onDestroy();
         BroadCastReceiveUtils.unregisterLocalReceiver(getContext(), refreshOrderList);
     }
-
-
 
 
     public static SellerOrderFragment newIntance(String status) {   //角度  1-买家角度(默认1)   2-卖家角度

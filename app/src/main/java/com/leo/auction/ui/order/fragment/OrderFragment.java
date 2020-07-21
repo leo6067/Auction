@@ -40,6 +40,7 @@ import com.leo.auction.ui.main.home.model.PayModel;
 import com.leo.auction.ui.main.mine.activity.AddressActivity;
 import com.leo.auction.ui.main.mine.activity.UpdateAddressActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.order.activity.OrderCompleteEvaluationActivity;
 import com.leo.auction.ui.order.activity.OrderConfirmActivity;
 import com.leo.auction.ui.order.activity.OrderDetailActivity;
 import com.leo.auction.ui.order.activity.OrderEvaluationActivity;
@@ -214,8 +215,16 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
             }
 
             OrderListModel.DataBean item = (OrderListModel.DataBean) v.getTag();
-            OrderDetailActivity.newIntance(OrderFragment.this, item.getOrderCode(), isSeller,
-                    Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("orderCode", item.getOrderCode());
+            bundle.putBoolean("isSeller", false);
+            bundle.putString("actionType", "查看详情");
+            ActivityManager.JumpActivity(getActivity(), OrderDetailActivity.class, bundle);
+
+//
+//            OrderDetailActivity.newIntance(OrderFragment.this, item.getOrderCode(), isSeller,
+//                    Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
         }
     };
 
@@ -236,15 +245,13 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
 
             switch ((String) viw.getTag(R.id.tag_1)) {
                 case "修改地址":
-                    AddressActivity.newIntance(getActivity(), "2", "0");
+                    AddressActivity.newIntance(getActivity(), "0", "0");
                     break;
                 case "立即付款":
 //                    payItemTag = item;
 //                    payment = item.getPayment();
 //                    orderCode = item.getOrderCode();
 //                    pay();
-
-
                     bundle.clear();
                     bundle.putString("payment", payment);
                     bundle.putString("orderCode", orderCode);
@@ -252,7 +259,15 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
                     ActivityManager.JumpActivity(getActivity(), OrderConfirmActivity.class, bundle);
                     break;
                 case "查看详情":
-                    OrderDetailActivity.newIntance(OrderFragment.this, item.getOrderCode(), isSeller, Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
+
+                    bundle.clear();
+                    bundle.putString("orderCode", orderCode);
+                    bundle.putBoolean("isSeller", false);
+                    bundle.putString("actionType", "查看详情");
+                    ActivityManager.JumpActivity(getActivity(), OrderDetailActivity.class, bundle);
+
+
+//                    OrderDetailActivity.newIntance(OrderFragment.this, item.getOrderCode(), isSeller, Constants.RequestCode.RETURNREQUEST_REFRESH_ORDER_LIST);
                     break;
 
                 case "确认收货":
@@ -305,14 +320,10 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
                     httpDelayTake();
                     break;
                 case "查看评价":
-
-
-
-
-//                    CompleteEvaluationActivity.newIntance(getContext(), item.getId(), item.getOrderType());
+                    bundle.clear();
+                    bundle.putString("orderCode",orderCode);
+                    ActivityManager.JumpActivity(getActivity(),OrderCompleteEvaluationActivity.class,bundle);
                     break;
-
-
                 case "客服介入":
 //                    customerServiceIntervention(item.getRefundId());
                     break;
@@ -353,7 +364,6 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
                 } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
                 }
-
             }
         });
     }
@@ -474,7 +484,6 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
                 }
             }
         });
-
     }
 
 

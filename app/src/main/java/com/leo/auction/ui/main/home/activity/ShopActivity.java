@@ -2,7 +2,6 @@ package com.leo.auction.ui.main.home.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -17,23 +16,25 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
+import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.widget.glide.GlideUtils;
 import com.aten.compiler.widget.title.TitleBar;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
+import com.leo.auction.ui.main.MainActivity;
+import com.leo.auction.ui.main.home.fragment.ShopAllFragment;
 import com.leo.auction.ui.main.home.model.ShopModel;
-import com.leo.auction.ui.main.home.model.SupplierModel;
-import com.ruffian.library.widget.RImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 
 public class ShopActivity extends BaseActivity {
@@ -42,7 +43,7 @@ public class ShopActivity extends BaseActivity {
     @BindView(R.id.title_bar)
     TitleBar mTitleBar;
     @BindView(R.id.shop_head)
-    RImageView mShopHead;
+    ImageView mShopHead;
     @BindView(R.id.shop_level)
     ImageView mShopLevel;
     @BindView(R.id.shop_name)
@@ -61,7 +62,16 @@ public class ShopActivity extends BaseActivity {
     SlidingTabLayout mTabLayout;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-
+    @BindView(R.id.tab_home)
+    TextView mTabHome;
+    @BindView(R.id.tab_sort)
+    TextView mTabSort;
+    @BindView(R.id.tab_focus)
+    TextView mTabFocus;
+    @BindView(R.id.tab_news)
+    TextView mTabNews;
+    @BindView(R.id.tab_mine)
+    TextView mTabMine;
 
 
     private String[] mTitleStr = {"热门", "捡漏", "最新发布", "即将截拍"};
@@ -83,17 +93,12 @@ public class ShopActivity extends BaseActivity {
         super.initView();
 
         shopUri = getIntent().getExtras().getString("shopUri");
-        shopName =   getIntent().getExtras().getString("shopName");
-
-       mShopName.setText(shopName);
-
+        shopName = getIntent().getExtras().getString("shopName");
+        mShopName.setText(shopName);
         Constants.Var.SHOP_TYPE = 0;
-
         mTitleBar.getTitleView().setText(shopName);
-
-
         for (int i = 0; i < mTitleStr.length; i++) {
-            mFragments.add(new HomeAllFragment());
+            mFragments.add(ShopAllFragment.newIntance(shopUri));
         }
 
 
@@ -101,31 +106,31 @@ public class ShopActivity extends BaseActivity {
         mViewPager.setAdapter(shopViewAdapter);
         mTabLayout.setViewPager(mViewPager);
 
-
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
                 Constants.Var.SHOP_TYPE = position;
                 mViewPager.setCurrentItem(position);
+                BroadCastReceiveUtils.sendLocalBroadCast(ShopActivity.this, Constants.Action.ACTION_SHOP_TYPE, position + "");
+//                Globals.log("xxxxxxxxxxxxxxxx  shopType  mViewPager " + position);
             }
 
             @Override
             public void onTabReselect(int position) {
-
             }
         });
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i1) {
+            public void onPageScrolled(int position, float v, int i1) {
 
             }
 
             @Override
             public void onPageSelected(int position) {
-                Constants.Var.SHOP_TYPE = position;
-                mTabLayout.setCurrentTab(position);
+
+
             }
 
             @Override
@@ -133,7 +138,6 @@ public class ShopActivity extends BaseActivity {
 
             }
         });
-
 
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -152,14 +156,13 @@ public class ShopActivity extends BaseActivity {
         });
 
 
-
     }
 
 
     @Override
     public void initData() {
         super.initData();
-        Constants.Var.HOME_TYPE = 0;
+
         HashMap<String, String> hashMap = new HashMap<>();
 
         hashMap.put("shopUri", shopUri);
@@ -184,21 +187,47 @@ public class ShopActivity extends BaseActivity {
 
     private void upUi(ShopModel.DataBean dataBean) {
 
-        GlideUtils.loadImg(dataBean.getHeadImg(),mShopHead);
+        GlideUtils.loadImg(dataBean.getHeadImg(), mShopHead);
 //        dataBean.getLevel();  mShopLevel
 //        mShopName.setText(dataBean.g);
         mShopMark.setText(dataBean.getRate());
         mShopFan.setText(dataBean.getFansNum());
 
-        mShopRz.setVisibility(dataBean.isCompanyAuth() ? View.VISIBLE :View.GONE);
-        mShopStatus.setVisibility(dataBean.isCompanyAuth() ? View.VISIBLE :View.GONE);
 
-        if (dataBean.isCompanyAuth()){
+        if (dataBean.isCompanyAuth()) {
             mShopStatus.setText("企业认证");
-        }else {
+        } else {
             mShopStatus.setText("个人认证");
         }
 
+    }
+
+
+
+    @OnClick({R.id.tab_home, R.id.tab_sort, R.id.tab_focus, R.id.tab_news, R.id.tab_mine})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tab_home:
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.setCurrentItem(0);
+                break;
+            case R.id.tab_sort:
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.setCurrentItem(1);
+                break;
+            case R.id.tab_focus:
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.setCurrentItem(2);
+                break;
+            case R.id.tab_news:
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.setCurrentItem(3);
+                break;
+            case R.id.tab_mine:
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.setCurrentItem(4);
+                break;
+        }
     }
 
 
@@ -214,8 +243,8 @@ public class ShopActivity extends BaseActivity {
         }
 
         @Override
-        public Fragment getItem(int i) {
-            return mFragments.get(i);
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
         }
 
         @Override

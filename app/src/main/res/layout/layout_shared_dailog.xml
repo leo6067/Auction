@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_contain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:orientation="vertical">
+
+        <com.aten.compiler.widget.RadiusImageView
+            android:id="@+id/iv_stared_pic"
+            android:layout_width="@dimen/dp_551"
+            android:layout_height="@dimen/dp_551"
+            android:scaleType="centerCrop"
+            app:qmui_bottomleft_corner_radius="false"
+            app:qmui_bottomright_corner_radius="false"
+            app:qmui_corner_radius="@dimen/dp_15"
+            app:qmui_topleft_corner_radius="true"
+            app:qmui_topright_corner_radius="true"
+            tools:src="@color/colorYellow" />
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_551"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_stared_pic"
+            android:background="@drawable/bottom_left_right_corner_15_normal"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_30"
+            android:paddingTop="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_30"
+            android:paddingBottom="@dimen/dp_14">
+
+            <TextView
+                android:id="@+id/tv_product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/color_1a1a1a"
+                android:textSize="@dimen/sp_26"
+                android:textStyle="bold"
+                tools:text="【一毛钱免费送】黑檀木手串12mm17颗 大大1哒哒哒" />
+
+            <LinearLayout
+                android:id="@+id/ll_money"
+                android:layout_below="@+id/tv_product_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="批发价  "
+                    android:textSize="@dimen/sp_32"
+                    android:textColor="@color/color_a7a7a7"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_4"
+                    android:text="¥"
+                    android:textSize="@dimen/sp_24"
+                    android:textColor="@color/color_fc0632"/>
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    tools:text="2.00"
+                    android:textSize="@dimen/sp_42"
+                    android:textColor="@color/color_fc0632"
+                    android:includeFontPadding="false"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/all_qr_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_product_title"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_qr_code"
+                    android:layout_width="@dimen/dp_120"
+                    android:layout_height="@dimen/dp_120"
+                    android:layout_gravity="center_horizontal"
+                    tools:src="@android:color/holo_red_light" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="长按识别二维码"
+                    android:textColor="@color/color_1a1a1a"
+                    android:textSize="@dimen/sp_20"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_money"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_toLeftOf="@+id/all_qr_code"
+                android:orientation="horizontal">
+
+                <com.aten.compiler.widget.CircleImageView
+                    android:id="@+id/civ_head"
+                    android:layout_width="@dimen/dp_74"
+                    android:layout_height="@dimen/dp_74"
+                    android:layout_marginRight="@dimen/dp_16"
+                    tools:src="@drawable/ic_mine_head_default" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.aten.compiler.widget.autoTextView.AutofitTextView
+                        android:id="@+id/tv_shop_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textColor="@color/color_1a1a1a"
+                        android:textSize="@dimen/sp_24"
+                        android:textStyle="bold"
+                        app:minTextSize="@dimen/sp_18"
+                        android:includeFontPadding="false"
+                        tools:text="电粉1111111111111111111111111111111" />
+
+                    <com.aten.compiler.widget.autoTextView.AutofitTextView
+                        android:id="@+id/tv_describe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textColor="@color/color_939393"
+                        android:textSize="@dimen/sp_20"
+                        android:textStyle="bold"
+                        app:minTextSize="@dimen/sp_14"
+                        android:includeFontPadding="false"
+                        android:text="为您推荐一款精选好货~" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <com.aten.compiler.widget.CustomeRecyclerView
+        android:id="@+id/crl_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_left_right_corner_normal" />
+
+    <TextView
+        android:id="@+id/tv_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:background="@drawable/item_selector"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/color_06071e"
+        android:textSize="@dimen/sp_32" />
+
+</LinearLayout>

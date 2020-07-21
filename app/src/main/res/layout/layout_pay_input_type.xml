@@ -67,23 +67,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_40"
         android:paddingLeft="@dimen/dp_30"
-        android:text="为避免订单失效，建议您在30分钟内完成支付"
-        android:textColor="@color/color_fe8067"
+        android:text="竞拍不成功，保证金将按支付方式原路退回到支付账号"
+        android:textColor="@color/home_title_bg"
         android:textSize="@dimen/sp_24" />
 
 
-    <TextView
+    <com.ruffian.library.widget.RTextView
         android:id="@+id/tv_sure"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_83"
-        android:background="@drawable/ic_cancle_order_btn_bg"
+
         android:layout_marginLeft="@dimen/dp_30"
         android:layout_marginRight="@dimen/dp_30"
         android:layout_marginTop="@dimen/dp_120"
         android:layout_marginBottom="@dimen/dp_30"
         android:gravity="center"
-        android:text="立即支付"
+        android:text="安全支付"
+        app:corner_radius="@dimen/dp_15"
         android:textColor="@android:color/white"
+        app:background_normal="@color/home_title_bg"
         android:textSize="@dimen/sp_26"/>
 
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
@@ -23,6 +24,7 @@ import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginModel;
 
 import com.leo.auction.ui.main.MainActivity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -145,6 +147,7 @@ public class LoginWxActivity extends BaseActivity {
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                         if (loginModel.getResult().isSuccess()){
                             ToastUtils.showShort("登录成功");
+                            httpUser();
                             BaseSharePerence.getInstance().setLoginJson(resultData);
                             MainActivity.newIntance(LoginWxActivity.this, 0);
                             finish();
@@ -215,6 +218,25 @@ public class LoginWxActivity extends BaseActivity {
 //            this.overridePendingTransition(0,R.anim.activity_up_to_down);
 //        }
     }
+
+    private void httpUser() {
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+            }
+        });
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

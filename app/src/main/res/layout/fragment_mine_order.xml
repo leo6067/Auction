@@ -147,20 +147,45 @@
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/mine_zcmx"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_80"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:drawableStart="@drawable/mine_zcmx"
-        android:drawableEnd="@drawable/mine_next"
-        android:drawablePadding="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
-        android:text="资产明细"
-        android:textColor="@color/black" />
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_80"
+            android:drawableStart="@drawable/mine_zcmx"
+            android:drawablePadding="@dimen/dp_15"
+            android:gravity="center_vertical"
+            android:text="资产明细"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:drawablePadding="@dimen/dp_15"
+            android:gravity="end"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/mine_zcmx"
+            android:drawableEnd="@drawable/mine_next"
+
+            />
+
+
+
+
+
+    </LinearLayout>
 
 
     <TextView
@@ -173,8 +198,8 @@
         android:drawableEnd="@drawable/mine_next"
         android:drawablePadding="@dimen/dp_15"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
         android:text="超级仓库"
         android:textColor="@color/black" />
 
@@ -188,8 +213,8 @@
         android:drawableEnd="@drawable/mine_next"
         android:drawablePadding="@dimen/dp_15"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
         android:text="发布拍品"
         android:textColor="@color/black" />
 
@@ -204,8 +229,8 @@
         android:drawableEnd="@drawable/mine_next"
         android:drawablePadding="@dimen/dp_15"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
         android:text="拍品管理"
         android:textColor="@color/black" />
 
@@ -220,8 +245,8 @@
         android:drawableEnd="@drawable/mine_next"
         android:drawablePadding="@dimen/dp_15"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
         android:text="推广中心"
         android:textColor="@color/black" />
 
@@ -235,8 +260,8 @@
         android:drawableEnd="@drawable/mine_next"
         android:drawablePadding="@dimen/dp_15"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
         android:text="规则说明"
         android:textColor="@color/black" />
 
@@ -251,8 +276,8 @@
         android:drawableEnd="@drawable/mine_next"
         android:drawablePadding="@dimen/dp_15"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
         android:text="客服"
         android:textColor="@color/black" />
 
@@ -266,8 +291,8 @@
         android:drawableEnd="@drawable/mine_next"
         android:drawablePadding="@dimen/dp_15"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
         android:text="设置"
         android:textColor="@color/black" />
 
@@ -276,7 +301,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_180"
+        android:layout_height="@dimen/dp_80"
 
        />
 </LinearLayout>

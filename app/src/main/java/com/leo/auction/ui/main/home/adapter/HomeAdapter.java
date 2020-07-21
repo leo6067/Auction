@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aten.compiler.utils.EmptyUtils;
@@ -57,32 +58,37 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
 //        helper.setIsRecyclable(false);
         ImageView iv = helper.getView(R.id.iv);
 
-        LinearLayout rootLayout = helper.getView(R.id.root_layout);
+
         TextView tvProductTitle = helper.getView(R.id.tv_product_title);
-        AutofitTextView tvProductPrice = helper.getView(R.id.tv_product_price);
+        TextView tvProductPrice = helper.getView(R.id.tv_product_price);
         TextView tvProductAgentPrice = helper.getView(R.id.tv_product_agent_price);
         TextView tvFreeShipping = helper.getView(R.id.tv_free_shipping);
         TextView tvRefund = helper.getView(R.id.tv_refund);
-        TextView tvToPay = helper.getView(R.id.tv_to_pay);
-        ImageView ivHotNormal = helper.getView(R.id.iv_hot_normal);
-        ImageView ivHotPress = helper.getView(R.id.iv_hot_press);
-        TextView tvHotNum = helper.getView(R.id.tv_hot_num);
+
+
         FrameLayout aflShared = helper.getView(R.id.afl_shared);
         ImageView ivShared = helper.getView(R.id.iv_shared);
         FrameLayout aflCollection = helper.getView(R.id.afl_collection);
         ImageView ivCollection = helper.getView(R.id.iv_collection);
+        ImageView btPriceIv = helper.getView(R.id.bt_price_iv);
+        TextView btPriceTv = helper.getView(R.id.bt_price);
 
-        if (Constants.Var.HOME_TYPE != 4) {
-            tvFreeShipping.setVisibility(item.getDistributeType().equals("0") ? View.VISIBLE : View.GONE);
-            tvToPay.setVisibility(item.getDistributeType().equals("1") ? View.VISIBLE : View.GONE);
-            tvRefund.setVisibility(item.getRefund().equals("1") ? View.VISIBLE : View.GONE);
+
+        tvFreeShipping.setText(item.getDistributeType().equals("1") ? "包邮" : "到付");
+        tvRefund.setVisibility(item.getRefund().equals("1") ? View.VISIBLE : View.GONE);  //包退
+        btPriceIv.setVisibility(item.isSubsidyProduct()? View.VISIBLE : View.GONE);
+        btPriceTv.setVisibility(item.isSubsidyProduct()? View.VISIBLE : View.GONE);
+
+        if (item.isSubsidyProduct()){
+            btPriceTv.setText("补贴"+item.getSubsidyMoney()+"元");
         }
+
 
 
         tvProductTitle.setText(EmptyUtils.strEmpty(item.getTitle()));
         tvProductPrice.setText(SpannableStringUtils.getBuilder("￥")
-                .setForegroundColor(Color.parseColor("#7c1313"))
-                .append(item.getCurrentPrice()).setXProportion((float)1.6).setForegroundColor(Color.parseColor("#7c1313"))
+                .setForegroundColor(Color.parseColor("#7c1313")).setXProportion((float) 1.0)
+                .append(item.getCurrentPrice()).setXProportion((float) 1.3).setForegroundColor(Color.parseColor("#7c1313"))
                 .append("已出价").setForegroundColor(Color.parseColor("#708090"))
                 .append(item.getBidNum())
                 .append("次").setForegroundColor(Color.parseColor("#708090"))
@@ -108,7 +114,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
         int width = screenWidth / 2;
 
         int height = (int) (width * (picHeight / picWidth));
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) iv.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();
         layoutParams.width = width;
         layoutParams.height = height;
         iv.setLayoutParams(layoutParams);
@@ -137,8 +143,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
 //                .placeholder(R.drawable.interim_morena)
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .skipMemoryCache(true)
-                .transform(new CenterCrop(), new RoundedCornersTransformation((int) mContext.getResources().getDimension(R.dimen.dp_7),
-                        0, RoundedCornersTransformation.CornerType.TOP))
+
                 .override(width, height)
                 .into(new Target<Drawable>() {
                     @Override

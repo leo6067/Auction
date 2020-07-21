@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
+    android:orientation="vertical">
+
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_400"
+            android:alpha="0.03"
+            android:scaleType="center" />
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_m_106"
+        android:layout_below="@+id/relative_layout">
+
+
+
+        <ImageView
+            android:id="@+id/bt_price_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_item_price" />
+
+
+        <TextView
+            android:id="@+id/bt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_66"
+            android:textColor="@color/home_title_bg"
+            tools:text="补贴两亿" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_left_right_corner_normal"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_25">
+
+        <TextView
+            android:id="@+id/tv_product_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxEms="8"
+            android:paddingTop="@dimen/dp_11"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingBottom="@dimen/dp_11"
+            android:singleLine="true"
+            android:textColor="@color/color_1a1a1a"
+            android:textSize="@dimen/sp_28"
+            tools:text="闷尖四座楼手把件" />
+
+
+        <com.allen.library.shape.ShapeTextView
+            android:id="@+id/tv_free_shipping"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_24"
+            android:layout_below="@+id/tv_product_title"
+            android:layout_marginRight="@dimen/dp_11"
+            android:gravity="center"
+            android:text="包邮"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_15"
+            app:shapeCornersRadius="@dimen/dp_4"
+            app:shapeSolidColor="@color/item_baoyou" />
+
+
+        <com.allen.library.shape.ShapeTextView
+            android:id="@+id/tv_refund"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_24"
+            android:layout_below="@+id/tv_product_title"
+            android:layout_marginRight="@dimen/dp_11"
+            android:layout_toRightOf="@+id/tv_free_shipping"
+            android:gravity="center"
+            android:text="包退"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_15"
+            app:shapeCornersRadius="@dimen/dp_4"
+            app:shapeSolidColor="@color/item_baotui" />
+
+
+        <TextView
+            android:id="@+id/tv_product_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_refund"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_15"
+            android:layout_toLeftOf="@+id/afl_collection"
+            android:lines="1"
+            android:textColor="@color/color_e62723"
+            android:textSize="12sp"
+            tools:text="¥9999999990sddddddddddddddsds" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_refund"
+            android:layout_marginBottom="@dimen/dp_15"
+            android:gravity="center">
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/item_over"
+                android:layout_width="@dimen/dp_180"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center"
+                android:text="拍卖已结束"
+                android:textColor="@color/white"
+                app:background_normal="@color/detail_text"
+                app:corner_radius="@dimen/dp_11"
+                android:visibility="gone"
+
+                />
+
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/afl_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_product_agent_price"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/dp_25"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_20"
+            android:paddingBottom="@dimen/dp_20"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/iv_shared"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:src="@drawable/ic_shared" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/afl_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_product_agent_price"
+            android:layout_toLeftOf="@+id/afl_shared"
+            android:paddingLeft="@dimen/dp_25"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_25"
+            android:paddingBottom="@dimen/dp_20"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_collection"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                tools:src="@drawable/ic_collection_normal" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+
+
+
+
+

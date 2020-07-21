@@ -1,28 +1,26 @@
 package com.leo.auction.base;
 
 
-import com.leo.auction.ui.main.mine.model.AssetDetailModel;
-
 /**
  * Created by Leo on 2017/3/8.
  */
 public class Constants {
 
-
-    public static boolean TestState = false;
+    public static boolean logGone = false;
     public static String BASE_URL = "";
-    private static String WEB_BASE_URL = "https://cd.taojianlou.com/";
-
+    private static String WEB_BASE_URL = "";
 
 
     //正式版 true , 地址切换
-    public static void init(boolean isTest){
-        if (isTest) {
+    public static void init(boolean  releaseVersion){
+        if (releaseVersion) {
             BASE_URL = "https://cd.taojianlou.com/";
+            WEB_BASE_URL = "https://cd.taojianlou.com/";
         } else {
             BASE_URL = "https://cd.taojianlou.com/ut/";//测试
+            WEB_BASE_URL = "https://cd.taojianlou.com/ut/";
         }
-        TestState = !isTest;
+        logGone = releaseVersion;
     }
 
 
@@ -45,14 +43,11 @@ public class Constants {
         public final static String OSS_KEY = "U2FsdGVkX1/ICQ5ijcEUsICSSOEe0ps9";
 
 
-
         //友盟 key
         public static String QQAPPID = "101731440";
         public static String QQAPPKEY = "f06eae4b68d8f8ddde0f2fb3616cbc25";
         public static String WEIXINAPPID = "wx083c4267d81c8961"; //7.10 新版
         public static String WEIXINAPPKEY = "2dc8dd30dd5d0db67e09af2e55dea168";
-
-
 
 
     }
@@ -64,6 +59,7 @@ public class Constants {
         public static boolean ISLOGIN = false;//是否处于登录状态
         public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个     // 5开始是关注
         public static int SHOP_TYPE = 0 ;//用于记录是商家店铺主页 片段中具体哪个
+        public static int FOCUS_TYPE = 0 ;//用于记录是关注Tab 片段中具体哪个
         public static int MINE_TYPE = 0 ;//用于记录是个人中心是 买入 还是卖出订单
         public static String HOME_SORT_TYPE = "HOME_SORT_TYPE" ;//用于记录是分类id
 
@@ -88,6 +84,9 @@ public class Constants {
         public final static int LIST_NUMBER_INT = 25 ;
         public final static String COMMON_PROTOCOL = "common_Protocol";
         public final static String HAS_ADDRESS = "has_address";
+
+
+        public final static String LIST_MAX = "300";
 
     }
 
@@ -154,31 +153,26 @@ public class Constants {
 
         public static String ACTION_VERIFIED_LOGIN = "option.receiver_verified_login";//h5验证码
 
+        //首页类别刷新
+        public static String ACTION_HOME_TYPE = "ACTION_HOME_TYPE";
+        //店铺首页类别刷新
+        public static String ACTION_SHOP_TYPE = "ACTION_SHOP_TYPE";
+
+        //关注页面类别
+        public static String ACTION_FOCUS_TYPE = "ACTION_FOCUS_TYPE";
+
+
+        //用户行为
+        public static String ACTION_ACTION  = "ACTION_ACTION";  //     1-首页 2-分类频道 3-店铺推荐  4-关注-拍品 5-参拍  6-足迹  7-收藏
 
 
 
 
-        public static String SEND_REFRESH_COLLECTION = "send.refresh.collection";//刷新收藏页面
-        public static String SEND_REFRESH_HOME = "send.refresh.home";//刷新首页
-        public static String SEND_REFRESH_SUPERPURCHASE = "send.refresh.superpurchase";//刷新超级购
-        public static String SEND_REFRESH_DAILY_LOTTERY = "send.refresh.daily_lottery";//刷新天天抽检页面
-        public static String SEND_REFRESH_FOLLOW_LIST = "send.refresh.follow_list";//刷新关注列表页面
-        public static String SEND_REFRESH_PRODUCT_DETAIL = "send.refresh.product_detail";//刷新商品详情页
+
+
+
         public static String SEND_REFRESH_ORDER_LIST = "send.refresh.order_list";//刷新订单列表
-        public static String SEND_REFRESH_SELLER_ORDER_LIST = "send.refresh.seller_order_list";//刷新卖家订单列表
-        public static String SEND_REFRESH_MIAN_SHOPPINGCAR = "send.refresh.mian_shoppingcar";//刷新购物车页面
-        public static String SEND_REFRESH_COMMODITY_MANAGEMENTFRAGMENT = "send.refresh.commodity_managementFragment";//刷新商品页面
-        public static String SEND_REFRESH_SHOPPINGCARTFRAGMENT = "send.refresh.shoppingCartFragment";//刷新购物车页面
-        public static String SEND_REFRESH_SHOPPINGCARTLIVE = "send.refresh.shoppingCartLive";//刷新购物车页面
-        public static String SEND_REFRESH_LIVESHOPGOODS = "send.refresh.live.shop.goods";//直播供货
-        public static String SEND_REFRESH_LIVESHOPSUP = "send.refresh.live.shop.sup";// 供货记录
-        public static String SEND_REFRESH_LIVESHOPSALE = "send.refresh.live.shop.sale";// 供货记录
-        public static String SEND_REFRESH_CANCELLATIONDEPOSITDETAILSFRAGMENT = "send.refresh.cancellationDepositDetailsFragment";//刷新消保金列表页面
-        public static String SEND_START_MAINACTIVITY_0 = "start.mainactivity_0";//跳转首页
-        public static String SEND_OPTION_LOGIN_ACTIVITY = "option.login_activity";//操作登录页面
-        public static String SEND_OPTION_RECEIVER_RECALL = "option.receiver_recall";//获取到撤回消息的通知
-        public static String SEND_MINE_FAN_LIST = "option.receiver_mine_fans";//粉丝列表搜索
-        public static String SEND_VERIFIED_LOGIN = "option.receiver_verified_login";//h5验证码
+
 
     }
 
@@ -189,6 +183,9 @@ public class Constants {
         public static String HOMEPAGE_RULE_AGREEMENT_URL =WEB_BASE_URL+"rule/agreement.html";// 规则说明
         public static String HOMEPAGE_RULE_VIPSERVICE_URL =WEB_BASE_URL+"rule/vipservice.html";// 用户协议
         public static String HOMEPAGE_RULE_PRIVACYPROTECTION_URL =WEB_BASE_URL+"rule/privacyprotection.html";// 隐私保护政策
+        public static String HOMEPAGE_SUBSIDY_URL =WEB_BASE_URL+"auction-web/pages/sub/bysubsidy/index";// 百亿补贴地址
+        public static String WEB_MINE_URL =WEB_BASE_URL+"auction-web/pages/personal/personal?isMargin=4&subsidyToken=";// 我的
+
     }
 
 
@@ -207,9 +204,15 @@ public class Constants {
         //文件
         public static String FILE_DEL = domain+"upload/del-file";
 
+        //版本更新
+        public static String VERSION_URL = domain+"platform/version";
+
 
         //用户行为
         public static String ACTION_USER = domain+"action/user";
+
+        //退出登录
+        public static String LOGINOUT_URL = domain+"user/logout";
 
 
         //oss
@@ -233,6 +236,7 @@ public class Constants {
 
         //首页全部
         public static String HOME_ALL_URL = domain + "instance/all";//
+        public static String HOME_SUBSIDY_URL = domain + "instance/subsidy";//
         public static String HOME_UNITARY_URL = domain + "instance/unitary";//
         public static String HOME_PICK_URL = domain + "instance/pick-leaky";//
         public static String HOME_NEWEST_URL = domain + "instance/newest";//
@@ -256,10 +260,10 @@ public class Constants {
         //商家列表
         public static String HOME_SEARCH_SUPPLIER_URL = domain + "supplier";//
         public static String SHOP_URL = domain + "shop/info";//
-        public static String SHOP_PICK_URL = domain + "shop/pick-leaky";//
+        public static String SHOP_PICK_URL = domain + "shop/pick-leaky";// 捡漏
         public static String SHOP_NEWEST_URL = domain + "shop/newest";//
         public static String SHOP_INTERCEPT_URL = domain + "shop/about-intercept";//
-        public static String SHOP_HOT_URL = domain + "shop/hot";//
+        public static String SHOP_HOT_URL = domain + "shop/hot";//  热门
 
 
 
@@ -299,7 +303,7 @@ public class Constants {
 
         //余额
         public static String BALANCE_URL = domain + "balance/info";//
-        public static String BALANCE_EXEMPT_URL = domain + "balance-exempt";//
+        public static String BALANCE_EXEMPT_URL = domain + "user/balance-exempt";//
         public static String BALANCE_WITHDRAWNUM_URL = domain + "balance/withdraw-num";//
         public static String BALANCE_CATEGORY_URL = domain + "category/balance";//
         public static String BALANCE_WITHDRAW_URL = domain + "balance/withdraw";//
@@ -309,14 +313,14 @@ public class Constants {
 
 
         //密码
-        public static String PAY_PWD_URL = domain + "pay-pwd";//
-        public static String RESET_PWD_URL = domain + "reset-pay-pwd";//
+        public static String PAY_PWD_URL = domain + "user/pay-pwd";//
+        public static String RESET_PWD_URL = domain + "user/reset-pay-pwd";//
 
 
 
 
         //实名认证
-        public static String REAL_NAME_URL = domain + "real-name";//
+        public static String REAL_NAME_URL = domain + "user/real-name";//
 
 
 
@@ -348,7 +352,7 @@ public class Constants {
 
 
 
-        //提交评价
+        //提交评价  //获取评价详情
         public static String ORDER_ESTIMATE_URL = domain + "order/estimate";//
 
         //获取评价详情
@@ -369,8 +373,24 @@ public class Constants {
         //延迟付款
         public static String ORDER_DELAY_PAY_URL = domain + "order/delay-pay";
 
+
         //修改单号
         public static String ORDER_EXPRESS_URL = domain + "order/express";
+
+        //取消退款
+        public static String REFUND_CANCEL_URL = domain + "refund/cancel";
+
+
+
+        //百亿补贴
+        public static String SUBSIDY_URL = domain + "subsidy";
+        public static String SUBSIDY_LIST_URL = domain + "subsidy/suspension-list";
+        public static String SUBSIDY_LIST_PRICE_URL = domain + "subsidy/suspension-list-count";
+
+
+        //生产推荐二维码
+        public static String SPREAD_QRCODE_URL = domain + "spread/qrcode";
+
 
     }
 

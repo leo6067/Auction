@@ -80,7 +80,7 @@ public class CommonlyUsedData {
     public ArrayList<OrderPayTypeModel> getOrderPayTypeData(String usableBalance,String totalPrice) {
         ArrayList<OrderPayTypeModel> orderPayTypeModels = new ArrayList<>();
         double moneyTag=new BigDecimal(usableBalance).subtract(new BigDecimal(totalPrice)).doubleValue();
-        OrderPayTypeModel orderPayTypeModel01 = new OrderPayTypeModel(R.drawable.ic_pay_balance, "余额支付",
+        OrderPayTypeModel orderPayTypeModel01 = new OrderPayTypeModel(R.drawable.icon_ye, "余额支付",
                 "余额：" + usableBalance + "元", moneyTag>=0?true:false,moneyTag>=0?true:false);
         OrderPayTypeModel orderPayTypeModel02 = new OrderPayTypeModel(R.drawable.ic_pay_weixin, "微信支付",
                 "推荐安装微信5.0及以上版本用户使用", moneyTag>=0?false:true,true);

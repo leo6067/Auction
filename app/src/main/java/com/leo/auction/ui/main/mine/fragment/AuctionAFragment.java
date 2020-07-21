@@ -88,6 +88,8 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
             onRefresh(refreshLayout);
         }
     };
+    private SuperButton mSbtnSure;
+    private SuperButton mSbtnReset;
 
 
     @Override
@@ -155,7 +157,7 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
                 ProductListModel.DataBean item = (ProductListModel.DataBean) mAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
-                if ("2".equals(item.getSourceType())) {
+                if ("2".equals(item.getSourceType())) {  // 1-自行发拍  2-产品库
                     bundle.putString("goodsCode", item.getGoodsId());
                 } else {
                     bundle.putString("goodsCode", item.getProductInstanceCode());
@@ -164,6 +166,9 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
                 ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class,bundle);
             }
         });
+
+
+
     }
 
 
@@ -210,8 +215,9 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
 
         mEtMinPrice = rightDrawerLayout.findViewById(R.id.et_min_price);
         mEtMaxPrice = rightDrawerLayout.findViewById(R.id.et_max_price);
-        SuperButton sbtnSure = rightDrawerLayout.findViewById(R.id.sbtn_sure);
-        SuperButton sbtnReset = rightDrawerLayout.findViewById(R.id.sbtn_reset);
+        mSbtnSure = rightDrawerLayout.findViewById(R.id.sbtn_sure);
+        mSbtnReset = rightDrawerLayout.findViewById(R.id.sbtn_reset);
+
 
 //        SmartSwipeWrapper rightMenuWrapper = SmartSwipe.wrap(horizontalMenu).addConsumer(new StretchConsumer()).enableVertical().getWrapper();
         DrawerConsumer mDrawerConsumer = new DrawerConsumer()
@@ -224,6 +230,27 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
         mCurrentDrawerConsumer = SmartSwipe.wrap(getActivity())
                 .addConsumer(mDrawerConsumer)
                 .lockRight();
+
+
+
+        mSbtnSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPrice = mEtMinPrice.getText().toString().trim();
+                endPrice = mEtMaxPrice.getText().toString().trim();
+                mCurrentDrawerConsumer.smoothClose();
+                onRefresh(refreshLayout);
+            }
+        });
+
+        mSbtnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEtMinPrice.setText("");
+                mEtMaxPrice.setText("");
+            }
+        });
+
     }
 
 
@@ -304,16 +331,7 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
                     mCurrentDrawerConsumer.smoothRightOpen();
                 }
                 break;
-            case R.id.sbtn_sure:
-                startPrice = mEtMinPrice.getText().toString().trim();
-                endPrice = mEtMaxPrice.getText().toString().trim();
-                mCurrentDrawerConsumer.smoothClose();
-                onRefresh(refreshLayout);
-                break;
-            case R.id.sbtn_reset:
-                mEtMinPrice.setText("");
-                mEtMaxPrice.setText("");
-                break;
+
         }
     }
 

@@ -31,7 +31,7 @@ public class Globals {
     public static void log(String msg) {
 
         StackTraceElement targetStackTraceElement = getTargetStackTraceElement();
-        if (Constants.TestState) {
+        if (Constants.logGone) {
             return;
         }
 
@@ -57,7 +57,7 @@ public class Globals {
      * @param msg
      */
     public static void log(int priority, String msg) {
-        if (Constants.TestState) {
+        if (Constants.logGone) {
             return;
         }
         Log.println(priority, Constants.Nouns.LOG_TAG, msg + "");
@@ -65,7 +65,7 @@ public class Globals {
 
     public static void log(String tag, String msg) {
         StackTraceElement targetStackTraceElement = getTargetStackTraceElement();
-        if (Constants.TestState) {
+        if (Constants.logGone) {
             return;
         }
         Log.e(targetStackTraceElement.getClassName()+targetStackTraceElement.getLineNumber()+tag, msg + "");

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.ActivityManager;
 import com.aten.compiler.base.BaseFragment;
+import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.widget.TouchCheckView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
@@ -22,11 +23,13 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.MyUtils;
 import com.leo.auction.ui.main.home.activity.CategoryActivity;
+import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.adapter.SortAdapter;
 import com.leo.auction.ui.main.home.adapter.SortRightAdapter;
 import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.layoutManager.SortLinearSmoothScroller;
+import com.ruffian.library.widget.RTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +49,8 @@ public class MainSortFragment extends BaseFragment {
     RecyclerView mHomeSortMax;
     @BindView(R.id.home_sort_min)
     RecyclerView mHomeSortMin;
-
+    @BindView(R.id.lin_search)
+    RTextView mSearchMin;
 
 
     private SortAdapter mSortAdapter;
@@ -72,6 +76,16 @@ public class MainSortFragment extends BaseFragment {
     @Override
     public void initView(View view) {
         super.initView(view);
+
+
+        mSearchMin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_HOME_SEARCH, "");
+                ActivityManager.JumpActivity(getActivity(), HomeSearchActivity.class);
+            }
+        });
+
 
         mSortLeftList = new ArrayList<>();
         mSortRightList = new ArrayList<>();
@@ -106,7 +120,7 @@ public class MainSortFragment extends BaseFragment {
                         (LinearLayoutManager) mHomeSortMin.getLayoutManager();
 //                mLayoutManager.scrollToPositionWithOffset(indexMap.get(position), 0);
 
-                scrollItemToTop(mLayoutManager,indexMap.get(position));
+                scrollItemToTop(mLayoutManager, indexMap.get(position));
                 mSortAdapter.setSelectedPosition(position);
             }
         });
@@ -117,11 +131,10 @@ public class MainSortFragment extends BaseFragment {
             public void ItemClick(SortLeftModel.DataBean.ChildrenBean item) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.Var.HOME_SORT_TYPE,item.getId());
-                ActivityManager.JumpActivity(getActivity(), CategoryActivity.class,bundle);
+                bundle.putString(Constants.Var.HOME_SORT_TYPE, item.getId());
+                ActivityManager.JumpActivity(getActivity(), CategoryActivity.class, bundle);
             }
         });
-
 
 
         mHomeSortMin.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -145,17 +158,17 @@ public class MainSortFragment extends BaseFragment {
 
     }
 
-    void scrollItemToTop( LinearLayoutManager mLayoutManager ,int position){
+    void scrollItemToTop(LinearLayoutManager mLayoutManager, int position) {
         SortLinearSmoothScroller smoothScroller = new SortLinearSmoothScroller(getActivity());
         smoothScroller.setTargetPosition(position);
         mLayoutManager.startSmoothScroll(smoothScroller);
     }
 
 
-
     @Override
     public void initData() {
         super.initData();
+        Constants.Action.ACTION_ACTION = "2";
         showWaitDialog();
         SortLeftModel.httpSort(new HttpRequest.HttpCallback() {
             @Override

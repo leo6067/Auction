@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp_14"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_89"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+        <TextView
+            android:layout_width="@dimen/dp_185"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="快递公司"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sp_28"
+            android:textStyle="bold" />
+
+        <com.allen.library.shape.ShapeTextView
+            android:id="@+id/tv_close"
+            android:layout_width="@dimen/dp_75"
+            android:layout_height="@dimen/dp_34"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="收起"
+            android:textColor="@color/color_ff8e67"
+            android:textSize="@dimen/sp_24"
+            android:visibility="gone"
+            app:shapeCornersRadius="@dimen/dp_10"
+            app:shapeStrokeColor="@color/color_ff8e67"
+            app:shapeStrokeWidth="@dimen/dp_2" />
+
+    </RelativeLayout>
+
+    <com.aten.compiler.widget.CustomeRecyclerView
+        android:id="@+id/crl_courier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_3"
+        android:background="@android:color/white"
+        android:paddingTop="@dimen/dp_30" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_74"
+        android:layout_marginTop="@dimen/dp_14"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingRight="@dimen/dp_30">
+
+        <TextView
+            android:layout_width="@dimen/dp_182"
+            android:layout_height="wrap_content"
+            android:text="快递单号"
+            android:textColor="@color/color_06071e"
+            android:textSize="@dimen/sp_28"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_courier_number"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入快递单号"
+            android:singleLine="true"
+            android:textColor="@color/color_1a1a1a"
+            android:textColorHint="@color/color_a2a2a2"
+            android:textSize="@dimen/sp_28" />
+
+        <FrameLayout
+            android:id="@+id/fl_scan_qrcode"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_30">
+
+            <ImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_qr_scan" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <com.allen.library.SuperButton
+        android:id="@+id/stb_courier_number"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_98"
+        android:layout_margin="@dimen/dp_30"
+        android:gravity="center"
+        android:text="确认单号"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_30"
+        android:textStyle="bold"
+        app:sCornersRadius="@dimen/dp_10"
+        app:sSelectorNormalColor="@color/color_ff8e67"
+        app:sSelectorPressedColor="@color/kprogresshud_grey_color"
+        app:sUseSelector="true" />
+
+
+</LinearLayout>

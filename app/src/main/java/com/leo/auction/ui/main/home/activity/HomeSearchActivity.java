@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.leo.auction.R;
 import com.leo.auction.base.Constants;
 import com.leo.auction.ui.main.home.fragment.BusinessFragment;
 import com.leo.auction.ui.main.home.fragment.GoodsFragment;
+import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
 
@@ -38,6 +40,8 @@ public class HomeSearchActivity extends BaseActivity {
     ImageView mSearchBack;
     @BindView(R.id.search_search)
     EditText mSearchSearch;
+    @BindView(R.id.tv_search)
+    TextView mSearchSearchTV;
 
     private String[] mTitles = {"拍品", "商家"};
 
@@ -73,14 +77,33 @@ public class HomeSearchActivity extends BaseActivity {
         mSearchSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                String keyWord = mSearchSearch.getText().toString().trim();
+                Globals.log("log xxxx actionId" + actionId   +"  keyWord "+ keyWord);
+
                 if ((actionId ==1 || actionId ==3) && event != null){
-                    String keyWord = mSearchSearch.getText().toString().trim();
+//                    String keyWord = mSearchSearch.getText().toString().trim();
                     BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this,Constants.Action.ACTION_HOME_SEARCH,keyWord);
                 }
                 return false;
             }
         });
 
+
+        mSearchSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String keyWord = mSearchSearch.getText().toString().trim();
+                BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this,Constants.Action.ACTION_HOME_SEARCH,keyWord);
+            }
+        });
+
+        mSearchSearchTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String keyWord = mSearchSearch.getText().toString().trim();
+                BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this,Constants.Action.ACTION_HOME_SEARCH,keyWord);
+            }
+        });
 
     }
 

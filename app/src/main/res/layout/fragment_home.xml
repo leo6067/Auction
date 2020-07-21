@@ -12,11 +12,11 @@
         android:layout_height="wrap_content">
 
         <ImageView
-
             android:id="@+id/title_bg"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_200"
-            android:scaleType="fitXY"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_m_106"
+
             android:src="@drawable/home_title_bg" />
 
 
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="@dimen/dp_280"
-            android:layout_marginTop="@dimen/dp_70"
+            android:layout_marginTop="@dimen/dp_45"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/dp_115">
 
@@ -54,13 +54,13 @@
             android:id="@+id/common_tab"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_75"
-            android:layout_marginTop="@dimen/dp_200"
-            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_150"
             android:background="@color/home_title_bg"
             app:tl_bar_stroke_width="@dimen/dp_0"
             app:tl_indicator_anim_enable="true"
             app:tl_indicator_color="@color/white"
-            app:tl_indicator_corner_radius="@dimen/dp_35"
+            app:tl_indicator_corner_radius="@dimen/dp_25"
+            app:tl_indicator_height="@dimen/dp_65"
             app:tl_textBold="SELECT"
             app:tl_textSelectColor="@color/maroon" />
 
@@ -71,7 +71,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
 </LinearLayout>

@@ -222,7 +222,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         mHashMap.put("phone", phoneStr);
         mHashMap.put("code", codeStr);
         showWaitDialog();
-        HttpRequest.httpPostString(Constants.Api.REAL_NAME_URL, mHashMap, new HttpRequest.HttpCallback() {
+        HttpRequest.httpPostForm(Constants.Api.REAL_NAME_URL, mHashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();

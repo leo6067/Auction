@@ -22,6 +22,9 @@ import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
+ *
+ *
+ * 首页---关注  ----店铺
  */
 public class FocusShopFragment extends BaseRecyclerViewFragment {
 

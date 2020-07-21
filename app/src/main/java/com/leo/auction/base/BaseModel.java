@@ -70,32 +70,35 @@ public class BaseModel {
     public static void sendActionLogRequest(String channelType, String actionType, String productInstanceId,
                                             String status,
                                             HttpRequest.HttpCallback httpCallback) {
-        JSONObject params = new JSONObject();
+
+        HashMap<String, String> params = new HashMap<>();
         params.put("channelType", channelType);//'频道类型  1-超级购  2-超人气 3-精选 4-首页 5-分类 6-店铺首页 7-收藏关注 8-抽奖活动'
         params.put("actionType", actionType);//'动作类型   1-点击  2-收藏 3-付款  4-分享 5-分享新用户 6-分享到朋友圈 7-加入到购物车'
         params.put("productInstanceId", productInstanceId);//'商品标识'
 
         params.put("status", status);//'1-非取消动作取1   -1-类似取消这种动作用-1'
-        HttpRequest.httpPostString(Constants.Api.ACTION_USER, params, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.ACTION_USER, params, httpCallback);
     }
 
 
     //密码
     //设置支付密码
     public static void sendUserAddpaypwdRequest(final String payPwd,
-                                                final CustomerJsonCallBack<BaseModel> callback) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("payPwd", payPwd);
-        HttpRequest.httpPostString(Constants.Api.PAY_PWD_URL, jsonObject, callback);
+                                                HttpRequest.HttpCallback httpCallback) {
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("payPwd", payPwd);
+        HttpRequest.httpPostForm(Constants.Api.PAY_PWD_URL, hashMap, httpCallback);
     }
 
     //重置支付密码
     public static void sendUserResetpaypwdRequest(String oldPayPwd, String payPwd,
-                                                  final CustomerJsonCallBack<BaseModel> callback) {
-        JSONObject jsonObject = new JSONObject();
+                                                 HttpRequest.HttpCallback callback) {
+
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("payPwd", oldPayPwd);
         jsonObject.put("newPayPwd", payPwd);
-        HttpRequest.httpPostString(Constants.Api.RESET_PWD_URL, jsonObject, callback);
+        HttpRequest.httpPostForm(Constants.Api.RESET_PWD_URL, jsonObject, callback);
     }
 
     //忘记支付密码
@@ -110,24 +113,24 @@ public class BaseModel {
 
     //用户信息
     public static void httpUserName(String nickName, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("nickname", nickName);
-        HttpRequest.httpPostString(Constants.Api.USER_URL, jsonObject, httpCallback);
+        HashMap<String, String> stringObjectHashMap = new HashMap<>();
+        stringObjectHashMap.put("nickname", nickName);
+        HttpRequest.httpPostForm(Constants.Api.USER_URL, stringObjectHashMap, httpCallback);
 
     }
 
     public static void httpUserHeadImg(String headImg, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("headImg", headImg);
-        HttpRequest.httpPostString(Constants.Api.USER_URL, jsonObject, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.USER_URL, jsonObject, httpCallback);
     }
 
 
     public static void httpUserPhone(String phone, String code, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("phone", phone);
         jsonObject.put("code", code);
-        HttpRequest.httpPostString(Constants.Api.USER_URL, jsonObject, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.USER_URL, jsonObject, httpCallback);
     }
 
 
@@ -303,19 +306,19 @@ public class BaseModel {
     //收藏商品
     public static void httpCollectGood(int productInstanceId, int type, HttpRequest.HttpCallback httpCallback) {
 
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
 
-        jsonObject.put("productInstanceId", productInstanceId);
-        jsonObject.put("type", type);//类型  0-取消 1-收藏
+        jsonObject.put("productInstanceId", productInstanceId+"");
+        jsonObject.put("type", type+"");//类型  0-取消 1-收藏
 
-        HttpRequest.httpPostString(Constants.Api.SORT_COLLECT_URL, jsonObject, httpCallback);
+        HttpRequest.httpGetString(Constants.Api.SORT_COLLECT_URL, jsonObject, httpCallback);
 
     }
 
 
     //提醒发货
     public static void httpSendGoodN(String orderCode, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("orderCode", orderCode);
         HttpRequest.httpPostString(Constants.Api.ORDER_REMIND_SEND_URL, jsonObject, httpCallback);
 
@@ -324,20 +327,19 @@ public class BaseModel {
 
     //当面交易
     public static void httpFaceTrade(String orderCode, int type, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("orderCode", orderCode);
-        jsonObject.put("type", type); //操作类型  1-申请当面交易  2-同意当面交易  4-拒绝当面交易
-
-        HttpRequest.httpPostString(Constants.Api.ORDER_FACE_TRADE_URL, jsonObject, httpCallback);
+        jsonObject.put("type", type+""); //操作类型  1-申请当面交易  2-同意当面交易  4-拒绝当面交易
+        HttpRequest.httpPostForm(Constants.Api.ORDER_FACE_TRADE_URL, jsonObject, httpCallback);
 
     }
 
 
     //确认收货
     public static void httpTakeGood(String orderCode, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("orderCode", orderCode);
-        HttpRequest.httpPostString(Constants.Api.ORDER_CONFIRM_TAKE_URL, jsonObject, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.ORDER_CONFIRM_TAKE_URL, jsonObject, httpCallback);
 
     }
 
@@ -352,36 +354,36 @@ public class BaseModel {
 
     //确认发货
     public static void httpSendGood(String orderCode, String shippingCode, String shippingNum, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("orderCode", orderCode);
         jsonObject.put("shippingCode", orderCode);
         jsonObject.put("shippingNum", shippingNum);
-        HttpRequest.httpPostString(Constants.Api.ORDER_CONFIRM_SEND_URL, jsonObject, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.ORDER_CONFIRM_SEND_URL, jsonObject, httpCallback);
 
     }
 
     //延迟收货
     public static void httpDelayTake(String orderCode, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("orderCode", orderCode);
-        HttpRequest.httpPostString(Constants.Api.ORDER_DELAY_CONFIRM_TAKE_URL, jsonObject, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.ORDER_DELAY_CONFIRM_TAKE_URL, jsonObject, httpCallback);
     }
 
     //申请延迟付款
     public static void httpDelayPay(String orderCode, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("orderCode", orderCode);
-        HttpRequest.httpPostString(Constants.Api.ORDER_DELAY_PAY_URL, jsonObject, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.ORDER_DELAY_PAY_URL, jsonObject, httpCallback);
 
     }
 
     //修改单号
     public static void httpExpress(String orderCode, HttpRequest.HttpCallback httpCallback) {
-        JSONObject jsonObject = new JSONObject();
+        HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("orderCode", orderCode);
         jsonObject.put("shippingNum", orderCode);//快递单号
         jsonObject.put("shippingCode", orderCode);//快递编码
-        HttpRequest.httpPostString(Constants.Api.ORDER_EXPRESS_URL, jsonObject, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.ORDER_EXPRESS_URL, jsonObject, httpCallback);
 
     }
 

@@ -87,6 +87,9 @@ public class GoodsDetailModel {
         private ProductUserBean productUser;
         private boolean refund;
         private String startPrice;
+
+        private boolean subsidyProduct;
+        private String subsidyMoney;
         private int status;
         private TimeBean time;
         private String title;
@@ -95,6 +98,23 @@ public class GoodsDetailModel {
         private List<AttributesBean> attributes;
         private List<BidBean> bid;
         private List<String> images;
+
+
+        public boolean isSubsidyProduct() {
+            return subsidyProduct;
+        }
+
+        public void setSubsidyProduct(boolean subsidyProduct) {
+            this.subsidyProduct = subsidyProduct;
+        }
+
+        public String getSubsidyMoney() {
+            return subsidyMoney;
+        }
+
+        public void setSubsidyMoney(String subsidyMoney) {
+            this.subsidyMoney = subsidyMoney;
+        }
 
         public String getCutPic() {
             return cutPic;

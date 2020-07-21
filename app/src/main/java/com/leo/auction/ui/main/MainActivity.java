@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.ToastUtils;
 import com.flyco.tablayout.CommonTabLayout;
@@ -19,13 +20,19 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
+import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.home.model.TabEntity;
+import com.leo.auction.ui.version.VersionDialog;
+import com.leo.auction.ui.version.VersionDownDialog;
+import com.leo.auction.ui.version.VersionModel;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
+import okhttp3.Call;
 
 public class MainActivity extends BaseActivity {
 
@@ -81,7 +88,8 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new MainSortFragment());
         mFragments.add(new MainFocusFragment());
         mFragments.add(new NewsFragment());
-        mFragments.add(new MainMeFragment());
+//        mFragments.add(new MainMeFragment());
+        mFragments.add(new MineFragment());
         initImmersionBar(R.color.home_title_bg);
 
         for (int i = 0; i <mBottomStr.length ; i++) {
@@ -99,11 +107,7 @@ public class MainActivity extends BaseActivity {
                 }
 
 
-                if (position==2){
-                    Constants.Var.HOME_TYPE = 5;
-                }
-
-                if (position == 2 || position ==3){
+                if (position == 2 || position ==3 ||position ==4){
                     if (! Constants.Var.ISLOGIN) {
                         ToastUtils.showShort("请先登录");
                         LoginActivity.newIntance(MainActivity.this);
@@ -133,27 +137,89 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
+
+                if (position ==0 ){
+                    Constants.Var.HOME_TYPE = 0;
+                }
+
+
+
+                if (position == 2 || position ==3 ||position ==4){
+                    if (! Constants.Var.ISLOGIN) {
+                        ToastUtils.showShort("请先登录");
+                        LoginActivity.newIntance(MainActivity.this);
+                        return;
+                    }
+                }
+
+                if (position == 0 ||position == 2 || position ==4){
+                    initImmersionBar(R.color.home_title_bg);
+                }else {
+                    initImmersionBar(R.color.white);
+                }
+
                 mCommonBottom.setCurrentTab(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
         mViewPager.setCurrentItem(0);
-
 //        mCommonBottom.canScrollHorizontally(0);
 //        mCommonBottom.canScrollVertically(0);
+
+    }
+
+
+
+
+    public void httpVerison(){
+
+
+        VersionModel.httpGetVersion(new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+
+                VersionModel returnData = JSONObject.parseObject(resultData, VersionModel.class);
+
+                HashMap<String, String> mHashMap = new HashMap<>();
+
+                mHashMap.put("isForce", returnData.getData().isForce() + "");
+                mHashMap.put("downUrl", returnData.getData().getDownload());
+
+                VersionDialog versionDialog = new VersionDialog(MainActivity.this, mHashMap, new VersionDialog.VersionInter() {
+                    @Override
+                    public void versionOK() {
+
+                        VersionDownDialog downDialog = new VersionDownDialog(MainActivity.this,returnData.getData().getDownload());
+                        downDialog.show();
+                        downDialog.setCanceledOnTouchOutside(false);
+                    }
+
+                    @Override
+                    public void versionCancel() {
+
+                    }
+                });
+                versionDialog.show();
+                versionDialog.setCanceledOnTouchOutside(false);
+            }
+        });
 
 
     }
 
 
 
-    public void setCurrentItem(int position){
 
+    public void setCurrentItem(int position){
         mViewPager.setCurrentItem(position);
     }
 
@@ -177,7 +243,6 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-
             return mFragments.get(position);
         }
     }
