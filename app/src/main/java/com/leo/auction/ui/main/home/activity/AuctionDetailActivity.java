@@ -223,6 +223,14 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             @Override
             public void onClick(View v) {
 
+                Intent intent = new Intent(AuctionDetailActivity.this, WebViewActivity.class);
+                intent.putExtra("title", "投诉");
+                intent.putExtra("url", Constants.WebApi.WEB_REPROCT_URL);
+                intent.putExtra("hasNeedTitleBar", true);
+                intent.putExtra("hasNeedRightView", false);
+                intent.putExtra("hasNeedLeftView", true);
+                startActivity(intent);
+
             }
         });
         //收藏
@@ -287,7 +295,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             public void onClick(View v) {
                 Intent intent = new Intent(AuctionDetailActivity.this, WebViewActivity.class);
                 intent.putExtra("title", "TOP百亿补贴");
-                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL);
+                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL+ mGoodsDetailModel.getData().getProductInstanceCode());
                 intent.putExtra("hasNeedTitleBar", true);
                 intent.putExtra("hasNeedRightView", false);
                 intent.putExtra("hasNeedLeftView", true);
@@ -460,7 +468,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             mDetailStartPrice.setVisibility(View.GONE);
         }
 
-        mDetailRange.setText(SpannableStringUtils.getBuilder("加价幅度： ").append("￥" + goodsDetailModel.getMarkupRange())
+        mDetailRange.setText(SpannableStringUtils.getBuilder("加价幅度：").append("￥" + goodsDetailModel.getMarkupRange())
                 .setXProportion((float) 1.2).setForegroundColor(getResources().getColor(R.color.home_title_bg)).create());
 
 
@@ -534,12 +542,12 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         }
 
 
-        mDetailBidAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                bidPage++;
-            }
-        }, mActionRecycler);
+//        mDetailBidAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+//            @Override
+//            public void onLoadMoreRequested() {
+//                bidPage++;
+//            }
+//        }, mActionRecycler);
     }
 
 
@@ -547,8 +555,9 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     private void httpBidList(boolean showBid) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("instanceCode", goodCode);
-        hashMap.put("pageNum", String.valueOf(bidPage));
-        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
+//        hashMap.put("pageNum", String.valueOf(bidPage));
+        hashMap.put("pageNum", "1");
+        hashMap.put("pageSize", Constants.Var.LIST_MAX);
         showWaitDialog();
 
         HttpRequest.httpGetString(Constants.Api.GOODS_DETAIL_BID_URL, hashMap, new HttpRequest.HttpCallback() {
@@ -575,13 +584,13 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
 
 
-                    if (bidPage > 1 && data.isEmpty()) {
-                        if (mDetailBidAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
-                            mDetailBidAdapter.loadMoreEnd(true);
-                        } else {
-                            mDetailBidAdapter.loadMoreEnd();
-                        }
-                    }
+//                    if (bidPage > 1 && data.isEmpty()) {
+//                        if (mDetailBidAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+//                            mDetailBidAdapter.loadMoreEnd(true);
+//                        } else {
+//                            mDetailBidAdapter.loadMoreEnd();
+//                        }
+//                    }
                 } else {
                     if (mOnePrice == 0) {
                         bidPrice = rangePrice;
@@ -842,12 +851,13 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tab_home:
-                ActivityManager.JumpActivity(AuctionDetailActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(0);
+
+                MainActivity.newIntance(AuctionDetailActivity.this,0);
+
                 break;
             case R.id.tab_focus:
-                ActivityManager.JumpActivity(AuctionDetailActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(2);
+
+                MainActivity.newIntance(AuctionDetailActivity.this,2);
                 break;
             case R.id.tab_jd:
                 Bundle bundle = new Bundle();
@@ -856,12 +866,12 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 ActivityManager.JumpActivity(AuctionDetailActivity.this, ShopActivity.class, bundle);
                 break;
             case R.id.tab_news:
-                ActivityManager.JumpActivity(AuctionDetailActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(3);
+
+                MainActivity.newIntance(AuctionDetailActivity.this,3);
                 break;
             case R.id.tab_mine:
-                ActivityManager.JumpActivity(AuctionDetailActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(4);
+
+                MainActivity.newIntance(AuctionDetailActivity.this,4);
                 break;
         }
     }

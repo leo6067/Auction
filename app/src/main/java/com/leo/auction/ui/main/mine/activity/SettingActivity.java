@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -66,15 +67,15 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
     @BindView(R.id.tv_address)
     TextView mTvAddress;
     @BindView(R.id.rl_address)
-    RelativeLayout mRlAddress;
+    LinearLayout mRlAddress;
     @BindView(R.id.tv_return)
     TextView mTvReturn;
     @BindView(R.id.rl_return)
-    RelativeLayout mRlReturn;
+    LinearLayout mRlReturn;
     @BindView(R.id.tv_about)
     TextView mTvAbout;
     @BindView(R.id.rl_about)
-    RelativeLayout mRlAbout;
+    LinearLayout mRlAbout;
     @BindView(R.id.sbtn_exit_account)
     SuperButton mSbtnExitAccount;
     @BindView(R.id.sbtn_cancellation_account)
@@ -135,6 +136,9 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
                 UpdatePhoneActivity.newIntance(SettingActivity.this, Constants.RequestCode.RETURNREQUEST_REFRESH_UPDATEPHONE);
                 break;
             case R.id.rl_real_name_auth:  //实名认证
+
+                ActivityManager.JumpActivity(SettingActivity.this,IdentityActivity.class);
+
                 break;
             case R.id.rl_address: //收货地址
                 AddressActivity.newIntance(SettingActivity.this, "0", "0", Constants.RequestCode.RETURNREQUEST_REFRESH_SETTING_ADDRESS);
@@ -202,7 +206,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
         } else if (requestCode == Constants.RequestCode.RETURNREQUEST_REFRESH_UPDATEPHONE && resultCode == RESULT_OK) {
             String phone = data.getStringExtra("phone");
             mTvContactsPhone.setText(String.valueOf(phone));
-        } else if (requestCode ==Constants. RequestCode.RETURNREQUEST_REFRESH_SETTING_ADDRESS && resultCode == RESULT_OK) {
+        } else if (requestCode == Constants.RequestCode.RETURNREQUEST_REFRESH_SETTING_ADDRESS && resultCode == RESULT_OK) {
             AddressModel.DataBean address = data.getParcelableExtra("address");
             mTvAddress.setText(address.getAddr1Name() + address.getAddr2Name() + address.getAddr3Name() + address.getAddress());
         }
@@ -251,32 +255,31 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
 
             @Override
             public void httpResponse(String resultData) {
-                GlideUtils.loadImg(headimg, mIvHead, R.drawable.ic_mine_head_default, R.drawable.ic_mine_head_default);
+                BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                if (baseModel.getResult().isSuccess()) {
+                    GlideUtils.loadImg(headimg, mIvHead, R.drawable.ic_mine_head_default, R.drawable.ic_mine_head_default);
+                    ToastUtils.showShort("操作成功");
+                } else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
+
             }
         });
     }
 
 
-
-
-    private void loginOut(){
-
-
+    private void loginOut() {
         BaseSharePerence.getInstance().setUserJson("");
         BaseSharePerence.getInstance().setLoginJson("");
-
         HttpRequest.httpPostString(Constants.Api.LOGINOUT_URL, new JSONObject(), new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-
             }
 
             @Override
             public void httpResponse(String resultData) {
-
             }
         });
-
     }
 
 

@@ -40,7 +40,6 @@ dependencies {
     debugAnnotationProcessor "com.xiaomai.environmentswitcher:environmentswitcher-compiler:1.5.3"
     releaseAnnotationProcessor "com.xiaomai.environmentswitcher:environmentswitcher-compiler-release:1.5.3"
 
-
     //butterknife 注解
     api 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -50,109 +49,136 @@ dependencies {
     api 'com.alibaba:fastjson:1.2.31'
 
     //网络请求框架
+
     //okhttputils网络请求框架
     api 'com.zhy:okhttputils:2.6.2'
     api 'com.zhouyou:rxeasyhttp:2.1.5'
     api 'com.squareup.okhttp3:okhttp:3.10.0'
     api 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+
     //Cookie持久化管理(推荐)
     api 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
-
 
     //图片加载器glide
     api 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     api 'jp.wasabeef:glide-transformations:4.1.0'
 
-
     //权限申请
+
     //动态权限
     api 'com.yanzhenjie:permission:2.0.0-rc12'
 
-
-
     //奔溃日志initlog
     api 'com.simple:spiderman:1.0.2'
+
     //洪洋recycleview 适配框架
     api 'com.zhy:base-rvadapter:3.0.3'
+
     //recyclerview 适配器
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
+
     //工具集合
     api 'com.blankj:utilcode:1.29.0'
 
-
     /**
-     * UI
+     *  UI
      *
      * */
 
     //下拉刷新库集成
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+
     //SuperTextView
     api 'com.github.lygttpod:SuperTextView:2.4.2'
+
     //拖拽view
     api 'com.github.chrisbanes:PhotoView:2.1.4'
+
     //侧滑库
     api 'com.billy.android:smart-swipe:1.1.0'
+
     //android support library环境下兼容NestedScrolling
     api 'com.billy.android:smart-swipe-support:1.1.0'
+
     //沉浸式状态栏
     api 'com.gyf.immersionbar:immersionbar:3.0.0'
+
     //轮播框架
     api 'com.jude:rollviewpager:1.4.6'
+
     //多级联动---省市区，时间
     api 'com.contrarywind:Android-PickerView:3.2.5'
+
     //角标
     api 'me.leolin:ShortcutBadger:1.1.13@aar'
+
     //悬浮在所有界面
-//    api 'com.github.yhaolpz:FloatWindow:1.0.7'
+
+    //    api 'com.github.yhaolpz:FloatWindow:1.0.7'
+
     //二维码
     api 'cn.yipianfengye.android:zxing-library:2.2'
+
     //密码输入框
     api 'com.jungly:GridPasswordView:0.1'
+
     //应用内部，消息数量展示
     api 'com.github.andremion:counterfab:1.0.1'
+
     //网格gridview各个方向滑动
     api 'com.kelin.scrollablepanel:library:1.2.0'
+
     //动画页面切换 等等
     api 'site.gemus:openingstartanimation:1.0.0'
+
     //导航栏
     api 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
+
     //加载圈
     api 'com.github.ybq:Android-SpinKit:1.2.0'
+
     //验证码
     api 'com.github.cirno-poi:VerifyEditText:1.0.0'
+
     //带有点击效果颜色控件
     api 'com.ruffian.library:RWidgetHelper:1.0.4'
+
     //带有下拉列表的搜索框
     api 'com.carson_ho:SearchLayout:1.0.1'
+
     //相册加载框架
     api 'com.github.yalantis:ucrop:2.2.2'
+
     //悬浮头部
-//  api 'com.oushangfeng:PinnedSectionItemDecoration:1.3.0'
+
+    //  api 'com.oushangfeng:PinnedSectionItemDecoration:1.3.0'
+
     //导航栏---tablayout --fragment
     api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
-
-
     //鲁班压缩
-//   api 'top.zibin:Luban:1.1.8'
+
+    //   api 'top.zibin:Luban:1.1.8'
+
     //微信
-//   api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
+    //   api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
     //阿里云oss
     api 'com.aliyun.dpa:oss-android-sdk:+'
+
     //PushSDK
     api 'com.umeng.sdk:push:4.2.0'
 
     //分包方法数过多
     api 'com.android.support:multidex:1.0.3'
-
-
-
     api 'cn.jzvd:jiaozivideoplayer:7.0.5'
 
     //BasePopup主体库
     api 'com.github.razerdp:BasePopup:2.2.1'
+
     //BasePopup support支持库
     api 'com.github.razerdp:BasePopup-compat-support:2.2.1'
+    implementation files('libs/tbs_sdk_thirdapp_v3.6.0.1352.jar')
 }

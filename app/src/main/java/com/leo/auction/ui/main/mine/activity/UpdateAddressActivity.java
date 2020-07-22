@@ -179,7 +179,7 @@ public class UpdateAddressActivity extends BaseActivity {
     private void oneKeyFilling() {
 
         showWaitDialog();
-        OneKeyFillingModel.sendOneKeyFillingRequest(TAG, etOneKeyFilling.getText().toString().trim().replaceAll("\n", ""), new HttpRequest.HttpCallback() {
+        OneKeyFillingModel.sendOneKeyFillingRequest(etOneKeyFilling.getText().toString().trim().replaceAll("\n", ""), new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();

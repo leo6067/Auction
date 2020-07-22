@@ -11,9 +11,10 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dp_30"
-        android:paddingTop="@dimen/dp_39"
+        android:layout_height="@dimen/dp_77"
+        android:gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_30"
+
         android:text="手机号"
         android:textColor="@color/color_1a1a1a"
         android:textSize="@dimen/sp_30" />
@@ -21,13 +22,14 @@
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
         android:background="@null"
-        android:gravity="left"
+
         android:hint="请输入手机号"
         android:maxLength="12"
-        android:paddingLeft="@dimen/dp_30"
-        android:paddingTop="@dimen/dp_32"
+        android:layout_height="@dimen/dp_77"
+        android:gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_30"
         android:textColor="@android:color/black"
         android:textColorHint="@color/color_c3c6cb"
         android:textSize="@dimen/sp_24" />
@@ -42,9 +44,10 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dp_30"
-        android:paddingTop="@dimen/dp_39"
+
+        android:layout_height="@dimen/dp_77"
+        android:gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_30"
         android:text="验证码"
         android:textColor="@color/color_1a1a1a"
         android:textSize="@dimen/sp_30" />
@@ -63,7 +66,7 @@
             android:gravity="left"
             android:hint="请输入验证码"
             android:inputType="number"
-            android:paddingLeft="@dimen/dp_30"
+            android:layout_marginStart="@dimen/dp_30"
             android:textColor="@android:color/black"
             android:textColorHint="@color/color_c3c6cb"
             android:textSize="@dimen/sp_24" />

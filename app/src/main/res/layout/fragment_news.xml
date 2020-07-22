@@ -22,7 +22,7 @@
     <com.aten.compiler.widget.tabLayout.SlidingTabLayout
         android:id="@+id/stb_order"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_87"
+        android:layout_height="@dimen/dp_88"
         android:layout_marginBottom="@dimen/dp_3"
         android:background="@android:color/white"
         app:tl_tab_space_equal="true"
@@ -32,8 +32,8 @@
         app:tl_indicator_width="@dimen/dp_50"
         app:tl_textSelectColor="@color/color_fe7f67"
         app:tl_textUnselectColor="@color/color_1a1a1a"
-        app:tl_textsize="@dimen/sp_22"
-        app:tl_textSelectSize="@dimen/sp_22"/>
+        app:tl_textsize="@dimen/sp_24"
+        app:tl_textSelectSize="@dimen/sp_24"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_order"

@@ -209,10 +209,10 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
             mUrl = Constants.Api.HOME_UNITARY_URL;
         } else if (homeType == 2) {//首页--全部
             mUrl = Constants.Api.HOME_PICK_URL;
-        } else if (homeType == 3) {//首页--全部
-            mUrl = Constants.Api.HOME_NEWEST_URL;
-        } else if (homeType == 4) {//首页--截拍
-            mUrl = Constants.Api.HOME_ABOUT_URL;
+        } else if (homeType == 3) {//首页-- 二手
+            mUrl = Constants.Api.HOME_SECOND_URL;
+        } else if (homeType == 4) {//首页--万物拍
+            mUrl = Constants.Api.HOME_ALL_PRODUCT_URL;
         }else {
             return;
         }
@@ -290,7 +290,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
             @Override
             public void httpResponse(String resultData) {
                 JSONObject jsonObject = JSONObject.parseObject(resultData);
-                String data = jsonObject.getString("data");
+                int data = jsonObject.getInteger("data");
                 mTitlePrice.setText("￥" + data);
             }
         });

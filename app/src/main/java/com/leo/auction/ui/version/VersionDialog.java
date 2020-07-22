@@ -65,6 +65,8 @@ public class VersionDialog extends Dialog {
         String isForce = mHashMap.get("isForce");
         String url = mHashMap.get("downUrl");
 
+
+        //        https://imtt.dd.qq.com/16891/apk/C831AEEA8BCC274A9EBA11DB22BBC375.apk
         Globals.log("log leo isForce  02 " + isForce);
 
         if ("true".equals(isForce)) {

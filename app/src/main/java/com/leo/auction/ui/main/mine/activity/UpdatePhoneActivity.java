@@ -1,8 +1,8 @@
 package com.leo.auction.ui.main.mine.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,20 +16,19 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.allen.library.SuperButton;
 import com.aten.compiler.base.BaseActivity;
-import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.countDownTime.CountdownView;
+import com.aten.compiler.widget.title.TitleBar;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseModel;
-import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginVerModel;
 import com.leo.auction.ui.login.model.SmsCodeModel;
 import com.leo.auction.utils.Globals;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
@@ -52,6 +51,8 @@ public class UpdatePhoneActivity extends BaseActivity implements CountdownView.O
     WebView testWebview;
     @BindView(R.id.view_view)
     View viewView;
+    @BindView(R.id.title_bar)
+    TitleBar mTitleBar;
 
 
     //账号输入监听
@@ -89,6 +90,7 @@ public class UpdatePhoneActivity extends BaseActivity implements CountdownView.O
     @Override
     public void initEvent() {
         super.initEvent();
+        mTitleBar.setTitle("修改手机号");
         etPhone.addTextChangedListener(textWatcher);
         cvVerifCode.setOnCountdownEndListener(this);
     }
@@ -163,11 +165,19 @@ public class UpdatePhoneActivity extends BaseActivity implements CountdownView.O
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
-                ToastUtils.showShort("设置成功");
-                Intent intent = new Intent();
-                intent.putExtra("phone", etPhone.getText().toString().trim());
-                setResult(RESULT_OK, intent);
-                goFinish();
+
+                BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                if (baseModel.getResult().isSuccess()){
+                    ToastUtils.showShort("修改成功");
+                    Intent intent = new Intent();
+                    intent.putExtra("phone", etPhone.getText().toString().trim());
+                    setResult(RESULT_OK, intent);
+                    goFinish();
+                }else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
+
+
             }
         });
 
@@ -234,6 +244,7 @@ public class UpdatePhoneActivity extends BaseActivity implements CountdownView.O
         Intent intent = new Intent(activity, UpdatePhoneActivity.class);
         activity.startActivityForResult(intent, requestCode);
     }
+
 
 
 }

@@ -706,6 +706,14 @@ public class GoodsDetailModel {
 
             private String ensureMoney;
 
+            public String getEnsureMoney() {
+                return ensureMoney;
+            }
+
+            public void setEnsureMoney(String ensureMoney) {
+                this.ensureMoney = ensureMoney;
+            }
+
             public int getBidPrice() {
                 return bidPrice;
             }

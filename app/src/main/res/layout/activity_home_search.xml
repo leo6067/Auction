@@ -15,7 +15,7 @@
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/segment_bottom"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_70"
+        android:layout_height="@dimen/dp_88"
         android:background="@color/white"
         app:tl_textSelectColor="@color/home_title_bg"
         app:tl_textUnselectColor="@color/black"

@@ -33,7 +33,8 @@ import butterknife.Unbinder;
 public class NewsFragment extends BaseFragment {
 
 
-    String[] titles = new String[]{"官方公告", "系统消息", "客服消息"};
+//    String[] titles = new String[]{"官方公告", "系统消息", "客服消息"};
+    String[] titles = new String[]{"官方公告", "系统消息"};
     @BindView(R.id.stb_order)
     SlidingTabLayout stbOrder;
     @BindView(R.id.vp_order)

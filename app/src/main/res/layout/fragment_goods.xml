@@ -18,7 +18,7 @@
             android:id="@+id/radio_a"
             style="@style/radiobutton_style"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_70"
+            android:layout_height="@dimen/dp_88"
             android:text="综合排序"
             android:textColor="@drawable/selector_group_sort"
             />
@@ -27,7 +27,7 @@
         <RadioButton
             android:id="@+id/radio_b"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_70"
+            android:layout_height="@dimen/dp_88"
             style="@style/radiobutton_style"
             android:textColor="@drawable/selector_group_sort"
             android:text="最新上拍" />
@@ -36,7 +36,7 @@
         <RadioButton
             android:id="@+id/radio_c"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_70"
+            android:layout_height="@dimen/dp_88"
             style="@style/radiobutton_style"
             android:textColor="@drawable/selector_group_sort"
             android:text="即将截拍" />

@@ -75,7 +75,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
 
 
         tvFreeShipping.setText(item.getDistributeType().equals("1") ? "包邮" : "到付");
-        tvRefund.setVisibility(item.getRefund().equals("1") ? View.VISIBLE : View.GONE);  //包退
+        tvRefund.setVisibility(item.isRefund() ? View.VISIBLE : View.GONE);  //包退
         btPriceIv.setVisibility(item.isSubsidyProduct()? View.VISIBLE : View.GONE);
         btPriceTv.setVisibility(item.isSubsidyProduct()? View.VISIBLE : View.GONE);
 

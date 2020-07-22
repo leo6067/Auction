@@ -209,7 +209,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 login();
                 break;
             case R.id.iv_close:
-                goFinish();
+
+                MainActivity.newIntance(LoginActivity.this, 0);
+                finish();
                 break;
             case R.id.iv_wx_login:
                 if (!cbCheck.isChecked()) {

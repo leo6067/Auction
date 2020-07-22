@@ -186,6 +186,9 @@ public class Constants {
         public static String HOMEPAGE_SUBSIDY_URL =WEB_BASE_URL+"auction-web/pages/sub/bysubsidy/index";// 百亿补贴地址
         public static String WEB_MINE_URL =WEB_BASE_URL+"auction-web/pages/personal/personal?isMargin=4&subsidyToken=";// 我的
 
+
+        public static String WEB_REPROCT_URL =WEB_BASE_URL+"auction-web/pages/sub/complaint/list?productInstanceCode=";// 举报
+
     }
 
 
@@ -199,6 +202,10 @@ public class Constants {
         //智能解析地址
         public static String ADDRESS_SMART_URL = "https://w.taojianlou.com/express/address-search";//
 
+
+
+        //短信验证
+        public static String SMS_URL = domain+"platform/sms";
 
 
         //文件
@@ -241,6 +248,9 @@ public class Constants {
         public static String HOME_PICK_URL = domain + "instance/pick-leaky";//
         public static String HOME_NEWEST_URL = domain + "instance/newest";//
         public static String HOME_ABOUT_URL = domain + "instance/about-intercept";//
+
+        public static String HOME_SECOND_URL = domain + "instance/second-hand";// 二手
+        public static String HOME_ALL_PRODUCT_URL = domain + "instance/all-product";// 万物拍
         public static String HOME_SEARCH_MU_URL = domain + "instance/search-multiple";//
         public static String HOME_SEARCH_NEW_URL = domain + "instance/search-newest";//
         public static String HOME_SEARCH_INT_URL = domain + "instance/search-about-intercept";//
@@ -281,6 +291,8 @@ public class Constants {
         public static String GOODS_DETAIL_ATTR_URL = domain + "product/attribute";//
         public static String GOODS_NEWEST_URL = domain + "product/newest";//
         public static String GOODS_STORE_URL = domain + "product/store-goods";//
+//        public static String GOODS_REPROCT_URL = domain + "report";//
+
 
 
 
@@ -335,7 +347,6 @@ public class Constants {
         public static String GOODS_LOWER_URL = domain + "product/lower";//
 
         //最新上拍
-
         public static String INSTANCE_NEWEST_URL = domain + "instance/instance-newest";//
 
 

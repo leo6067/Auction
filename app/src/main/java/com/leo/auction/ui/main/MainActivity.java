@@ -13,12 +13,14 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.ToastUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.LoginActivity;
@@ -55,6 +57,7 @@ public class MainActivity extends BaseActivity {
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
 
+    private int current  = 0;
 
     @Override
     public void setContentViewLayout() {
@@ -78,6 +81,13 @@ public class MainActivity extends BaseActivity {
 
 
     public void initData()  {
+
+        String token = BaseSharePerence.getInstance().getUserJson().getH5Token();
+        String httpUrl = Constants.WebApi.WEB_MINE_URL + token;
+
+
+
+
         ActivityManager.addActivity(this);
         initImmersionBar();
         ActivityManager.mainActivity = this;
@@ -89,7 +99,7 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new MainFocusFragment());
         mFragments.add(new NewsFragment());
 //        mFragments.add(new MainMeFragment());
-        mFragments.add(new MineFragment());
+        mFragments.add( MineFragment.newIntance("",httpUrl,true,false) );
         initImmersionBar(R.color.home_title_bg);
 
         for (int i = 0; i <mBottomStr.length ; i++) {
@@ -166,18 +176,22 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        mViewPager.setCurrentItem(0);
-//        mCommonBottom.canScrollHorizontally(0);
-//        mCommonBottom.canScrollVertically(0);
 
+
+
+        httpVerison();
     }
 
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        current= getIntent().getIntExtra("currentTab",0);
+        mViewPager.setCurrentItem(current);
+        mCommonBottom.setCurrentTab(current);
+    }
 
     public void httpVerison(){
-
-
         VersionModel.httpGetVersion(new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -186,18 +200,19 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void httpResponse(String resultData) {
-
                 VersionModel returnData = JSONObject.parseObject(resultData, VersionModel.class);
-
                 HashMap<String, String> mHashMap = new HashMap<>();
-
                 mHashMap.put("isForce", returnData.getData().isForce() + "");
                 mHashMap.put("downUrl", returnData.getData().getDownload());
+                if (Integer.parseInt(returnData.getData().getVersion()) == AppUtils.getAppVersionCode()){
+                    return;
+                }
+
 
                 VersionDialog versionDialog = new VersionDialog(MainActivity.this, mHashMap, new VersionDialog.VersionInter() {
                     @Override
                     public void versionOK() {
-
+//                        VersionDownDialog downDialog = new VersionDownDialog(MainActivity.this,"https://imtt.dd.qq.com/16891/apk/C831AEEA8BCC274A9EBA11DB22BBC375.apk");
                         VersionDownDialog downDialog = new VersionDownDialog(MainActivity.this,returnData.getData().getDownload());
                         downDialog.show();
                         downDialog.setCanceledOnTouchOutside(false);
@@ -212,8 +227,6 @@ public class MainActivity extends BaseActivity {
                 versionDialog.setCanceledOnTouchOutside(false);
             }
         });
-
-
     }
 
 

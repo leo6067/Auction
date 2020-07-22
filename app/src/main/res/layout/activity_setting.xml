@@ -137,7 +137,7 @@
             <RelativeLayout
                 android:id="@+id/rl_real_name_auth"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_83"
+                android:layout_height="@dimen/dp_88"
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@android:color/white"
                 android:layout_marginEnd="@dimen/dp_30"
@@ -169,8 +169,8 @@
 
                 <ImageView
                     android:id="@+id/iv_real_name_auth_status"
-                    android:layout_width="@dimen/dp_20"
-                    android:layout_height="@dimen/dp_20"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_14"
                     android:layout_toLeftOf="@+id/tv_real_name_auth"
@@ -179,11 +179,12 @@
             </RelativeLayout>
             <include layout="@layout/include_line_a"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rl_address"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_83"
+                android:layout_height="@dimen/dp_88"
                 android:layout_marginTop="@dimen/dp_2"
+                android:gravity="center_vertical"
                 android:background="@drawable/item_selector"
                 android:layout_marginStart="@dimen/dp_30"
                 android:layout_marginEnd="@dimen/dp_30">
@@ -192,7 +193,7 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+
                     android:text="收货地址"
                     android:textColor="@color/color_1a1a1a"
                     android:textSize="@dimen/sp_24" />
@@ -200,11 +201,9 @@
 
                 <TextView
                     android:id="@+id/tv_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-
+                    android:layout_weight="1"
                     android:drawableEnd="@drawable/ic_enter_03"
                     android:drawablePadding="@dimen/dp_30"
                     android:ellipsize="end"
@@ -214,34 +213,35 @@
                     android:textSize="@dimen/sp_24"
                     tools:text="福建省莆田市仙游县榜头镇" />
 
-            </RelativeLayout>
+            </LinearLayout>
             <include layout="@layout/include_line_a"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rl_return"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_83"
+                android:layout_height="@dimen/dp_88"
                 android:layout_marginTop="@dimen/dp_2"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:background="@drawable/item_selector"
                 android:layout_marginStart="@dimen/dp_30"
                 android:layout_marginEnd="@dimen/dp_30">
 
                 <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+
                     android:text="退货地址"
                     android:textColor="@color/color_1a1a1a"
                     android:textSize="@dimen/sp_24" />
 
 
                 <TextView
+                    android:layout_weight="1"
                     android:id="@+id/tv_return"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
+
                     android:drawableEnd="@drawable/ic_enter_03"
                     android:drawablePadding="@dimen/dp_30"
                     android:ellipsize="end"
@@ -251,14 +251,16 @@
                     android:textSize="@dimen/sp_24"
                     tools:text="福建省莆田市仙游县榜头镇" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <include layout="@layout/include_line_a"/>
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rl_about"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_88"
                 android:layout_marginTop="@dimen/dp_2"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:background="@drawable/item_selector"
                 android:layout_marginStart="@dimen/dp_30"
                 android:layout_marginEnd="@dimen/dp_30">
@@ -267,18 +269,18 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+
                     android:text="关于我们"
                     android:textColor="@color/color_1a1a1a"
                     android:textSize="@dimen/sp_24" />
 
 
                 <TextView
+                    android:layout_weight="1"
                     android:id="@+id/tv_about"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
+
                     android:drawableEnd="@drawable/ic_enter_03"
                     android:drawablePadding="@dimen/dp_30"
                     android:ellipsize="end"
@@ -288,7 +290,7 @@
                     android:textSize="@dimen/sp_24"
                     tools:text="福建省莆田市仙游县榜头镇" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
 
             <com.allen.library.SuperButton

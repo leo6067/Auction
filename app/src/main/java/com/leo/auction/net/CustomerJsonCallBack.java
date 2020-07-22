@@ -87,8 +87,7 @@ public abstract class CustomerJsonCallBack<T> extends StringCallback {
                 }
                 onRequestSuccess(t);
             } else {
-
-                Globals.log("xxxxxxxxxxxxx  code"  +code);
+//                Globals.log("xxxxxxxxxxxxx  code"  +code);
 //                if ("5002".equals(code)){//登录超时，重新登录
 //                    //1.清空数据得数据
 //                    //2.跳转首页

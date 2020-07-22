@@ -39,7 +39,8 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
-    private String[] mTitlesStr = {"百亿补贴", "一元拍", "捡漏", "最新发布", "即将截拍"};
+//    private String[] mTitlesStr = {"百亿补贴", "一元拍", "捡漏", "最新发布", "即将截拍"};
+    private String[] mTitlesStr = {"百亿补贴", "一元拍", "捡漏", "二手", "万物拍"};
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
 

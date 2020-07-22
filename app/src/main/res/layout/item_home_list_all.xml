@@ -11,34 +11,27 @@
     android:orientation="vertical">
 
 
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/relative_layout"
+
+        <ImageView
+            android:id="@+id/iv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/dp_400"
+            android:alpha="0.03"
+            android:scaleType="center" />
 
-
-            <ImageView
-                android:id="@+id/iv"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_400"
-                android:alpha="0.03"
-                android:scaleType="center" />
-
-
-
-
-        </RelativeLayout>
-
-
+    </RelativeLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_m_106"
-        android:layout_below="@+id/relative_layout">
-
+        android:layout_below="@+id/relative_layout"
+        android:layout_marginTop="@dimen/dp_m_106">
 
 
         <ImageView
@@ -55,22 +48,18 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_66"
             android:textColor="@color/home_title_bg"
+            android:textSize="@dimen/sp_20"
             tools:text="补贴两亿" />
     </RelativeLayout>
 
 
-
-
-
-
     <RelativeLayout
-        android:layout_below="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_layout"
         android:background="@drawable/bottom_left_right_corner_normal"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_25">
-
 
 
         <TextView
@@ -189,7 +178,7 @@
             android:paddingTop="@dimen/dp_16"
             android:paddingRight="@dimen/dp_20"
             android:paddingBottom="@dimen/dp_20"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_shared"

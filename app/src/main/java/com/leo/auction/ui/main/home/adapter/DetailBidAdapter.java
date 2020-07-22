@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.widget.glide.GlideUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -50,6 +51,7 @@ public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean
     @Override
     protected void convert(@NonNull BaseViewHolder helper, GoodsDetailModel.DataBean.BidBean item) {
         helper.setText(R.id.item_name,item.getNickname());
+        TextView itemBail = helper.getView(R.id.item_bail);
         RTextView itemStatus = helper.getView(R.id.item_status);
         ImageView headIV = helper.getView(R.id.item_head);
         ImageView ImgIV = helper.getView(R.id.item_img);
@@ -70,7 +72,7 @@ public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean
     }
 
         helper.setText(R.id.item_price,item.getBidPrice()+"");
-        helper.setText(R.id.item_time, TimeUtils.millis2String(item.getCreateTime(),"yyyy-MM-dd HH:mm"));
+        helper.setText(R.id.item_time, TimeUtils.millis2String(item.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
 
 
         GlideUtils.loadImg(item.getHeadImg(),headIV);
@@ -79,8 +81,9 @@ public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean
         String[] myLevelPicS = commonJson.getMy_level_pic().get(0).split("auction_level_hd_");
         String LevelUrl = myLevelPicS[0] + "auction_level_hd_" + item.getLevel() + ".png";
 
-
-        Globals.log("xxxxx  LevelUrl" + LevelUrl);
         GlideUtils.loadImg(LevelUrl,ImgIV);
+
+        itemBail.setVisibility(EmptyUtils.isEmpty(item.getEnsureMoney()) ? View.GONE : View.VISIBLE);
+        itemBail.setText("已缴纳保证金￥"+EmptyUtils.strEmpty(item.getEnsureMoney()));
     }
 }

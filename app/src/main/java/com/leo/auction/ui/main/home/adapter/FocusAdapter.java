@@ -62,7 +62,7 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
 //        helper.setIsRecyclable(false);
         ImageView iv = helper.getView(R.id.iv);
 
-        LinearLayout rootLayout = helper.getView(R.id.root_layout);
+
         TextView tvProductTitle = helper.getView(R.id.tv_product_title);
         TextView tvProductPrice = helper.getView(R.id.tv_product_price);
 
@@ -70,16 +70,14 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
         TextView tvRefund = helper.getView(R.id.tv_refund);
 
         FrameLayout aflShared = helper.getView(R.id.afl_shared);
-        ImageView ivShared = helper.getView(R.id.iv_shared);
-        FrameLayout aflCollection = helper.getView(R.id.afl_collection);
-        ImageView ivCollection = helper.getView(R.id.iv_collection);
+
         ImageView btPriceIv = helper.getView(R.id.bt_price_iv);
         TextView btPriceTv = helper.getView(R.id.bt_price);
         TextView overTv = helper.getView(R.id.item_over);
 
 
         tvFreeShipping.setText(item.getDistributeType().equals("1") ? "包邮" : "到付");
-        tvRefund.setVisibility(item.getRefund().equals("1") ? View.VISIBLE : View.GONE);  //包退
+        tvRefund.setVisibility(item.isRefund() ? View.VISIBLE : View.GONE);  //包退
         btPriceIv.setVisibility(item.isSubsidyProduct() ? View.VISIBLE : View.GONE);
         btPriceTv.setVisibility(item.isSubsidyProduct() ? View.VISIBLE : View.GONE);
 

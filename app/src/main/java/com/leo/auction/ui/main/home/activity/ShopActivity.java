@@ -208,24 +208,20 @@ public class ShopActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tab_home:
-                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(0);
+                MainActivity.newIntance(ShopActivity.this,0);
                 break;
             case R.id.tab_sort:
-                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(1);
+                MainActivity.newIntance(ShopActivity.this,1);
                 break;
             case R.id.tab_focus:
-                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(2);
+
+                MainActivity.newIntance(ShopActivity.this,2);
                 break;
             case R.id.tab_news:
-                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(3);
+                MainActivity.newIntance(ShopActivity.this,3);
                 break;
             case R.id.tab_mine:
-                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrentItem(4);
+                MainActivity.newIntance(ShopActivity.this,4);
                 break;
         }
     }

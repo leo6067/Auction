@@ -21,7 +21,7 @@
         android:textSize="18sp" />
 
 
-    <com.tjl.super_warehouse.widget.SnailBar
+    <com.leo.auction.common.widget.SnailBar
         android:id="@+id/version_seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         android:padding="8dp"
         android:text="后台下载"
         android:textColor="@color/white"
-        app:background_normal="#FF8E67"
+        app:background_normal="@color/home_title_bg"
         app:corner_radius_bottom_left="15dp"
         app:corner_radius_bottom_right="15dp"
         app:corner_radius_top_left="15dp"

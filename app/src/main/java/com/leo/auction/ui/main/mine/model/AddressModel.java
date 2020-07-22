@@ -304,12 +304,14 @@ public class AddressModel {
     }
 
 
-    public static void httpAddressList(int mPageNum, String status, String type, HttpRequest.HttpCallback httpCallback){
+    public static void httpAddressList(int mPageNum, String status, String type, HttpRequest.HttpCallback httpCallback) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNum", String.valueOf(mPageNum));
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
-        hashMap.put("status", status);//00A-普通地址  00B-默认地址
+        if (status.length() > 0) {
+            hashMap.put("status", status);//00A-普通地址  00B-默认地址
+        }
         hashMap.put("type", type);//0-收货地址  1-退货地址
-        HttpRequest.httpGetString(Constants.Api.ADDRESS_URL, hashMap,httpCallback);
+        HttpRequest.httpGetString(Constants.Api.ADDRESS_URL, hashMap, httpCallback);
     }
 }

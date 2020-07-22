@@ -65,7 +65,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
     @Override
     public void getData() {
         showWaitDialog();
-        AddressModel.httpAddressList(mPageNum, "00B", type, new HttpRequest.HttpCallback() {
+        AddressModel.httpAddressList(mPageNum, "", type, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();
@@ -133,7 +133,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
         showWaitDialog();
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("addressId", addressId);
-        showWaitDialog();
+
         HttpRequest.httpDeleteString(Constants.Api.ADDRESS_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -143,10 +143,15 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
+
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-                ToastUtils.showShort("删除成功");
-                setResult(RESULT_OK);
-                goFinish();
+                if (baseModel.getResult().isSuccess()){
+                    ToastUtils.showShort("删除成功");
+                    setResult(RESULT_OK);
+                    goFinish();
+                }else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
             }
         });
 

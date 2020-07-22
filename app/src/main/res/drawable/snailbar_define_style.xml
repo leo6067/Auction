@@ -13,7 +13,7 @@
                 android:angle="270"/>
         </shape>
     </item>
-
+<!--    <item android:id="@android:id/background"-->
     <item android:id="@android:id/progress"
         android:paddingTop="3px"
         android:paddingBottom="3px" >

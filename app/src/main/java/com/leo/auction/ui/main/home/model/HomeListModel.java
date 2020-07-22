@@ -90,7 +90,16 @@ public class HomeListModel {
         private String firstPic;
         private String currentPrice;
         private String distributeType;
-        private String refund;
+        private boolean refund;
+
+        public boolean isRefund() {
+            return refund;
+        }
+
+        public void setRefund(boolean refund) {
+            this.refund = refund;
+        }
+
         private String subsidyMoney;
         private boolean subsidyProduct;
 
@@ -177,13 +186,7 @@ public class HomeListModel {
             this.distributeType = distributeType;
         }
 
-        public String getRefund() {
-            return refund;
-        }
 
-        public void setRefund(String refund) {
-            this.refund = refund;
-        }
     }
 
 

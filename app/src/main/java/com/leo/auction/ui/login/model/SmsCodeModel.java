@@ -62,12 +62,13 @@ public class SmsCodeModel {
     public static void sendSmsCodeRequest(String bssCode, String number,LoginVerModel loginVerModel, HttpRequest.HttpCallback callback) {
         HashMap<String,String> value=new HashMap<>();
         value.put("bssCode",bssCode);//使用场景码 1:商家审核 2：绑定手机号 4-app端登录使用(选择此选项) 5-代理申请 6-实名认证',
+
         value.put("number",number);//    sessionId:'会话ID',  'token', scene:'业务场景',     sign:'签名'
 
         value.put("sessionId",loginVerModel.getSessionId());
         value.put("token",loginVerModel.getToken());
         value.put("scene",loginVerModel.getScene());
         value.put("sign",loginVerModel.getSign());
-        HttpRequest.httpPostString(Constants.Api.HOMEPAGE_SEND_SMS_URL, value, callback);
+        HttpRequest.httpPostString(Constants.Api.SMS_URL, value, callback);
     }
 }

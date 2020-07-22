@@ -238,7 +238,7 @@ public class OneKeyFillingModel {
     }
 
 
-    public static void sendOneKeyFillingRequest(final String TAG, String address,
+    public static void sendOneKeyFillingRequest( String address,
                                                 HttpRequest.HttpCallback callback) {
         JSONObject params=new JSONObject();
         params.put("address",address);

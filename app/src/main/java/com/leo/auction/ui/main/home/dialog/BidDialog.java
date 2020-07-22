@@ -1,11 +1,19 @@
 package com.leo.auction.ui.main.home.dialog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.widget.dialog.base.BottomBaseDialog;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseSharePerence;
+import com.leo.auction.base.Constants;
+import com.leo.auction.ui.main.WebViewActivity;
+import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.ruffian.library.widget.RTextView;
 
 import java.util.HashMap;
@@ -28,6 +36,8 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
     RTextView mItemThree;
     RTextView mItemOK;
     TextView mDialogPrice;
+    TextView mItemByPrice;
+    TextView mItemBtPrice;
     Context mContext;
     HashMap<String, Integer> mHashMap = new HashMap<>();
 
@@ -49,13 +59,30 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         mItemTwo = view.findViewById(R.id.item_two);
         mItemThree = view.findViewById(R.id.item_three);
         mItemOK = view.findViewById(R.id.item_ok);
+        mItemByPrice = view.findViewById(R.id.by_price);
+        mItemBtPrice = view.findViewById(R.id.bt_price);
+        RelativeLayout relativeLayout= view.findViewById(R.id.re_bt);
+        UserModel.httpUpdateUser();
 
 
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, WebViewActivity.class);
+                intent.putExtra("title", "TOP百亿补贴");
+                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL);
+                intent.putExtra("hasNeedTitleBar", true);
+                intent.putExtra("hasNeedRightView", false);
+                intent.putExtra("hasNeedLeftView", true);
+                mContext.startActivity(intent);
+            }
+        });
         return view;
     }
 
     @Override
     public void initView() {
+
         int userLevel = mHashMap.get("userLevel");
         int lastPrice = mHashMap.get("lastPrice");
         int rangePrice = mHashMap.get("rangePrice");
@@ -72,8 +99,20 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         mDialogPrice.setText("￥ "+ lastPrice);
         mItemOne.setText("￥"+ bidPrice );
         mItemTwo.setText("￥" + twoPrice);
-
         bidPriceStr = bidPrice+"";
+
+
+        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+
+
+        mItemBtPrice.setText("可用补贴额￥"+EmptyUtils.strEmpty(userJson.getSubsidyMoney()));
+
+        int byPrice = bidPrice / 2;
+
+
+        mItemByPrice.setText("本次出价最多补贴￥"+ byPrice );
+
+
         mItemOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
