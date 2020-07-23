@@ -1,8 +1,10 @@
 package com.leo.auction.ui.main.mine.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -37,6 +39,7 @@ import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.ossUpload.DecryOssDataModel;
 import com.leo.auction.utils.ossUpload.UploadSinglePicUtils;
+import com.tencent.smtt.sdk.CookieSyncManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -271,6 +274,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
     private void loginOut() {
         BaseSharePerence.getInstance().setUserJson("");
         BaseSharePerence.getInstance().setLoginJson("");
+        Constants.Var.ISLOGIN = false;
         HttpRequest.httpPostString(Constants.Api.LOGINOUT_URL, new JSONObject(), new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -280,7 +284,11 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
             public void httpResponse(String resultData) {
             }
         });
+
+
+
     }
+
 
 
 }

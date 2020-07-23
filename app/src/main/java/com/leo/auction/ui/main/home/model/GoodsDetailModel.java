@@ -1,5 +1,8 @@
 package com.leo.auction.ui.main.home.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -39,7 +42,7 @@ public class GoodsDetailModel {
         this.result = result;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
         /**
          * attributes : [{"id":168,"length":18,"option":1,"tab":"","tags":[{"name":"茶具","tagId":69},{"name":"酒具","tagId":280}],"title":"类别","value":"酒具"}]
          * bid : [{"bidPrice":"1","createTime":1592807645000,"headImg":"https://file.taojianlou.com/ut/user/1592376005448.png","level":12,"nickname":"小***包","userAccountId":72}]
@@ -99,6 +102,48 @@ public class GoodsDetailModel {
         private List<BidBean> bid;
         private List<String> images;
 
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            bidNum = in.readInt();
+            categoryId = in.readInt();
+            categoryName = in.readString();
+            collect = in.readByte() != 0;
+            content = in.readString();
+            createTime = in.readLong();
+            currentPrice = in.readInt();
+            delayTime = in.readInt();
+            distributeType = in.readInt();
+            follow = in.readByte() != 0;
+            interceptTime = in.readLong();
+            markupRange = in.readInt();
+            parentCategoryId = in.readInt();
+            parentCategoryName = in.readString();
+            productInstanceCode = in.readString();
+            productInstanceId = in.readInt();
+            refund = in.readByte() != 0;
+            startPrice = in.readString();
+            subsidyProduct = in.readByte() != 0;
+            subsidyMoney = in.readString();
+            status = in.readInt();
+            title = in.readString();
+            cutPic = in.readString();
+            video = in.readString();
+            images = in.createStringArrayList();
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
 
         public boolean isSubsidyProduct() {
             return subsidyProduct;
@@ -330,6 +375,40 @@ public class GoodsDetailModel {
 
         public void setImages(List<String> images) {
             this.images = images;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(bidNum);
+            dest.writeInt(categoryId);
+            dest.writeString(categoryName);
+            dest.writeByte((byte) (collect ? 1 : 0));
+            dest.writeString(content);
+            dest.writeLong(createTime);
+            dest.writeInt(currentPrice);
+            dest.writeInt(delayTime);
+            dest.writeInt(distributeType);
+            dest.writeByte((byte) (follow ? 1 : 0));
+            dest.writeLong(interceptTime);
+            dest.writeInt(markupRange);
+            dest.writeInt(parentCategoryId);
+            dest.writeString(parentCategoryName);
+            dest.writeString(productInstanceCode);
+            dest.writeInt(productInstanceId);
+            dest.writeByte((byte) (refund ? 1 : 0));
+            dest.writeString(startPrice);
+            dest.writeByte((byte) (subsidyProduct ? 1 : 0));
+            dest.writeString(subsidyMoney);
+            dest.writeInt(status);
+            dest.writeString(title);
+            dest.writeString(cutPic);
+            dest.writeString(video);
+            dest.writeStringList(images);
         }
 
         public static class ProductUserBean {

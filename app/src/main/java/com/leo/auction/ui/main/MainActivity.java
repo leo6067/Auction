@@ -25,6 +25,7 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.home.model.TabEntity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.version.VersionDialog;
 import com.leo.auction.ui.version.VersionDownDialog;
 import com.leo.auction.ui.version.VersionModel;
@@ -82,11 +83,6 @@ public class MainActivity extends BaseActivity {
 
     public void initData()  {
 
-        String token = BaseSharePerence.getInstance().getUserJson().getH5Token();
-        String httpUrl = Constants.WebApi.WEB_MINE_URL + token;
-
-
-
 
         ActivityManager.addActivity(this);
         initImmersionBar();
@@ -99,7 +95,11 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new MainFocusFragment());
         mFragments.add(new NewsFragment());
 //        mFragments.add(new MainMeFragment());
-        mFragments.add( MineFragment.newIntance("",httpUrl,true,false) );
+        mFragments.add(new MineFragment());
+        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+
+
+//        mFragments.add( MineFragment.newIntance("",httpUrl,true,false) );
         initImmersionBar(R.color.home_title_bg);
 
         for (int i = 0; i <mBottomStr.length ; i++) {
@@ -121,6 +121,8 @@ public class MainActivity extends BaseActivity {
                     if (! Constants.Var.ISLOGIN) {
                         ToastUtils.showShort("请先登录");
                         LoginActivity.newIntance(MainActivity.this);
+                        mViewPager.setCurrentItem(0);
+                        mCommonBottom.setCurrentTab(0);
                         return;
                     }
                 }
@@ -158,6 +160,9 @@ public class MainActivity extends BaseActivity {
                     if (! Constants.Var.ISLOGIN) {
                         ToastUtils.showShort("请先登录");
                         LoginActivity.newIntance(MainActivity.this);
+
+                        mViewPager.setCurrentItem(0);
+                        mCommonBottom.setCurrentTab(0);
                         return;
                     }
                 }
@@ -177,19 +182,22 @@ public class MainActivity extends BaseActivity {
         });
 
 
-
+        current= getIntent().getIntExtra("currentTab",0);
+        mViewPager.setCurrentItem(current);
+        mCommonBottom.setCurrentTab(current);
 
         httpVerison();
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        current= getIntent().getIntExtra("currentTab",0);
+    public void setCurrent(int current){
+
+
         mViewPager.setCurrentItem(current);
         mCommonBottom.setCurrentTab(current);
     }
+
+
 
     public void httpVerison(){
         VersionModel.httpGetVersion(new HttpRequest.HttpCallback() {
@@ -266,6 +274,7 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("currentTab", currentTab);
         context.startActivity(intent);
+
     }
 
 

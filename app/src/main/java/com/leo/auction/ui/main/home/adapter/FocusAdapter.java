@@ -86,7 +86,7 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
         }
 
         try {
-            if (item.getStatus() != 1) {
+            if (item.getStatus() .equals("1")) {
                 tvProductPrice.setVisibility(View.GONE);
                 overTv.setVisibility(View.VISIBLE);
             }

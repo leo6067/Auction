@@ -12,7 +12,9 @@ import android.webkit.CookieManager;
 import com.aten.compiler.R;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.widget.customWebview.X5AdvancedWebView;
+import com.blankj.utilcode.util.LogUtils;
 import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 
 
@@ -44,11 +46,36 @@ public class BaseWebFragment extends BaseFragment implements X5AdvancedWebView.L
 
     @Override
     public void initData() {
+
+
+        WebSettings settings = x5Webview.getSettings();
+        settings.setDefaultTextEncodingName("utf-8");// 避免中文乱码
+        settings.setDomStorageEnabled(true);//设置适应Html5 //重点是这个设置
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setDefaultTextEncodingName("UTF-8");
+        settings.setAllowContentAccess(true); // 是否可访问Content Provider的资源，默认值 true
+        settings.setAllowFileAccess(true);    // 是否可访问本地文件，默认值 true
+        // 是否允许通过file url加载的Javascript读取本地文件，默认值 false
+        settings.setAllowFileAccessFromFileURLs(false);
+        // 是否允许通过file url加载的Javascript读取全部资源(包括文件,http,https)，默认值 false
+        settings.setAllowUniversalAccessFromFileURLs(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportMultipleWindows(true);
+        settings.setAppCacheEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        //自适应屏幕
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setLoadWithOverviewMode(true);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+
         //网页中的视频，上屏幕的时候，可能出现闪烁的情况，需要如下设置：Activity在onCreate时需要设置
         getActivity().getWindow().setFormat(PixelFormat.TRANSLUCENT);
-        x5Webview.setGeolocationEnabled(false);
+        x5Webview.setGeolocationEnabled(true);  //js
         x5Webview.setMixedContentAllowed(true);
         x5Webview.setCookiesEnabled(true);
+
         x5Webview.setThirdPartyCookiesEnabled(true);
         //先阻塞加载图片
         x5Webview.getSettings().setBlockNetworkImage(true);
@@ -59,6 +86,8 @@ public class BaseWebFragment extends BaseFragment implements X5AdvancedWebView.L
         String url=getArguments().getString("url");
         boolean hasNeedTitleBar=getArguments().getBoolean("hasNeedTitleBar",false);
         boolean hasNeedRightView=getArguments().getBoolean("hasNeedRightView",false);
+
+
 
         setTitle(EmptyUtils.strEmpty(title));
         if (hasNeedTitleBar){

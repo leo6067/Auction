@@ -92,6 +92,10 @@ public class HomeListModel {
         private String distributeType;
         private boolean refund;
 
+        private String subsidyMoney;
+        private boolean subsidyProduct;
+
+        private String status;
         public boolean isRefund() {
             return refund;
         }
@@ -100,17 +104,13 @@ public class HomeListModel {
             this.refund = refund;
         }
 
-        private String subsidyMoney;
-        private boolean subsidyProduct;
 
 
-        private int status;
-
-        public int getStatus() {
+        public String getStatus() {
             return status;
         }
 
-        public void setStatus(int status) {
+        public void setStatus(String status) {
             this.status = status;
         }
 

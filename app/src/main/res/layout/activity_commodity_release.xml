@@ -427,6 +427,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="包邮"
+                        android:buttonTint="@color/home_title_bg"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/sp_30"
                         android:textStyle="bold" />
@@ -436,6 +437,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="到付"
+                        android:buttonTint="@color/home_title_bg"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/sp_30"
                         android:textStyle="bold" />

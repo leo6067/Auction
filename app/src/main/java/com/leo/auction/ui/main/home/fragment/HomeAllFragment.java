@@ -27,6 +27,7 @@ import com.aten.compiler.widget.CustRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.AgreementActivity;
@@ -37,6 +38,7 @@ import com.leo.auction.ui.main.home.adapter.HomeTitleAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
 import com.leo.auction.ui.main.home.model.SubsidyModel;
 import com.leo.auction.ui.main.mine.model.ProductListModel;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
@@ -67,8 +69,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     //Constants.Var.HOME_TYPE -0 百亿补贴  1:  "一元拍", "捡漏", "最新发布", "即将截拍"
 
 
-
-
     private ArrayList<HomeListModel.DataBean> mArrayList = new ArrayList<>();
 
 
@@ -94,13 +94,11 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     }
 
 
-
-
     @Override
     public void initData() {
         super.initData();
 
-        if (Constants.Var.HOME_TYPE ==0){
+        if (Constants.Var.HOME_TYPE == 0) {
             onRefresh(refreshLayout);
         }
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
@@ -173,12 +171,18 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
         });
 
 
+        UserModel.DataBean mUserJsonn = BaseSharePerence.getInstance().getUserJson();
+
         mTitleHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 intent.putExtra("title", "TOP百亿补贴");
-                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL);
+                if (mUserJsonn == null) {
+                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL );
+                } else {
+                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL+ mUserJsonn.getH5Token());
+                }
                 intent.putExtra("hasNeedTitleBar", true);
                 intent.putExtra("hasNeedRightView", false);
                 intent.putExtra("hasNeedLeftView", true);
@@ -198,7 +202,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     @Override
     protected void getData() {
         super.getData();
-        String  mUrl = "";
+        String mUrl = "";
         HashMap<String, String> hashMap = new HashMap<>();
 
         int homeType = Constants.Var.HOME_TYPE;
@@ -213,7 +217,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
             mUrl = Constants.Api.HOME_SECOND_URL;
         } else if (homeType == 4) {//首页--万物拍
             mUrl = Constants.Api.HOME_ALL_PRODUCT_URL;
-        }else {
+        } else {
             return;
         }
 

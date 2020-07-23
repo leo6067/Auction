@@ -28,15 +28,12 @@ import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.main.WebViewActivity;
+
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
-import com.leo.auction.ui.main.home.adapter.HomeTitleAdapter;
-import com.leo.auction.ui.main.home.model.HomeListModel;
-import com.leo.auction.ui.main.home.model.SubsidyModel;
-import com.leo.auction.utils.Globals;
 
-import java.util.ArrayList;
+import com.leo.auction.ui.main.home.model.HomeListModel;
+
 import java.util.HashMap;
 
 import butterknife.BindView;

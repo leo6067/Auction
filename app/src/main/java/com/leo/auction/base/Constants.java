@@ -183,7 +183,7 @@ public class Constants {
         public static String HOMEPAGE_RULE_AGREEMENT_URL =WEB_BASE_URL+"rule/agreement.html";// 规则说明
         public static String HOMEPAGE_RULE_VIPSERVICE_URL =WEB_BASE_URL+"rule/vipservice.html";// 用户协议
         public static String HOMEPAGE_RULE_PRIVACYPROTECTION_URL =WEB_BASE_URL+"rule/privacyprotection.html";// 隐私保护政策
-        public static String HOMEPAGE_SUBSIDY_URL =WEB_BASE_URL+"auction-web/pages/sub/bysubsidy/index";// 百亿补贴地址
+        public static String HOMEPAGE_SUBSIDY_URL =WEB_BASE_URL+"auction-web/pages/sub/bysubsidy/index?isMargin=4&subsidyToken=";// 百亿补贴地址
         public static String WEB_MINE_URL =WEB_BASE_URL+"auction-web/pages/personal/personal?isMargin=4&subsidyToken=";// 我的
 
 

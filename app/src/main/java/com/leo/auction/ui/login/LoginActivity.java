@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -39,6 +40,7 @@ import com.leo.auction.ui.login.model.SmsCodeModel;
 import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
+import com.tencent.smtt.sdk.CookieSyncManager;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -416,10 +418,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     //backPager 0:代表返回上一页 1：代表回到首页
     public static void newIntance(Context context) {
+        CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+        CookieSyncManager.getInstance().sync();
+        Constants.Var.ISLOGIN = false;
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
+
+
+
 
 
     @Override

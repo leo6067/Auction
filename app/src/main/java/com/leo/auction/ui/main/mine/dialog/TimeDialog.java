@@ -81,7 +81,8 @@ public class TimeDialog extends BottomBaseDialog<TimeDialog> {
         timeDialogAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                timeDialogAdapter.setSelect(i);
+//                timeDialogAdapter.setSelect(i);
+                todayBeans.get(i).setSelect(true);
             }
         });
         recyclerView.setAdapter(timeDialogAdapter);

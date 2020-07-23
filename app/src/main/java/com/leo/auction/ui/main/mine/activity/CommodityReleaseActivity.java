@@ -1,6 +1,5 @@
 package com.leo.auction.ui.main.mine.activity;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +28,6 @@ import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.DesUtil;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.OssUtils;
-import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.VibratorUtils;
 import com.aten.compiler.widget.CustomeRecyclerView;
@@ -76,12 +74,10 @@ import com.leo.auction.utils.ossUpload.CompressUploadVideoUtils;
 import com.leo.auction.utils.ossUpload.DecryOssDataModel;
 import com.leo.auction.utils.ossUpload.OssVideoUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
@@ -168,14 +164,12 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     private DialogUtils dialogUtils;
     private TextLightUtils textLightUtils;
 
-    private String timeNode = "";  //时间节点
+    private String timeNodeID = "";  //时间节点
     private String distributeType = "";//1-包邮  2-到付
     private String sourceType = "1";  // 1-自行发布 2-产品库
 
     private String timeType = ""; //快速截拍
     private String goodId = ""; //
-
-
 
 
     @Override
@@ -487,7 +481,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
 
 //        List<NewestReleaseProductModel.AttributesBean> attributes = info.getAttributes();
-
 
 
         getOneSortData();
@@ -812,7 +805,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             if (item.isUploadComplete()) {
 
 
-
                 BaseModel.httpDeteleFile(item.getImgPth(), null, new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
@@ -842,9 +834,9 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 //                ToastUtils.showShort("图片还未上传完成");
 //            }
 
-             postImglistAdapter.clearImgViews();
-                        postImglistAdapter.getData().remove(pos);
-                        postImglistAdapter.notifyDataSetChanged();
+            postImglistAdapter.clearImgViews();
+            postImglistAdapter.getData().remove(pos);
+            postImglistAdapter.notifyDataSetChanged();
         }
     };
 
@@ -1121,7 +1113,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 etSellingPrice.getText().toString(),
                 etSupplyPrice.getText().toString(),
                 ossVideoPaths, cutPic,
-                sourceType, isPublish, distributeType, timeNode, timeType,
+                sourceType, isPublish, distributeType, timeNodeID, timeType,
                 releaseAttributesModels,
                 ossPaths, goodId,
                 new HttpRequest.HttpCallback() {
@@ -1136,7 +1128,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("发布拍品成功");
-                        }else {
+                        } else {
                             ToastUtils.showShort("发布拍品失败");
                         }
                         cleanRelease();
@@ -1214,6 +1206,11 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     timeNodesBeanXXX.setTimeNodeId(data.getQuick().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("quick");
+                    timeNodesBeanXXX.setTypeName(data.getQuick().getTypeName());
+                    if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
+                        timeNodesBeanXXX.setSelect(true);
+                    }
+
                     TimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
@@ -1234,6 +1231,10 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     timeNodesBeanXXX.setTimeNodeId(data.getToday().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("today");
+                    timeNodesBeanXXX.setTypeName(data.getToday().getTypeName());
+                    if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
+                        timeNodesBeanXXX.setSelect(true);
+                    }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
@@ -1254,6 +1255,10 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     timeNodesBeanXXX.setTimeNodeId(data.getTomorrow().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("tomorrow");
+                    timeNodesBeanXXX.setTypeName(data.getTomorrow().getTypeName());
+                    if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
+                        timeNodesBeanXXX.setSelect(true);
+                    }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
@@ -1274,6 +1279,11 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     timeNodesBeanXXX.setTimeNodeId(data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("after_tomorrow");
+                    timeNodesBeanXXX.setTypeName(data.getAfter_tomorrow().getTypeName());
+
+                    if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
+                        timeNodesBeanXXX.setSelect(true);
+                    }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
@@ -1282,7 +1292,10 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     @Override
                     public void itemTimeClick(TimeDialogModel timeDialogModel) {
                         timeType = timeDialogModel.getTimeType();
-                        timeNode = timeDialogModel.getTimeNodeId() + "";
+                        timeNodeID = timeDialogModel.getTimeNodeId() + "";
+
+                        goodsJpsj.setText(timeDialogModel.getTypeName() + timeDialogModel.getShowText());
+
                     }
                 });
                 timeDialog.show();

@@ -16,7 +16,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
+
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -26,22 +26,23 @@ import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.widget.customWebview.X5AdvancedWebView;
 import com.aten.compiler.widget.title.TitleBar;
 import com.blankj.utilcode.util.LogUtils;
+import com.tencent.smtt.sdk.WebSettings;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaseWebActivity extends BaseActivity implements X5AdvancedWebView.Listener{
+public class BaseWebActivity extends BaseActivity implements X5AdvancedWebView.Listener {
 
 
-    TitleBar mTitleBar;
+    public TitleBar mTitleBar;
 
-    X5AdvancedWebView x5Webview;
-    private String mTitle;
+    public X5AdvancedWebView x5Webview;
+    public String mTitle;
 
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_base_web);
-        x5Webview =(X5AdvancedWebView) findViewById(R.id.x5_webview);
+        x5Webview = (X5AdvancedWebView) findViewById(R.id.x5_webview);
         mTitleBar = findViewById(R.id.title_bar);
     }
 
@@ -51,31 +52,31 @@ public class BaseWebActivity extends BaseActivity implements X5AdvancedWebView.L
 
 //        mWebview.setWebChromeClient(new WebChromeClient());
 //        mWebview.setWebViewClient(new WebViewClient());
-//        WebSettings settings = mWebview.getSettings();
-//        settings.setDefaultTextEncodingName("utf-8");// 避免中文乱码
-//
-//
-//        settings.setDomStorageEnabled(true);//设置适应Html5 //重点是这个设置
-//        settings.setUseWideViewPort(true);
-//        settings.setLoadWithOverviewMode(true);
-//        settings.setDefaultTextEncodingName("UTF-8");
-//        settings.setAllowContentAccess(true); // 是否可访问Content Provider的资源，默认值 true
-//        settings.setAllowFileAccess(true);    // 是否可访问本地文件，默认值 true
-//        // 是否允许通过file url加载的Javascript读取本地文件，默认值 false
-//        settings.setAllowFileAccessFromFileURLs(false);
-//        // 是否允许通过file url加载的Javascript读取全部资源(包括文件,http,https)，默认值 false
-//        settings.setAllowUniversalAccessFromFileURLs(false);
-//
-//        settings.setJavaScriptEnabled(true);
-//
-//        settings.setSupportMultipleWindows(true);
-//
-//        settings.setAppCacheEnabled(true);
-//        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-//        //自适应屏幕
-//        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-//        settings.setLoadWithOverviewMode(true);
-//        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        WebSettings settings = x5Webview.getSettings();
+        settings.setDefaultTextEncodingName("utf-8");// 避免中文乱码
+
+
+        settings.setDomStorageEnabled(true);//设置适应Html5 //重点是这个设置
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setDefaultTextEncodingName("UTF-8");
+        settings.setAllowContentAccess(true); // 是否可访问Content Provider的资源，默认值 true
+        settings.setAllowFileAccess(true);    // 是否可访问本地文件，默认值 true
+        // 是否允许通过file url加载的Javascript读取本地文件，默认值 false
+        settings.setAllowFileAccessFromFileURLs(false);
+        // 是否允许通过file url加载的Javascript读取全部资源(包括文件,http,https)，默认值 false
+        settings.setAllowUniversalAccessFromFileURLs(false);
+
+        settings.setJavaScriptEnabled(true);
+
+        settings.setSupportMultipleWindows(true);
+
+        settings.setAppCacheEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        //自适应屏幕
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setLoadWithOverviewMode(true);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
 
     }
@@ -84,8 +85,10 @@ public class BaseWebActivity extends BaseActivity implements X5AdvancedWebView.L
     public void initData() {
         //网页中的视频，上屏幕的时候，可能出现闪烁的情况，需要如下设置：Activity在onCreate时需要设置
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
-        x5Webview.setGeolocationEnabled(false);
+        x5Webview.setGeolocationEnabled(true);
         x5Webview.setMixedContentAllowed(true);
+        x5Webview.getSettings().setJavaScriptEnabled(true);
+        x5Webview.getSettings().setDefaultTextEncodingName("utf-8");// 避免中文乱码
         x5Webview.setCookiesEnabled(true);
         x5Webview.setThirdPartyCookiesEnabled(true);
         //先阻塞加载图片
@@ -108,8 +111,6 @@ public class BaseWebActivity extends BaseActivity implements X5AdvancedWebView.L
 
         x5Webview.loadUrl(url);
     }
-
-
 
 
 //    private void webLoad(String httpUrl) {
@@ -195,11 +196,10 @@ public class BaseWebActivity extends BaseActivity implements X5AdvancedWebView.L
 //    }
 
 
-
     private void setCookie(String httpUrl, String cookieStr) {
 
         try {
-            String aesDncode ="";
+            String aesDncode = "";
 
             String cookie = "userinfo_cookie=" + aesDncode;
             CookieManager cookieManager = CookieManager.getInstance();
@@ -249,9 +249,9 @@ public class BaseWebActivity extends BaseActivity implements X5AdvancedWebView.L
             x5Webview.destroy();
             x5Webview = null;
         }
-        if (hud != null&&hud.isShowing()) {
+        if (hud != null && hud.isShowing()) {
             hud.dismiss();
-            hud=null;
+            hud = null;
         }
         super.onDestroy();
     }

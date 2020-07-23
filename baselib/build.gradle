@@ -178,6 +178,9 @@ dependencies {
     //BasePopup主体库
     api 'com.github.razerdp:BasePopup:2.2.1'
 
+//    //倒计时
+//    api 'com.github.iwgang:countdownview:2.1.6'
+
     //BasePopup support支持库
     api 'com.github.razerdp:BasePopup-compat-support:2.2.1'
     implementation files('libs/tbs_sdk_thirdapp_v3.6.0.1352.jar')

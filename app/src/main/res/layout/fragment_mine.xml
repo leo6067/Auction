@@ -9,14 +9,10 @@
 
     <include layout="@layout/layout_custom_title_w"/>
 
-<!--    <WebView-->
-<!--        android:id="@+id/webview"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
-
-    <com.aten.compiler.widget.customWebview.X5AdvancedWebView
+    <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
 
 </LinearLayout>

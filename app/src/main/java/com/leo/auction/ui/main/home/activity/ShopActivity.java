@@ -209,19 +209,30 @@ public class ShopActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tab_home:
                 MainActivity.newIntance(ShopActivity.this,0);
+
                 break;
             case R.id.tab_sort:
-                MainActivity.newIntance(ShopActivity.this,1);
+
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+//                MainActivity.newIntance(AuctionDetailActivity.this, 4);
+                ActivityManager.mainActivity.setCurrent(1);
                 break;
             case R.id.tab_focus:
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+//                MainActivity.newIntance(AuctionDetailActivity.this, 4);
+                ActivityManager.mainActivity.setCurrent(2);
 
-                MainActivity.newIntance(ShopActivity.this,2);
                 break;
             case R.id.tab_news:
-                MainActivity.newIntance(ShopActivity.this,3);
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+//                MainActivity.newIntance(AuctionDetailActivity.this, 4);
+                ActivityManager.mainActivity.setCurrent(3);
+
                 break;
             case R.id.tab_mine:
-                MainActivity.newIntance(ShopActivity.this,4);
+                ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
+//                MainActivity.newIntance(AuctionDetailActivity.this, 4);
+                ActivityManager.mainActivity.setCurrent(4);
                 break;
         }
     }

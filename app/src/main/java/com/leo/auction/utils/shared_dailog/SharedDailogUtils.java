@@ -65,32 +65,28 @@ public class SharedDailogUtils {
         CrlBtnModel crlBtnModel02 = new CrlBtnModel(2, R.drawable.ic_shared_weixin, "微信");
         CrlBtnModel crlBtnModel03 = new CrlBtnModel(3, R.drawable.ic_wx_circle, "朋友圈带码");
         CrlBtnModel crlBtnModel04 = new CrlBtnModel(4, R.drawable.ic_wx_circle, "朋友圈图文");
-        CrlBtnModel crlBtnModel05 = new CrlBtnModel(5, R.drawable.ic_shared_save, "保存图片");
-        CrlBtnModel crlBtnModel06 = new CrlBtnModel(6, R.drawable.ic_xianyu_icon, "闲鱼");
-        CrlBtnModel crlBtnModel07 = new CrlBtnModel(7, R.drawable.ic_wwdz_icon, "玩物得志");
+//        CrlBtnModel crlBtnModel05 = new CrlBtnModel(5, R.drawable.ic_shared_save, "保存图片");
+//        CrlBtnModel crlBtnModel06 = new CrlBtnModel(6, R.drawable.ic_xianyu_icon, "闲鱼");
+//        CrlBtnModel crlBtnModel07 = new CrlBtnModel(7, R.drawable.ic_wwdz_icon, "玩物得志");
 
 //        crlBtnModels.add(crlBtnModel01);
         crlBtnModels.add(crlBtnModel02);
         if ("1".equals(type)){//商品详情
-            crlBtn.setLayoutManager(new GridLayoutManager(context, 6, GridLayoutManager.VERTICAL, false));
+            crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
             crlBtnModels.add(crlBtnModel03);
             crlBtnModels.add(crlBtnModel04);
-            crlBtnModels.add(crlBtnModel06);
-            crlBtnModels.add(crlBtnModel07);
+//            crlBtnModels.add(crlBtnModel06);
+//            crlBtnModels.add(crlBtnModel07);
 
             tvTag.setVisibility(View.GONE);
-        }else if ("2".equals(type)){//抽奖详情
-            crlBtn.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
 
-            tvTag.setVisibility(View.VISIBLE);
-            tvTag.setText("参考价  ");
         }else {//普通分享
             crlBtn.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
 
             tvTag.setVisibility(View.GONE);
         }
 
-        crlBtnModels.add(crlBtnModel05);
+//        crlBtnModels.add(crlBtnModel05);
 
         //设置recycleview的适配器
         CrlBtnAdapter crlBtnAdapter = new CrlBtnAdapter(crlBtnModels);

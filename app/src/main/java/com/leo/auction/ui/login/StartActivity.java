@@ -39,7 +39,6 @@ public class StartActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-        Globals.log("xxxxxxxxxxxxxxxxxx  00 静默登录"   );
         ActivityManager.addActivity(this);
         httpCommon();
         rePremissions();
@@ -55,7 +54,6 @@ public class StartActivity extends BaseActivity {
             }
             @Override
             public void onFail() {
-                Globals.log("xxxxxxxxxxxxxxxxxx  02 静默登录"   );
                 backLogin();
             }
 //        }, Permission.READ_PHONE_STATE, Permission.WRITE_EXTERNAL_STORAGE,Permission.RECORD_AUDIO);

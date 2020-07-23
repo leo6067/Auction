@@ -65,12 +65,13 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         UserModel.httpUpdateUser();
 
 
+        UserModel.DataBean mUserJson = BaseSharePerence.getInstance().getUserJson();
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, WebViewActivity.class);
                 intent.putExtra("title", "TOP百亿补贴");
-                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL);
+                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL +  mUserJson.getH5Token());
                 intent.putExtra("hasNeedTitleBar", true);
                 intent.putExtra("hasNeedRightView", false);
                 intent.putExtra("hasNeedLeftView", true);

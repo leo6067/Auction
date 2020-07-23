@@ -71,7 +71,7 @@ public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean
             itemStatus.getHelper().setBorderColorNormal(Color.parseColor("#a0a0a0"));
     }
 
-        helper.setText(R.id.item_price,item.getBidPrice()+"");
+        helper.setText(R.id.item_price,"￥"+item.getBidPrice() );
         helper.setText(R.id.item_time, TimeUtils.millis2String(item.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
 
 

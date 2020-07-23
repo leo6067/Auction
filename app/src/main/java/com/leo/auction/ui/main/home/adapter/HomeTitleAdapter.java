@@ -1,5 +1,6 @@
 package com.leo.auction.ui.main.home.adapter;
 
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +39,7 @@ public class HomeTitleAdapter extends BaseQuickAdapter<SubsidyModel.DataBean, Ba
         ImageView itemImage = baseViewHolder.getView(R.id.item_img);
         TextView itemPrice = baseViewHolder.getView(R.id.item_price);
         TextView itemHint = baseViewHolder.getView(R.id.item_hint);
+        TextView item_time_time = baseViewHolder.getView(R.id.item_time_time);
         CountdownView itemTime = baseViewHolder.getView(R.id.item_time);
 
         itemTime.start(json.getInterceptTime());
@@ -46,7 +48,41 @@ public class HomeTitleAdapter extends BaseQuickAdapter<SubsidyModel.DataBean, Ba
 
         itemPrice.setText("￥" + json.getCurrentPrice());
         itemHint.setText("补贴￥" + json.getSubsidyMoney());
+
+
+//        CountDownTimer  countDownTimer = new CountDownTimer(json.getInterceptTime(), 1000) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//
+//
+////                    long day = millisUntilFinished / (1000 * 24 * 60 * 60); //单位天
+//
+////                    long hour = (millisUntilFinished - day * (1000 * 24 * 60 * 60)) / (1000 * 60 * 60);
+//                    //单位时
+////                    long minute = (millisUntilFinished - day * (1000 * 24 * 60 * 60) - hour * (1000 * 60 * 60)) / (1000 * 60);
+//                    //单位分
+////                    long second = (millisUntilFinished - day * (1000 * 24 * 60 * 60) - hour * (1000 * 60 * 60) - minute * (1000 * 60)) / 1000;
+//                    //单位秒
+//
+//                long minute =  millisUntilFinished / (1000 * 60);
+//                long second = (millisUntilFinished - minute * (1000 * 60)) / 1000;
+//                item_time_time.setText( minute + ":" + second );
+//
+//            }
+//
+//            /**
+//             *倒计时结束后调用的
+//             */
+//            @Override
+//            public void onFinish() {
+//
+//            }
+//
+//        };
+//        countDownTimer.start();
     }
+
+
 
 
 }
