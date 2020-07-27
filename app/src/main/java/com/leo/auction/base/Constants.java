@@ -172,6 +172,8 @@ public class Constants {
 
 
 
+        //商品详情刷新
+        public static String ACTION_DETAIL_REFRESH = "ACTION_DETAIL_REFRESH";
 
 
 

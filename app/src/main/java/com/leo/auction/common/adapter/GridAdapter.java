@@ -35,12 +35,8 @@ public class GridAdapter extends CommonAdapter<GridViewInfo> {
 
         ImageView imageView = holder.getView(R.id.tv_classify_img);
 
-
         GlideUtils.loadImg(json.getTabImg(),imageView);
 
         textView.setText(json.getTabStr());
-
-
-
     }
 }

@@ -6,9 +6,8 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/dp_10"
-    android:layout_marginRight="@dimen/dp_10"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/dp_15">
 
 
     <RelativeLayout
@@ -28,10 +27,10 @@
 
 
     <RelativeLayout
-        android:layout_alignEnd="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relative_layout"
+        android:layout_alignEnd="@+id/relative_layout"
         android:layout_marginTop="@dimen/dp_m_106">
 
 

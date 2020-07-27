@@ -84,6 +84,11 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh(refreshLayout);
+    }
 
     @Override
     public void initData() {
@@ -195,7 +200,7 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

@@ -131,8 +131,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -249,7 +247,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

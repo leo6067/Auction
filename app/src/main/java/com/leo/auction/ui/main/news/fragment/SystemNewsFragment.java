@@ -102,7 +102,7 @@ public class SystemNewsFragment extends BaseRecyclerViewFragment {
 
                 if (newsModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size()> Constants.Var.LIST_NUMBER_INT) {
+                } else if (newsModel.getData().size()> Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

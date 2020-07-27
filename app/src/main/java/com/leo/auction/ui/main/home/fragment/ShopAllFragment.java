@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -32,7 +33,9 @@ import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 
+import com.leo.auction.ui.main.home.adapter.HomeSearchAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
+import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
 
@@ -119,9 +122,8 @@ public class ShopAllFragment extends BaseRecyclerViewFragment {
     protected void initAdapter() {
 
 
-        recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
+        mAdapter = new HomeSearchAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_10)) * 2);
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
@@ -130,10 +132,13 @@ public class ShopAllFragment extends BaseRecyclerViewFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                Globals.log("XXXXXX LEO  LOG" + position);
                 HomeListModel.DataBean json = (HomeListModel.DataBean) mAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("goodsCode", json.getProductInstanceCode());
                 ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class, bundle);
+                BroadCastReceiveUtils.sendLocalBroadCast(getActivity(),Constants.Action.ACTION_DETAIL_REFRESH);
             }
         });
 
@@ -197,7 +202,7 @@ public class ShopAllFragment extends BaseRecyclerViewFragment {
 
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        GridLayoutManager staggeredGridLayoutManager = new GridLayoutManager(getActivity(), 2);
         return staggeredGridLayoutManager;
     }
 
@@ -248,7 +253,7 @@ public class ShopAllFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();

@@ -117,7 +117,7 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
                 }
 
 
-                if (mPageNum > 1 && supplierModel.getData().isEmpty()) {
+                if (mPageNum > 1 && !supplierModel.getData().isEmpty()) {
                     if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                         mAdapter.loadMoreEnd(true);
                     } else {

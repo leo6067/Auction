@@ -18,6 +18,7 @@ import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.TimeWheelUtils;
 import com.leo.auction.R;
+import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.banlance.bubblePopup.CustomBubblePopup02;
 import com.leo.auction.ui.main.mine.banlance.model.AmountDetailsModel;
@@ -124,8 +125,8 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
                         mAdapter.loadMoreComplete();
                     }
 
-                    if (mPageNum > 1 && datas.isEmpty()) {
-                        if (mAdapter.getData().size() < 10) {
+                    if (mPageNum > 1 && !datas.isEmpty()) {
+                        if (datas.size() > Constants.Var.LIST_NUMBER_INT) {
                             mAdapter.loadMoreEnd(true);
                         } else {
                             mAdapter.loadMoreEnd();

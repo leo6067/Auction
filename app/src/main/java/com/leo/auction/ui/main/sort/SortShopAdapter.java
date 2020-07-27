@@ -34,8 +34,11 @@ import okhttp3.Call;
  * ===============================================
  */
 public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, BaseViewHolder> {
-    public SortShopAdapter() {
+
+    private SortOnListener mSortOnListener;
+    public SortShopAdapter(SortOnListener mSortOnListener) {
         super(R.layout.item_sort_shop, null);
+        this.mSortOnListener = mSortOnListener;
     }
 
     @Override
@@ -102,6 +105,7 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
                                 mItemTop.setText("取消置顶");
                                 dataBean.setTop(true);
                             }
+                            mSortOnListener.soreOnListener();
                         } else {
                             ToastUtils.showShort(baseModel.getResult().getMessage());
                         }
@@ -136,7 +140,14 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
                 });
             }
         });
+    }
 
+
+
+
+    public interface SortOnListener{
+
+        void soreOnListener();
 
     }
 }

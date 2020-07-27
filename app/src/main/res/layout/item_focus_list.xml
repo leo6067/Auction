@@ -11,10 +11,6 @@
     android:orientation="vertical">
 
 
-
-
-
-
     <RelativeLayout
         android:id="@+id/relative_layout"
         android:layout_width="match_parent"
@@ -29,20 +25,15 @@
             android:scaleType="center" />
 
 
-
-
     </RelativeLayout>
 
 
-
-
     <RelativeLayout
-        android:layout_alignEnd="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_m_106"
-        android:layout_below="@+id/relative_layout">
-
+        android:layout_below="@+id/relative_layout"
+        android:layout_alignEnd="@+id/relative_layout"
+        android:layout_marginTop="@dimen/dp_m_106">
 
 
         <ImageView
@@ -57,16 +48,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/sp_20"
             android:layout_marginTop="@dimen/dp_66"
             android:textColor="@color/home_title_bg"
+            android:textSize="@dimen/sp_20"
             tools:text="补贴两亿" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_below="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/relative_layout"
         android:background="@drawable/bottom_left_right_corner_normal"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_25">
@@ -130,23 +121,20 @@
             tools:text="¥9999999990sddddddddddddddsds" />
 
 
-            <com.ruffian.library.widget.RTextView
-                android:id="@+id/item_over"
-                android:layout_below="@+id/tv_refund"
-                android:layout_marginBottom="@dimen/dp_30"
-                android:layout_width="@dimen/dp_180"
-                android:layout_height="@dimen/dp_50"
-                android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:layout_centerHorizontal="true"
-                android:text="拍卖已结束"
-                android:textColor="@color/white"
-                app:background_normal="@color/detail_text"
-                app:corner_radius="@dimen/dp_15"
-              android:visibility="gone"
-                />
-
-
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/item_over"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_50"
+            android:layout_below="@+id/tv_refund"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_30"
+            android:gravity="center"
+            android:text="拍卖已结束"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            app:background_normal="@color/detail_text"
+            app:corner_radius="@dimen/dp_15" />
 
 
         <FrameLayout

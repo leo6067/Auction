@@ -62,7 +62,6 @@
             app:tl_indicator_anim_enable="true"
             app:tl_indicator_color="@color/white"
             app:tl_indicator_corner_radius="@dimen/dp_30"
-
             app:tl_textBold="SELECT"
             app:tl_textSelectColor="@color/maroon" />
 

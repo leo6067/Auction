@@ -2,13 +2,17 @@ package com.leo.auction.ui.main.home.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
+import com.aten.compiler.utils.ScreenUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
@@ -18,6 +22,8 @@ import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.sort.SortShopAdapter;
 import com.leo.auction.ui.main.sort.SortShopModel;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import okhttp3.Call;
 
 /**
@@ -28,7 +34,10 @@ import okhttp3.Call;
  */
 public class FocusShopFragment extends BaseRecyclerViewFragment {
 
+    @BindView(R.id.iv_to_top)
+    ImageView mIvToTop;
 
+    private int totalDy = 0;
     public FocusShopFragment() {
         // Required empty public constructor
     }
@@ -41,9 +50,12 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     @Override
     protected void initAdapter() {
         super.initAdapter();
-        mAdapter = new SortShopAdapter();
-
-
+        mAdapter = new SortShopAdapter(new SortShopAdapter.SortOnListener() {
+            @Override
+            public void soreOnListener() {
+                onRefresh(refreshLayout);
+            }
+        });
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
@@ -55,6 +67,24 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
             }
         });
 
+    }
+
+
+    @Override
+    public void initEvent() {
+        super.initEvent();
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalDy += dy;
+                if (totalDy <= ScreenUtils.getScreenHeight()) {
+                    mIvToTop.setVisibility(View.GONE);
+                } else {
+                    mIvToTop.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -87,14 +117,20 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
 
                 if (sortShopModel.getData().isEmpty()) {
                     mPageNum = 0;
-                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                } else if (sortShopModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {
                     mAdapter.loadMoreEnd();
                 }
             }
         });
+    }
 
+    @OnClick(R.id.iv_to_top)
+    public void onViewClicked() {
+        //平滑滚动
+        totalDy = 0;
+        recyclerView.scrollToPosition(0);
     }
 
 

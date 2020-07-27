@@ -88,7 +88,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
                 }
 
                 if (mPageNum > 1 && addressModel.getData().isEmpty()) {
-                    if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                    if (addressModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                         mAdapter.loadMoreEnd(true);
                     } else {
                         mAdapter.loadMoreEnd();

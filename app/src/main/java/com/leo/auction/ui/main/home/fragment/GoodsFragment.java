@@ -116,11 +116,7 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
     protected void initAdapter() {
         super.initAdapter();
 
-
-
-
         DisplayMetrics dm = getResources().getDisplayMetrics();
-
         mAdapter = new HomeSearchAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_10)) * 2);
         mAdapter.setHeaderAndEmpty(true);
 
@@ -179,7 +175,7 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
 
 
                 if (mPageNum > 1 && homeListModel.getData().isEmpty()) {
-                    if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                    if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                         mAdapter.loadMoreEnd(true);
                     } else {
                         mAdapter.loadMoreEnd();

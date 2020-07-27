@@ -1,5 +1,6 @@
 package com.leo.auction.ui.main.home.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
+import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.easyPay.EasyPay;
@@ -82,8 +84,6 @@ import butterknife.OnClick;
 import okhttp3.Call;
 
 public class AuctionDetailActivity extends BaseActivity implements PicGridNineAdapter.IGridNine, CountdownView.OnCountdownEndListener, EarnestDialog.InterEarnestPay, PayPwdBoardUtils.IPayType, SetPaypwdUtils.IComplete {
-
-
     @BindView(R.id.title_bar)
     TitleBar mTitleBar;
     @BindView(R.id.action_recycler)
@@ -159,6 +159,15 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     private UserModel.DataBean mUserJson;
     private DialogUtils dialogUtils;
     private BidDialog mBidDialog;
+
+    BroadCastReceiveUtils mBroadCastReceiveUtils = new BroadCastReceiveUtils() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initData();
+            Globals.log("leo log mBroadCastReceiveUtils"   );
+        }
+    };
+
 
     @Override
     public void setContentViewLayout() {
@@ -352,6 +361,8 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         mPayPwdBoardUtils = new PayPwdBoardUtils();
         dialogUtils = new DialogUtils();
         httpDetail();
+
+        BroadCastReceiveUtils.registerLocalReceiver(this,Constants.Action.ACTION_DETAIL_REFRESH,mBroadCastReceiveUtils);
     }
 
 
@@ -509,7 +520,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         mDetailTime.setText(TimeUtils.millis2String(goodsDetailModel.getCreateTime(), "MM月dd日 HH:mm"));
 
 
-        if (goodsDetailModel.getStartPrice() != null && goodsDetailModel.getStartPrice().length() > 0 && goodsDetailModel.getStartPrice().equals("0")) {
+        if (goodsDetailModel.getStartPrice() != null && goodsDetailModel.getStartPrice().length() > 0 && !goodsDetailModel.getStartPrice().equals("0")) {
             mDetailStartPrice.setText(SpannableStringUtils.getBuilder("起拍价： ").append("￥" + goodsDetailModel.getStartPrice())
                     .setXProportion((float) 1.2).setForegroundColor(getResources().getColor(R.color.home_title_bg)).create());
         } else {
@@ -1013,6 +1024,12 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 ActivityManager.mainActivity.setCurrent(4);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BroadCastReceiveUtils.unregisterLocalReceiver(this,mBroadCastReceiveUtils);
     }
 }
 

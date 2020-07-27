@@ -311,7 +311,7 @@ public class BaseModel {
         jsonObject.put("productInstanceId", productInstanceId+"");
         jsonObject.put("type", type+"");//类型  0-取消 1-收藏
 
-        HttpRequest.httpGetString(Constants.Api.SORT_COLLECT_URL, jsonObject, httpCallback);
+        HttpRequest.httpPostForm(Constants.Api.SORT_COLLECT_URL, jsonObject, httpCallback);
 
     }
 

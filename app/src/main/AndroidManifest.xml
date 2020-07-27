@@ -109,7 +109,7 @@
         <activity android:name=".ui.main.home.activity.HomeSearchActivity" />
         <activity
             android:name=".ui.main.home.activity.AuctionDetailActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
         <activity android:name=".ui.main.home.activity.CategoryActivity" />
         <activity android:name=".ui.login.AgreementActivity" />
         <activity android:name=".ui.login.LoginWxActivity" />
