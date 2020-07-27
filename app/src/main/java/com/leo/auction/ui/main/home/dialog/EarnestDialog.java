@@ -6,17 +6,10 @@ import android.widget.TextView;
 
 import com.aten.compiler.widget.dialog.base.BottomBaseDialog;
 import com.leo.auction.R;
-import com.leo.auction.base.BaseSharePerence;
-import com.leo.auction.base.CommonlyUsedData;
-import com.leo.auction.ui.main.mine.model.UserModel;
-import com.leo.auction.ui.order.model.OrderPayTypeModel;
 import com.leo.auction.utils.SpannableStringUtils;
 import com.ruffian.library.widget.RLinearLayout;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
-import butterknife.BindView;
 
 /**
  * ==============================================

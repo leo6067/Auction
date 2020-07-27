@@ -38,6 +38,8 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
     TextView mDialogPrice;
     TextView mItemByPrice;
     TextView mItemBtPrice;
+    TextView mItemCdjy;
+    TextView mItemYszc;
     Context mContext;
     HashMap<String, Integer> mHashMap = new HashMap<>();
 
@@ -61,6 +63,8 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         mItemOK = view.findViewById(R.id.item_ok);
         mItemByPrice = view.findViewById(R.id.by_price);
         mItemBtPrice = view.findViewById(R.id.bt_price);
+        mItemCdjy = view.findViewById(R.id.item_cdjy);
+        mItemYszc = view.findViewById(R.id.item_yszc);
         RelativeLayout relativeLayout= view.findViewById(R.id.re_bt);
         UserModel.httpUpdateUser();
 
@@ -171,12 +175,27 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
 
 
 
+        mItemCdjy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInterBidDialog.onItemCDJY( );
+            }
+        });
+
+
+        mItemYszc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInterBidDialog.onItemYSZC( );
+            }
+        });
+
     }
 
 
     public interface InterBidDialog {
         void onItemOkClick(String price);
-
-
+        void onItemCDJY( );
+        void onItemYSZC( );
     }
 }

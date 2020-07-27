@@ -5,19 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
-import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,14 +22,12 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
-import com.leo.auction.ui.main.home.adapter.HomeAdapter;
+import com.leo.auction.ui.main.home.adapter.HomeSearchAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
 
 import java.util.HashMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import okhttp3.Call;
 
 /**
@@ -54,7 +48,6 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
     RadioButton mRadioC;
     @BindView(R.id.radio_group)
     RadioGroup mRadioGroup;
-
 
 
     private String mUrl = "";
@@ -81,8 +74,6 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
     }
 
 
-
-
     @Override
     public void initData() {
         super.initData();
@@ -92,11 +83,11 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == mRadioA.getId()){
+                if (checkedId == mRadioA.getId()) {
                     listType = 0;
-                }else if(checkedId == mRadioB.getId()){
+                } else if (checkedId == mRadioB.getId()) {
                     listType = 1;
-                }else if(checkedId == mRadioC.getId()){
+                } else if (checkedId == mRadioC.getId()) {
                     listType = 2;
                 }
                 onRefresh(refreshLayout);
@@ -124,12 +115,14 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
     @Override
     protected void initAdapter() {
         super.initAdapter();
-        recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
+
+
+
+
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
+
+        mAdapter = new HomeSearchAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_10)) * 2);
         mAdapter.setHeaderAndEmpty(true);
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        mAdapter.setHasStableIds(true);
 
 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -145,7 +138,7 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
 
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        GridLayoutManager staggeredGridLayoutManager = new GridLayoutManager(getActivity(), 2);
         return staggeredGridLayoutManager;
     }
 

@@ -32,7 +32,7 @@ import com.huantansheng.easyphotos.engine.GlideEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseModel;
-import com.leo.auction.base.CommonlyUsedData;
+import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
 import com.leo.auction.model.CommonModel;
 import com.leo.auction.net.HttpRequest;
@@ -139,7 +139,7 @@ public class OrderEvaluationActivity extends BaseActivity {
 
 
 
-        ArrayList<CommonModel> commonModels =  CommonlyUsedData.getInstance().getCommonLabelList();
+        ArrayList<CommonModel> commonModels =  CommonUsedData.getInstance().getCommonLabelList();
 
         mItemLabelRecycler.setHasFixedSize(true);
         mItemLabelRecycler.setLayoutManager(new GridLayoutManager(OrderEvaluationActivity.this, 3, GridLayoutManager.VERTICAL, false));
@@ -281,7 +281,7 @@ public class OrderEvaluationActivity extends BaseActivity {
     //显示选择获取的图片的方式
     private void showChoosePicTypeDialog() {
         publicationEvaluationDialog = new BottomListDialog(OrderEvaluationActivity.this, getResources().getString(R.string.pager_personal_pic_comefrom),
-                CommonlyUsedData.getInstance().getPhotoChooseData(),
+                CommonUsedData.getInstance().getPhotoChooseData(),
                 -1, new BottomListDialog.IAdapter() {
             @Override
             public void onItemClick(String str, int positoion) {

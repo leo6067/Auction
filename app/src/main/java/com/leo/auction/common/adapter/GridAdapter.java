@@ -4,8 +4,9 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aten.compiler.widget.glide.GlideUtils;
 import com.leo.auction.R;
-import com.leo.auction.utils.GlideUtils;
+
 
 import com.leo.auction.model.GridViewInfo;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -35,7 +36,7 @@ public class GridAdapter extends CommonAdapter<GridViewInfo> {
         ImageView imageView = holder.getView(R.id.tv_classify_img);
 
 
-        GlideUtils.loadImg(mContext,json.getTabImg(),imageView);
+        GlideUtils.loadImg(json.getTabImg(),imageView);
 
         textView.setText(json.getTabStr());
 

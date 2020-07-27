@@ -399,5 +399,15 @@ public class BaseModel {
     }
 
 
+    //关注店铺
+    public static void httpPostFocus(String productAccountId, String type,
+                                         HttpRequest.HttpCallback httpCallback){
+
+        HashMap<String, String> jsonObject = new HashMap<>();
+        jsonObject.put("productAccountId",productAccountId);
+        jsonObject.put("type",type);//类型 0-取消  1-关注   2-置顶  4-取消置顶
+        HttpRequest.httpPostForm(Constants.Api.FOCUS_URL,jsonObject,httpCallback);
+    }
+
 
 }

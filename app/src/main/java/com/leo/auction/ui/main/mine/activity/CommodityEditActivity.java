@@ -1,5 +1,6 @@
 package com.leo.auction.ui.main.mine.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -47,8 +48,10 @@ import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.AgreementActivity;
 import com.leo.auction.ui.login.model.OssTokenModel;
 import com.leo.auction.ui.main.home.activity.ImageShowActivity;
+import com.leo.auction.ui.main.home.model.SceneModel;
 import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.ui.main.mine.IReleaseSortChoose;
 import com.leo.auction.ui.main.mine.adapter.ReleaseAttributeAdapter;
@@ -61,9 +64,7 @@ import com.leo.auction.ui.main.mine.dialog.ReleaseProtocolDialog;
 import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.dialog.TimeDialog;
 import com.leo.auction.ui.main.mine.model.AuctionTimeModel;
-import com.leo.auction.ui.main.mine.model.NewestReleaseProductModel;
-import com.leo.auction.ui.main.mine.model.ProductDetailHeadModel;
-import com.leo.auction.ui.main.mine.model.ProtocolInfoModel;
+
 import com.leo.auction.ui.main.mine.model.ReleaseAuctionAttrModel;
 import com.leo.auction.ui.main.mine.model.ReleaseEditModel;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
@@ -284,12 +285,14 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
         uploadVideoUtils.initChooseVideo(CommodityEditActivity.this, this);
         dialogUtils = new DialogUtils();
         TextLightUtils textLightUtils = new TextLightUtils();
-        textLightUtils.setHighlightColor(this, tvAgree, 14, new TextLightUtils.onClickableSpan() {
+
+        textLightUtils.setHighlightColor(this, tvAgree, 12, new TextLightUtils.onClickableSpan() {
             @Override
             public void onClickable(String title, String url) {
                 getProtocolInfo(1);
             }
         });
+
         cbCheck.setChecked(true);
         cbCheck.setEnabled(false);
         showWaitDialog();
@@ -374,43 +377,41 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
     //获取协议容
     private void getProtocolInfo(int type) {
-        ProtocolInfoModel.sendProtocolInfoRequest(TAG, "", "1", new CustomerJsonCallBack<ProtocolInfoModel>() {
+
+        showWaitDialog();
+        SceneModel.httpGetScene("1", new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(ProtocolInfoModel returnData, String msg) {
+            public void httpError(Call call, Exception e) {
                 hideWaitDialog();
-                ToastUtils.showShort(msg);
             }
 
             @Override
-            public void onRequestSuccess(ProtocolInfoModel returnData) {
+            public void httpResponse(String resultData) {
                 hideWaitDialog();
-                if (returnData.getData() != null && returnData.getData().getContent() != null) {
-                    if (type == 0) {
-                        dialogUtils.showReleaseProtocolDialog(CommodityEditActivity.this,
-                                returnData.getData().getContent(), new ReleaseProtocolDialog.IButtonListener() {
-                                    @Override
-                                    public void onCancle() {
-                                        SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "0");
-                                        cbCheck.setChecked(false);
-                                        cbCheck.setEnabled(true);
-                                    }
+                SceneModel sceneModel = JSONObject.parseObject(resultData, SceneModel.class);
+                if (sceneModel.getData() == null) {
+                    return;
+                }
 
-                                    @Override
-                                    public void onAgree() {
-                                        SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "1");
-                                        cbCheck.setChecked(true);
-                                        cbCheck.setEnabled(false);
-                                    }
-                                });
-                    } else {
-                        dialogUtils.showRuleProtocolDialog(CommodityEditActivity.this,
-                                returnData.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
-                                    @Override
-                                    public void onClose() {
-                                        dialogUtils.dissRuleProtocolDialog();
-                                    }
-                                });
-                    }
+                int redirectType = sceneModel.getData().getRedirectType(); //1-富文本  2-H5页面
+
+
+                if (redirectType == 1) {
+                    dialogUtils.showRuleProtocolDialog(CommodityEditActivity.this,
+                            sceneModel.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
+                                @Override
+                                public void onClose() {
+                                    dialogUtils.dissRuleProtocolDialog();
+                                }
+                            });
+                } else {
+                    Intent intent = new Intent(CommodityEditActivity.this, AgreementActivity.class);
+                    intent.putExtra("title", "协议");
+                    intent.putExtra("url", sceneModel.getData().getH5Url());
+                    intent.putExtra("hasNeedTitleBar", true);
+                    intent.putExtra("hasNeedRightView", false);
+                    intent.putExtra("hasNeedLeftView", true);
+                    startActivity(intent);
                 }
             }
         });
@@ -1058,6 +1059,15 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
         }
 
 
+        if (EmptyUtils.isEmpty(timeNodeId)) {
+            ToastUtils.showShort("请设置截拍时间");
+            return;
+        }
+        if (EmptyUtils.isEmpty(distributeType)) {
+            ToastUtils.showShort("请选择包邮或者到付");
+            return;
+        }
+
         //判断属性信息是否都按要求填写
         if (attributes != null) {
             if (llAttributeContain.getChildCount() != attributes.size()) {
@@ -1163,14 +1173,12 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     public void httpResponse(String resultData) {
                         hideWaitDialog();
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("修改拍品成功");
                         }else {
                             ToastUtils.showShort("修改拍品失败");
                         }
                         cleanRelease();
-                        finish();
                     }
                 }
         );
@@ -1318,6 +1326,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setTimeNodeId(data.getQuick().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("quick");
+                    timeNodesBeanXXX.setTypeName(data.getQuick().getTypeName());
                     if (data.getQuick().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
                             && mTimeDialogModel.getTimeType().equals("quick")) {
                         timeNodesBeanXXX.setSelect(true);
@@ -1343,6 +1352,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setTimeNodeId(data.getToday().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("today");
+                    timeNodesBeanXXX.setTypeName(data.getToday().getTypeName());
                     if (data.getToday().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
                             && mTimeDialogModel.getTimeType().equals("today")) {
                         timeNodesBeanXXX.setSelect(true);
@@ -1369,6 +1379,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setTimeNodeId(data.getTomorrow().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("tomorrow");
+                    timeNodesBeanXXX.setTypeName(data.getTomorrow().getTypeName());
                     if (data.getTomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
                             && mTimeDialogModel.getTimeType().equals("tomorrow")) {
                         timeNodesBeanXXX.setSelect(true);
@@ -1394,6 +1405,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setTimeNodeId(data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("after_tomorrow");
+                    timeNodesBeanXXX.setTypeName(data.getAfter_tomorrow().getTypeName());
                     if (data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
                             && mTimeDialogModel.getTimeType().equals("after_tomorrow")) {
                         timeNodesBeanXXX.setSelect(true);

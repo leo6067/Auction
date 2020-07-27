@@ -5,49 +5,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.EmptyUtils;
-import com.aten.compiler.utils.RxClipboardTool;
 import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.easyPay.EasyPay;
 import com.aten.compiler.utils.easyPay.callback.IPayCallback;
 import com.aten.compiler.widget.customerDialog.BottomDialogUtils;
-import com.aten.compiler.widget.loadingView.SpinView02;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
-import com.leo.auction.base.CommonlyUsedData;
+import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.UserActionUtils;
-import com.leo.auction.ui.login.model.UserInfoModel;
-import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.dialog.PayPwdBoardUtils;
 import com.leo.auction.ui.main.home.model.PayModel;
 import com.leo.auction.ui.main.mine.activity.AddressActivity;
-import com.leo.auction.ui.main.mine.activity.UpdateAddressActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.order.activity.OrderCompleteEvaluationActivity;
 import com.leo.auction.ui.order.activity.OrderConfirmActivity;
 import com.leo.auction.ui.order.activity.OrderDetailActivity;
 import com.leo.auction.ui.order.activity.OrderEvaluationActivity;
 import com.leo.auction.ui.order.activity.OrderRefuseGoodActivity;
-import com.leo.auction.ui.order.adapter.CancleOrderAdapter;
 import com.leo.auction.ui.order.adapter.OrderAdapter;
-import com.leo.auction.ui.order.model.CancleOrderModel;
 import com.leo.auction.ui.order.model.OrderListModel;
 import com.leo.auction.ui.order.model.OrderPayTypeModel;
 
@@ -55,11 +42,7 @@ import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.SetPaypwdUtils;
 import com.leo.auction.utils.wxPay.WXPay;
 import com.leo.auction.utils.wxPay.WXPayBean;
-import com.leo.auction.widget.customDialog.SureReceiveGoodDialog;
 
-import org.litepal.LitePal;
-
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -278,8 +261,8 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
                     break;
                 case "立即评价":
                     bundle.clear();
-                    bundle.putString("orderCode",orderCode);
-                    ActivityManager.JumpActivity(getActivity(), OrderEvaluationActivity.class,bundle);
+                    bundle.putString("orderCode", orderCode);
+                    ActivityManager.JumpActivity(getActivity(), OrderEvaluationActivity.class, bundle);
                     break;
                 case "申请退货":
                     ActivityManager.JumpActivity(getActivity(), OrderRefuseGoodActivity.class);
@@ -321,8 +304,8 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
                     break;
                 case "查看评价":
                     bundle.clear();
-                    bundle.putString("orderCode",orderCode);
-                    ActivityManager.JumpActivity(getActivity(),OrderCompleteEvaluationActivity.class,bundle);
+                    bundle.putString("orderCode", orderCode);
+                    ActivityManager.JumpActivity(getActivity(), OrderCompleteEvaluationActivity.class, bundle);
                     break;
                 case "客服介入":
 //                    customerServiceIntervention(item.getRefundId());
@@ -338,7 +321,7 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
             return;
         }
         userInfoModel = BaseSharePerence.getInstance().getUserJson();
-        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonlyUsedData.getInstance().getOrderPayTypeData(userInfoModel.getBalance(), payment);
+        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonUsedData.getInstance().getOrderPayTypeData(userInfoModel.getBalance(), payment);
 
         payInputPwdBoardUtils.showPayTypeDialog(getContext(), payment,
                 orderPayTypeModels, this);
@@ -527,18 +510,22 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
 //            UserActionUtils.actionLog("0","3",item.getGoodsId(),payItemTag.getShopUri(),"1");
             UserActionUtils.actionLog("0", "3", item.getInstanceCode(), "1");
         }
-
+        payInputPwdBoardUtils.dismissPayPasswordDialog();
         PayModel.httpPay(2, "order", Integer.valueOf(payment), orderCode, null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                payInputPwdBoardUtils.dismissPayPasswordDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
                 PayModel payModel = JSONObject.parseObject(resultData, PayModel.class);
-                mAdapter.remove(pos);
-                payInputPwdBoardUtils.dismissPayPasswordDialog();
+                if (payModel.getResult().isSuccess()) {
+                    mAdapter.remove(pos);
+                    ToastUtils.showShort("支付成功");
+                } else {
+                    ToastUtils.showShort(payModel.getResult().getMessage());
+                }
 //                OrderStatusActivity.newIntance(getContext(),shopUri,"0");
             }
         });
@@ -552,10 +539,10 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
         }
 
 
+        payInputPwdBoardUtils.dismissPayPasswordDialog();
         PayModel.httpPay(1, "order", Integer.valueOf(payment), orderCode, null, "", "", null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                payInputPwdBoardUtils.dismissPayPasswordDialog();
             }
 
             @Override

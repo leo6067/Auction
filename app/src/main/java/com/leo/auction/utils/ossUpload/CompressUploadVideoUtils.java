@@ -13,7 +13,7 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.utils.video.RecordVideoUtils;
 import com.huantansheng.easyphotos.utils.video.ReleaseVideoModel;
 import com.leo.auction.R;
-import com.leo.auction.base.CommonlyUsedData;
+import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
 import com.leo.auction.utils.compressorVideo.VideoCompress;
 
@@ -58,14 +58,14 @@ public class CompressUploadVideoUtils {
     public void showChooseVideoTypeDialog(final DecryOssDataModel decryOssDataModel) {
         this.decryOssDataModel = decryOssDataModel;
         releaseVideoDialog = new BottomListDialog(activity, activity.getResources().getString(R.string.pager_personal_video_comefrom),
-                CommonlyUsedData.getInstance().getVideoChooseData(), -1, new BottomListDialog.IAdapter() {
+                CommonUsedData.getInstance().getVideoChooseData(), -1, new BottomListDialog.IAdapter() {
             @Override
             public void onItemClick(String str, int positoion) {
                 if (positoion == 0) {
                     EasyPhotos.createAlbum(activity, false, GlideEngine.getInstance())
                             .setCount(1)
                             .filter(Type.VIDEO)
-                            .setVideoMaxSecond(16)
+                            .setVideoMaxSecond(15000)
                             .start(mSelectCallback);
                 } else {
                     EasyPhotos.createCamera(activity)

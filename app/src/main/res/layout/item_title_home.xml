@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/dp_200"
+    android:layout_width="@dimen/dp_170"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dp_5"
+    android:layout_margin="@dimen/dp_7"
     android:orientation="vertical">
 
 
     <RelativeLayout
-        android:layout_width="@dimen/dp_200"
+        android:layout_width="@dimen/dp_170"
         android:layout_height="@dimen/dp_200">
 
 
@@ -25,13 +25,13 @@
             android:layout_width="@dimen/dp_150"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/item_img"
+            android:lines="1"
+            android:singleLine="true"
             android:textColor="@color/white"
+            android:textSize="11sp"
             app:background_normal="@color/home_title_bg"
             app:corner_radius_bottom_right="@dimen/dp_9"
             app:corner_radius_top_right="@dimen/dp_9"
-            android:singleLine="true"
-            android:lines="1"
-            android:textSize="11sp"
             tools:text="21211" />
 
 
@@ -40,16 +40,16 @@
 
     <com.ruffian.library.widget.RTextView
         android:id="@+id/item_hint"
-        android:layout_width="@dimen/dp_200"
+        android:layout_width="@dimen/dp_170"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_2"
         android:gravity="center"
+        android:lines="1"
+        android:singleLine="true"
         android:textColor="@color/color_191919"
+        android:textSize="11sp"
         app:background_normal="@color/mine_money"
         app:corner_radius="@dimen/dp_15"
-        android:singleLine="true"
-        android:lines="1"
-        android:textSize="11sp"
 
         />
 
@@ -65,7 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="倒计时 "
             android:textSize="10sp" />
 
 
@@ -74,25 +74,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:isConvertDaysToHours="true"
-            app:isHideTimeBackground="true"
-            app:isShowDay="false"
             app:isShowHour="true"
+            app:suffixTextColor="@color/color_191919"
             app:suffixGravity="center"
             app:suffixTextSize="@dimen/sp_26"
-            app:timeTextColor="@color/gray"
+            app:timeTextColor="@color/color_191919"
             app:timeTextSize="10sp" />
-
-
-
-
-
-
-
-        <TextView
-            android:id="@+id/item_time_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-          />
 
 
     </LinearLayout>

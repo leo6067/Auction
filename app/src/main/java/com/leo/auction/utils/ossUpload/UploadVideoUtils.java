@@ -12,7 +12,7 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.utils.video.RecordVideoUtils;
 import com.huantansheng.easyphotos.utils.video.ReleaseVideoModel;
 import com.leo.auction.R;
-import com.leo.auction.base.CommonlyUsedData;
+import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
 import com.leo.auction.utils.compressorVideo.VideoCompress;
 
@@ -56,7 +56,7 @@ public class UploadVideoUtils {
     //显示选择获取的视频的方式
     public void showChooseVideoTypeDialog() {
         releaseVideoDialog = new BottomListDialog(activity, activity.getResources().getString(R.string.pager_personal_video_comefrom),
-                CommonlyUsedData.getInstance().getVideoChooseData(), -1, new BottomListDialog.IAdapter() {
+                CommonUsedData.getInstance().getVideoChooseData(), -1, new BottomListDialog.IAdapter() {
             @Override
             public void onItemClick(String str, int positoion) {
                 if (positoion == 0) {

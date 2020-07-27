@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.arialyy.aria.core.Aria;
 import com.aten.compiler.R;
 
 import com.aten.compiler.utils.KeyboardUtils;
@@ -99,6 +101,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         ActivityManager.addActivity(this);
         //友盟推送
         PushAgent.getInstance(this).onAppStart();
+        //下载框架
+        Aria.download(this).register();
     }
 
     //判断是否是透明
@@ -285,6 +289,17 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             hud.setLabel(tip);
         }
         hud.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (hud != null && hud.isShowing()) {
+                    hud.dismiss();
+                    hud = null;
+                }
+            }
+        },6000);
+
     }
 
     //判断数据加载框是否显示

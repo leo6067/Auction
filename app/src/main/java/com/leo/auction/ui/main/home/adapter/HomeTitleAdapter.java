@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.aten.compiler.widget.countDownTime.CountdownView;
 import com.aten.compiler.widget.glide.GlideUtils;
+import com.blankj.utilcode.constant.TimeConstants;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
@@ -39,10 +41,17 @@ public class HomeTitleAdapter extends BaseQuickAdapter<SubsidyModel.DataBean, Ba
         ImageView itemImage = baseViewHolder.getView(R.id.item_img);
         TextView itemPrice = baseViewHolder.getView(R.id.item_price);
         TextView itemHint = baseViewHolder.getView(R.id.item_hint);
-        TextView item_time_time = baseViewHolder.getView(R.id.item_time_time);
+
         CountdownView itemTime = baseViewHolder.getView(R.id.item_time);
 
-        itemTime.start(json.getInterceptTime());
+
+        //获取某时间与当前时间的  时间差 TimeConstants.MSEC单位毫秒
+        long  fitTimeSpan = TimeUtils.getTimeSpanByNow(json.getInterceptTime(), TimeConstants.MSEC);
+
+
+
+
+        itemTime.start(fitTimeSpan);
 
         GlideUtils.loadImg(json.getFirstPic(), itemImage);
 

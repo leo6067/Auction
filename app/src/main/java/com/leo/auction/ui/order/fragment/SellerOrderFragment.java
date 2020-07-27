@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
@@ -22,7 +20,7 @@ import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
-import com.leo.auction.base.CommonlyUsedData;
+import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.net.HttpRequest;
@@ -35,7 +33,6 @@ import com.leo.auction.ui.order.activity.OrderCompleteEvaluationActivity;
 import com.leo.auction.ui.order.activity.OrderConfirmActivity;
 import com.leo.auction.ui.order.activity.OrderDetailActivity;
 import com.leo.auction.ui.order.activity.OrderEvaluationActivity;
-import com.leo.auction.ui.order.activity.OrderRefuseGoodActivity;
 import com.leo.auction.ui.order.adapter.OrderAdapter;
 import com.leo.auction.ui.order.adapter.SellerOrderAdapter;
 import com.leo.auction.ui.order.model.OrderListModel;
@@ -141,7 +138,7 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
 
     @Override
     protected void initAdapter() {
-        mAdapter = new SellerOrderAdapter(neetTime,status);
+        mAdapter = new SellerOrderAdapter(neetTime, status);
     }
 
     @Override
@@ -227,7 +224,6 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
             switch ((String) viw.getTag(R.id.tag_1)) {
                 case "当面交易":
 //                    AddressActivity.newIntance(getActivity(), "2", "0");
-
 
 
                     break;
@@ -329,7 +325,7 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
             return;
         }
         userInfoModel = BaseSharePerence.getInstance().getUserJson();
-        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonlyUsedData.getInstance().getOrderPayTypeData(userInfoModel.getBalance(), payment);
+        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonUsedData.getInstance().getOrderPayTypeData(userInfoModel.getBalance(), payment);
 
         payInputPwdBoardUtils.showPayTypeDialog(getContext(), payment,
                 orderPayTypeModels, this);
@@ -377,17 +373,21 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
             UserActionUtils.actionLog("0", "3", item.getInstanceCode(), "1");
         }
 
+        payInputPwdBoardUtils.dismissPayPasswordDialog();
         PayModel.httpPay(2, "order", Integer.valueOf(payment), orderCode, null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                payInputPwdBoardUtils.dismissPayPasswordDialog();
             }
 
             @Override
             public void httpResponse(String resultData) {
                 PayModel payModel = JSONObject.parseObject(resultData, PayModel.class);
-                mAdapter.remove(pos);
-                payInputPwdBoardUtils.dismissPayPasswordDialog();
+                if (payModel.getResult().isSuccess()) {
+                    mAdapter.remove(pos);
+                    ToastUtils.showShort("支付成功");
+                } else {
+                    ToastUtils.showShort(payModel.getResult().getMessage());
+                }
 //                OrderStatusActivity.newIntance(getContext(),shopUri,"0");
             }
         });

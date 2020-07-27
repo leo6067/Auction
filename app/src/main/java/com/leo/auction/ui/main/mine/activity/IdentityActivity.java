@@ -66,7 +66,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_identity);
-        mTitleBar.setTitle("实名认证");
+
     }
 
 
@@ -94,6 +94,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     @Override
     public void initData() {
         super.initData();
+        mTitleBar.setTitle("实名认证");
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         if ("".equals(userJson.getIdCard())) {
             mAuthLin.setVisibility(View.VISIBLE);

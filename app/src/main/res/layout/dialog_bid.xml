@@ -10,12 +10,11 @@
     <RelativeLayout
         android:id="@+id/re_bt"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120"
+        android:layout_height="@dimen/dp_125"
         >
 
 
         <ImageView
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
@@ -27,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_22"
             android:layout_marginTop="@dimen/dp_55"
             android:textColor="@color/home_title_bg"
             tools:text="本次出价最多补贴" />
@@ -38,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/sp_20"
+            android:textSize="@dimen/sp_22"
             android:layout_marginTop="@dimen/dp_88"
             android:textColor="@color/home_title_bg"
             tools:text="补贴两亿" />
@@ -136,7 +135,7 @@
                 android:layout_marginStart="@dimen/dp_35"
                 android:layout_marginEnd="@dimen/dp_35"
                 android:gravity="center"
-                android:text="其他方式"
+                android:text="其他价格"
                 app:border_color_normal="@color/gray"
                 app:border_width_normal="@dimen/dp_2"
                 app:corner_radius="@dimen/dp_8" />
@@ -159,14 +158,39 @@
             app:text_color_normal="@color/white" />
 
 
-        <TextView
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_35"
             android:layout_marginBottom="@dimen/dp_35"
-            android:gravity="center"
-            android:text="出价即表示同意《锤定交易服务协议》 《隐私保护政策》"
-            android:textSize="10sp" />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/item_cdjy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="出价即表示同意《锤定交易服务协议》"
+                android:textSize="10sp" />
+
+
+            <TextView
+                android:id="@+id/item_yszc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=" 《隐私保护政策》"
+                android:textSize="10sp" />
+
+
+
+        </LinearLayout>
+
+
+
 
     </com.ruffian.library.widget.RLinearLayout>
 </LinearLayout>

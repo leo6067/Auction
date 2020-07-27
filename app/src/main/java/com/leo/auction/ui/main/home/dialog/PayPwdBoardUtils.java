@@ -40,11 +40,13 @@ public class PayPwdBoardUtils {
     private GoSettingPaypwdDialog goSettingPaypwdDialog;
     //-------------------------------------------弹出支付方式选择框  start-------------------------------------------------
 
-    //显示支付方式的dialog
+    //显示支付方式的dialog-0---- 保证金
     public void showPayTypeDialog(Context context, String payMoney, ArrayList<OrderPayTypeModel> orderPayTypeModels, final IPayType iPayType) {
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomChooseLayout = inflater.inflate(R.layout.layout_pay_input_type, null);
         TextView tvMoney = (TextView) bottomChooseLayout.findViewById(R.id.tv_money);
+        TextView dialogEarnest = (TextView) bottomChooseLayout.findViewById(R.id.dialog_earnest);
         CustomeRecyclerView crlPayTytpe = (CustomeRecyclerView) bottomChooseLayout.findViewById(R.id.crl_pay_tytpe);
         TextView tvSure = (TextView) bottomChooseLayout.findViewById(R.id.tv_sure);
         //设置金额
@@ -63,13 +65,24 @@ public class PayPwdBoardUtils {
                     return;
                 }
 
-
                 iPayType.choosePayType(payTypeAdapter.getChoosePos());
             }
         });
 
+        dialogEarnest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!RxTool.isFastClick(RxTool.MIN_CLICK_DELAY_TIME_500)) {
+                    return;
+                }
+
+                new EarnestRuleDialog(context).show();
+            }
+        });
         payTypeBottomDialog = new BottomDialog(context, bottomChooseLayout);
         payTypeBottomDialog.show();
+
+
     }
 
     //关闭支付方式的dialog
@@ -82,6 +95,7 @@ public class PayPwdBoardUtils {
 
     public interface IPayType {
         void choosePayType(int pos);
+
     }
     //-------------------------------------------弹出支付方式选择框  end-------------------------------------------------
 

@@ -23,7 +23,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_89"
-        android:layout_marginBottom="@dimen/dp_4"
+
         android:background="@android:color/white">
 
         <TextView
@@ -66,13 +66,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="@dimen/dp_30"
+
             android:paddingRight="@dimen/dp_30">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_18"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_30"
@@ -279,6 +278,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_88"
+                    android:hint="设置截拍时间"
                     android:layout_weight="1"
                     android:drawableEnd="@drawable/ic_enter_03"
                     android:paddingEnd="@dimen/dp_30" />
@@ -313,7 +313,8 @@
                     android:layout_marginLeft="@dimen/dp_215"
                     android:background="@null"
                     android:ellipsize="end"
-                    android:hint="请设置拍品期起拍价"
+                    android:text="0"
+                    android:hint="请设置拍品起拍价"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textColor="@color/color_1a1a1a"
@@ -401,7 +402,7 @@
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_30">
+                >
 
 
                 <TextView
@@ -424,20 +425,22 @@
 
                     <RadioButton
                         android:id="@+id/baoyou"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_150"
                         android:layout_height="wrap_content"
-                        android:text="包邮"
-                        android:buttonTint="@color/home_title_bg"
+                        android:text="  包邮"
+                        android:button="@drawable/shoppingcar_checkbox_style"
                         android:textColor="@android:color/black"
+                        android:checked="true"
                         android:textSize="@dimen/sp_30"
                         android:textStyle="bold" />
 
                     <RadioButton
+
                         android:id="@+id/daofu"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_150"
                         android:layout_height="wrap_content"
-                        android:text="到付"
-                        android:buttonTint="@color/home_title_bg"
+                        android:text=" 到付"
+                        android:button="@drawable/shoppingcar_checkbox_style"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/sp_30"
                         android:textStyle="bold" />
@@ -494,6 +497,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:checked="true"
                     android:button="@drawable/shoppingcar_checkbox_style" />
 
                 <TextView
@@ -505,7 +509,7 @@
                     android:layout_marginLeft="@dimen/dp_20"
                     android:layout_toRightOf="@+id/cb_check"
                     android:lineSpacingExtra="@dimen/dp_10"
-                    android:text="发布即同意《淘捡漏交易服务用户协议》"
+                    android:text="发布即同意《锤定交易服务用户协议》"
                     android:textColor="@color/color_9e9e9e"
                     android:textSize="@dimen/sp_20" />
 

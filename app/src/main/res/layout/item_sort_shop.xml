@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.aten.compiler.widget.swipeMenuLayout.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -84,7 +84,28 @@
     </LinearLayout>
 
 
-    <include layout="@layout/include_line_a" />
 
 
-</LinearLayout>
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/item_cancel"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="match_parent"
+        app:background_normal="@color/item_baoyou"
+        android:text="取消关注"
+        android:textColor="@color/white"
+        android:gravity="center"
+        />
+
+
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/item_top"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="match_parent"
+        app:background_normal="@color/home_title_bg"
+        android:text="置顶"
+        android:textColor="@color/white"
+        android:gravity="center"
+        />
+
+
+</com.aten.compiler.widget.swipeMenuLayout.SwipeMenuLayout>

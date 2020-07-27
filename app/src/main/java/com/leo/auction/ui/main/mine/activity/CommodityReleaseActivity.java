@@ -1,5 +1,6 @@
 package com.leo.auction.ui.main.mine.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,8 +46,12 @@ import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.AgreementActivity;
 import com.leo.auction.ui.login.model.OssTokenModel;
+import com.leo.auction.ui.main.WebViewActivity;
+import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.activity.ImageShowActivity;
+import com.leo.auction.ui.main.home.model.SceneModel;
 import com.leo.auction.ui.main.home.model.SortLeftModel;
 import com.leo.auction.ui.main.mine.IReleaseSortChoose;
 import com.leo.auction.ui.main.mine.adapter.ReleaseAttributeAdapter;
@@ -66,6 +71,7 @@ import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.ui.main.mine.model.TimeDialogModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.DialogUtils;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.TextLightUtils;
 import com.leo.auction.utils.TextOptionUtils;
 import com.leo.auction.utils.layoutManager.CenterLayoutManager;
@@ -153,7 +159,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     private ReleasePostOssVideolistAdapter postVideolistAdapter;//商品视频适配器
     private List<ReleaseAuctionAttrModel.DataBean> attributes = new ArrayList<>();//商品属性信息
     private UserModel.DataBean userInfoModel;
-    private NewestReleaseProductModel newestReleaseProduct;
+    private NewestReleaseProductModel.DataBean newestReleaseProduct;
     private String isPublish = "1";//发布的类型 默认是发布1 保存0
     private DecryOssDataModel decryOssDataModel;//oss上传需要的必备参数
 
@@ -165,11 +171,12 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     private TextLightUtils textLightUtils;
 
     private String timeNodeID = "";  //时间节点
-    private String distributeType = "";//1-包邮  2-到付
+    private String distributeType = "1";//1-包邮  2-到付
     private String sourceType = "1";  // 1-自行发布 2-产品库
 
     private String timeType = ""; //快速截拍
     private String goodId = ""; //
+    private ArrayList<TimeDialogModel> mTimeDialogModelLists;
 
 
     @Override
@@ -264,23 +271,23 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         dialogUtils = new DialogUtils();
 
         TextLightUtils textLightUtils = new TextLightUtils();
-        textLightUtils.setHighlightColor(this, tvAgree, 14, new TextLightUtils.onClickableSpan() {
+        textLightUtils.setHighlightColor(this, tvAgree, 12, new TextLightUtils.onClickableSpan() {
             @Override
             public void onClickable(String title, String url) {
                 getProtocolInfo(1);
             }
         });
 
-        showWaitDialog();
-        if ("0".equals(SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).getString("isAgree", "0"))) {
-            cbCheck.setChecked(false);
-            cbCheck.setEnabled(true);
-            getProtocolInfo(0);
-        } else {
-            hideWaitDialog();
-            cbCheck.setChecked(true);
-            cbCheck.setEnabled(false);
-        }
+
+//        if ("0".equals(SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).getString("isAgree", "0"))) {
+//            cbCheck.setChecked(false);
+//            cbCheck.setEnabled(true);
+//            getProtocolInfo(0);
+//        } else {
+//            hideWaitDialog();
+//            cbCheck.setChecked(true);
+//            cbCheck.setEnabled(false);
+//        }
 
         ossUtils = new OssUtils();
         ossVideoUtils = new OssVideoUtils();
@@ -292,46 +299,46 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
     //获取协议容
     private void getProtocolInfo(int type) {
-        ProtocolInfoModel.sendProtocolInfoRequest(TAG, "", "1", new CustomerJsonCallBack<ProtocolInfoModel>() {
+
+        showWaitDialog();
+        SceneModel.httpGetScene("1", new HttpRequest.HttpCallback() {
             @Override
-            public void onRequestError(ProtocolInfoModel returnData, String msg) {
+            public void httpError(Call call, Exception e) {
                 hideWaitDialog();
-                ToastUtils.showShort(msg);
             }
 
             @Override
-            public void onRequestSuccess(ProtocolInfoModel returnData) {
+            public void httpResponse(String resultData) {
                 hideWaitDialog();
-                if (returnData.getData() != null && returnData.getData().getContent() != null) {
-                    if (type == 0) {
-                        dialogUtils.showReleaseProtocolDialog(CommodityReleaseActivity.this,
-                                returnData.getData().getContent(), new ReleaseProtocolDialog.IButtonListener() {
-                                    @Override
-                                    public void onCancle() {
-                                        SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "0");
-                                        cbCheck.setChecked(false);
-                                        cbCheck.setEnabled(true);
-                                    }
+                SceneModel sceneModel = JSONObject.parseObject(resultData, SceneModel.class);
+                if (sceneModel.getData() == null) {
+                    return;
+                }
 
-                                    @Override
-                                    public void onAgree() {
-                                        SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "1");
-                                        cbCheck.setChecked(true);
-                                        cbCheck.setEnabled(false);
-                                    }
-                                });
-                    } else {
-                        dialogUtils.showRuleProtocolDialog(CommodityReleaseActivity.this,
-                                returnData.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
-                                    @Override
-                                    public void onClose() {
-                                        dialogUtils.dissRuleProtocolDialog();
-                                    }
-                                });
-                    }
+                int redirectType = sceneModel.getData().getRedirectType(); //1-富文本  2-H5页面
+
+
+                if (redirectType == 1) {
+                    dialogUtils.showRuleProtocolDialog(CommodityReleaseActivity.this,
+                            sceneModel.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
+                                @Override
+                                public void onClose() {
+                                    dialogUtils.dissRuleProtocolDialog();
+                                }
+                            });
+                } else {
+                    Intent intent = new Intent(CommodityReleaseActivity.this, AgreementActivity.class);
+                    intent.putExtra("title", "协议");
+                    intent.putExtra("url", sceneModel.getData().getH5Url());
+                    intent.putExtra("hasNeedTitleBar", true);
+                    intent.putExtra("hasNeedRightView", false);
+                    intent.putExtra("hasNeedLeftView", true);
+                    startActivity(intent);
                 }
             }
         });
+
+
     }
 
 
@@ -401,7 +408,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "1");
+//                    SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "1");
                     cbCheck.setEnabled(false);
                 }
             }
@@ -455,9 +462,12 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
+
                 NewestReleaseProductModel newestReleaseProductModel = JSONObject.parseObject(resultData, NewestReleaseProductModel.class);
-                if (newestReleaseProductModel != null) {
-                    setPageInitData(newestReleaseProductModel);
+
+                newestReleaseProduct = newestReleaseProductModel.getData();
+                if (newestReleaseProduct != null) {
+                    setPageInitData();
                 } else {
                     getOneSortData();
                 }
@@ -467,8 +477,8 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
 
     //设置页面得初始数据
-    private void setPageInitData(NewestReleaseProductModel info) {
-        this.newestReleaseProduct = info;
+    private void setPageInitData() {
+
 //        etTitle.setText(EmptyUtils.strEmpty(info.getTitle()));
 //        etContent.setText(EmptyUtils.strEmpty(info.getContent()));
 ////        etSellingPrice.setText(EmptyUtils.strEmpty(info.getPrice()));
@@ -476,12 +486,23 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 //        etStock.setText(EmptyUtils.strEmpty(info.getStock()));
 ////        etRemarks.setText(EmptyUtils.strEmpty(info.getComment()));
 //        etFreight.setText(EmptyUtils.strEmpty(info.getFreight()));
-//        sbtFreeShipping.setChecked(info.isFreeShip());
-//        sbtToPay.setChecked(info.isToPay());
-
-
 //        List<NewestReleaseProductModel.AttributesBean> attributes = info.getAttributes();
 
+
+        distributeType = newestReleaseProduct.getDistributeType();
+
+        if (distributeType.equals("1")) {
+            mRadioYou.setChecked(true);
+            mRadioFu.setChecked(false);
+        } else {
+            mRadioYou.setChecked(false);
+            mRadioFu.setChecked(true);
+        }
+
+        timeType = newestReleaseProduct.getTime().getType();
+        timeNodeID = newestReleaseProduct.getTime().getTimeNodeId() + "";
+
+        initTimeData();
 
         getOneSortData();
     }
@@ -519,16 +540,19 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                             if (!ivOpenClose01.isSelected()) {
                                 centerOneSortLayoutManager.smoothScrollToPosition(crlOneSort, new RecyclerView.State(), position);
                             }
+                            getTwoSortData(position);
                         } else {
                             dataOneBeans.get(0).setSelected(true);
                             releaseOneSortData = dataOneBeans.get(0);
+                            getTwoSortData(0); //默认选中0
                         }
                     } else {
                         dataOneBeans.get(0).setSelected(true);
                         releaseOneSortData = dataOneBeans.get(0);
+                        getTwoSortData(0); //默认选中0
                     }
                     releaseOneSortAdapter.setNewData(dataOneBeans);
-                    getTwoSortData(0); //默认选中0
+
                 }
             }
         });
@@ -613,7 +637,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 tvMore.setVisibility(View.VISIBLE);
 
                 if (newestReleaseProduct != null && newestReleaseProduct.getAttributes() != null) {
-                    for (NewestReleaseProductModel.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
+                    for (NewestReleaseProductModel.DataBean.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
                         if (newestReleaseProductAttribute.getTitle().equals(attribute.getTitle())) {
                             for (ReleaseAuctionAttrModel.DataBean.TagsBean tag : attribute.getTags()) {
                                 if (tag != null && tag.getName().equals(newestReleaseProductAttribute.getValue())) {
@@ -678,7 +702,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 }
 
                 if (newestReleaseProduct != null && newestReleaseProduct.getAttributes() != null) {
-                    for (NewestReleaseProductModel.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
+                    for (NewestReleaseProductModel.DataBean.AttributesBean newestReleaseProductAttribute : newestReleaseProduct.getAttributes()) {
                         if (newestReleaseProductAttribute.getTitle().equals(attribute.getTitle())) {
                             etAttriValue.setText(newestReleaseProductAttribute.getValue());
                         }
@@ -732,7 +756,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 break;
 
             case R.id.goods_jpsj:
-                showTimeWindow();
+                showTimeDialog();
                 break;
 
             case R.id.tv_save:
@@ -992,8 +1016,13 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
     //发布前得准备
     private void preRelease() {
-        if ("0".equals(SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).getString("isAgree"))) {
-            getProtocolInfo(0);
+//        if ("0".equals(SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).getString("isAgree"))) {
+//            getProtocolInfo(0);
+//            return;
+//        }
+
+        if (!cbCheck.isChecked()) {
+            ToastUtils.showShort("发拍需同意锤定交易服务用户协议");
             return;
         }
 
@@ -1024,6 +1053,10 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
         if (EmptyUtils.isEmpty(etSupplyPrice.getText().toString())) {
             ToastUtils.showShort("请设置拍品加价幅度");
+            return;
+        }
+        if (EmptyUtils.isEmpty(timeNodeID)) {
+            ToastUtils.showShort("请设置截拍时间");
             return;
         }
 
@@ -1132,7 +1165,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                             ToastUtils.showShort("发布拍品失败");
                         }
                         cleanRelease();
-                        finish();
+
                     }
                 }
         );
@@ -1149,9 +1182,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         uploadPicUtils.initChoosePic(CommodityReleaseActivity.this, true, 9, Constants.Api.OSS_FOLDER_IMG_GOODS, this);
         //清空上传的视频
         uploadVideoUtils.initChooseVideo(CommodityReleaseActivity.this, this);
-
         etSellingPrice.setText("");
-        etSupplyPrice.setText("");
         etRemarks.setText("");
     }
 
@@ -1173,7 +1204,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     }
 
 
-    private void showTimeWindow() {
+    private void initTimeData() {
         showWaitDialog();
         AuctionTimeModel.httpTimeModel(new HttpRequest.HttpCallback() {
             @Override
@@ -1186,7 +1217,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 hideWaitDialog();
                 AuctionTimeModel auctionTimeModel = JSONObject.parseObject(resultData, AuctionTimeModel.class);
                 AuctionTimeModel.DataBean data = auctionTimeModel.getData();
-                ArrayList<TimeDialogModel> TimeDialogModelLists = new ArrayList<>();
+                mTimeDialogModelLists = new ArrayList<>();
 
 
                 //快速截拍
@@ -1197,7 +1228,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 quickBean.setType(data.getQuick().getType());
                 quickBean.setTypeName(data.getQuick().getTypeName());
                 quickBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
-                TimeDialogModelLists.add(quickBean);
+                mTimeDialogModelLists.add(quickBean);
 
                 for (int i = 0; i < data.getQuick().getTimeNodes().size(); i++) {
                     TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
@@ -1209,9 +1240,10 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     timeNodesBeanXXX.setTypeName(data.getQuick().getTypeName());
                     if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
                         timeNodesBeanXXX.setSelect(true);
+                        goodsJpsj.setText(timeNodesBeanXXX.getTypeName() + timeNodesBeanXXX.getShowText());
                     }
 
-                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                    mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
 
@@ -1223,7 +1255,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 todayBean.setType(data.getToday().getType());
                 todayBean.setTypeName(data.getToday().getTypeName());
                 quickBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
-                TimeDialogModelLists.add(todayBean);
+                mTimeDialogModelLists.add(todayBean);
                 for (int i = 0; i < data.getToday().getTimeNodes().size(); i++) {
                     TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
                     timeNodesBeanXXX.setShowText(data.getToday().getTimeNodes().get(i).getShowText());
@@ -1234,8 +1266,9 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     timeNodesBeanXXX.setTypeName(data.getToday().getTypeName());
                     if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
                         timeNodesBeanXXX.setSelect(true);
+                        goodsJpsj.setText(timeNodesBeanXXX.getTypeName() + timeNodesBeanXXX.getShowText());
                     }
-                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                    mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
 
@@ -1247,7 +1280,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 tomorrowBean.setType(data.getTomorrow().getType());
                 tomorrowBean.setTypeName(data.getTomorrow().getTypeName());
                 tomorrowBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
-                TimeDialogModelLists.add(tomorrowBean);
+                mTimeDialogModelLists.add(tomorrowBean);
                 for (int i = 0; i < data.getTomorrow().getTimeNodes().size(); i++) {
                     TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
                     timeNodesBeanXXX.setShowText(data.getTomorrow().getTimeNodes().get(i).getShowText());
@@ -1258,8 +1291,9 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     timeNodesBeanXXX.setTypeName(data.getTomorrow().getTypeName());
                     if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
                         timeNodesBeanXXX.setSelect(true);
+                        goodsJpsj.setText(timeNodesBeanXXX.getTypeName() + timeNodesBeanXXX.getShowText());
                     }
-                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                    mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
 
@@ -1271,7 +1305,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 affterTomorrowBean.setType(data.getAfter_tomorrow().getType());
                 affterTomorrowBean.setTypeName(data.getAfter_tomorrow().getTypeName());
                 affterTomorrowBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
-                TimeDialogModelLists.add(affterTomorrowBean);
+                mTimeDialogModelLists.add(affterTomorrowBean);
                 for (int i = 0; i < data.getAfter_tomorrow().getTimeNodes().size(); i++) {
                     TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
                     timeNodesBeanXXX.setShowText(data.getAfter_tomorrow().getTimeNodes().get(i).getShowText());
@@ -1283,24 +1317,32 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
                     if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
                         timeNodesBeanXXX.setSelect(true);
+                        goodsJpsj.setText(timeNodesBeanXXX.getTypeName() + timeNodesBeanXXX.getShowText());
                     }
-                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                    mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
 
-                TimeDialog timeDialog = new TimeDialog(CommodityReleaseActivity.this, TimeDialogModelLists, new TimeDialog.InterTimeDialog() {
-                    @Override
-                    public void itemTimeClick(TimeDialogModel timeDialogModel) {
-                        timeType = timeDialogModel.getTimeType();
-                        timeNodeID = timeDialogModel.getTimeNodeId() + "";
-
-                        goodsJpsj.setText(timeDialogModel.getTypeName() + timeDialogModel.getShowText());
-
-                    }
-                });
-                timeDialog.show();
             }
         });
+
+
+    }
+
+
+    private void showTimeDialog() {
+
+        TimeDialog timeDialog = new TimeDialog(CommodityReleaseActivity.this, mTimeDialogModelLists, new TimeDialog.InterTimeDialog() {
+            @Override
+            public void itemTimeClick(TimeDialogModel timeDialogModel) {
+                timeType = timeDialogModel.getTimeType();
+                timeNodeID = timeDialogModel.getTimeNodeId() + "";
+
+                goodsJpsj.setText(timeDialogModel.getTypeName() + timeDialogModel.getShowText());
+
+            }
+        });
+        timeDialog.show();
 
 
     }

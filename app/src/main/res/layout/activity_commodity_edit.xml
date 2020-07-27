@@ -276,6 +276,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_88"
                     android:layout_weight="1"
+                    android:hint="设置截拍时间"
                     android:drawableEnd="@drawable/ic_enter_03"
                     android:paddingEnd="@dimen/dp_30" />
 
@@ -309,7 +310,8 @@
                     android:layout_marginLeft="@dimen/dp_215"
                     android:background="@null"
                     android:ellipsize="end"
-                    android:hint="请设置拍品期起拍价"
+                    android:text="0"
+                    android:hint="请设置拍品起拍价"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textColor="@color/color_1a1a1a"
@@ -419,25 +421,26 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-
                     <RadioButton
                         android:id="@+id/baoyou"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_150"
                         android:layout_height="wrap_content"
+                        android:text="  包邮"
+                        android:button="@drawable/shoppingcar_checkbox_style"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/sp_30"
-                        android:textStyle="bold"
-                        android:text="包邮" />
+                        android:textStyle="bold" />
 
                     <RadioButton
-                        android:text="到付"
+
                         android:id="@+id/daofu"
+                        android:layout_width="@dimen/dp_150"
+                        android:layout_height="wrap_content"
+                        android:text=" 到付"
+                        android:button="@drawable/shoppingcar_checkbox_style"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/sp_30"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
+                        android:textStyle="bold" />
 
                 </RadioGroup>
 
@@ -493,6 +496,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:checked="true"
                     android:button="@drawable/shoppingcar_checkbox_style" />
 
                 <TextView
@@ -504,7 +508,7 @@
                     android:layout_marginLeft="@dimen/dp_20"
                     android:layout_toRightOf="@+id/cb_check"
                     android:lineSpacingExtra="@dimen/dp_10"
-                    android:text="发布即同意《淘捡漏交易服务用户协议》"
+                    android:text="发布即同意《锤定交易服务用户协议》"
                     android:textColor="@color/color_9e9e9e"
                     android:textSize="@dimen/sp_20" />
 

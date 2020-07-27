@@ -60,9 +60,9 @@ public class UmShare {
      * @param platform
      * @param umShareListener 回调
      */
-    public static void shareLink(Activity activity,String url,String title,String content,SHARE_MEDIA platform,UMShareListener umShareListener){
+    public static void shareLink(Activity activity,String url,String title,String picUrl,String content,SHARE_MEDIA platform,UMShareListener umShareListener){
         Bitmap bmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.logo);
-        UMImage image = new UMImage(activity,bmp);
+        UMImage image = new UMImage(activity,picUrl);
         UMWeb web = new UMWeb(url);
         web.setTitle(title);//标题
         web.setThumb(image);  //缩略图

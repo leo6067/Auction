@@ -4,22 +4,39 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.arialyy.aria.core.Aria;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.base.BaseGlobal;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.FileUtils;
 import com.aten.compiler.utils.ImageUtils;
+import com.aten.compiler.utils.RxClipboardTool;
+import com.aten.compiler.utils.RxTool;
+import com.aten.compiler.utils.ToastUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
+import com.leo.auction.base.Constants;
+import com.leo.auction.net.HttpRequest;
+import com.leo.auction.net.ResultModel;
 import com.leo.auction.ui.login.UserActionUtils;
-import com.leo.auction.ui.main.mine.model.GenerateQrcodeModel;
+import com.leo.auction.ui.main.home.model.QcodeModel;
+
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.shared.SharedCallBack;
@@ -28,10 +45,19 @@ import com.leo.auction.utils.shared.UMengUtils;
 import com.leo.auction.utils.shared.UmShare;
 import com.leo.auction.utils.shared_dailog.SharedDailogUtils;
 import com.leo.auction.utils.shared_dailog.SharedModel;
+import com.sch.share.Options;
+import com.sch.share.WXShareMultiImageHelper;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.editorpage.ShareActivity;
 import com.umeng.socialize.media.UMMin;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+
+import okhttp3.Call;
 
 public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISharedDialog {
 
@@ -39,10 +65,13 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     private SharedModel sharedModel;
     private SharedDailogUtils sharedDailogUtils;
     private SharedMessageUtils sharedMessageUtils;
-    private String type;
+
     private String sharedText;
+    private List<String> nineImgs = new ArrayList<>();//记录页面九宫图的图片
+    private String copyText = "",videoUrl="";
 
-
+    private List<String> nineImgs_qrcode;
+ ;
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_shared_actvity);
@@ -65,52 +94,41 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     @Override
     public void initData() {
         sharedModel = getIntent().getParcelableExtra("sharedModel");
-        type = getIntent().getStringExtra("type");
+
         sharedText = getIntent().getStringExtra("sharedText");
+        nineImgs = getIntent().getStringArrayListExtra("nineImgs");
+        copyText = getIntent().getStringExtra("copyText");
+        videoUrl = getIntent().getStringExtra("videoUrl");
 
-
+        //监听下载状态
+        Aria.download(this).register();
         sharedDailogUtils = new SharedDailogUtils();
         sharedMessageUtils = new SharedMessageUtils();
         super.initData();
-
+        getQrCode();
 
         sharedDailogUtils.showSharedDialog(this, sharedModel, "1", this);
     }
 
     //获取分享二维码
     private void getQrCode() {
-//        GenerateQrcodeModel.sendGenerateQrcodeGoodsRequest(TAG, sharedModel.getType(), sharedModel.getSharePage(),sharedModel.getShareGoodsId(),
-//                sharedModel.getShareShopUri(),sharedModel.getShareAgentId(),sharedModel.getChannelType(),
-//                sharedModel.getSourceId(),sharedModel.getPage(), new CustomerJsonCallBack_v1<GenerateQrcodeModel>() {
-//                    @Override
-//                    public void onRequestError(GenerateQrcodeModel returnData, String msg) {
-//                        showShortToast(msg);
-//                    }
-//
-//                    @Override
-//                    public void onRequestSuccess(GenerateQrcodeModel returnData) {
-//                        sharedDailogUtils.setQrCode(returnData.getData().getQrcode());
-//                    }
-//                });
-//    }
-//
-//    //获取分享二维码
-//    private void getQrCode02() {
-//        GenerateQrcodeModel.sendGenerateQrcodeGoods02Request(TAG, sharedModel.getType(), sharedModel.getSharePage(),sharedModel.getShareGoodsId(),
-//                sharedModel.getShareShopUri(),sharedModel.getShareAgentId(),sharedModel.getId(),"1",
-//                sharedModel.getSourceId(),sharedModel.getPage(), new CustomerJsonCallBack_v1<GenerateQrcodeModel>() {
-//                    @Override
-//                    public void onRequestError(GenerateQrcodeModel returnData, String msg) {
-//                        showShortToast(msg);
-//                    }
-//
-//                    @Override
-//                    public void onRequestSuccess(GenerateQrcodeModel returnData) {
-//                        sharedDailogUtils.setQrCode(returnData.getData().getQrcode());
-//                    }
-//                });
-    }
 
+
+        QcodeModel.httpGetQcode(sharedModel.getType(), sharedModel.getShareUrl(), false, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+
+                ResultModel resultModel = JSON.parseObject(resultData, ResultModel.class);
+
+                sharedDailogUtils.setQrCode(resultModel.getData());
+            }
+        });
+    }
     @Override
     public void dissmiss() {
         new Handler().postDelayed(new Runnable() {
@@ -124,6 +142,9 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     //复制链接
     @Override
     public void onCopyLink() {
+
+        RxClipboardTool.copyText( this,sharedModel.getShareUrl());
+        ToastUtils.showShort("链接复制成功");
     }
 
     //分享微信
@@ -137,42 +158,42 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
 //        /pages/sub/product/productDetail?productInstanceCode=xxx&tpm_shareAgentId=xxx
 
+//        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+//        String path = Constants.WEB_BASE_URL+ "auction-web/pages/sub/product/productDetail?productInstanceCode=" + sharedModel.getId()
+//                + "&shareAgentId=" +userJson.getUserId();
 
-        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-        String path = "/pages/sub/product/productDetail?productInstanceCode=" + sharedModel.getId()
-                + "&shareAgentId=" +userJson.getUserId();
+        UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getTitle(),sharedModel.getPicPath(), sharedText,SHARE_MEDIA.WEIXIN,umShareListener);
+        //分享到朋友圈，---将 SHARE_MEDIA.WEIXIN_CIRCLE    ----------- SHARE_MEDIA.WEIXIN  替换
+//        UmShare.shareLink(this,path,sharedText,sharedModel.getPicPath(), sharedText,SHARE_MEDIA.WEIXIN_CIRCLE,umShareListener);
 
-
-
-        UmShare.shareLink(this,path,sharedModel.getTitle(), sharedText,SHARE_MEDIA.WEIXIN,umShareListener);
-
-
-
-//        UMMin umMin = sharedMessageUtils.getWXSmallProgram(this, "https://www.baidu.com/",
-//                sharedModel.getPicPath(), sharedModel.getTitle(), "为您推荐一款精选好货", path, "gh_0489fd1cc754");
-//
-//        UMengUtils.getInstance().showShared02(this, umMin, SHARE_MEDIA.WEIXIN, new SharedCallBack() {
-//            @Override
-//            public void onErrorBack() {
-//            }
-//
-//            @Override
-//            public void onStart(SHARE_MEDIA share_media) {
-//            }
-//        });
-//
-//
-//        UMShareAPI.get()
     }
 
     //分享朋友圈
     @Override
     public void onSharedWXCircle() {
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            UserActionUtils.actionLog(sharedModel.getChannelType(), "6", sharedModel.getShareGoodsCode(),  "1");
+            showWaitDialog();
+            WXShareMultiImageHelper.clearTmpFile(RxTool.getContext());
+            shareMuiltImgToFriendCircle();
+        } else {
+            showShortToast("系统版本太低,无法使用该功能");
+        }
+
     }
 
     //分享朋友圈(带二维码)
     @Override
     public void onSharedWXCircle_qrcode(LinearLayout llContain) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            UserActionUtils.actionLog(sharedModel.getChannelType(), "6", sharedModel.getShareGoodsCode(),  "1");
+            showWaitDialog();
+            WXShareMultiImageHelper.clearTmpFile(RxTool.getContext());
+            shareMuiltImgToFriendCircle_qrcode(llContain);
+        } else {
+            showShortToast("系统版本太低,无法使用该功能");
+        }
     }
 
     //下载
@@ -203,23 +224,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-        if (sharedDailogUtils != null) {
-            sharedDailogUtils.dissSharedDialog();
-        }
-    }
-
-    //type 0 普通分享页面
-    public static void newIntance(Context context, SharedModel sharedModel, String sharedText,String type) {
-        Intent intent = new Intent(context, SharedActvity.class);
-        intent.putExtra("sharedModel", sharedModel);
-        intent.putExtra("type", type);
-        intent.putExtra("sharedText", sharedText);
-        context.startActivity(intent);
-    }
 
 
     /**
@@ -246,4 +251,119 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
             Toast.makeText(SharedActvity.this,"分享取消", Toast.LENGTH_SHORT).show();
         }
     };
+
+
+    //分享多张图片到朋友圈
+    private void shareMuiltImgToFriendCircle() {
+        final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();
+        for (int i = 0; i < nineImgs.size(); i++) {
+            String picdata = nineImgs.get(i);
+            if (picdata.contains("?")) {
+                picdata += "&x-oss-process=image/resize,s_640";
+            } else {
+                picdata += "?x-oss-process=image/resize,s_640";
+            }
+            final int finalI = i;
+            Glide.with(SharedActvity.this).asBitmap().load(picdata).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    picBitmaps.put(String.valueOf(finalI), resource);
+                    if (picBitmaps.size() == nineImgs.size()) {
+                        ArrayList<Bitmap> picDatas = new ArrayList<>();
+                        for (String key : picBitmaps.keySet()) {
+                            picDatas.add(picBitmaps.get(key));
+                        }
+                        picBitmaps.clear();
+
+                        Options options = new Options();
+                        options.setText(copyText);
+                        options.setAutoFill(true);
+                        options.setAutoPost(false);
+                        options.setNeedShowLoading(true);
+                        options.setOnPrepareOpenWXListener(new Options.OnPrepareOpenWXListener() {
+                            @Override
+                            public void onPrepareOpenWX() {
+                                options.setNeedShowLoading(false);
+                            }
+                        });
+                        hideWaitDialog();
+                        WXShareMultiImageHelper.shareToTimeline(SharedActvity.this, (Bitmap[]) picDatas.toArray(new Bitmap[picDatas.size()]), options);
+                    }
+                }
+            });
+        }
+    }
+
+    //分享多张图片到朋友圈(带二维码)
+    private void shareMuiltImgToFriendCircle_qrcode(LinearLayout llContain) {
+        Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+
+        final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();
+        picBitmaps.put("0", bitmap);
+        if (nineImgs != null &&nineImgs.size() >= 9) {
+            nineImgs_qrcode = nineImgs.subList(0, 8);
+        } else {
+            nineImgs_qrcode = nineImgs;
+        }
+
+        for (int i = 1; i < nineImgs_qrcode.size() + 1; i++) {
+            String picdata = nineImgs_qrcode.get(i - 1);
+            if (picdata.contains("?")) {
+                picdata += "&x-oss-process=image/resize,s_640";
+            } else {
+                picdata += "?x-oss-process=image/resize,s_640";
+            }
+            final int finalI = i;
+            Glide.with(SharedActvity.this).asBitmap().load(picdata).into(new SimpleTarget<Bitmap>() {
+
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    picBitmaps.put(String.valueOf(finalI), resource);
+                    if (picBitmaps.size() - 1 == nineImgs_qrcode.size()) {
+                        ArrayList<Bitmap> picDatas = new ArrayList<>();
+                        for (String key : picBitmaps.keySet()) {
+                            picDatas.add(picBitmaps.get(key));
+                        }
+                        picBitmaps.clear();
+
+                        Options options = new Options();
+                        options.setText(copyText);
+                        options.setAutoFill(true);
+                        options.setAutoPost(false);
+                        options.setNeedShowLoading(true);
+                        options.setOnPrepareOpenWXListener(new Options.OnPrepareOpenWXListener() {
+                            @Override
+                            public void onPrepareOpenWX() {
+                                options.setNeedShowLoading(false);
+                            }
+                        });
+
+                        hideWaitDialog();
+                        WXShareMultiImageHelper.shareToTimeline(SharedActvity.this, (Bitmap[]) picDatas.toArray(new Bitmap[picDatas.size()]), options);
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (sharedDailogUtils != null) {
+            sharedDailogUtils.dissSharedDialog();
+        }
+
+        //监听下载状态
+        Aria.download(this).unRegister();
+    }
+
+    public static void newIntance(Context context, SharedModel sharedModel, ArrayList<String> nineImgs,
+                                  String copyText, String videoUrl) {
+        Intent intent = new Intent(context, SharedActvity.class);
+        intent.putExtra("sharedModel", sharedModel);
+        intent.putExtra("nineImgs", nineImgs);
+        intent.putExtra("copyText", copyText);
+        intent.putExtra("videoUrl", videoUrl);
+        context.startActivity(intent);
+    }
 }

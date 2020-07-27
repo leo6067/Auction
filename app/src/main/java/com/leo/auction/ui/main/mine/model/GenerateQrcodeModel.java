@@ -1,6 +1,5 @@
 package com.leo.auction.ui.main.mine.model;
 
-import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 
@@ -19,19 +18,23 @@ import java.util.HashMap;
  * ================================================
  */
 public class GenerateQrcodeModel {
+
+
     /**
-     * data : {"qrcode":"首页二维码图片"}
-     * result : {"success":true,"message":"请求成功"}
+     * data : https://file.taojianlou.com/ut/product/bbd79d77de2fa8243dfedf1ccb6dac4d.png
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1595833903712}
      */
 
-    private DataBean data;
+    private String data;
     private ResultBean result;
 
-    public DataBean getData() {
+
+
+    public String getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -43,37 +46,26 @@ public class GenerateQrcodeModel {
         this.result = result;
     }
 
-    public static class DataBean {
-        /**
-         * qrcode : 首页二维码图片
-         */
-
-        private String qrcode;
-
-        public String getQrcode() {
-            return qrcode;
-        }
-
-        public void setQrcode(String qrcode) {
-            this.qrcode = qrcode;
-        }
-    }
 
     public static class ResultBean {
         /**
-         * success : true
+         * code : 0
          * message : 请求成功
+         * success : true
+         * timestamp : 1595833903712
          */
 
-        private boolean success;
+        private String code;
         private String message;
+        private boolean success;
+        private long timestamp;
 
-        public boolean isSuccess() {
-            return success;
+        public String getCode() {
+            return code;
         }
 
-        public void setSuccess(boolean success) {
-            this.success = success;
+        public void setCode(String code) {
+            this.code = code;
         }
 
         public String getMessage() {
@@ -83,9 +75,25 @@ public class GenerateQrcodeModel {
         public void setMessage(String message) {
             this.message = message;
         }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(long timestamp) {
+            this.timestamp = timestamp;
+        }
     }
 
-    public static void sendGenerateQrcodeRequest( String type, String page,  boolean refresh,
+    public static void sendGenerateQrcodeRequest(String type, String page, boolean refresh,
                                                  HttpRequest.HttpCallback callback) {
 
 
@@ -97,6 +105,5 @@ public class GenerateQrcodeModel {
         hashMap.put("refresh",refresh+"");
         HttpRequest.httpGetString(Constants.Api.SPREAD_QRCODE_URL, hashMap, callback);
     }
-
 
 }

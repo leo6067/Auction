@@ -3,6 +3,7 @@ package com.leo.auction.ui.main.home.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,7 +101,7 @@ public class GoodsDetailModel {
         private String video;
         private List<AttributesBean> attributes;
         private List<BidBean> bid;
-        private List<String> images;
+        private ArrayList<String> images;
 
         public DataBean() {
         }
@@ -369,11 +370,11 @@ public class GoodsDetailModel {
             this.bid = bid;
         }
 
-        public List<String> getImages() {
+        public ArrayList<String> getImages() {
             return images;
         }
 
-        public void setImages(List<String> images) {
+        public void setImages(ArrayList<String> images) {
             this.images = images;
         }
 

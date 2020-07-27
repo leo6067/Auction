@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,11 +17,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
-import com.leo.auction.base.CommonlyUsedData;
-import com.leo.auction.model.CommonModel;
 import com.leo.auction.ui.order.model.OrderCommentInfoModel;
-
-import java.util.ArrayList;
 
 
 /**

@@ -69,7 +69,7 @@ public class SharedDailogUtils {
 //        CrlBtnModel crlBtnModel06 = new CrlBtnModel(6, R.drawable.ic_xianyu_icon, "闲鱼");
 //        CrlBtnModel crlBtnModel07 = new CrlBtnModel(7, R.drawable.ic_wwdz_icon, "玩物得志");
 
-//        crlBtnModels.add(crlBtnModel01);
+        crlBtnModels.add(crlBtnModel01);
         crlBtnModels.add(crlBtnModel02);
         if ("1".equals(type)){//商品详情
             crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));

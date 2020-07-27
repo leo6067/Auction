@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ruffian.library.widget.RLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_rule"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/dp_100"
+    android:layout_marginEnd="@dimen/dp_100"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:background_normal="#dddbdc"
+    app:corner_radius="@dimen/dp_7">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_15"
+        android:text="拍品保证金规则"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_15"
+        android:text="1.定义：保证金为拍品保证金，缴纳后方可参与拍品出价，一个拍品仅缴纳一次；\n2.竞拍成功：保证金不抵扣贷款，中拍者需要支付贷款后系统自动原路退还保证金；若超时未付款系统将自动扣除并赔偿给卖家；\n3.竞拍失败：拍品截拍后，未中拍人员的保证金系统将自动原路退回；\n4.保证金支付及退回记录查看路径:我的-资产明细-余额明细。"
+        android:textColor="@color/black" />
+
+    <include layout="@layout/include_line_a" />
+
+    <TextView
+        android:id="@+id/dialog_know"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:gravity="center"
+        android:text="我知道了"
+        android:textColor="@color/home_title_bg" />
+
+</com.ruffian.library.widget.RLinearLayout>
+

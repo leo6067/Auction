@@ -8,7 +8,7 @@ public class Constants {
 
     public static boolean logGone = false;
     public static String BASE_URL = "";
-    private static String WEB_BASE_URL = "";
+    public static String WEB_BASE_URL = "";
 
 
     //正式版 true , 地址切换
@@ -26,6 +26,11 @@ public class Constants {
 
 
     public static class Nouns {   //名词类，文件名，
+
+
+
+        public final static String PACK_NAME = "com.leo.auction";
+
         //app更新下载本地的文件名
         public final static String APK_NAME = "auction.apk";
         //log
@@ -188,6 +193,14 @@ public class Constants {
 
 
         public static String WEB_REPROCT_URL =WEB_BASE_URL+"auction-web/pages/sub/complaint/list?productInstanceCode=";// 举报
+        public static String SHARE_PRODUCT_URL =WEB_BASE_URL+"auction-web/pages/sub/product/productDetail?productInstanceCode=";// 分享拍品详情
+        public static String SHARE_SHOP_URL =WEB_BASE_URL+"auction-web/pages/sub/mercahnt/index?shopUri=";// 分享拍品详情
+        public static String QRCODE_URL =WEB_BASE_URL+"auction-web?tpm_shareAgentId=";// 生成二维码
+
+
+
+
+
 
     }
 
@@ -222,8 +235,15 @@ public class Constants {
         public static String LOGINOUT_URL = domain+"user/logout";
 
 
+        //协议
+        public static String SCENE_URL = domain+"strategy/scene";
+
+
+        //生成分享二维码
+        public static String QCODE_URL = domain+"spread/qrcode";
+
         //oss
-        public static String OSS_FOLDER = BASE_URL+"Android";
+        public static String OSS_FOLDER =   "Android";
         public static String OSS_COMMON_URL = domain+"platform/oss";
         public static String OSS_FOLDER_IMG_GOODS = OSS_FOLDER+"/goods/img";
         public static String OSS_FOLDER_IMG_USER = OSS_FOLDER+"/user/img";
@@ -403,6 +423,11 @@ public class Constants {
         public static String SPREAD_QRCODE_URL = domain + "spread/qrcode";
 
 
+
+
+        //是否关注店铺
+        public static String SHOP_FOCUS_URL = domain + "follow/is-follow";
+        public static String FOCUS_URL = domain + "follow";
     }
 
 

@@ -5,7 +5,7 @@
     android:id="@+id/title_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:paddingLeft="@dimen/dp_15"
     app:color_title="#000000"
     app:bar_style="white"
     app:size_title="@dimen/sp_36" />

@@ -17,20 +17,31 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
+import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.glide.GlideUtils;
 import com.aten.compiler.widget.title.TitleBar;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseModel;
+import com.leo.auction.base.BaseSharePerence;
+import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
+
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.net.ResultModel;
+import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.main.MainActivity;
+import com.leo.auction.ui.main.SharedActvity;
 import com.leo.auction.ui.main.home.fragment.ShopAllFragment;
 import com.leo.auction.ui.main.home.model.ShopModel;
+import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.utils.shared_dailog.SharedModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,6 +84,9 @@ public class ShopActivity extends BaseActivity {
     @BindView(R.id.tab_mine)
     TextView mTabMine;
 
+    @BindView(R.id.shop_focus)
+    TextView mShopFocus;
+
 
     private String[] mTitleStr = {"热门", "捡漏", "最新发布", "即将截拍"};
 
@@ -82,6 +96,7 @@ public class ShopActivity extends BaseActivity {
 
 
     private ArrayList<Fragment> mFragments = new ArrayList<>();
+    private ShopModel mShopModel;
 
     @Override
     public void setContentViewLayout() {
@@ -97,6 +112,8 @@ public class ShopActivity extends BaseActivity {
         mShopName.setText(shopName);
         Constants.Var.SHOP_TYPE = 0;
         mTitleBar.getTitleView().setText(shopName);
+        mTitleBar.setRightIcon(R.drawable.right_more);
+
         for (int i = 0; i < mTitleStr.length; i++) {
             mFragments.add(ShopAllFragment.newIntance(shopUri));
         }
@@ -156,17 +173,46 @@ public class ShopActivity extends BaseActivity {
         });
 
 
+        mShopFocus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                httpFocus();
+            }
+        });
+    }
+
+
+    public void httpFocus() {
+
+        showWaitDialog();
+        BaseModel.httpPostFocus(mShopModel.getData().getUserAccountId() + "", "1", new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                if (baseModel.getResult().isSuccess()) {
+                    ToastUtils.showShort("关注成功");
+                    mShopFocus.setVisibility(View.GONE);
+                } else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
+            }
+        });
+
+
     }
 
 
     @Override
     public void initData() {
         super.initData();
-
         HashMap<String, String> hashMap = new HashMap<>();
-
         hashMap.put("shopUri", shopUri);
-
         showWaitDialog();
         HttpRequest.httpGetString(Constants.Api.SHOP_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
@@ -177,10 +223,27 @@ public class ShopActivity extends BaseActivity {
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
-                ShopModel shopModel = JSONObject.parseObject(resultData, ShopModel.class);
-                upUi(shopModel.getData());
+                mShopModel = JSONObject.parseObject(resultData, ShopModel.class);
+                upUi(mShopModel.getData());
             }
         });
+
+
+        HttpRequest.httpGetString(Constants.Api.SHOP_FOCUS_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                ResultModel resultModel = JSONObject.parseObject(resultData, ResultModel.class);
+                if (resultModel.getData().equals("true")) {
+                    mShopFocus.setVisibility(View.GONE);
+                }
+            }
+        });
+
 
     }
 
@@ -190,6 +253,14 @@ public class ShopActivity extends BaseActivity {
         GlideUtils.loadImg(dataBean.getHeadImg(), mShopHead);
 //        dataBean.getLevel();  mShopLevel
 //        mShopName.setText(dataBean.g);
+
+
+        CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
+        String[] myLevelVPicS = commonJson.getSeller_level_pic().get(0).split("seller_level_");
+        String vipUrl = myLevelVPicS[0] + "seller_level_" + dataBean.getLevel() + ".png";
+        GlideUtils.loadImgDefault(vipUrl, mShopLevel);
+
+
         mShopMark.setText(dataBean.getRate());
         mShopFan.setText(dataBean.getFansNum());
 
@@ -200,15 +271,48 @@ public class ShopActivity extends BaseActivity {
             mShopStatus.setText("个人认证");
         }
 
-    }
 
+        ArrayList<String> shareShopTitlelList = CommonUsedData.getInstance().getShareShopTitlelList();
+
+        Random ra = new Random();
+        int anInt = ra.nextInt(shareShopTitlelList.size());
+        String shareTitle = "【锤定】" + shopName + shareShopTitlelList.get(anInt);
+
+
+        ArrayList<String> imgStr = new ArrayList<>();
+        imgStr.add(dataBean.getHeadImg());
+
+        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+
+        String type = "2";//1-推荐粉丝  2-推荐商家  3-拍品详情 4-超级仓库商品详情
+
+        mTitleBar.getRightView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (userJson == null) {
+                    ToastUtils.showShort("请先登录");
+                    return;
+                }
+                String path = Constants.WebApi.SHARE_SHOP_URL + dataBean.getShopUri()
+                        + "&tpm_shareAgentId=" + userJson.getUserId();
+
+                SharedModel sharedModel = new SharedModel(shareTitle, shareTitle, dataBean.getHeadImg(),
+                        "0.00", dataBean.getHeadImg(), type, path, dataBean.getShopUri(), userJson.getUserId(),
+                        Constants.Action.ACTION_ACTION);
+                SharedActvity.newIntance(ShopActivity.this, sharedModel, imgStr, shareTitle, "");
+            }
+        });
+
+
+    }
 
 
     @OnClick({R.id.tab_home, R.id.tab_sort, R.id.tab_focus, R.id.tab_news, R.id.tab_mine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tab_home:
-                MainActivity.newIntance(ShopActivity.this,0);
+                MainActivity.newIntance(ShopActivity.this, 0);
 
                 break;
             case R.id.tab_sort:

@@ -7,13 +7,43 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <TextView
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100"
-        android:gravity="center"
-        android:text="确认支付"
-        android:textColor="@color/color_404040"
-        android:textSize="@dimen/sp_30" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+
+
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_100"
+            android:gravity="center"
+            android:text="支付买家保证金"
+            android:textColor="@color/color_404040"
+            android:textSize="@dimen/sp_28" />
+
+
+        <TextView
+            android:id="@+id/dialog_earnest"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_100"
+            android:gravity="center"
+            android:text="保证金规则"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:textColor="@color/color_191919"
+            android:textSize="@dimen/sp_30" />
+
+
+
+    </RelativeLayout>
+
+
+
 
     <View
         android:layout_width="match_parent"

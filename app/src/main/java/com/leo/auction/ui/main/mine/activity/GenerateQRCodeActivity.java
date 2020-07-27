@@ -16,11 +16,13 @@ import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.base.BaseGlobal;
 import com.aten.compiler.utils.FileUtils;
 import com.aten.compiler.utils.ImageUtils;
+import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.glide.GlideUtils;
 import com.aten.compiler.widget.loadingView.SpinView02;
 import com.aten.compiler.widget.title.TitleBar;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseSharePerence;
+import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.model.GenerateQrcodeModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
@@ -88,13 +90,11 @@ public class GenerateQRCodeActivity extends BaseActivity {
     private void getQrCode() {
         String page = "", type = "";
         if ("推荐粉丝".equals(name)) {
-
             type = "1";
         } else if ("推荐商家".equals(name)) {
-
             type = "2";
         }
-        page = "https://cd.taojianlou.com/ut/auction-web?tpm_shareAgentId=" + userInfoModel.getUserId();
+        page = Constants.WebApi.QRCODE_URL + userInfoModel.getUserId();
         GenerateQrcodeModel.sendGenerateQrcodeRequest(type, page, false, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -105,12 +105,18 @@ public class GenerateQRCodeActivity extends BaseActivity {
             public void httpResponse(String resultData) {
 
                 GenerateQrcodeModel generateQrcodeModel = JSONObject.parseObject(resultData, GenerateQrcodeModel.class);
-                qrCode = generateQrcodeModel.getData().getQrcode();
+
+                if (!generateQrcodeModel.getResult().isSuccess()){
+                    ToastUtils.showShort("二维码生成失败");
+                    return;
+                }
+
+                qrCode = generateQrcodeModel.getData();
                 GlideUtils.getImageWidHeig(GenerateQRCodeActivity.this, bgPic, new GlideUtils.IGetImageData() {
                     @Override
                     public void sendData(int width, int height, double radio) {
-                        bgWidth = (int) getResources().getDimension(R.dimen.dp_442);
-                        bgHeight = (int) (getResources().getDimension(R.dimen.dp_442) / radio);
+                        bgWidth = (int) getResources().getDimension(R.dimen.dp_600);
+                        bgHeight = (int) (getResources().getDimension(R.dimen.dp_600) / radio);
                         relRadio = new BigDecimal(String.valueOf(bgWidth)).divide(new BigDecimal(width), 2, BigDecimal.ROUND_HALF_UP).doubleValue();//记录当前imagerview与原来图片的比例
                         showImg();
                     }
@@ -125,9 +131,10 @@ public class GenerateQRCodeActivity extends BaseActivity {
     private void showImg() {
         double rQrWidth = 0, rQrHeight = 0, rQrX = 0, rQrY = 0;
         switch (name) {
+            case "推荐粉丝":
             case "推荐商家":
-                rQrWidth = bgWidth * 0.45;
-                rQrHeight = rQrWidth;
+                rQrWidth = bgWidth * 0.32 ;
+                rQrHeight = rQrWidth*0.9 ;
                 rQrX = (bgWidth - rQrWidth - bgWidth * 0.015) / 2;
                 rQrY = bgHeight * 0.254;
                 break;
@@ -135,7 +142,6 @@ public class GenerateQRCodeActivity extends BaseActivity {
             case "首页二维码2":
             case "首页二维码3":
             case "代理二维码":
-            case "推荐粉丝":
                 rQrWidth = bgWidth * 0.175;
                 rQrHeight = rQrWidth;
                 rQrX = bgWidth * 0.758;
@@ -145,8 +151,8 @@ public class GenerateQRCodeActivity extends BaseActivity {
 
         final double finalRQrWidth = rQrWidth;
         final double finalRQrHeight = rQrHeight;
-        final double finalRQrX = rQrX;
-        final double finalRQrY = rQrY;
+        final double finalRQrX = rQrX *0.6;
+        final double finalRQrY = rQrY * 2.7;
         ivQrCodeBg.post(new Runnable() {
             @Override
             public void run() {
@@ -156,9 +162,9 @@ public class GenerateQRCodeActivity extends BaseActivity {
                 GlideUtils.loadImg(bgPic, ivQrCodeBg);
 
                 RelativeLayout.LayoutParams qrCodeParams = (RelativeLayout.LayoutParams) ivQrCode.getLayoutParams();
-                qrCodeParams.width = (int) finalRQrWidth;
+                qrCodeParams.width = (int) finalRQrWidth ;
                 qrCodeParams.height = (int) finalRQrHeight;
-                qrCodeParams.setMargins((int) finalRQrX, (int) finalRQrY, 0, 0);
+                qrCodeParams.setMargins((int) finalRQrX, (int) finalRQrY , 0, 0);
                 ivQrCode.setLayoutParams(qrCodeParams);
                 GlideUtils.loadImg(qrCode, ivQrCode);
 

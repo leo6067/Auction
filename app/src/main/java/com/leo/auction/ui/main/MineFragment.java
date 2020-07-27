@@ -182,9 +182,16 @@ public class MineFragment extends BaseFragment {
         if (!Constants.Var.ISLOGIN) {
             return;
         }
+
+
         try {
             String token = BaseSharePerence.getInstance().getUserJson().getH5Token();
-            String httpUrl = Constants.WebApi.WEB_MINE_URL + token;
+            String userId = BaseSharePerence.getInstance().getUserJson().getUserId();
+            String httpUrl = Constants.WebApi.WEB_MINE_URL + token + "&userId="+userId;
+
+            Globals.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + httpUrl);
+
+
             webLoad(httpUrl);
         } catch (Exception e) {
         }

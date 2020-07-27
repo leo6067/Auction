@@ -464,6 +464,16 @@ public static java.lang.String TABLENAME;
 -keep class com.huantansheng.easyphotos.models.** { *; }
 
 
+-dontwarn dalvik.**
+-dontwarn com.tencent.smtt.**
+
+-keep class com.tencent.smtt.** {
+    *;
+}
+
+-keep class com.tencent.tbs.** {
+    *;
+}
 
 
 

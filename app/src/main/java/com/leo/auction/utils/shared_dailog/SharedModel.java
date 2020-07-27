@@ -23,34 +23,13 @@ public class SharedModel implements Parcelable {
     private String shopHeadImg;
 
     //获取二维码需求的
-    private String id;
-    private String type;
-    private String sharePage;
-    private String shareGoodsId;
-    private String shareShopUri;
-    private String shareAgentId;
-    private String channelType;//0-频道类型 1-超级购 2-超人气 3-精选 4-首页 5-分类 6-店铺首页 7-收藏关注',
-    private String sourceId;
-    private String page;
 
-    public SharedModel(String picPath, String title, String price, String shopName, String shopHeadImg,
-                       String id, String type, String sharePage, String shareGoodsId, String shareShopUri,
-                       String shareAgentId, String channelType, String sourceId, String page) {
-        this.picPath = picPath;
-        this.title = title;
-        this.price = price;
-        this.shopName = shopName;
-        this.shopHeadImg = shopHeadImg;
-        this.id = id;
-        this.type = type;
-        this.sharePage = sharePage;
-        this.shareGoodsId = shareGoodsId;
-        this.shareShopUri = shareShopUri;
-        this.shareAgentId = shareAgentId;
-        this.channelType = channelType;
-        this.sourceId = sourceId;
-        this.page = page;
-    }
+    private String type;
+    private String shareUrl;
+    private String shareGoodsCode;
+
+    private String shareUserId;
+    private String channelType;//0-频道类型 1-超级购 2-超人气 3-精选 4-首页 5-分类 6-店铺首页 7-收藏关注',
 
     public String getPicPath() {
         return picPath;
@@ -92,14 +71,6 @@ public class SharedModel implements Parcelable {
         this.shopHeadImg = shopHeadImg;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getType() {
         return type;
     }
@@ -108,36 +79,28 @@ public class SharedModel implements Parcelable {
         this.type = type;
     }
 
-    public String getSharePage() {
-        return sharePage;
+    public String getShareUrl() {
+        return shareUrl;
     }
 
-    public void setSharePage(String sharePage) {
-        this.sharePage = sharePage;
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
     }
 
-    public String getShareGoodsId() {
-        return shareGoodsId;
+    public String getShareGoodsCode() {
+        return shareGoodsCode;
     }
 
-    public void setShareGoodsId(String shareGoodsId) {
-        this.shareGoodsId = shareGoodsId;
+    public void setShareGoodsCode(String shareGoodsCode) {
+        this.shareGoodsCode = shareGoodsCode;
     }
 
-    public String getShareShopUri() {
-        return shareShopUri;
+    public String getShareUserId() {
+        return shareUserId;
     }
 
-    public void setShareShopUri(String shareShopUri) {
-        this.shareShopUri = shareShopUri;
-    }
-
-    public String getShareAgentId() {
-        return shareAgentId;
-    }
-
-    public void setShareAgentId(String shareAgentId) {
-        this.shareAgentId = shareAgentId;
+    public void setShareUserId(String shareUserId) {
+        this.shareUserId = shareUserId;
     }
 
     public String getChannelType() {
@@ -148,21 +111,48 @@ public class SharedModel implements Parcelable {
         this.channelType = channelType;
     }
 
-    public String getSourceId() {
-        return sourceId;
+    public SharedModel(String shopName, String title, String picPath, String price, String shopHeadImg,
+                       String type, String shareUrl, String shareGoodsCode,
+                       String shareUserId, String channelType ) {
+        this.picPath = picPath;
+        this.title = title;
+        this.price = price;
+        this.shopName = shopName;
+        this.shopHeadImg = shopHeadImg;
+
+        this.type = type;
+        this.shareUrl = shareUrl;
+        this.shareGoodsCode = shareGoodsCode;
+        this.shareUserId = shareUserId;
+        this.channelType = channelType;
+
     }
 
-    public void setSourceId(String sourceId) {
-        this.sourceId = sourceId;
+
+    protected SharedModel(Parcel in) {
+        picPath = in.readString();
+        title = in.readString();
+        price = in.readString();
+        shopName = in.readString();
+        shopHeadImg = in.readString();
+        type = in.readString();
+        shareUrl = in.readString();
+        shareGoodsCode = in.readString();
+        shareUserId = in.readString();
+        channelType = in.readString();
     }
 
-    public String getPage() {
-        return page;
-    }
+    public static final Creator<SharedModel> CREATOR = new Creator<SharedModel>() {
+        @Override
+        public SharedModel createFromParcel(Parcel in) {
+            return new SharedModel(in);
+        }
 
-    public void setPage(String page) {
-        this.page = page;
-    }
+        @Override
+        public SharedModel[] newArray(int size) {
+            return new SharedModel[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -171,48 +161,15 @@ public class SharedModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.picPath);
-        dest.writeString(this.title);
-        dest.writeString(this.price);
-        dest.writeString(this.shopName);
-        dest.writeString(this.shopHeadImg);
-        dest.writeString(this.type);
-        dest.writeString(this.sharePage);
-        dest.writeString(this.shareGoodsId);
-        dest.writeString(this.shareShopUri);
-        dest.writeString(this.shareAgentId);
-        dest.writeString(this.channelType);
-        dest.writeString(this.sourceId);
-        dest.writeString(this.page);
+        dest.writeString(picPath);
+        dest.writeString(title);
+        dest.writeString(price);
+        dest.writeString(shopName);
+        dest.writeString(shopHeadImg);
+        dest.writeString(type);
+        dest.writeString(shareUrl);
+        dest.writeString(shareGoodsCode);
+        dest.writeString(shareUserId);
+        dest.writeString(channelType);
     }
-
-    protected SharedModel(Parcel in) {
-        this.id = in.readString();
-        this.picPath = in.readString();
-        this.title = in.readString();
-        this.price = in.readString();
-        this.shopName = in.readString();
-        this.shopHeadImg = in.readString();
-        this.type = in.readString();
-        this.sharePage = in.readString();
-        this.shareGoodsId = in.readString();
-        this.shareShopUri = in.readString();
-        this.shareAgentId = in.readString();
-        this.channelType = in.readString();
-        this.sourceId = in.readString();
-        this.page = in.readString();
-    }
-
-    public static final Creator<SharedModel> CREATOR = new Creator<SharedModel>() {
-        @Override
-        public SharedModel createFromParcel(Parcel source) {
-            return new SharedModel(source);
-        }
-
-        @Override
-        public SharedModel[] newArray(int size) {
-            return new SharedModel[size];
-        }
-    };
 }

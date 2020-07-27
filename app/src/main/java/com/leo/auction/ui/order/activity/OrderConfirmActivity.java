@@ -1,7 +1,5 @@
 package com.leo.auction.ui.order.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,13 +19,12 @@ import com.aten.compiler.widget.glide.GlideUtils;
 import com.aten.compiler.widget.title.TitleBar;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseSharePerence;
-import com.leo.auction.base.CommonlyUsedData;
+import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.UserActionUtils;
 import com.leo.auction.ui.main.home.dialog.PayPwdBoardUtils;
 import com.leo.auction.ui.main.home.model.PayModel;
-import com.leo.auction.ui.main.mine.activity.AddressActivity;
 import com.leo.auction.ui.main.mine.model.AddressModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.order.model.OrderListModel;
@@ -40,7 +37,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
@@ -146,13 +142,13 @@ public class OrderConfirmActivity extends BaseActivity implements SetPaypwdUtils
         });
     }
 
-    public void initUI(){
+    public void initUI() {
         mTitleBar.setTitle("确认订单");
-        GlideUtils.loadImg(dataBean.getHeadImg(),mOrderHead);
+        GlideUtils.loadImg(dataBean.getHeadImg(), mOrderHead);
         mOrderShopName.setText(dataBean.getNickname());
         OrderListModel.DataBean.ItemsBean itemsBean = dataBean.getItems().get(0);
         mTvProductTitle.setText(itemsBean.getTitle());
-        GlideUtils.loadImg(itemsBean.getFirstPic(),mRivProductPic);
+        GlideUtils.loadImg(itemsBean.getFirstPic(), mRivProductPic);
 //        mItemTime.setText("付款剩余："+ itemsBean.getPrice());
         mItemPrice.setText("成交金额：￥" + itemsBean.getPrice());
 
@@ -180,7 +176,7 @@ public class OrderConfirmActivity extends BaseActivity implements SetPaypwdUtils
         }
 
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonlyUsedData.getInstance().getOrderPayTypeData(userJson.getBalance(), payment);
+        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonUsedData.getInstance().getOrderPayTypeData(userJson.getBalance(), payment);
         payInputPwdBoardUtils.showPayTypeDialog(OrderConfirmActivity.this, payment,
                 orderPayTypeModels, this);
     }
@@ -226,18 +222,22 @@ public class OrderConfirmActivity extends BaseActivity implements SetPaypwdUtils
 //            UserActionUtils.actionLog("0","3",item.getGoodsId(),payItemTag.getShopUri(),"1");
             UserActionUtils.actionLog("0", "3", item.getInstanceCode(), "1");
         }
-
+        payInputPwdBoardUtils.dismissPayPasswordDialog();
         PayModel.httpPay(2, "order", Integer.valueOf(payment), orderCode, null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                payInputPwdBoardUtils.dismissPayPasswordDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
                 PayModel payModel = JSONObject.parseObject(resultData, PayModel.class);
+                if (payModel.getResult().isSuccess()) {
+                    ToastUtils.showShort("支付成功");
+                } else {
+                    ToastUtils.showShort(payModel.getResult().getMessage());
+                }
 
-                payInputPwdBoardUtils.dismissPayPasswordDialog();
 //                OrderStatusActivity.newIntance(getContext(),shopUri,"0");
             }
         });
@@ -251,10 +251,10 @@ public class OrderConfirmActivity extends BaseActivity implements SetPaypwdUtils
         }
 
 
+        payInputPwdBoardUtils.dismissPayPasswordDialog();
         PayModel.httpPay(1, "order", Integer.valueOf(payment), orderCode, null, "", "", null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                payInputPwdBoardUtils.dismissPayPasswordDialog();
             }
 
             @Override

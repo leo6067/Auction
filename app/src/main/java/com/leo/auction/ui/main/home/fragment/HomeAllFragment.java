@@ -113,7 +113,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
         recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
+        mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_10)) * 2);
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
@@ -221,7 +221,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
             return;
         }
 
-//        Globals.log("XXXXXXXXXXXX homeType" +homeType);
+
 
 
         hashMap.put("keyword", "");

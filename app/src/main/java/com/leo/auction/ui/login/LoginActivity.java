@@ -38,6 +38,7 @@ import com.leo.auction.ui.login.model.LoginVerModel;
 import com.leo.auction.ui.login.model.SmsCodeModel;
 
 import com.leo.auction.ui.main.MainActivity;
+import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 import com.tencent.smtt.sdk.CookieSyncManager;
@@ -211,8 +212,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 login();
                 break;
             case R.id.iv_close:
+                ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.setCurrent(0);
 
-                MainActivity.newIntance(LoginActivity.this, 0);
                 finish();
                 break;
             case R.id.iv_wx_login:
@@ -300,13 +302,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
-                Globals.log("xxxxxx resultData"  +resultData);
+
                 LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                 if (loginModel.getResult().isSuccess()){
                     ToastUtils.showShort("登录成功");
                     httpUser();
                     BaseSharePerence.getInstance().setLoginJson(resultData);
-                    MainActivity.newIntance(LoginActivity.this, 0);
+                    ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
+                    ActivityManager.mainActivity.setCurrent(0);
                     finish();
                 }
             }
@@ -352,7 +355,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             ToastUtils.showShort("登录成功");
                             httpUser();
                             BaseSharePerence.getInstance().setLoginJson(resultData);
-                            MainActivity.newIntance(LoginActivity.this, 0);
+                            ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
+                            ActivityManager.mainActivity.setCurrent(0);
+
                             finish();
                         }
                     }

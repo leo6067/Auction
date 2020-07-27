@@ -15,8 +15,8 @@ public class BaseGlobal {
     /**
      * 根目录
      */
-    private static String BASE_SDCARD_DIR =  Environment.getExternalStorageDirectory() + "/com.tjl.super_warehouse";
-    private static String BASE_DIR =  RxTool.getContext().getCacheDir().toString() + "/com.tjl.super_warehouse";
+    private static String BASE_SDCARD_DIR =  Environment.getExternalStorageDirectory() + "/com.leo.auction" ;
+    private static String BASE_DIR =  RxTool.getContext().getCacheDir().toString() + "/com.leo.auction";
 
     private final static String IMAGE_DIR = "/image/";
     private final static String QRCODE_DIR = "/qrCode/";

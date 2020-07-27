@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.arialyy.aria:publicComponent:3.8.5@aar">
+    <CLASSES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/72c583945926eb8e05d3b1e382601d0a/publicComponent-3.8.5/jars/classes.jar!/" />
+      <root url="file://D:/dev/android/gradle/gradle-4.4/caches/transforms-2/files-2.1/72c583945926eb8e05d3b1e382601d0a/publicComponent-3.8.5/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.arialyy.aria/publicComponent/3.8.5/54708c47b6803cbc75ff01cc22b37a007966e29b/publicComponent-3.8.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/dev/android/gradle/gradle-4.4/caches/modules-2/files-2.1/com.arialyy.aria/publicComponent/3.8.5/f9480bab9492717a6ad4cdd169a4b279b1dd70f7/publicComponent-3.8.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

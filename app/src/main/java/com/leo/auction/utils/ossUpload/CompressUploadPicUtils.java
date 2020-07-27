@@ -16,7 +16,7 @@ import com.huantansheng.easyphotos.callback.SelectCallback;
 import com.huantansheng.easyphotos.engine.GlideEngine;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.leo.auction.R;
-import com.leo.auction.base.CommonlyUsedData;
+import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.utils.qrCode.CodeUtils;
 
@@ -72,7 +72,7 @@ public class CompressUploadPicUtils {
         domain = decryOssDataModel.getDomain();
 
         releasePicDialog = new BottomListDialog(activity, activity.getResources().getString(R.string.pager_personal_pic_comefrom),
-                CommonlyUsedData.getInstance().getPhotoChooseData(),
+                CommonUsedData.getInstance().getPhotoChooseData(),
                 -1, new BottomListDialog.IAdapter() {
             @Override
             public void onItemClick(String str, int positoion) {

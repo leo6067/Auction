@@ -181,7 +181,7 @@
         <com.ruffian.library.widget.RTextView
             android:id="@+id/commit_tv"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_58"
+            android:layout_height="@dimen/dp_77"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/dp_35"
             android:layout_marginTop="@dimen/dp_35"
@@ -251,14 +251,15 @@
 
         <com.ruffian.library.widget.RTextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_58"
+            android:layout_height="@dimen/dp_77"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/dp_35"
             android:layout_marginTop="@dimen/dp_35"
             android:layout_marginEnd="@dimen/dp_35"
+            app:corner_radius="@dimen/dp_5"
             android:gravity="center"
-            android:text="已提交"
+            android:text="已认证成功"
             android:textColor="@color/white"
-            app:background_normal="@color/indianred" />
+            app:background_normal="@color/item_baoyou" />
     </LinearLayout>
 </LinearLayout>

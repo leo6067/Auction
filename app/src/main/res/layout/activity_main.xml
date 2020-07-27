@@ -17,7 +17,8 @@
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/common_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_88"
+        android:layout_gravity="center"
         android:background="@color/white"
         app:tl_textSelectColor="@color/home_title_bg"
         app:tl_textUnselectColor="@color/dimgrey" />

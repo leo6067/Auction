@@ -35,8 +35,7 @@ import com.leo.auction.ui.main.mine.dialog.TimeDialog;
 import com.leo.auction.ui.main.mine.model.AuctionTimeModel;
 import com.leo.auction.ui.main.mine.model.GoodDetailModel;
 import com.leo.auction.ui.main.mine.model.NewestModel;
-import com.leo.auction.ui.main.mine.model.NewestReleaseProductModel;
-import com.leo.auction.ui.main.mine.model.ReleaseAuctionAttrModel;
+
 import com.leo.auction.ui.main.mine.model.ReleaseEditModel;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.ui.main.mine.model.TimeDialogModel;
