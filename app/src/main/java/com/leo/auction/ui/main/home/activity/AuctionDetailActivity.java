@@ -272,6 +272,8 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                     public void httpResponse(String resultData) {
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
+                            //更新收藏列表
+                            BroadCastReceiveUtils.sendLocalBroadCast(AuctionDetailActivity.this,Constants.Action.ACTION_FOCUS_TYPE);
                             if (collect) {  // 0-取消 1-收藏
                                 mDetailCollect.setImageResource(R.drawable.goods_uncollect);
                                 ToastUtils.showShort("取消收藏成功");

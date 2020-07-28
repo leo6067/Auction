@@ -30,6 +30,7 @@ import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.FocusAdapter;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
+import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
 
@@ -58,6 +59,8 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
     BroadCastReceiveUtils mBroadCastReceiveUtils = new BroadCastReceiveUtils() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            mPageNum = 1;
+            Globals.log("xxxxxxxxxlog  Constants.Var.FOCUS_TYPE  00   " + Constants.Var.FOCUS_TYPE);
             onRefresh(refreshLayout);
         }
     };
@@ -70,12 +73,6 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
 
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        enableLazyLoad();
-    }
-
 
 
     @Override
@@ -84,18 +81,16 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        onRefresh(refreshLayout);
-    }
+
 
     @Override
     public void initData() {
         super.initData();
+
         if (Constants.Var.FOCUS_TYPE == 0) {
             onRefresh(refreshLayout);
         }
+
 
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_FOCUS_TYPE, mBroadCastReceiveUtils);
     }
@@ -156,6 +151,7 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
 
         int focusType = Constants.Var.FOCUS_TYPE;
 
+        Globals.log("xxxxxxxxxlog  Constants.Var.FOCUS_TYPE" + Constants.Var.FOCUS_TYPE);
 
 
         if (focusType == 0) {  //关注--拍品
@@ -199,7 +195,7 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
                 }
 
                 if (homeListModel.getData().isEmpty()) {
-                    mPageNum = 0;
+                    mPageNum = 1;
                 } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {

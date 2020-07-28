@@ -246,7 +246,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
                 }
 
                 if (homeListModel.getData().isEmpty()) {
-                    mPageNum = 0;
+                    mPageNum = 1;
                 } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {

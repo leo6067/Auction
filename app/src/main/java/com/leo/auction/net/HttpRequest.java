@@ -57,7 +57,6 @@ public class HttpRequest {
                     @Override
                     public void onResponse(String result, int id) {
                         Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
-
                         ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
                         if ("5002".equals(jsonObject.getResult().getCode()) || "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
                             //刷新首页

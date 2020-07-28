@@ -87,10 +87,17 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
         });
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh(refreshLayout);
+    }
+
     @Override
     public void initData() {
         super.initData();
-        onRefresh(refreshLayout);
+
     }
 
     @Override
@@ -116,7 +123,7 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
                 }
 
                 if (sortShopModel.getData().isEmpty()) {
-                    mPageNum = 0;
+                    mPageNum = 1;
                 } else if (sortShopModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
                 } else {

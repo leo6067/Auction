@@ -87,12 +87,13 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
                     mAdapter.loadMoreComplete();
                 }
 
-                if (mPageNum > 1 && addressModel.getData().isEmpty()) {
-                    if (addressModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
-                        mAdapter.loadMoreEnd(true);
-                    } else {
-                        mAdapter.loadMoreEnd();
-                    }
+
+                if (addressModel.getData().isEmpty()) {
+                    mPageNum = 1;
+                } else if (addressModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                    mAdapter.loadMoreEnd(true);
+                } else {
+                    mAdapter.loadMoreEnd();
                 }
             }
         });
@@ -145,11 +146,11 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
                 hideWaitDialog();
 
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-                if (baseModel.getResult().isSuccess()){
+                if (baseModel.getResult().isSuccess()) {
                     ToastUtils.showShort("删除成功");
                     setResult(RESULT_OK);
                     goFinish();
-                }else {
+                } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
                 }
             }

@@ -177,12 +177,13 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
                     mAdapter.loadMoreComplete();
                 }
 
-                if (mPageNum > 1 && !orderDatas.isEmpty()) {
-                    if (returnData.getData().size() > Constants.Var.LIST_NUMBER_INT) {
-                        mAdapter.loadMoreEnd(true);
-                    } else {
-                        mAdapter.loadMoreEnd();
-                    }
+
+                if (returnData.getData().isEmpty()) {
+                    mPageNum = 1;
+                } else if (returnData.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                    mAdapter.loadMoreEnd(true);
+                } else {
+                    mAdapter.loadMoreEnd();
                 }
             }
         });

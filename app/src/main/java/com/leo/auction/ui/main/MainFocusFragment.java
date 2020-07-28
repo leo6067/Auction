@@ -20,6 +20,7 @@ import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.fragment.FocusAllFragment;
 import com.leo.auction.ui.main.home.fragment.FocusShopFragment;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
+import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
 
@@ -73,6 +74,8 @@ public class MainFocusFragment extends BaseFragment {
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
+
+                Globals.log("hhhhhhhhhhhhhhhh"  + position);
                 Constants.Var.FOCUS_TYPE = position ;
                 mViewPager.setCurrentItem(position);
                 BroadCastReceiveUtils.sendLocalBroadCast(getActivity(),Constants.Action.ACTION_FOCUS_TYPE);
@@ -94,8 +97,10 @@ public class MainFocusFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-
+                Globals.log("hhhhhhhhhhhhhhhh 01  "  + position);
+                Constants.Var.FOCUS_TYPE = position ;
                 mSegmentTabLayout.setCurrentTab(position);
+                BroadCastReceiveUtils.sendLocalBroadCast(getActivity(),Constants.Action.ACTION_FOCUS_TYPE);
             }
 
             @Override

@@ -78,11 +78,11 @@ public class HomeSearchActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 String keyWord = mSearchSearch.getText().toString().trim();
-                Globals.log("log xxxx actionId" + actionId   +"  keyWord "+ keyWord);
+                Globals.log("log xxxx actionId" + actionId + "  keyWord " + keyWord);
 
-                if ((actionId ==1 || actionId ==3) && event != null){
+                if ((actionId == 1 || actionId == 3) && event != null) {
 //                    String keyWord = mSearchSearch.getText().toString().trim();
-                    BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this,Constants.Action.ACTION_HOME_SEARCH,keyWord);
+                    BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this, Constants.Action.ACTION_HOME_SEARCH, keyWord);
                 }
                 return false;
             }
@@ -93,7 +93,9 @@ public class HomeSearchActivity extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 String keyWord = mSearchSearch.getText().toString().trim();
-                BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this,Constants.Action.ACTION_HOME_SEARCH,keyWord);
+                if (!hasFocus) {
+                    BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this, Constants.Action.ACTION_HOME_SEARCH, keyWord);
+                }
             }
         });
 
@@ -101,12 +103,13 @@ public class HomeSearchActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String keyWord = mSearchSearch.getText().toString().trim();
-                BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this,Constants.Action.ACTION_HOME_SEARCH,keyWord);
+
+                BroadCastReceiveUtils.sendLocalBroadCast(HomeSearchActivity.this, Constants.Action.ACTION_HOME_SEARCH, keyWord);
+
             }
         });
 
     }
-
 
 
     @OnClick(R.id.search_back)

@@ -174,13 +174,18 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
                 }
 
 
-                if (mPageNum > 1 && homeListModel.getData().isEmpty()) {
-                    if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
-                        mAdapter.loadMoreEnd(true);
-                    } else {
-                        mAdapter.loadMoreEnd();
-                    }
+                if (homeListModel.getData().isEmpty()) {
+                    mPageNum = 1;
+                } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                    mAdapter.loadMoreEnd(true);
+                } else  {
+                    mAdapter.loadMoreEnd();
                 }
+
+
+
+
+
             }
         });
     }

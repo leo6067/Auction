@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_400"
             android:alpha="0.03"
-            android:scaleType="center" />
+            android:scaleType="fitXY" />
 
 
     </RelativeLayout>
@@ -38,6 +38,7 @@
 
         <ImageView
             android:id="@+id/bt_price_iv"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/home_item_price" />

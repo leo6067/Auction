@@ -34,7 +34,7 @@ import okhttp3.Call;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AmountDetailsFragment extends BaseRecyclerViewFragment implements SubTitleAdapter.ISubTitleListener{
+public class AmountDetailsFragment extends BaseRecyclerViewFragment implements SubTitleAdapter.ISubTitleListener {
 
 
     @BindView(R.id.rl_sub_title)
@@ -47,11 +47,10 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
     private SubTitleAdapter subTitleAdapter;
     private String parentType = "";
     private String changeType = "";
-    private String startTime="";
-    private String endTime="";
+    private String startTime = "";
+    private String endTime = "";
 
     private CustomBubblePopup02 customBubblePopup;
-
 
 
     public AmountDetailsFragment() {
@@ -100,7 +99,7 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
         setSmartHasRefreshOrLoadMore();
         setLoadMore();
 
-        ((AmountDetailsAdapter)mAdapter).setOnItemListener(mOnItemListener);
+        ((AmountDetailsAdapter) mAdapter).setOnItemListener(mOnItemListener);
     }
 
     @Override
@@ -117,7 +116,7 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
 
                 AmountDetailsModel returnData = JSONObject.parseObject(resultData, AmountDetailsModel.class);
                 List<AmountDetailsModel.DataBean> datas = returnData.getData();
-                if (datas!=null){
+                if (datas != null) {
                     if (mPageNum == 1) {
                         mAdapter.setNewData(datas);
                     } else {
@@ -125,15 +124,15 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
                         mAdapter.loadMoreComplete();
                     }
 
-                    if (mPageNum > 1 && !datas.isEmpty()) {
-                        if (datas.size() > Constants.Var.LIST_NUMBER_INT) {
-                            mAdapter.loadMoreEnd(true);
-                        } else {
-                            mAdapter.loadMoreEnd();
-                        }
+
+                    if (returnData.getData().isEmpty()) {
+                        mPageNum = 1;
+                    } else if (returnData.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                        mAdapter.loadMoreEnd(true);
+                    } else {
+                        mAdapter.loadMoreEnd();
                     }
                 }
-
             }
         });
 
@@ -150,16 +149,16 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
 
     //显示时间筛选的弹框
     private void showChooseInvitationTypePop() {
-        TimeWheelUtils.getInstance().isShowDay(true,true,true,
-                false,true,true);
-        customBubblePopup = new CustomBubblePopup02(getContext(),startTime,endTime,new CustomBubblePopup02.OnPopListener() {
+        TimeWheelUtils.getInstance().isShowDay(true, true, true,
+                false, true, true);
+        customBubblePopup = new CustomBubblePopup02(getContext(), startTime, endTime, new CustomBubblePopup02.OnPopListener() {
 
             @Override
             public void onStartTime(final TextView tvStart) {
-                TimeWheelUtils.getInstance().showTimeWheel(getContext(),"日期", new TimeWheelUtils.TimeWheelClickListener() {
+                TimeWheelUtils.getInstance().showTimeWheel(getContext(), "日期", new TimeWheelUtils.TimeWheelClickListener() {
                     @Override
                     public void onchooseDate(String dateInfo) {
-                        startTime=dateInfo;
+                        startTime = dateInfo;
                         tvStart.setText(dateInfo);
                         customBubblePopup.dismiss();
                         onRefresh(refreshLayout);
@@ -169,10 +168,10 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
 
             @Override
             public void onEndTime(final TextView tvEnd) {
-                TimeWheelUtils.getInstance().showTimeWheel(getContext(),"日期", new TimeWheelUtils.TimeWheelClickListener() {
+                TimeWheelUtils.getInstance().showTimeWheel(getContext(), "日期", new TimeWheelUtils.TimeWheelClickListener() {
                     @Override
                     public void onchooseDate(String dateInfo) {
-                        endTime=dateInfo;
+                        endTime = dateInfo;
                         tvEnd.setText(dateInfo);
                         customBubblePopup.dismiss();
                         onRefresh(refreshLayout);
@@ -192,19 +191,19 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
 
     @Override
     public void onSubTitleItemListener(String changeType) {
-        startTime="";
-        endTime="";
+        startTime = "";
+        endTime = "";
         this.changeType = changeType;
         onRefresh(refreshLayout);
     }
 
     //订单item点击
-    private View.OnClickListener mOnItemListener=new View.OnClickListener() {
+    private View.OnClickListener mOnItemListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String orderId= (String) v.getTag();
-            if (!EmptyUtils.isEmpty(orderId)){
-                BalanceDetailActivity.newIntance(getContext(),orderId,"1");
+            String orderId = (String) v.getTag();
+            if (!EmptyUtils.isEmpty(orderId)) {
+                BalanceDetailActivity.newIntance(getContext(), orderId, "1");
             }
         }
     };
@@ -212,17 +211,17 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (customBubblePopup!=null&&customBubblePopup.isShowing()){
+        if (customBubblePopup != null && customBubblePopup.isShowing()) {
             customBubblePopup.dismiss();
-            customBubblePopup=null;
+            customBubblePopup = null;
         }
     }
 
-    public static AmountDetailsFragment newIntance(String id,ArrayList<BalanceCategoryModel.DataBean.ChildrenBean> childrenTabData) {
-        AmountDetailsFragment amountDetailsFragment=new AmountDetailsFragment();
+    public static AmountDetailsFragment newIntance(String id, ArrayList<BalanceCategoryModel.DataBean.ChildrenBean> childrenTabData) {
+        AmountDetailsFragment amountDetailsFragment = new AmountDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("id",id);
-        bundle.putParcelableArrayList("childrenTabData",childrenTabData);
+        bundle.putString("id", id);
+        bundle.putParcelableArrayList("childrenTabData", childrenTabData);
         amountDetailsFragment.setArguments(bundle);
         return amountDetailsFragment;
     }

@@ -20,6 +20,7 @@ import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.home.adapter.BusinessAdapter;
 import com.leo.auction.ui.main.home.model.SupplierModel;
+import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
 
@@ -31,13 +32,13 @@ import okhttp3.Call;
 public class BusinessFragment extends BaseRecyclerViewFragment {
 
 
-
     private String keyWord = "";
 
     BroadCastReceiveUtils mReceiveUtils = new BroadCastReceiveUtils() {
         @Override
         public void onReceive(Context context, Intent intent) {
             keyWord = intent.getStringExtra("value");
+            Globals.log("xxxxxxxxxxxxx mReceiveUtils");
             onRefresh(refreshLayout);
         }
     };
@@ -53,14 +54,18 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
     }
 
 
-
-
     @Override
-    public void initData() {
-        super.initData();
-        BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_SEARCH, mReceiveUtils);
-    }
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+// TODO Auto-generated method stub
+        super.setUserVisibleHint(isVisibleToUser);
 
+        if (getUserVisibleHint()) {
+            onRefresh(refreshLayout);
+            Globals.log("xxxxxxxxxxxxx mReceiveUtils  00");
+            BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_SEARCH, mReceiveUtils);
+        }
+
+    }
 
 
     @Override
@@ -71,22 +76,15 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                SupplierModel.DataBean dataBean = (SupplierModel.DataBean)mAdapter.getData().get(position);
+                SupplierModel.DataBean dataBean = (SupplierModel.DataBean) mAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("shopUri",dataBean.getProductUser().getUserId());
-                bundle.putString("shopName",dataBean.getProductUser().getNickname());
-                ActivityManager.JumpActivity(getActivity(), ShopActivity.class,bundle);
-
+                bundle.putString("shopUri", dataBean.getProductUser().getUserId());
+                bundle.putString("shopName", dataBean.getProductUser().getNickname());
+                ActivityManager.JumpActivity(getActivity(), ShopActivity.class, bundle);
             }
         });
 
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        onRefresh(refreshLayout);
     }
 
 
@@ -117,13 +115,14 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
                 }
 
 
-                if (mPageNum > 1 && !supplierModel.getData().isEmpty()) {
-                    if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
-                        mAdapter.loadMoreEnd(true);
-                    } else {
-                        mAdapter.loadMoreEnd();
-                    }
+                if (supplierModel.getData().isEmpty()) {
+                    mPageNum = 1;
+                } else if (mAdapter.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                    mAdapter.loadMoreEnd(true);
+                } else {
+                    mAdapter.loadMoreEnd();
                 }
+
             }
         });
     }
@@ -132,6 +131,6 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        BroadCastReceiveUtils.unregisterLocalReceiver(getActivity(),mReceiveUtils);
+        BroadCastReceiveUtils.unregisterLocalReceiver(getActivity(), mReceiveUtils);
     }
 }

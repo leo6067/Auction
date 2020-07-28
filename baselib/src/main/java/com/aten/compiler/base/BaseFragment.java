@@ -234,6 +234,10 @@ public abstract class BaseFragment extends Fragment {
         if (!TextUtils.isEmpty(tip)) {
             hud.setLabel(tip);
         }
+
+        if (hud.isShowing()){
+            return;
+        }
         hud.show();
     }
 

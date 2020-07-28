@@ -292,12 +292,13 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
                 }
 
                 if (productListModel.getData().isEmpty()) {
-                    mPageNum = 0;
+                    mPageNum = 1;
                 } else if (productListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
-                } else {
+                } else  {
                     mAdapter.loadMoreEnd();
                 }
+
             }
         });
 

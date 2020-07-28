@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_120"
     android:orientation="horizontal"
-    android:padding="@dimen/dp_7">
+    android:padding="@dimen/dp_12">
 
 
     <com.ruffian.library.widget.RImageView
@@ -53,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/item_name"
+            android:layout_marginStart="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_toRightOf="@+id/item_mark"
             tools:text="评分 0" />

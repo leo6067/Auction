@@ -132,6 +132,10 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     public void onLoadMoreRequested() {
         mPageNum++;
         getData();
+        if (refreshLayout != null) {
+            refreshLayout.finishLoadMore(600);
+        }
+
     }
 
     //关闭刷新的view
