@@ -87,6 +87,9 @@ public class Constants {
         public final static int LAYOUT_TYPE = 1 ;
         public final static String LIST_NUMBER = "25" ;
         public final static int LIST_NUMBER_INT = 25 ;
+        public final static String LIST_NUMBER_F = "5" ;
+        public final static int LIST_NUMBER_INT_F= 5 ;
+
         public final static String COMMON_PROTOCOL = "common_Protocol";
         public final static String HAS_ADDRESS = "has_address";
 
@@ -198,6 +201,9 @@ public class Constants {
         public static String SHARE_PRODUCT_URL =WEB_BASE_URL+"auction-web/pages/sub/product/productDetail?productInstanceCode=";// 分享拍品详情
         public static String SHARE_SHOP_URL =WEB_BASE_URL+"auction-web/pages/sub/mercahnt/index?shopUri=";// 分享拍品详情
         public static String QRCODE_URL =WEB_BASE_URL+"auction-web?tpm_shareAgentId=";// 生成二维码
+
+
+        public static String YZM_URL =" https://w.taojianlou.com/super-store/hd2.html";// 登录验证码
 
 
 

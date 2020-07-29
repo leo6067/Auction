@@ -55,6 +55,15 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
             public void soreOnListener() {
                 onRefresh(refreshLayout);
             }
+
+            @Override
+            public void soreItemListener(int layoutPosition) {
+                SortShopModel.DataBean json = ( SortShopModel.DataBean )mAdapter.getData().get(layoutPosition);
+                Bundle bundle = new Bundle();
+                bundle.putString("shopUri",json.getProductUser().getUserId());
+                bundle.putString("shopName",json.getProductUser().getNickname());
+                ActivityManager.JumpActivity(getActivity(), ShopActivity.class,bundle);
+            }
         });
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -64,6 +73,8 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
                 bundle.putString("shopUri",json.getProductUser().getUserId());
                 bundle.putString("shopName",json.getProductUser().getNickname());
                 ActivityManager.JumpActivity(getActivity(), ShopActivity.class,bundle);
+
+
             }
         });
 

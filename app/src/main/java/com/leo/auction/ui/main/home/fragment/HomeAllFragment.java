@@ -23,6 +23,7 @@ import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
 import com.aten.compiler.base.BaseWebActivity;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.ScreenUtils;
+import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
@@ -31,6 +32,7 @@ import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.AgreementActivity;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.WebViewActivity;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
@@ -102,8 +104,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
             onRefresh(refreshLayout);
         }
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
-
-
         Constants.Action.ACTION_ACTION = "1";
     }
 
@@ -161,9 +161,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
                 SubsidyModel.DataBean item = (SubsidyModel.DataBean) mHomeTitleAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
-
                 bundle.putString("goodsCode", item.getProductInstanceCode());
-
                 ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class, bundle);
             }
         });
@@ -174,12 +172,20 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
         mTitleHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+                if (userJson==null){
+                    ActivityManager.JumpActivity(getActivity(), LoginActivity.class);
+                    ToastUtils.showShort("请先登录");
+                    return;
+                }
+
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 intent.putExtra("title", "TOP百亿补贴");
                 if (mUserJsonn == null) {
-                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL );
+                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL);
                 } else {
-                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL+ mUserJsonn.getH5Token());
+                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + mUserJsonn.getH5Token());
                 }
                 intent.putExtra("hasNeedTitleBar", true);
                 intent.putExtra("hasNeedRightView", false);
@@ -218,8 +224,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
         } else {
             return;
         }
-
-
 
 
         hashMap.put("keyword", "");
@@ -271,7 +275,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
             }
         });
-
 
         //百亿补贴金额
         httpTitlePrice();

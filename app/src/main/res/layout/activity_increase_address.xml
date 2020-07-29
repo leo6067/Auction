@@ -12,9 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_25"
             android:orientation="vertical">
 
             <LinearLayout
@@ -24,7 +31,7 @@
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -57,7 +64,7 @@
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -91,7 +98,7 @@
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -122,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_3"
                 android:background="@android:color/white"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingTop="@dimen/dp_32"
                 android:text="街道地址"
                 android:textColor="@color/color_a7a3a3"
@@ -135,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:hint="详细地址：如道路、门牌号、小区、楼栋号、单元室等"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingTop="@dimen/dp_40"
                 android:paddingRight="@dimen/dp_30"
                 android:paddingBottom="@dimen/dp_28"
@@ -150,7 +157,7 @@
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -186,7 +193,7 @@
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -213,7 +220,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_72"
                 android:layout_marginTop="@dimen/dp_3"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:gravity="center_vertical"
                 android:text="一键填充"
                 android:textColor="@color/color_1a1a1a"
@@ -228,7 +235,6 @@
                 android:hint="示例:浙江省舟山市荔城区城乡街道897号"
                 android:gravity="left"
                 android:paddingTop="@dimen/dp_30"
-                android:paddingLeft="@dimen/dp_30"
                 android:paddingRight="@dimen/dp_30"
                 android:textColor="@color/color_1a1a1a"
                 android:textColorHint="@color/color_a7a3a3"
@@ -268,7 +274,7 @@
                 app:sSelectorNormalColor="@color/color_ff8e67"
                 app:sSelectorPressedColor="@color/kprogresshud_grey_color"
                 app:sUseSelector="true" />
-
+        </LinearLayout>
         </LinearLayout>
 
     </com.aten.compiler.widget.ReboundNetScrollView>

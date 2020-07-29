@@ -2,8 +2,10 @@ package com.leo.auction.common.dialog;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.aten.compiler.widget.dialog.base.BaseDialog;
@@ -42,6 +44,7 @@ public class WarningDialog extends BaseDialog<WarningDialog> implements View.OnC
 
     @Override
     public View onCreateView() {
+        widthScale(0.8f);
 
         View view = View.inflate(mContext, R.layout.dialog_warning, null);
         mTitleTitle = (TextView) view.findViewById(R.id.warning_title);
@@ -50,6 +53,9 @@ public class WarningDialog extends BaseDialog<WarningDialog> implements View.OnC
         mOKTV.setOnClickListener(this);
         mCancelTV = (TextView) view.findViewById(R.id.warning_btn_cancel);
         mCancelTV.setOnClickListener(this);
+        setCanceledOnTouchOutside(false);
+
+
         return view;
     }
 
@@ -58,6 +64,8 @@ public class WarningDialog extends BaseDialog<WarningDialog> implements View.OnC
 
         if (mHashMap.get("title") != null) {
             mTitleTitle.setText((String) mHashMap.get("title"));
+        }else  {
+            mTitleTitle.setVisibility(View.GONE);
         }
 
         if (mHashMap.get("content") != null) {

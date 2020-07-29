@@ -111,7 +111,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
         }
 
         //1.已知图片宽高得情况
-        int width = screenWidth / 2;
+        int width = screenWidth / 2 - 15;
 
         int height = (int) (width * (picHeight / picWidth));
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();

@@ -502,7 +502,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         timeType = newestReleaseProduct.getTime().getType();
         timeNodeID = newestReleaseProduct.getTime().getTimeNodeId() + "";
 
-        initTimeData();
+//        initTimeData();
 
         getOneSortData();
     }
@@ -756,7 +756,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 break;
 
             case R.id.goods_jpsj:
-                showTimeDialog();
+                initTimeData();
                 break;
 
             case R.id.tv_save:
@@ -1162,7 +1162,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("发布拍品成功");
                         } else {
-                            ToastUtils.showShort("发布拍品失败");
+                            ToastUtils.showShort(baseModel.getResult().getMessage());
                         }
                         cleanRelease();
 
@@ -1321,7 +1321,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     }
                     mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
-
+                showTimeDialog();
 
             }
         });

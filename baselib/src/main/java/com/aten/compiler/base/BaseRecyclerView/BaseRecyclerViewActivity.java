@@ -49,9 +49,7 @@ public class BaseRecyclerViewActivity extends BaseActivity implements OnRefreshL
         super.initData();
         initAdapter();
         mAdapter.setLoadMoreView(new CostomLoadMoreView());
-        refreshLayout.setEnableRefresh(false);
-        refreshLayout.setEnableLoadMore(false);
-        mAdapter.setEnableLoadMore(false);
+        setSmartHasRefreshOrLoadMore(true);
         if (isOpenAnim()) {
             mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
             mAdapter.isFirstOnly(false);
@@ -105,28 +103,32 @@ public class BaseRecyclerViewActivity extends BaseActivity implements OnRefreshL
     }
 
     //设置smartrefresh是否需要下拉刷新以及加载更多
-    public void setSmartHasRefreshOrLoadMore() {
-        refreshLayout.setEnableRefresh(true);
+    public void setSmartHasRefreshOrLoadMore(boolean enadble) {
+        refreshLayout.setEnableRefresh(enadble);
         refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setEnableLoadMore(true);
-    }
-
-    //设置smartrefresh是否需要下拉刷新以及加载更多
-    public void setLoadMore() {
-        mAdapter.setEnableLoadMore(true);
+        refreshLayout.setEnableLoadMore(enadble);
+        mAdapter.setEnableLoadMore(enadble);
         mAdapter.setOnLoadMoreListener(BaseRecyclerViewActivity.this, recyclerView);
     }
+
+
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         mPageNum = 1;
         getData();
+        if (refreshLayout != null) {
+            refreshLayout.finishRefresh(600);
+        }
     }
 
     @Override
     public void onLoadMoreRequested() {
         mPageNum++;
         getData();
+        if (refreshLayout != null) {
+            refreshLayout.finishRefresh(600);
+        }
     }
 
 //    public HashMap<String, String> getHashMap() {

@@ -34,7 +34,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_320"
                 android:background="@drawable/title_bg_top"
                 app:layout_scrollFlags="scroll|snap"
 
@@ -68,11 +68,11 @@
 
                         <com.aten.compiler.widget.RadiusImageView
                             android:id="@+id/shop_level"
-                            android:layout_width="@dimen/dp_30"
-                            android:layout_height="@dimen/dp_20"
+                            android:layout_width="@dimen/dp_35"
+                            android:layout_height="@dimen/dp_26"
                             android:layout_marginStart="@dimen/dp_30"
+                            android:layout_marginTop="@dimen/dp_5"
                             app:qmui_corner_radius="@dimen/dp_5"
-
                             android:layout_toRightOf="@+id/shop_head" />
 
 

@@ -39,8 +39,6 @@ public class UserActionUtils {
 
                 Globals.log("action log xxxxx" + resultData);
 
-
-
             }
         });
     }

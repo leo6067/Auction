@@ -38,7 +38,6 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             keyWord = intent.getStringExtra("value");
-            Globals.log("xxxxxxxxxxxxx mReceiveUtils");
             onRefresh(refreshLayout);
         }
     };
@@ -58,13 +57,10 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
 // TODO Auto-generated method stub
         super.setUserVisibleHint(isVisibleToUser);
-
         if (getUserVisibleHint()) {
             onRefresh(refreshLayout);
-            Globals.log("xxxxxxxxxxxxx mReceiveUtils  00");
             BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_SEARCH, mReceiveUtils);
         }
-
     }
 
 
@@ -83,8 +79,6 @@ public class BusinessFragment extends BaseRecyclerViewFragment {
                 ActivityManager.JumpActivity(getActivity(), ShopActivity.class, bundle);
             }
         });
-
-
     }
 
 

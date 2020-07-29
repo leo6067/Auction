@@ -4,11 +4,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.glide.GlideUtils;
+import com.aten.compiler.widget.swipeMenuLayout.SwipeMenuLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
@@ -36,6 +38,7 @@ import okhttp3.Call;
 public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, BaseViewHolder> {
 
     private SortOnListener mSortOnListener;
+
     public SortShopAdapter(SortOnListener mSortOnListener) {
         super(R.layout.item_sort_shop, null);
         this.mSortOnListener = mSortOnListener;
@@ -44,11 +47,12 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, SortShopModel.DataBean dataBean) {
 
-         ImageView mItemHead = baseViewHolder.getView(R.id.item_head);
+        ImageView mItemHead = baseViewHolder.getView(R.id.item_head);
         GlideUtils.loadImg(dataBean.getProductUser().getHeadImg(), mItemHead);
 
 
         ImageView mItemLevel = baseViewHolder.getView(R.id.item_level);
+        LinearLayout mItemSwipe = baseViewHolder.getView(R.id.swipe_layout);
 
         CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
         String[] myLevelPicS = commonJson.getSeller_level_pic().get(0).split("seller_level_");
@@ -59,35 +63,42 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
         mItemName.setText(dataBean.getProductUser().getNickname());
 
         TextView mItemScore = baseViewHolder.getView(R.id.item_score);
-        mItemScore.setText("评分  "+dataBean.getProductUser().getRate());
+        mItemScore.setText("评分  " + dataBean.getProductUser().getRate());
 
         TextView mItemFan = baseViewHolder.getView(R.id.item_fan);
-        mItemFan.setText("粉丝数  "+dataBean.getProductUser().getFansNum());
+        mItemFan.setText("粉丝数  " + dataBean.getProductUser().getFansNum());
 
         TextView mItemNext = baseViewHolder.getView(R.id.item_next);
-        mItemNext.setText("上新"+dataBean.getNewestNum() + "件");
+        mItemNext.setText("上新" + dataBean.getNewestNum() + "件");
 
         TextView mItemCancel = baseViewHolder.getView(R.id.item_cancel);
         TextView mItemTop = baseViewHolder.getView(R.id.item_top);
 
 
+        mItemSwipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int layoutPosition = baseViewHolder.getAdapterPosition();
+                mSortOnListener.soreItemListener(layoutPosition);
+            }
+        });
+
+
         int topType;  //2-置顶  4-取消置顶
-
-
-        if (dataBean.isTop()){
+        if (dataBean.isTop()) {
             mItemTop.setText("取消置顶");
             topType = 4;
-        }else {
+        } else {
             topType = 2;
             mItemTop.setText("置顶");
         }
 
-        String finalTopType = topType +"";
+        String finalTopType = topType + "";
         mItemTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                BaseModel.httpPostFocus(dataBean.getProductUser().getId()+"", finalTopType, new HttpRequest.HttpCallback() {
+                BaseModel.httpPostFocus(dataBean.getProductUser().getId() + "", finalTopType, new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
 
@@ -98,10 +109,10 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("操作成功");
-                            if (finalTopType.equals("4")){
+                            if (finalTopType.equals("4")) {
                                 mItemTop.setText("置顶");
                                 dataBean.setTop(false);
-                            }else {
+                            } else {
                                 mItemTop.setText("取消置顶");
                                 dataBean.setTop(true);
                             }
@@ -115,13 +126,10 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
         });
 
 
-
-
-
         mItemCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BaseModel.httpPostFocus(dataBean.getProductUser().getId()+"", "0", new HttpRequest.HttpCallback() {
+                BaseModel.httpPostFocus(dataBean.getProductUser().getId() + "", "0", new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
 
@@ -143,11 +151,11 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
     }
 
 
-
-
-    public interface SortOnListener{
+    public interface SortOnListener {
 
         void soreOnListener();
+
+        void soreItemListener(int layoutPosition);
 
     }
 }

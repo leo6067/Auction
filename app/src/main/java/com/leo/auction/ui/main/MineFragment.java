@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
@@ -79,10 +80,6 @@ public class MineFragment extends BaseFragment {
     public int getLayoutId() {
         return R.layout.fragment_mine;
     }
-
-
-
-
 
 
 
@@ -372,7 +369,9 @@ public class MineFragment extends BaseFragment {
 
                 if (title.equals("我的")) {  // 我的
                     mTitleBar.setVisibility(View.GONE);
+                    ActivityManager.mainActivity.setBottomVisible();
                 } else {
+                    ActivityManager.mainActivity.setBottomGone();
                     mTitleBar.setVisibility(View.VISIBLE);
                 }
                 if (title.equals("设置")) {  // 我的--设置
@@ -430,6 +429,8 @@ public class MineFragment extends BaseFragment {
         mineFragment.setArguments(bundle);
         return mineFragment;
     }
+
+
 
 
 }

@@ -32,13 +32,11 @@ public class BusinessAdapter extends BaseQuickAdapter<SupplierModel.DataBean, Ba
     protected void convert(@NonNull BaseViewHolder helper, SupplierModel.DataBean item) {
 
         ImageView headImage = helper.getView(R.id.item_head);
-
-        GlideUtils.loadImg(item.getProductUser().getHeadImg(),headImage);
-
         ImageView imageView = helper.getView(R.id.item_level);
 
+        GlideUtils.loadImg(item.getProductUser().getHeadImg(),headImage);
         helper.setText(R.id.item_name,item.getProductUser().getNickname());
-        helper.setText(R.id.item_mark,"评分 " +item.getProductUser().getSellerLevel());
+        helper.setText(R.id.item_mark,"评分 " +item.getProductUser().getRate());
         helper.setText(R.id.item_fan,"粉丝 " +item.getProductUser().getFansNum());
         helper.setText(R.id.item_new,"上新 " +item.getNewestNum() + "件");
 

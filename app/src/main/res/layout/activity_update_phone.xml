@@ -138,7 +138,7 @@
             android:clickable="true"
             android:text="                                        "
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_75"/>
+            android:layout_height="@dimen/dp_99"/>
 
 
     </RelativeLayout>
@@ -162,6 +162,7 @@
         android:text="确认修改"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_30"
+        app:sCornersRadius="@dimen/dp_8"
         app:sSelectorNormalColor="@color/color_ff8e67"
         app:sSelectorPressedColor="@color/kprogresshud_grey_color"
         app:sUseSelector="true" />

@@ -16,11 +16,12 @@
         android:layout_height="wrap_content">
 
 
-        <ImageView
+        <com.ruffian.library.widget.RImageView
             android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_400"
             android:alpha="0.03"
+            app:corner_radius="@dimen/dp_8"
             android:scaleType="center" />
 
     </RelativeLayout>

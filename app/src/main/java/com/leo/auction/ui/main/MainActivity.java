@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
@@ -59,6 +60,7 @@ public class MainActivity extends BaseActivity {
 
 
     private int current  = 0;
+    private MineFragment mMineFragment;
 
     @Override
     public void setContentViewLayout() {
@@ -82,8 +84,6 @@ public class MainActivity extends BaseActivity {
 
 
     public void initData()  {
-
-
         ActivityManager.addActivity(this);
         initImmersionBar();
         ActivityManager.mainActivity = this;
@@ -95,7 +95,9 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new MainFocusFragment());
         mFragments.add(new NewsFragment());
 //        mFragments.add(new MainMeFragment());
-        mFragments.add(new MineFragment());
+
+        mMineFragment = new MineFragment();
+        mFragments.add(mMineFragment);
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
 
 
@@ -191,8 +193,6 @@ public class MainActivity extends BaseActivity {
 
 
     public void setCurrent(int current){
-
-
         mViewPager.setCurrentItem(current);
         mCommonBottom.setCurrentTab(current);
     }
@@ -244,6 +244,14 @@ public class MainActivity extends BaseActivity {
         mViewPager.setCurrentItem(position);
     }
 
+    public void setBottomGone(){
+        mCommonBottom.setVisibility(View.GONE);
+    }
+
+
+    public void setBottomVisible(){
+        mCommonBottom.setVisibility(View.VISIBLE);
+    }
 
 
     private class TitlePagerAdapter extends FragmentPagerAdapter {
@@ -281,6 +289,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+            if ( mMineFragment!=null && mMineFragment.mWebview!=null && mMineFragment.mWebview.canGoBack()) {
+                mMineFragment.mWebview.goBack();
+                return true;
+            }
+
+
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
@@ -291,5 +306,8 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+
 
 }

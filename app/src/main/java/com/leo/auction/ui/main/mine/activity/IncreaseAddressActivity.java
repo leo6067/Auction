@@ -16,6 +16,7 @@ import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.switchButton.SwitchButton;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseModel;
 import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.model.AddAddressModel;
@@ -276,7 +277,7 @@ public class IncreaseAddressActivity extends BaseActivity {
                     @Override
                     public void httpResponse(String resultData) {
                         hideWaitDialog();
-                        showShortToast("添加地址成功");
+
 //                        AddressModel.DataBean item =new AddressModel.DataBean(provinceId,provinceName,cityId,cityName,areaId,areaName,
 //                                etDetailAddress.getText().toString().trim(),etPostalCode.getText().toString().trim(),returnData.getData().getAddressId(),
 //                                TextOptionUtils.getInstance().subLength(etConsigneeName.getText().toString().trim(),8),
@@ -284,7 +285,16 @@ public class IncreaseAddressActivity extends BaseActivity {
 //                        Intent intent = new Intent();
 //                        intent.putExtra("seleteAddress", item);
 //                        setResult(RESULT_OK, intent);
-                        goFinish();
+
+                        AddAddressModel addAddressModel = JSONObject.parseObject(resultData, AddAddressModel.class);
+                        if (addAddressModel.getResult().isSuccess()) {
+                            ToastUtils.showShort("添加地址成功");
+                            setResult(RESULT_OK);
+                            goFinish();
+                        } else {
+                            ToastUtils.showShort(addAddressModel.getResult().getMessage());
+                        }
+
                     }
                 }
         );

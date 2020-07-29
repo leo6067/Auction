@@ -96,7 +96,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         super.initData();
         mTitleBar.setTitle("实名认证");
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-        if ("".equals(userJson.getIdCard())) {
+        if (userJson == null || "".equals(userJson.getIdCard())) {
             mAuthLin.setVisibility(View.VISIBLE);
             mStatusLin.setVisibility(View.GONE);
             setWebView();

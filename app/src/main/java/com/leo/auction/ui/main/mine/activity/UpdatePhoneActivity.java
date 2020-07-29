@@ -93,6 +93,7 @@ public class UpdatePhoneActivity extends BaseActivity implements CountdownView.O
         mTitleBar.setTitle("修改手机号");
         etPhone.addTextChangedListener(textWatcher);
         cvVerifCode.setOnCountdownEndListener(this);
+        setWebView();
     }
 
     @OnClick({R.id.stb_sure_update, R.id.fl_verif_code})
@@ -188,7 +189,7 @@ public class UpdatePhoneActivity extends BaseActivity implements CountdownView.O
         flVerifCode.setEnabled(true);
         tvVerifCode.setVisibility(View.GONE);
         cvVerifCode.setVisibility(View.GONE);
-        setWebView();
+
     }
 
 

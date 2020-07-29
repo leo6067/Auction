@@ -24,9 +24,10 @@
             app:corner_radius="@dimen/dp_20"
             app:background_normal="@color/home_title_bg"
             android:gravity="center"
-            android:paddingStart="@dimen/dp_25"
-            android:paddingEnd="@dimen/dp_25"
+            android:paddingStart="@dimen/dp_15"
+            android:paddingEnd="@dimen/dp_15"
             android:textColor="@color/white"
+            android:textSize="@dimen/sp_22"
             android:text="Top百亿补贴"/>
 
 

@@ -93,7 +93,7 @@ public class BaseModel {
 
     //重置支付密码
     public static void sendUserResetpaypwdRequest(String oldPayPwd, String payPwd,
-                                                 HttpRequest.HttpCallback callback) {
+                                                  HttpRequest.HttpCallback callback) {
 
         HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("payPwd", oldPayPwd);
@@ -154,7 +154,11 @@ public class BaseModel {
         params.put("startPrice", startPrice);//'起拍价'
         params.put("markupRange", markupRange);//'加价幅度'
         if (video.size() > 0) {
-            params.put("video", video);//'视频路径'
+            if (video.size() == 1) {
+                params.put("video", video.get(0));
+            } else {
+                params.put("video", video);//'视频路径'
+            }
             params.put("cutPic", cutPic);//''视频首帧''
         }
         params.put("sourceType", sourceType);//''来源类型 1-自行发布 2-产品库',''
@@ -274,9 +278,9 @@ public class BaseModel {
     //下架--
     public static void httpDownAuction(String productInstanceCode, HttpRequest.HttpCallback httpCallback) {
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("productInstanceCode", productInstanceCode);
-        HttpRequest.httpPutString(Constants.Api.GOODS_LOWER_URL, jsonObject, httpCallback);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("productInstanceCode", productInstanceCode);
+        HttpRequest.httpPostForm(Constants.Api.GOODS_LOWER_URL, hashMap, httpCallback);
     }
 
     //删除
@@ -308,8 +312,8 @@ public class BaseModel {
 
         HashMap<String, String> jsonObject = new HashMap<>();
 
-        jsonObject.put("productInstanceId", productInstanceId+"");
-        jsonObject.put("type", type+"");//类型  0-取消 1-收藏
+        jsonObject.put("productInstanceId", productInstanceId + "");
+        jsonObject.put("type", type + "");//类型  0-取消 1-收藏
 
         HttpRequest.httpPostForm(Constants.Api.SORT_COLLECT_URL, jsonObject, httpCallback);
 
@@ -329,7 +333,7 @@ public class BaseModel {
     public static void httpFaceTrade(String orderCode, int type, HttpRequest.HttpCallback httpCallback) {
         HashMap<String, String> jsonObject = new HashMap<>();
         jsonObject.put("orderCode", orderCode);
-        jsonObject.put("type", type+""); //操作类型  1-申请当面交易  2-同意当面交易  4-拒绝当面交易
+        jsonObject.put("type", type + ""); //操作类型  1-申请当面交易  2-同意当面交易  4-拒绝当面交易
         HttpRequest.httpPostForm(Constants.Api.ORDER_FACE_TRADE_URL, jsonObject, httpCallback);
 
     }
@@ -388,25 +392,24 @@ public class BaseModel {
     }
 
 
-
     //提交评价
-    public static void httpOrderEvaluate(String orderCode,  CommitEvaluationModel.DataBean dataList,
-                                         HttpRequest.HttpCallback httpCallback){
+    public static void httpOrderEvaluate(String orderCode, CommitEvaluationModel.DataBean dataList,
+                                         HttpRequest.HttpCallback httpCallback) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("orderCode",orderCode);
-        jsonObject.put("data",dataList);
-        HttpRequest.httpPostString(Constants.Api.ORDER_ESTIMATE_URL,jsonObject,httpCallback);
+        jsonObject.put("orderCode", orderCode);
+        jsonObject.put("data", dataList);
+        HttpRequest.httpPostString(Constants.Api.ORDER_ESTIMATE_URL, jsonObject, httpCallback);
     }
 
 
     //关注店铺
     public static void httpPostFocus(String productAccountId, String type,
-                                         HttpRequest.HttpCallback httpCallback){
+                                     HttpRequest.HttpCallback httpCallback) {
 
         HashMap<String, String> jsonObject = new HashMap<>();
-        jsonObject.put("productAccountId",productAccountId);
-        jsonObject.put("type",type);//类型 0-取消  1-关注   2-置顶  4-取消置顶
-        HttpRequest.httpPostForm(Constants.Api.FOCUS_URL,jsonObject,httpCallback);
+        jsonObject.put("productAccountId", productAccountId);
+        jsonObject.put("type", type);//类型 0-取消  1-关注   2-置顶  4-取消置顶
+        HttpRequest.httpPostForm(Constants.Api.FOCUS_URL, jsonObject, httpCallback);
     }
 
 

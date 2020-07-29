@@ -356,7 +356,11 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
             public void httpResponse(String resultData) {
                 hideWaitDialog();
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-                ToastUtils.showShort(baseModel.getResult().getMessage());
+                if (baseModel.getResult().isSuccess()) {
+                    ToastUtils.showShort("下架成功");
+                } else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
             }
         });
     }

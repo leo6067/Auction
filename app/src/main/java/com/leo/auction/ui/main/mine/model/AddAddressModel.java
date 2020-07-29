@@ -2,7 +2,6 @@ package com.leo.auction.ui.main.mine.model;
 
 import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 
 /**
@@ -18,19 +17,22 @@ import com.leo.auction.net.HttpRequest;
  */
 public class AddAddressModel {
 
+
     /**
-     * data : {"addressId":249}
-     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1581406105092}
+     * data : 346
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1595993006793}
      */
 
-    private DataBean data;
+    private int data;
     private ResultBean result;
 
-    public DataBean getData() {
+
+
+    public int getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(int data) {
         this.data = data;
     }
 
@@ -42,28 +44,12 @@ public class AddAddressModel {
         this.result = result;
     }
 
-    public static class DataBean {
-        /**
-         * addressId : 249
-         */
-
-        private String addressId;
-
-        public String getAddressId() {
-            return addressId;
-        }
-
-        public void setAddressId(String addressId) {
-            this.addressId = addressId;
-        }
-    }
-
     public static class ResultBean {
         /**
          * code : 0
          * message : 请求成功
          * success : true
-         * timestamp : 1581406105092
+         * timestamp : 1595993006793
          */
 
         private String code;

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.huantansheng.easyphotos.utils.video.RecordVideoUtils;
 import com.leo.auction.R;
+import com.leo.auction.utils.Globals;
 
 
 import java.io.File;
@@ -88,6 +89,7 @@ public class VideoPlayerActivity extends BaseActivity {
 
     //播放本地视频
     private void playLocalVideo() {
+        Globals.log("xxxxxxxxxx videoUrl 01" + videoUrl);
         Glide.with(this).load(RecordVideoUtils.getInstance().getVideoFirst2(videoUrl)).into(myJzvdStd.thumbImageView);
         JZDataSource jzDataSource = null;
         jzDataSource = new JZDataSource(videoUrl);
@@ -98,6 +100,7 @@ public class VideoPlayerActivity extends BaseActivity {
     //播放网络视频
     private void playNetWorkVideo() {
         myJzvdStd.setUp(videoUrl, "");
+        Globals.log("xxxxxxxxxx videoUrl " + videoUrl);
         Glide.with(this).load(videoUrl + "?x-oss-process=video/snapshot,t_1,f_jpg,m_fast,ar_auto").into(myJzvdStd.thumbImageView);
     }
 

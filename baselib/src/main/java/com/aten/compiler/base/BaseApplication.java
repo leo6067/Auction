@@ -3,6 +3,7 @@ package com.aten.compiler.base;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.aten.compiler.BuildConfig;
 import com.aten.compiler.net.Custom_PersistentCookieStore;
@@ -76,6 +77,9 @@ public class BaseApplication extends Application {
         };
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(), cb);
+
+
+
     }
 
     //初始化网络请求库

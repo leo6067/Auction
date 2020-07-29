@@ -20,10 +20,12 @@ import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
+import com.leo.auction.ui.main.home.model.SubsidyModel;
 import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
@@ -67,15 +69,11 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
         setContentView(R.layout.activity_category);
     }
 
-    @Override
-    protected boolean isImmersionBarEnabled() {
-        return true;
-    }
+
 
     @Override
     public void initView() {
         super.initView();
-
 
         mUrl = Constants.Api.SORT_MULTIPLE_URL;
         mSearchSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -106,7 +104,6 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
         });
 
 
-
     }
 
     @Override
@@ -119,18 +116,23 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
     @Override
     public void initAdapter() {
         super.initAdapter();
+        recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
         DisplayMetrics dm = getResources().getDisplayMetrics();
         mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
         mAdapter.setHeaderAndEmpty(true);
+        setSmartHasRefreshOrLoadMore(true);
+
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         mAdapter.setHasStableIds(true);
 
-
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                HomeListModel.DataBean item = (HomeListModel.DataBean) mAdapter.getData().get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("goodsCode", item.getProductInstanceCode());
+                ActivityManager.JumpActivity(CategoryActivity.this, AuctionDetailActivity.class, bundle);
             }
         });
     }
@@ -173,16 +175,17 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
                     mAdapter.loadMoreComplete();
                 }
 
+
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 1;
+                    Globals.log("xxxxxxxxx  01 " + homeListModel.getData());
                 } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                    Globals.log("xxxxxxxxx  02 " + homeListModel.getData());
                     mAdapter.loadMoreEnd(true);
                 } else {
+                    Globals.log("xxxxxxxxx  03 " + homeListModel.getData());
                     mAdapter.loadMoreEnd();
                 }
-
-
-
             }
         });
 

@@ -8,6 +8,9 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -54,7 +57,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, CountdownView.OnCountdownEndListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener, CountdownView.OnCountdownEndListener {
     private double exitTime;
 
     @BindView(R.id.afl_title)
@@ -81,7 +84,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     WebView testWebview;
     @BindView(R.id.view_view)
     View viewView;
-
+    private boolean isError = false;
 
     private BroadCastReceiveUtils mStartActivity = new BroadCastReceiveUtils() {
         @Override
@@ -191,13 +194,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
 
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                if (!isError) {  //成功了，此时可以消失弹窗dissLoading()
+//                    viewView.setVisibility(View.GONE);
+                } else {
+                    viewView.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                isError = true;
+            }
         });
         // 设置WebView组件支持加载JavaScript。
         testWebview.getSettings().setJavaScriptEnabled(true);
         // 建立JavaScript调用Java接口的桥梁。
 //        testWebview.addJavascriptInterface(new testJsInterface(), "testInterface");
         // 加载业务页面。
-        testWebview.loadUrl("https://w.taojianlou.com/super-store/hd2.html");
+        testWebview.loadUrl(Constants.WebApi.YZM_URL);
     }
 
 
@@ -290,8 +310,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         showWaitDialog();
 
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("number",etName.getText().toString().trim());
-        hashMap.put("code",etVerifCode.getText().toString().trim());
+        hashMap.put("number", etName.getText().toString().trim());
+        hashMap.put("code", etVerifCode.getText().toString().trim());
 
         HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_PHONE_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
@@ -304,7 +324,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 hideWaitDialog();
 
                 LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
-                if (loginModel.getResult().isSuccess()){
+                if (loginModel.getResult().isSuccess()) {
                     ToastUtils.showShort("登录成功");
                     httpUser();
                     BaseSharePerence.getInstance().setLoginJson(resultData);
@@ -322,7 +342,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         tvVerifCode.setVisibility(View.VISIBLE);
         cvVerifCode.setVisibility(View.GONE);
         flVerifCode.setVisibility(View.GONE);
-        testWebview.loadUrl("https://w.taojianlou.com/super-store/hd2.html");
+        testWebview.loadUrl(Constants.WebApi.YZM_URL);
     }
 
     //微信登录
@@ -331,16 +351,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void onStart(SHARE_MEDIA share_media) {
+
+                Globals.log("xxxxxxxxxxweixin onStart" +share_media    );
             }
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+
+                Globals.log("xxxxxxxxxxweixin"   + map.toString() );
+
                 showWaitDialog();
-                HashMap <String, String>  hashMap = new HashMap<>();
-                hashMap.put("unionId",map.get("unionid"));
-                hashMap.put("openId",map.get("openid"));
-                hashMap.put("nickname",map.get("name"));
-                hashMap.put("headImg",map.get("iconurl"));
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("unionId", map.get("unionid"));
+                hashMap.put("openId", map.get("openid"));
+                hashMap.put("nickname", map.get("name"));
+                hashMap.put("headImg", map.get("iconurl"));
                 HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_WX_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
@@ -351,7 +376,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     public void httpResponse(String resultData) {
                         hideWaitDialog();
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
-                        if (loginModel.getResult().isSuccess()){
+                        if (loginModel.getResult().isSuccess()) {
                             ToastUtils.showShort("登录成功");
                             httpUser();
                             BaseSharePerence.getInstance().setLoginJson(resultData);
@@ -381,8 +406,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-
-
     private void httpUser() {
         HashMap<String, String> hashMap = new HashMap<>();
 
@@ -399,7 +422,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
         });
     }
-
 
 
     //清空登录号码
@@ -432,10 +454,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
-
-
-
-
 
 
     @Override
