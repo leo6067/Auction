@@ -100,7 +100,8 @@
         <activity android:name=".ui.main.mine.activity.VideoPlayerActivity" />
         <activity android:name=".ui.main.mine.activity.CommodityReleaseActivity" />
         <activity android:name=".ui.main.home.activity.ShopActivity" />
-        <activity android:name=".ui.main.home.activity.HomeSearchActivity" />
+        <activity android:name=".ui.main.home.activity.HomeSearchActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name=".ui.main.home.activity.AuctionDetailActivity"
             android:launchMode="singleTop" />

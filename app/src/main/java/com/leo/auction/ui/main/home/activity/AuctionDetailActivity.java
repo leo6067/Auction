@@ -480,7 +480,9 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                     ToastUtils.showShort("下架成功");
                     mDetailOnline.setText("已下架");
                     mDetailOnline.setTextColor(getResources().getColor(R.color.home_text));
-
+                    mDetailIng.setText("竞拍结束");
+                    mDetailEnd.stop();
+                    mDetailEnd.start(0);
                     httpDetail();
                 } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
@@ -681,7 +683,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                         return;
                     }
 
-
                     httpBidList(true);
                 }
             });
@@ -702,6 +703,8 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                         mPayPwdBoardUtils.showPayTypeDialog(AuctionDetailActivity.this, String.valueOf(mBidBeanList.get(0).getBidPrice()), orderPayTypeModels, AuctionDetailActivity.this);
                     }
                 });
+
+                return;
             }
 
         } else {
@@ -714,7 +717,10 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             mDetailOnline.setVisibility(View.VISIBLE);
         }else if (goodsDetailModel.getProductUser().getUserId().equals(mUserJson.getUserId()) && detailModelStatus == 64 && mBidBeanList.size() == 0) {
             mDetailOnline.setText("已下架");
+            mDetailIng.setText("竞拍结束");
+            mDetailEnd.start(0);
             mDetailOnline.setTextColor(getResources().getColor(R.color.home_text));
+            return;
         } else {
             mDetailOnline.setVisibility(View.GONE);
         }

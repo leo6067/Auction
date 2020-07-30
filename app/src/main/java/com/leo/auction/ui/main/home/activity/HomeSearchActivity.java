@@ -70,6 +70,7 @@ public class HomeSearchActivity extends BaseActivity {
             }
         });
 
+        mSearchSearch.requestFocus();
 
         mViewPager.setCurrentItem(0);
         mSegmentBottom.setViewPager(mViewPager);

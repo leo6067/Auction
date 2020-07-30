@@ -69,7 +69,7 @@ public class MainFocusFragment extends BaseFragment {
 
         mSegmentTabLayout.setTabData(mTitlesStr);
 
-        Constants.Var.FOCUS_TYPE = 0 ;
+
         mFragments.add(new FocusAllFragment());
         mFragments.add(new FocusShopFragment());
         mFragments.add(new FocusAllFragment());

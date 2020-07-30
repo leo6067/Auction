@@ -38,6 +38,7 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.ui.login.LoginActivity;
+import com.leo.auction.ui.login.LoginWxActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
 import com.leo.auction.ui.main.mine.activity.SettingActivity;
 import com.leo.auction.ui.main.mine.activity.StoreQRCodeActivity;
@@ -406,9 +407,13 @@ public class MineFragment extends BaseFragment {
 //                    ActivityManager.JumpActivity(getActivity(), SettingActivity.class);
 //                }
 //
-//                if (title.equals("关注")) {  // 我的--关注
-//                    ActivityManager.JumpActivity(getActivity(), SettingActivity.class);
-//                }
+                if (title.equals("关注")) {  // 我的--关注
+                    Constants.Var.FOCUS_TYPE = 1;
+                    getActivity().finish();
+                    MainActivity.newIntance(getActivity(), 2);
+
+
+                }
 
             }
         });

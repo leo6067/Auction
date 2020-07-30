@@ -295,6 +295,8 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
         getNewestReleaseProductData();
 
         geOssToken();
+
+        initTimeData(false);
     }
 
     //获取协议容
@@ -570,7 +572,9 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     dataTwoBeans.get(i).setSelect(true);
                     releaseTwoSortData = dataTwoBeans.get(i);
                     tag = true;
-                    break;
+                    getAttributeData(dataTwoBeans.get(i).getId());
+                } else {
+                    dataTwoBeans.get(i).setSelect(false);
                 }
             }
             if (tag) {
@@ -580,14 +584,16 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             } else {
                 dataTwoBeans.get(0).setSelect(true);
                 releaseTwoSortData = dataTwoBeans.get(0);
+                getAttributeData(dataTwoBeans.get(0).getId());
             }
         } else {
             dataTwoBeans.get(0).setSelect(true);
             releaseTwoSortData = dataTwoBeans.get(0);
+            getAttributeData(dataTwoBeans.get(0).getId());
         }
 
         releaseTwoSortAdapter.setNewData(dataTwoBeans);
-        getAttributeData(dataTwoBeans.get(0).getId());
+
     }
 
 
@@ -756,7 +762,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                 break;
 
             case R.id.goods_jpsj:
-                initTimeData();
+                initTimeData(true);
                 break;
 
             case R.id.tv_save:
@@ -1161,11 +1167,10 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("发布拍品成功");
+                            cleanRelease();
                         } else {
                             ToastUtils.showShort(baseModel.getResult().getMessage());
                         }
-                        cleanRelease();
-
                     }
                 }
         );
@@ -1204,7 +1209,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     }
 
 
-    private void initTimeData() {
+    private void initTimeData(boolean isShowTime) {
         showWaitDialog();
         AuctionTimeModel.httpTimeModel(new HttpRequest.HttpCallback() {
             @Override
@@ -1321,8 +1326,9 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     }
                     mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
-                showTimeDialog();
-
+                if (isShowTime) {
+                    showTimeDialog();
+                }
             }
         });
 
