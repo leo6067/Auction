@@ -94,6 +94,15 @@ public class UpdatePhoneActivity extends BaseActivity implements CountdownView.O
         etPhone.addTextChangedListener(textWatcher);
         cvVerifCode.setOnCountdownEndListener(this);
         setWebView();
+
+
+
+        viewView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @OnClick({R.id.stb_sure_update, R.id.fl_verif_code})

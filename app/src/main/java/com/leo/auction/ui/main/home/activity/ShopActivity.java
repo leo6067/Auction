@@ -281,12 +281,6 @@ public class ShopActivity extends BaseActivity {
         }
 
 
-        ArrayList<String> shareShopTitlelList = CommonUsedData.getInstance().getShareShopTitlelList();
-
-        Random ra = new Random();
-        int anInt = ra.nextInt(shareShopTitlelList.size());
-        String shareTitle = "【锤定】" + shopName + shareShopTitlelList.get(anInt);
-
 
         ArrayList<String> imgStr = new ArrayList<>();
         imgStr.add(dataBean.getHeadImg());
@@ -306,6 +300,14 @@ public class ShopActivity extends BaseActivity {
                     return;
                 }
 
+
+                ArrayList<String> shareShopTitlelList = CommonUsedData.getInstance().getShareShopTitlelList();
+
+                Random ra = new Random();
+                int anInt = ra.nextInt(shareShopTitlelList.size());
+                String shareTitle = "【锤定】" + shopName + shareShopTitlelList.get(anInt);
+
+
                 Globals.log("xxxxxx mTitleBar 02");
 
                 String path = Constants.WebApi.SHARE_SHOP_URL + dataBean.getShopUri()
@@ -313,6 +315,7 @@ public class ShopActivity extends BaseActivity {
                 SharedModel sharedModel = new SharedModel(shareTitle, shareTitle, dataBean.getHeadImg(),
                         "0.00", dataBean.getHeadImg(), type, path, dataBean.getShopUri(), mUserJson.getUserId(),
                         Constants.Action.ACTION_ACTION);
+
                 SharedActvity.newIntance(ShopActivity.this, sharedModel, imgStr, shareTitle, "");
             }
         });

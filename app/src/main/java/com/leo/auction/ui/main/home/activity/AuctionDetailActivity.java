@@ -1008,9 +1008,18 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     @Override
     public void earnestPay() {
 //        利用回调 到详情页支付
-        ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonUsedData.getInstance().getOrderPayTypeData(
-                mUserJson.getBalance(), String.valueOf(mBidModelData.getMoney()));
-        mPayPwdBoardUtils.showPayTypeDialog(AuctionDetailActivity.this, String.valueOf(mBidModelData.getMoney()), orderPayTypeModels, AuctionDetailActivity.this);
+
+        if (mBidModelData != null){    //支付保证金情况
+            ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonUsedData.getInstance().getOrderPayTypeData(
+                    mUserJson.getBalance(), String.valueOf(mBidModelData.getMoney()));
+            mPayPwdBoardUtils.showPayTypeDialog(AuctionDetailActivity.this, String.valueOf(mBidModelData.getMoney()), orderPayTypeModels, AuctionDetailActivity.this);
+        }else {//支付商品情况
+            ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonUsedData.getInstance().getOrderPayTypeData(
+                    mUserJson.getBalance(), bidPrice+"");
+            mPayPwdBoardUtils.showPayTypeDialog(AuctionDetailActivity.this, String.valueOf(bidPrice), orderPayTypeModels, AuctionDetailActivity.this);
+        }
+
+
     }
 
     /*
@@ -1018,16 +1027,25 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
      * 支付*/
     @Override
     public void choosePayType(int pos) {
+
+
         mPayPwdBoardUtils.dismissPayTypeDialog();
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+
+        int payMoney = 0;
+        if (mBidModelData !=null){
+            payMoney = mBidModelData.getMoney();
+        }else {
+            payMoney = bidPrice;
+        }
         if (pos == 0) {
-            double moneyTag = new BigDecimal(userJson.getBalance()).subtract(new BigDecimal(mBidModelData.getMoney())).doubleValue();
+            double moneyTag = new BigDecimal(userJson.getBalance()).subtract(new BigDecimal(payMoney)).doubleValue();
             if (moneyTag >= 0) {
                 //说明余额够支付
-                if (mBidModelData.getMoney() > 300 || EmptyUtils.isEmpty(userJson.getBalanceExempt())) {
+                if (payMoney > 300 || EmptyUtils.isEmpty(userJson.getBalanceExempt())) {
                     //余额密码支付
                     mPayPwdBoardUtils.showPayPasswordDialog(AuctionDetailActivity.this,
-                            String.valueOf(mBidModelData.getMoney()), this);
+                            String.valueOf(payMoney), this);
                 } else {
                     //免密支付
                     balance("", userJson.getBalanceExempt());
@@ -1054,8 +1072,15 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     //余额支付
     public void balance(String payPwd, String exempt) {
         mPayPwdBoardUtils.dismissPayPasswordDialog();
+        int payMoney = 0;
+        if (mBidModelData !=null){
+            payMoney = mBidModelData.getMoney();
+        }else {
+            payMoney = bidPrice;
+        }
+
         UserActionUtils.actionLog("0", "3", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
-        PayModel.httpPay(2, "bid", mBidModelData.getMoney(), mBidModelData.getTradeNo(), null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
+        PayModel.httpPay(2, "bid", payMoney, "", null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
 
@@ -1075,9 +1100,16 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
     //微信支付
     private void wxPay() {
+        int payMoney = 0;
+        if (mBidModelData !=null){
+            payMoney = mBidModelData.getMoney();
+        }else {
+            payMoney = bidPrice;
+        }
         mPayPwdBoardUtils.dismissPayPasswordDialog();
+
         UserActionUtils.actionLog("0", "3", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
-        PayModel.httpPay(1, "bid", mBidModelData.getMoney(), mBidModelData.getTradeNo(), null, "", "", null, new HttpRequest.HttpCallback() {
+        PayModel.httpPay(1, "bid", payMoney, "", null, "", "", null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
 

@@ -14,7 +14,6 @@
         android:layout_height="@dimen/dp_77"
         android:gravity="center_vertical"
         android:layout_marginStart="@dimen/dp_30"
-
         android:text="手机号"
         android:textColor="@color/color_1a1a1a"
         android:textSize="@dimen/sp_30" />
@@ -117,31 +116,31 @@
 
 
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_120"
         tools:ignore="WebViewLayout">
 
 
         <WebView
+            android:layout_gravity="center"
             android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_88"
             android:layout_marginTop="@dimen/dp_30"
-            android:layout_marginLeft="@dimen/dp_30"
-            android:layout_marginRight="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_50"
+            android:layout_marginRight="@dimen/dp_50"
+            android:paddingStart="@dimen/dp_50"
 
             />
 
         <TextView
             android:id="@+id/view_view"
-            android:clickable="true"
-            android:text="                                        "
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_99"/>
+            android:layout_height="@dimen/dp_120"/>
 
 
-    </RelativeLayout>
+    </FrameLayout>
 
 
     <View

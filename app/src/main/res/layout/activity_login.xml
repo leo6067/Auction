@@ -162,7 +162,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_150"
                 android:layout_marginStart="@dimen/dp_80"
                 android:layout_marginEnd="@dimen/dp_80"
                 android:layout_marginTop="@dimen/dp_15"
@@ -170,6 +170,7 @@
 
 
                 <WebView
+                    android:layout_gravity="center"
                     android:id="@+id/webview"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_88"
@@ -182,7 +183,7 @@
                     android:clickable="true"
                     android:text="                                        "
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_99"/>
+                    android:layout_height="@dimen/dp_150"/>
 
             </FrameLayout>
 

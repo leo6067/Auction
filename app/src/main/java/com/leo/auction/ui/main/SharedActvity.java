@@ -176,15 +176,16 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     @Override
     public void onSharedWXCircle() {
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            UserActionUtils.actionLog(sharedModel.getChannelType(), "6", sharedModel.getShareGoodsCode(),  "1");
-            showWaitDialog();
-            WXShareMultiImageHelper.clearTmpFile(RxTool.getContext());
-            shareMuiltImgToFriendCircle();
-        } else {
-            showShortToast("系统版本太低,无法使用该功能");
-        }
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            UserActionUtils.actionLog(sharedModel.getChannelType(), "6", sharedModel.getShareGoodsCode(),  "1");
+//            showWaitDialog();
+//            WXShareMultiImageHelper.clearTmpFile(RxTool.getContext());
+//            shareMuiltImgToFriendCircle();
+//        } else {
+//            showShortToast("系统版本太低,无法使用该功能");
+//        }
 
+        UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.WEIXIN_CIRCLE,umShareListener);
     }
 
     //分享朋友圈(带二维码)
@@ -198,6 +199,9 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         } else {
             showShortToast("系统版本太低,无法使用该功能");
         }
+
+
+
     }
 
     //下载
