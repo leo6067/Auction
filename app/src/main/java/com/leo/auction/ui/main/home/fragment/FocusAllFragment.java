@@ -24,12 +24,16 @@ import com.aten.compiler.widget.CustRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.LoginActivity;
+import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.FocusAdapter;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
@@ -81,19 +85,27 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
     }
 
 
-
+    private boolean visibleToUser = false;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        visibleToUser = isVisibleToUser;
 
-        if (Constants.Var.FOCUS_TYPE == 0) {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (visibleToUser&&Constants.Var.FOCUS_TYPE == 0) {
             onRefresh(refreshLayout);
         }
-
-
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_FOCUS_TYPE, mBroadCastReceiveUtils);
     }
+
+
+
 
     @Override
     protected void initAdapter() {
@@ -151,7 +163,11 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
 
         int focusType = Constants.Var.FOCUS_TYPE;
 
-        Globals.log("xxxxxxxxxlog  Constants.Var.FOCUS_TYPE" + Constants.Var.FOCUS_TYPE);
+
+        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+        if (userJson == null){
+            return;
+        }
 
 
         if (focusType == 0) {  //关注--拍品

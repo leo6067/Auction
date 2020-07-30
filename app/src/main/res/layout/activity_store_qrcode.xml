@@ -7,6 +7,9 @@
 
     <include layout="@layout/layout_custom_title_w"/>
 
+
+
+
     <com.aten.compiler.widget.CustRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
@@ -26,5 +29,6 @@
             android:overScrollMode="never" />
 
     </com.aten.compiler.widget.CustRefreshLayout>
+
 
 </LinearLayout>

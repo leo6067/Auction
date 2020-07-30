@@ -113,7 +113,7 @@ public class LoginWxActivity extends BaseActivity {
                 wxLogin();
                 break;
             case R.id.ll_phone_login:
-                LoginActivity.newIntance(LoginWxActivity.this);
+                LoginActivity.newIntance(LoginWxActivity.this,0);
                 break;
             case R.id.iv_close:
                 goFinish();

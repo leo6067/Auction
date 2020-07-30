@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.leo.auction">
 
-
     <uses-sdk tools:overrideLibrary="com.sch.share" />
-
     <!-- 添加权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -46,13 +44,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 在SDCard中创建与删除文件权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
-
-
 
     <application
         android:name=".base.AppApplication"
@@ -64,7 +57,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.mine.activity.RealNameActivity"></activity>
+        <activity android:name=".ui.main.home.web.HWebViewActivity"></activity>
+        <activity android:name=".ui.main.mine.activity.RealNameActivity" />
         <activity
             android:name=".ui.main.SharedActvity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
@@ -113,12 +107,13 @@
         <activity android:name=".ui.main.home.activity.CategoryActivity" />
         <activity android:name=".ui.login.AgreementActivity" />
         <activity android:name=".ui.login.LoginWxActivity" />
-        <activity android:name=".ui.main.MainActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.login.StartActivity"
-            android:theme="@style/Welcome"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -144,6 +139,20 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_version_paths" />
         </provider>
+
+
+
+        <provider
+            android:name=".ui.main.home.web.PhotosFileProvider"
+            android:authorities="com.leo.auction.ui.main.home.web.PhotosFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/photo_paths_public" />
+        </provider>
+
+
 
         <activity
             android:name=".wxapi.WXEntryActivity"

@@ -15,10 +15,14 @@ import com.aten.compiler.widget.tabLayout.SlidingTabLayout;
 import com.aten.compiler.widget.title.TitleBar;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
+import com.leo.auction.ui.login.LoginActivity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.main.news.fragment.NoticeFragment;
 import com.leo.auction.ui.main.news.fragment.ServiceFragment;
 import com.leo.auction.ui.main.news.fragment.SystemNewsFragment;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.viewPage.BaseViewPagerAndTabsAdapter;
 
 import java.util.Arrays;
@@ -55,8 +59,11 @@ public class NewsFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
+
         initTabLayout();
     }
+
+
 
     private void initTabLayout() {
         BaseViewPagerAndTabsAdapter baseViewPagerAndTabsAdapter_new = new BaseViewPagerAndTabsAdapter(getChildFragmentManager()) {

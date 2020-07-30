@@ -18,6 +18,10 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.ui.login.LoginWxActivity;
 import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
+import com.leo.auction.ui.main.home.fragment.HomeBYFragment;
+import com.leo.auction.ui.main.home.fragment.HomeESFragment;
+import com.leo.auction.ui.main.home.fragment.HomeJLFragment;
+import com.leo.auction.ui.main.home.fragment.HomeYYPFragment;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
@@ -58,17 +62,25 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
+
         mSegmentTabLayout.setTabData(mTitlesStr);
-        Constants.Var.HOME_TYPE = 0;
+
+        mFragments.add(new HomeBYFragment());
+        mFragments.add(new HomeYYPFragment());
+        mFragments.add(new HomeJLFragment());
+        mFragments.add(new HomeESFragment());
+        mFragments.add(new HomeAllFragment());
+
+
         TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(titlePagerAdapter);
 //        mViewPager.setOffscreenPageLimit(0);
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                Constants.Var.HOME_TYPE = position;
+
                 mViewPager.setCurrentItem(position);
-                BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_HOME_TYPE);
+//                BroadCastReceiveUtils.sendLocalBroadCast(getActivity(), Constants.Action.ACTION_HOME_TYPE);
             }
 
             @Override
@@ -124,7 +136,7 @@ public class HomeFragment extends BaseFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return new HomeAllFragment();
+            return mFragments.get(position);
         }
     }
 

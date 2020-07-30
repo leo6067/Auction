@@ -52,7 +52,7 @@ public class SharedDailogUtils {
         TextView tvTag= view.findViewById(R.id.tv_tag);
 
         GlideUtils.loadImg(sharedModel.getPicPath(), ivStaredPic);
-        tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getTitle()));
+        tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
         GlideUtils.loadImg(sharedModel.getShopHeadImg(), civHead);
         tvShopName.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
         tvMoney.setText(DecimalFormatUtils.getInstance().keepPlaces("#0.00",Double.valueOf(sharedModel.getPrice())));

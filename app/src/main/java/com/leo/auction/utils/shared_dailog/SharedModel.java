@@ -17,7 +17,7 @@ import android.os.Parcelable;
 public class SharedModel implements Parcelable {
     //页面展示需要的
     private String picPath;
-    private String title;
+    private String content;
     private String price;
     private String shopName;
     private String shopHeadImg;
@@ -39,12 +39,12 @@ public class SharedModel implements Parcelable {
         this.picPath = picPath;
     }
 
-    public String getTitle() {
-        return title;
+    public String getContent() {
+        return content;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getPrice() {
@@ -111,11 +111,11 @@ public class SharedModel implements Parcelable {
         this.channelType = channelType;
     }
 
-    public SharedModel(String shopName, String title, String picPath, String price, String shopHeadImg,
+    public SharedModel(String shopName, String content, String picPath, String price, String shopHeadImg,
                        String type, String shareUrl, String shareGoodsCode,
                        String shareUserId, String channelType ) {
         this.picPath = picPath;
-        this.title = title;
+        this.content = content;
         this.price = price;
         this.shopName = shopName;
         this.shopHeadImg = shopHeadImg;
@@ -131,7 +131,7 @@ public class SharedModel implements Parcelable {
 
     protected SharedModel(Parcel in) {
         picPath = in.readString();
-        title = in.readString();
+        content = in.readString();
         price = in.readString();
         shopName = in.readString();
         shopHeadImg = in.readString();
@@ -162,7 +162,7 @@ public class SharedModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(picPath);
-        dest.writeString(title);
+        dest.writeString(content);
         dest.writeString(price);
         dest.writeString(shopName);
         dest.writeString(shopHeadImg);

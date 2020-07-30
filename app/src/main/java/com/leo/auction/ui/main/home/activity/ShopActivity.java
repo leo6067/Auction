@@ -31,12 +31,14 @@ import com.leo.auction.base.Constants;
 
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.net.ResultModel;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.SharedActvity;
 import com.leo.auction.ui.main.home.fragment.ShopAllFragment;
 import com.leo.auction.ui.main.home.model.ShopModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.shared_dailog.SharedModel;
 
 import java.util.ArrayList;
@@ -97,6 +99,7 @@ public class ShopActivity extends BaseActivity {
 
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private ShopModel mShopModel;
+    private UserModel.DataBean mUserJson;
 
     @Override
     public void setContentViewLayout() {
@@ -107,6 +110,7 @@ public class ShopActivity extends BaseActivity {
     public void initView() {
         super.initView();
 
+        mUserJson = BaseSharePerence.getInstance().getUserJson();
         shopUri = getIntent().getExtras().getString("shopUri");
         shopName = getIntent().getExtras().getString("shopName");
         mShopName.setText(shopName);
@@ -176,6 +180,11 @@ public class ShopActivity extends BaseActivity {
         mShopFocus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mUserJson == null) {
+
+                    LoginActivity.newIntance(ShopActivity.this, 0);
+                    return;
+                }
                 httpFocus();
             }
         });
@@ -282,7 +291,6 @@ public class ShopActivity extends BaseActivity {
         ArrayList<String> imgStr = new ArrayList<>();
         imgStr.add(dataBean.getHeadImg());
 
-        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
 
         String type = "2";//1-推荐粉丝  2-推荐商家  3-拍品详情 4-超级仓库商品详情
 
@@ -290,15 +298,20 @@ public class ShopActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                if (userJson == null) {
-                    ToastUtils.showShort("请先登录");
+
+                Globals.log("xxxxxx mTitleBar");
+                if (mUserJson == null) {
+                    Globals.log("xxxxxx mTitleBar 01 ");
+                    LoginActivity.newIntance(ShopActivity.this, 0);
                     return;
                 }
-                String path = Constants.WebApi.SHARE_SHOP_URL + dataBean.getShopUri()
-                        + "&tpm_shareAgentId=" + userJson.getUserId();
 
+                Globals.log("xxxxxx mTitleBar 02");
+
+                String path = Constants.WebApi.SHARE_SHOP_URL + dataBean.getShopUri()
+                        + "&tpm_shareAgentId=" + mUserJson.getUserId();
                 SharedModel sharedModel = new SharedModel(shareTitle, shareTitle, dataBean.getHeadImg(),
-                        "0.00", dataBean.getHeadImg(), type, path, dataBean.getShopUri(), userJson.getUserId(),
+                        "0.00", dataBean.getHeadImg(), type, path, dataBean.getShopUri(), mUserJson.getUserId(),
                         Constants.Action.ACTION_ACTION);
                 SharedActvity.newIntance(ShopActivity.this, sharedModel, imgStr, shareTitle, "");
             }
@@ -313,27 +326,37 @@ public class ShopActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tab_home:
                 MainActivity.newIntance(ShopActivity.this, 0);
-
                 break;
             case R.id.tab_sort:
-
                 ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
 //                MainActivity.newIntance(AuctionDetailActivity.this, 4);
                 ActivityManager.mainActivity.setCurrent(1);
                 break;
             case R.id.tab_focus:
+                if (mUserJson == null) {
+                    LoginActivity.newIntance(ShopActivity.this, 0);
+                    return;
+                }
                 ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
 //                MainActivity.newIntance(AuctionDetailActivity.this, 4);
                 ActivityManager.mainActivity.setCurrent(2);
 
                 break;
             case R.id.tab_news:
+                if (mUserJson == null) {
+                    LoginActivity.newIntance(ShopActivity.this, 0);
+                    return;
+                }
                 ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
 //                MainActivity.newIntance(AuctionDetailActivity.this, 4);
                 ActivityManager.mainActivity.setCurrent(3);
 
                 break;
             case R.id.tab_mine:
+                if (mUserJson == null) {
+                    LoginActivity.newIntance(ShopActivity.this, 0);
+                    return;
+                }
                 ActivityManager.JumpActivity(ShopActivity.this, MainActivity.class);
 //                MainActivity.newIntance(AuctionDetailActivity.this, 4);
                 ActivityManager.mainActivity.setCurrent(4);

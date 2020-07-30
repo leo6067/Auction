@@ -51,9 +51,9 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
         super.initData();
         initAdapter();
         mAdapter.setLoadMoreView(new CostomLoadMoreView());
-        refreshLayout.setEnableRefresh(false);
-        refreshLayout.setEnableLoadMore(false);
-        mAdapter.setEnableLoadMore(false);
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setEnableLoadMore(true);
+        mAdapter.setEnableLoadMore(true);
 
         if (isOpenAnim()) {
             mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);

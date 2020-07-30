@@ -16,12 +16,12 @@ import com.aten.compiler.widget.switchButton.SwitchButton;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.model.AddressModel;
 import com.leo.auction.ui.main.mine.model.DistrictListModel;
 import com.leo.auction.ui.main.mine.model.OneKeyFillingModel;
 import com.leo.auction.utils.CityWheelUtils;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.TextOptionUtils;
 
 import java.util.HashMap;
@@ -54,6 +54,7 @@ public class UpdateAddressActivity extends BaseActivity {
     private String provinceName = "", cityName = "", areaName = "";
     private AddressModel.DataBean item;
     private CityWheelUtils cityWheelUtils;
+    private String mType;
 
 
     @Override
@@ -69,6 +70,7 @@ public class UpdateAddressActivity extends BaseActivity {
     @Override
     public void initData() {
         item = getIntent().getParcelableExtra("item");
+        mType = getIntent().getStringExtra("type");
         super.initData();
         setTitle("编辑地址");
         cityWheelUtils = new CityWheelUtils();
@@ -116,14 +118,14 @@ public class UpdateAddressActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onchooseCity(int provincePos, DistrictListModel.DistrictsBean provinceItemData,
-                                             int cityPos, DistrictListModel.DistrictsBean cityItemData,
-                                             int areaPos, DistrictListModel.DistrictsBean areaItemData) {
-                        provinceId = provinceItemData.getAddr();
+                    public void onchooseCity(int provincePos, DistrictListModel.DataBean provinceItemData,
+                                             int cityPos, DistrictListModel.DataBean cityItemData,
+                                             int areaPos, DistrictListModel.DataBean areaItemData) {
+                        provinceId = provinceItemData.getId();
                         provinceName = provinceItemData.getName();
-                        cityId = cityItemData.getAddr();
+                        cityId = cityItemData.getId();
                         cityName = cityItemData.getName();
-                        areaId = areaItemData.getAddr();
+                        areaId = areaItemData.getId();
                         areaName = areaItemData.getName();
 
                         tvAddress.setText(provinceItemData.getName() + cityItemData.getName() + areaItemData.getName());
@@ -159,17 +161,17 @@ public class UpdateAddressActivity extends BaseActivity {
                 hideWaitDialog();
                 DistrictListModel returnData = JSONObject.parseObject(resultData, DistrictListModel.class);
                 if ("1".equals(level)) {
-                    cityWheelUtils.setProvinceData(returnData.getDistricts());
-                    if (!returnData.getDistricts().isEmpty()) {
-                        getAddressData("2", returnData.getDistricts().get(0).getAddr());
+                    cityWheelUtils.setProvinceData(returnData.getData());
+                    if (!returnData.getData().isEmpty()) {
+                        getAddressData("2", returnData.getData().get(0).getId());
                     }
                 } else if ("2".equals(level)) {
-                    cityWheelUtils.setCityData(returnData.getDistricts());
-                    if (!returnData.getDistricts().isEmpty()) {
-                        getAddressData("3", returnData.getDistricts().get(0).getAddr());
+                    cityWheelUtils.setCityData(returnData.getData());
+                    if (!returnData.getData().isEmpty()) {
+                        getAddressData("3", returnData.getData().get(0).getId());
                     }
                 } else if ("3".equals(level)) {
-                    cityWheelUtils.setAreaData(returnData.getDistricts());
+                    cityWheelUtils.setAreaData(returnData.getData());
                 }
             }
         });
@@ -267,6 +269,7 @@ public class UpdateAddressActivity extends BaseActivity {
 
 
         jsonObject.put("linkman", etConsigneeName.getText().toString().trim());
+        jsonObject.put("addressId", item.getId());
         jsonObject.put("addr1", provinceId);
         jsonObject.put("addr2", cityId);
         jsonObject.put("addr3", areaId);
@@ -274,9 +277,11 @@ public class UpdateAddressActivity extends BaseActivity {
         jsonObject.put("address", etDetailAddress.getText().toString().trim());
         jsonObject.put("code", etPostalCode.getText().toString().trim());
         jsonObject.put("defaultAddress", isDefault);
-        jsonObject.put("type", "0");
+        jsonObject.put("type", mType);
+
 
         showWaitDialog();
+
         HttpRequest.httpPutString(Constants.Api.ADDRESS_URL, jsonObject, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -286,21 +291,29 @@ public class UpdateAddressActivity extends BaseActivity {
             @Override
             public void httpResponse(String resultData) {
                 hideWaitDialog();
-                showShortToast("更新地址成功");
-                AddressModel.DataBean addressBean = new AddressModel.DataBean(provinceId, provinceName, cityId, cityName, areaId, areaName,
-                        etDetailAddress.getText().toString().trim(), etPostalCode.getText().toString().trim(), item.getId(),
-                        etConsigneeName.getText().toString().trim(), etPhone.getText().toString().trim(), sbDefault.isChecked() ? "00B" : "00A", "");
-                Intent intent = new Intent();
-                intent.putExtra("seleteAddress", addressBean);
-                setResult(RESULT_OK, intent);
-                goFinish();
+
+                BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                if (baseModel.getResult().isSuccess()) {
+                    AddressModel.DataBean addressBean = new AddressModel.DataBean(provinceId, provinceName, cityId, cityName, areaId, areaName,
+                            etDetailAddress.getText().toString().trim(), etPostalCode.getText().toString().trim(), item.getId(),
+                            etConsigneeName.getText().toString().trim(), etPhone.getText().toString().trim(), sbDefault.isChecked() ? "00B" : "00A", "");
+                    Intent intent = new Intent();
+                    intent.putExtra("seleteAddress", addressBean);
+                    setResult(RESULT_OK, intent);
+                    goFinish();
+                    showShortToast("更新地址成功");
+                } else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
+
             }
         });
     }
 
-    public static void newIntance(Activity activity, AddressModel.DataBean item, int requestCode) {
+    public static void newIntance(Activity activity,String type, AddressModel.DataBean item, int requestCode) {
         Intent intent = new Intent(activity, UpdateAddressActivity.class);
         intent.putExtra("item", item);
+        intent.putExtra("type", type);
         activity.startActivityForResult(intent, requestCode);
     }
 }

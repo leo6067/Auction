@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="  ···   "/>
+            android:drawableEnd="@drawable/right_more"
+           />
 
     </LinearLayout>
 
@@ -66,13 +67,34 @@
 
 
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_weight="1"
-            android:id="@+id/home_sort_min"
-            android:layout_marginStart="@dimen/dp_30"
-            android:scrollbars="none"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/home_sort_min"
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+
+
+            <View
+                android:id="@+id/view_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

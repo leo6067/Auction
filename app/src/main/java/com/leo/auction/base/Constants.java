@@ -62,7 +62,7 @@ public class Constants {
 
         //变量
         public static boolean ISLOGIN = false;//是否处于登录状态
-        public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个     // 5开始是关注
+//        public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个     // 5开始是关注
         public static int SHOP_TYPE = 0 ;//用于记录是商家店铺主页 片段中具体哪个
         public static int FOCUS_TYPE = 0 ;//用于记录是关注Tab 片段中具体哪个
         public static int MINE_TYPE = 0 ;//用于记录是个人中心是 买入 还是卖出订单
@@ -334,7 +334,7 @@ public class Constants {
 
 
         //地址
-        public static String ADDRESS_URL = domain + "address";//
+        public static String ADDRESS_URL = domain + "address";//修改
         public static String ADDRESS_INFO_URL = domain + "address/info";//
         public static String ADDRESS_DISTRICT_URL = domain + "address/district-children";//
 

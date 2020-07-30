@@ -49,17 +49,17 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
-    private String[] mBottomStr = {"首页", "分类", "关注","消息", "我的"};
+    private String[] mBottomStr = {"首页", "分类", "关注", "消息", "我的"};
     private int[] mIconUnselectIds = {
             R.drawable.home_a, R.drawable.sort_a,
-            R.drawable.focus_a,R.drawable.news_b ,R.drawable.mine_a};
+            R.drawable.focus_a, R.drawable.news_b, R.drawable.mine_a};
     private int[] mIconSelectIds = {
             R.drawable.home_b, R.drawable.sort_b,
-            R.drawable.focus_b, R.drawable.news_a,R.drawable.mine_b};
+            R.drawable.focus_b, R.drawable.news_a, R.drawable.mine_b};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
 
-    private int current  = 0;
+    private int current = 0;
     private MineFragment mMineFragment;
 
     @Override
@@ -82,8 +82,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-    public void initData()  {
+    public void initData() {
         ActivityManager.addActivity(this);
         initImmersionBar();
         ActivityManager.mainActivity = this;
@@ -98,14 +97,14 @@ public class MainActivity extends BaseActivity {
 
         mMineFragment = new MineFragment();
         mFragments.add(mMineFragment);
-        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+
 
 
 //        mFragments.add( MineFragment.newIntance("",httpUrl,true,false) );
         initImmersionBar(R.color.home_title_bg);
 
-        for (int i = 0; i <mBottomStr.length ; i++) {
-            mTabEntities.add(new TabEntity(mBottomStr[i],mIconSelectIds[i],mIconUnselectIds[i]));
+        for (int i = 0; i < mBottomStr.length; i++) {
+            mTabEntities.add(new TabEntity(mBottomStr[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
 
         mCommonBottom.setTabData(mTabEntities);
@@ -113,25 +112,20 @@ public class MainActivity extends BaseActivity {
         mCommonBottom.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-
-                if (position ==0 ){
-                    Constants.Var.HOME_TYPE = 0;
-                }
-
-
-                if (position == 2 || position ==3 ||position ==4){
-                    if (! Constants.Var.ISLOGIN) {
+                Globals.log("xxxxxx mCommonBottom"+ position );
+                UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+                if (position == 2 || position == 3 || position == 4) {
+                    if (userJson ==null) {
                         ToastUtils.showShort("请先登录");
-                        LoginActivity.newIntance(MainActivity.this);
-                        mViewPager.setCurrentItem(0);
-                        mCommonBottom.setCurrentTab(0);
+                        finish();
+                        LoginActivity.newIntance(MainActivity.this, 1);
                         return;
                     }
                 }
 
-                if (position == 0 ||position == 2 || position ==4){
+                if (position == 0 || position == 2 || position == 4) {
                     initImmersionBar(R.color.home_title_bg);
-                }else {
+                } else {
                     initImmersionBar(R.color.white);
                 }
                 mViewPager.setCurrentItem(position);
@@ -151,30 +145,22 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-
-                if (position ==0 ){
-                    Constants.Var.HOME_TYPE = 0;
-                }
-
-
-
-                if (position == 2 || position ==3 ||position ==4){
-                    if (! Constants.Var.ISLOGIN) {
+                Globals.log("xxxxxx mViewPager"+ position );
+                UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+                if (position == 2 || position == 3 || position == 4) {
+                    if (userJson ==null) {
                         ToastUtils.showShort("请先登录");
-                        LoginActivity.newIntance(MainActivity.this);
-
-                        mViewPager.setCurrentItem(0);
-                        mCommonBottom.setCurrentTab(0);
+                        finish();
+                        LoginActivity.newIntance(MainActivity.this, 1);
                         return;
                     }
                 }
 
-                if (position == 0 ||position == 2 || position ==4){
+                if (position == 0 || position == 2 || position == 4) {
                     initImmersionBar(R.color.home_title_bg);
-                }else {
+                } else {
                     initImmersionBar(R.color.white);
                 }
-
                 mCommonBottom.setCurrentTab(position);
             }
 
@@ -184,26 +170,23 @@ public class MainActivity extends BaseActivity {
         });
 
 
-        current= getIntent().getIntExtra("currentTab",0);
+        current = getIntent().getIntExtra("currentTab", 0);
         mViewPager.setCurrentItem(current);
         mCommonBottom.setCurrentTab(current);
-
         httpVerison();
     }
 
 
-    public void setCurrent(int current){
+    public void setCurrent(int current) {
         mViewPager.setCurrentItem(current);
         mCommonBottom.setCurrentTab(current);
     }
 
 
-
-    public void httpVerison(){
+    public void httpVerison() {
         VersionModel.httpGetVersion(new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-
             }
 
             @Override
@@ -212,7 +195,7 @@ public class MainActivity extends BaseActivity {
                 HashMap<String, String> mHashMap = new HashMap<>();
                 mHashMap.put("isForce", returnData.getData().isForce() + "");
                 mHashMap.put("downUrl", returnData.getData().getDownload());
-                if (Integer.parseInt(returnData.getData().getVersion()) == AppUtils.getAppVersionCode()){
+                if (Integer.parseInt(returnData.getData().getVersion()) == AppUtils.getAppVersionCode()) {
                     return;
                 }
 
@@ -221,14 +204,13 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void versionOK() {
 //                        VersionDownDialog downDialog = new VersionDownDialog(MainActivity.this,"https://imtt.dd.qq.com/16891/apk/C831AEEA8BCC274A9EBA11DB22BBC375.apk");
-                        VersionDownDialog downDialog = new VersionDownDialog(MainActivity.this,returnData.getData().getDownload());
+                        VersionDownDialog downDialog = new VersionDownDialog(MainActivity.this, returnData.getData().getDownload());
                         downDialog.show();
                         downDialog.setCanceledOnTouchOutside(false);
                     }
 
                     @Override
                     public void versionCancel() {
-
                     }
                 });
                 versionDialog.show();
@@ -238,18 +220,16 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
-    public void setCurrentItem(int position){
+    public void setCurrentItem(int position) {
         mViewPager.setCurrentItem(position);
     }
 
-    public void setBottomGone(){
+    public void setBottomGone() {
         mCommonBottom.setVisibility(View.GONE);
     }
 
 
-    public void setBottomVisible(){
+    public void setBottomVisible() {
         mCommonBottom.setVisibility(View.VISIBLE);
     }
 
@@ -277,7 +257,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     public static void newIntance(Context context, int currentTab) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("currentTab", currentTab);
@@ -289,13 +268,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-
-            if ( mMineFragment!=null && mMineFragment.mWebview!=null && mMineFragment.mWebview.canGoBack()) {
+            if (mMineFragment != null && mMineFragment.mWebview != null && mMineFragment.mWebview.canGoBack()) {
                 mMineFragment.mWebview.goBack();
                 return true;
             }
-
-
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
@@ -306,8 +282,6 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 
 
 }

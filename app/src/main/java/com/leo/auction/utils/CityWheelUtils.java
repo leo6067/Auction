@@ -28,7 +28,7 @@ import java.util.List;
 public class CityWheelUtils {
     private BottomDialogUtils bottomDialogUtils;
     private String cityInfo="";
-    private WheelView<DistrictListModel.DistrictsBean> wvProvince,wvCity,wvArea;
+    private WheelView<DistrictListModel.DataBean> wvProvince,wvCity,wvArea;
 
     //显示城市选择框
     public void showCityWheel(Context context, final CityWheelClickListener cityWheelClickListener){
@@ -45,17 +45,17 @@ public class CityWheelUtils {
         wvArea.setCurvedArcDirection(WheelView.CURVED_ARC_DIRECTION_RIGHT);
         wvArea.setCurvedArcDirectionFactor(0.65f);
 
-        wvProvince.setOnItemSelectedListener(new WheelView.OnItemSelectedListener<DistrictListModel.DistrictsBean>() {
+        wvProvince.setOnItemSelectedListener(new WheelView.OnItemSelectedListener<DistrictListModel.DataBean>() {
             @Override
-            public void onItemSelected(WheelView<DistrictListModel.DistrictsBean> wheelView, DistrictListModel.DistrictsBean data, int position) {
-                cityWheelClickListener.onCity(data.getAddr());
+            public void onItemSelected(WheelView<DistrictListModel.DataBean> wheelView, DistrictListModel.DataBean data, int position) {
+                cityWheelClickListener.onCity(data.getId());
             }
         });
 
-        wvCity.setOnItemSelectedListener(new WheelView.OnItemSelectedListener<DistrictListModel.DistrictsBean>() {
+        wvCity.setOnItemSelectedListener(new WheelView.OnItemSelectedListener<DistrictListModel.DataBean>() {
             @Override
-            public void onItemSelected(WheelView<DistrictListModel.DistrictsBean> wheelView, DistrictListModel.DistrictsBean data, int position) {
-                cityWheelClickListener.onArea(data.getAddr());
+            public void onItemSelected(WheelView<DistrictListModel.DataBean> wheelView, DistrictListModel.DataBean data, int position) {
+                cityWheelClickListener.onArea(data.getId());
             }
         });
 
@@ -91,7 +91,7 @@ public class CityWheelUtils {
     }
 
     //设置省的数据
-    public void setProvinceData(List<DistrictListModel.DistrictsBean> provinceDatas){
+    public void setProvinceData(List<DistrictListModel.DataBean> provinceDatas){
         if (wvProvince==null){
             ToastUtils.showShort("数据有误,请重新打开页面！");
         }else {
@@ -99,7 +99,7 @@ public class CityWheelUtils {
         }
     }
     //设置市的数据
-    public void setCityData(List<DistrictListModel.DistrictsBean> cityDatas){
+    public void setCityData(List<DistrictListModel.DataBean> cityDatas){
         if (wvCity==null){
             ToastUtils.showShort("数据有误,请重新打开页面！");
         }else {
@@ -107,7 +107,7 @@ public class CityWheelUtils {
         }
     }
     //设置区的数据
-    public void setAreaData(List<DistrictListModel.DistrictsBean> areaDatas){
+    public void setAreaData(List<DistrictListModel.DataBean> areaDatas){
         if (wvArea==null){
             ToastUtils.showShort("数据有误,请重新打开页面！");
         }else {
@@ -192,8 +192,8 @@ public class CityWheelUtils {
     public interface CityWheelClickListener{
         void onCity(String provinceId);//获取城市以及区的数据
         void onArea(String cityId);//获取区的数据
-        void onchooseCity(int provincePos, DistrictListModel.DistrictsBean provinceItemData,
-                          int cityPos, DistrictListModel.DistrictsBean cityItemData,
-                          int areaPos, DistrictListModel.DistrictsBean areaItemData);
+        void onchooseCity(int provincePos, DistrictListModel.DataBean provinceItemData,
+                          int cityPos, DistrictListModel.DataBean cityItemData,
+                          int areaPos, DistrictListModel.DataBean areaItemData);
     }
 }

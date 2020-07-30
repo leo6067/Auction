@@ -13,17 +13,14 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
-import com.aten.compiler.base.BaseWebActivity;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.ScreenUtils;
-import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
@@ -31,7 +28,6 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.login.AgreementActivity;
 import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.WebViewActivity;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
@@ -39,25 +35,25 @@ import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.adapter.HomeTitleAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
 import com.leo.auction.ui.main.home.model.SubsidyModel;
-import com.leo.auction.ui.main.mine.model.ProductListModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
+ *
+ *
+ *
+ * 一元拍
  */
 
-public class HomeAllFragment extends BaseRecyclerViewFragment {
+public class HomeYYPFragment extends BaseRecyclerViewFragment {
 
 
     @BindView(R.id.recyclerView)
@@ -87,7 +83,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     private View mInflate;
 
 
-    public HomeAllFragment() {
+    public HomeYYPFragment() {
     }
 
 
@@ -101,9 +97,9 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     public void initData() {
         super.initData();
 
-
+//        if (Constants.Var.HOME_TYPE == 0) {
             onRefresh(refreshLayout);
-
+//        }
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
         Constants.Action.ACTION_ACTION = "1";
     }
@@ -206,7 +202,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     @Override
     protected void getData() {
         super.getData();
-
+//        String mUrl = "";
         HashMap<String, String> hashMap = new HashMap<>();
 
 //        int homeType = Constants.Var.HOME_TYPE;
@@ -214,7 +210,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 //        if (homeType == 0) {//首页--百亿
 //            mUrl = Constants.Api.HOME_SUBSIDY_URL;
 //        } else if (homeType == 1) {//首页--全部
-//            mUrl = Constants.Api.HOME_UNITARY_URL;
 //        } else if (homeType == 2) {//首页--全部
 //            mUrl = Constants.Api.HOME_PICK_URL;
 //        } else if (homeType == 3) {//首页-- 二手
@@ -224,9 +219,10 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 //        } else {
 //            return;
 //        }
-        String  mUrl = Constants.Api.HOME_ALL_PRODUCT_URL;
 
+        String  mUrl = Constants.Api.HOME_UNITARY_URL;
 
+//        Globals.log("xxxxx Constants.Var.HOME_TYPE" + Constants.Var.HOME_TYPE);
 
         hashMap.put("keyword", "");
         hashMap.put("pageNum", "" + mPageNum);
@@ -254,12 +250,12 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 1;
-                    Globals.log("xxxxx  "+  01 );
+
                 } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
-                    Globals.log("xxxxx  "+  02 );
+
                 } else {
-                    Globals.log("xxxxx  "+  03 );
+
                     mAdapter.loadMoreEnd();
                 }
 

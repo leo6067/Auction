@@ -85,11 +85,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @BindView(R.id.view_view)
     View viewView;
     private boolean isError = false;
+    private int backPager;
+
 
     private BroadCastReceiveUtils mStartActivity = new BroadCastReceiveUtils() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            LoginActivity.newIntance(context);
+            LoginActivity.newIntance(context, 0);
         }
     };
 
@@ -128,7 +130,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void initData() {
         super.initData();
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
         setWebView();
+        backPager = getIntent().getIntExtra("backPager", 0);
+        BaseSharePerence.getInstance().setUserJson("");
         BroadCastReceiveUtils.registerLocalReceiver(LoginActivity.this, Constants.Action.ACTION_LOGIN, mStartActivity);
     }
 
@@ -232,10 +243,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 login();
                 break;
             case R.id.iv_close:
-                ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.setCurrent(0);
+//                ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
+//                ActivityManager.mainActivity.setCurrent(0);
 
-                finish();
+                Globals.log("xxxxxxxxxxx " + backPager);
+                if (backPager == 0) {
+                    finish();
+                } else {
+                    ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
+                    ActivityManager.mainActivity.setCurrent(0);
+                    finish();
+                }
                 break;
             case R.id.iv_wx_login:
                 if (!cbCheck.isChecked()) {
@@ -328,9 +346,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     ToastUtils.showShort("登录成功");
                     httpUser();
                     BaseSharePerence.getInstance().setLoginJson(resultData);
-                    ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
-                    ActivityManager.mainActivity.setCurrent(0);
-                    finish();
+
+                    if (backPager == 0) {
+                        finish();
+                    } else {
+                        ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
+                        ActivityManager.mainActivity.setCurrent(0);
+                        finish();
+                    }
                 }
             }
         });
@@ -351,15 +374,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void onStart(SHARE_MEDIA share_media) {
-
-                Globals.log("xxxxxxxxxxweixin onStart" +share_media    );
             }
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-
-                Globals.log("xxxxxxxxxxweixin"   + map.toString() );
-
                 showWaitDialog();
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put("unionId", map.get("unionid"));
@@ -380,10 +398,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             ToastUtils.showShort("登录成功");
                             httpUser();
                             BaseSharePerence.getInstance().setLoginJson(resultData);
-                            ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
-                            ActivityManager.mainActivity.setCurrent(0);
-
-                            finish();
+                            if (backPager == 0) {
+                                finish();
+                            } else {
+                                ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
+                                ActivityManager.mainActivity.setCurrent(0);
+                                finish();
+                            }
                         }
                     }
                 });
@@ -444,15 +465,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     //backPager 0:代表返回上一页 1：代表回到首页
-    public static void newIntance(Context context) {
-        CookieSyncManager.createInstance(context);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
-        CookieSyncManager.getInstance().sync();
+    public static void newIntance(Context context, int backPager) {
+//        CookieSyncManager.createInstance(context);
+//        CookieManager cookieManager = CookieManager.getInstance();
+//        cookieManager.removeAllCookie();
+//        CookieSyncManager.getInstance().sync();
+
+        Globals.log("xxxxxxxx  context"  +context.getClass().getName());
+
         Constants.Var.ISLOGIN = false;
         Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("backPager", backPager);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (backPager == 1) {
+            MainActivity.newIntance(LoginActivity.this, 0);
+        }
+        super.onBackPressed();
+//        if ("0".equals(loginCloseType)) {
+//            this.overridePendingTransition(0, 0);
+//        } else {
+//            this.overridePendingTransition(0, R.anim.activity_up_to_down);
+//        }
     }
 
 

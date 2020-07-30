@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -51,6 +52,9 @@ public class MainSortFragment extends BaseFragment {
     RecyclerView mHomeSortMin;
     @BindView(R.id.lin_search)
     RTextView mSearchMin;
+
+    @BindView(R.id.view_view)
+    View mViewView;
 
 
     private SortAdapter mSortAdapter;
@@ -119,7 +123,7 @@ public class MainSortFragment extends BaseFragment {
                 LinearLayoutManager mLayoutManager =
                         (LinearLayoutManager) mHomeSortMin.getLayoutManager();
 //                mLayoutManager.scrollToPositionWithOffset(indexMap.get(position), 0);
-
+                setViewView(position);
                 scrollItemToTop(mLayoutManager, indexMap.get(position));
                 mSortAdapter.setSelectedPosition(position);
             }
@@ -151,6 +155,7 @@ public class MainSortFragment extends BaseFragment {
                         }
                     }
                     mSortAdapter.setSelectedPosition(selectPosition);
+                    setViewView(selectPosition);
                 }
             }
         });
@@ -158,7 +163,36 @@ public class MainSortFragment extends BaseFragment {
 
     }
 
+
+    void setViewView(int index){
+
+        Globals.log("xxxxxxxxxx scrollItemToTop" +index);
+
+        if (index ==5) {
+            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) mViewView.getLayoutParams();
+            linearParams.height = (index -3) * ((int)getResources().getDimension(R.dimen.dp_240));
+            mViewView.setLayoutParams(linearParams);
+            mViewView.setVisibility(View.VISIBLE);
+        }else  if (index >5){
+            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) mViewView.getLayoutParams();
+            linearParams.height = (index -4) * ((int)getResources().getDimension(R.dimen.dp_220))+((int)getResources().getDimension(R.dimen.dp_240));
+            mViewView.setLayoutParams(linearParams);
+            mViewView.setVisibility(View.VISIBLE);
+        }else {
+            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) mViewView.getLayoutParams();
+            linearParams.height = 0;
+            mViewView.setLayoutParams(linearParams);
+            mViewView.setVisibility(View.GONE);
+        }
+
+
+    }
+
     void scrollItemToTop(LinearLayoutManager mLayoutManager, int position) {
+
+//        mLayoutManager.scrollToPositionWithOffset(position, 0);
+
+
         SortLinearSmoothScroller smoothScroller = new SortLinearSmoothScroller(getActivity());
         smoothScroller.setTargetPosition(position);
         mLayoutManager.startSmoothScroll(smoothScroller);

@@ -47,6 +47,9 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, SortShopModel.DataBean dataBean) {
 
+
+        //强制关闭复用
+        baseViewHolder.setIsRecyclable(false);
         ImageView mItemHead = baseViewHolder.getView(R.id.item_head);
         GlideUtils.loadImg(dataBean.getProductUser().getHeadImg(), mItemHead);
 

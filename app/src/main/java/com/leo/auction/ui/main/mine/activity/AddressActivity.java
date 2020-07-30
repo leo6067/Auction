@@ -21,6 +21,7 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.adapter.AddressAdapter;
 import com.leo.auction.ui.main.mine.model.AddressModel;
+import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
 
@@ -103,7 +104,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
     @Override
     public void onItemListener(AddressModel.DataBean item) {
         if ("0".equals(itemClickBackType)) {
-            UpdateAddressActivity.newIntance(AddressActivity.this, item, Constants.RequestCode.RETURNREQUEST_REFRESH_UPDATEADDRESS);
+            UpdateAddressActivity.newIntance(AddressActivity.this, type,item, Constants.RequestCode.RETURNREQUEST_REFRESH_UPDATEADDRESS);
         } else if ("1".equals(itemClickBackType)) {
             Intent intent = new Intent();
             intent.putExtra("address", item);
@@ -135,6 +136,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("addressId", addressId);
 
+        Globals.log("XXXXXXXXXXXXXXXASADSD");
         HttpRequest.httpDeleteString(Constants.Api.ADDRESS_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -148,8 +150,7 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                 if (baseModel.getResult().isSuccess()) {
                     ToastUtils.showShort("删除成功");
-                    setResult(RESULT_OK);
-                    goFinish();
+                    onRefresh(refreshLayout);
                 } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
                 }

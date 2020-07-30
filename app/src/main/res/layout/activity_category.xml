@@ -70,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlDragRate="0.75"
+            app:srlEnableAutoLoadMore="true"
             app:srlEnablePreviewInEditMode="true">
 
             <com.scwang.smartrefresh.layout.header.ClassicsHeader

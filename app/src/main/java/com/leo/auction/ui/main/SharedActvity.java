@@ -66,7 +66,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     private SharedDailogUtils sharedDailogUtils;
     private SharedMessageUtils sharedMessageUtils;
 
-    private String sharedText;
+
     private List<String> nineImgs = new ArrayList<>();//记录页面九宫图的图片
     private String copyText = "",videoUrl="";
 
@@ -95,7 +95,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     public void initData() {
         sharedModel = getIntent().getParcelableExtra("sharedModel");
 
-        sharedText = getIntent().getStringExtra("sharedText");
+
         nineImgs = getIntent().getStringArrayListExtra("nineImgs");
         copyText = getIntent().getStringExtra("copyText");
         videoUrl = getIntent().getStringExtra("videoUrl");
@@ -162,7 +162,11 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 //        String path = Constants.WEB_BASE_URL+ "auction-web/pages/sub/product/productDetail?productInstanceCode=" + sharedModel.getId()
 //                + "&shareAgentId=" +userJson.getUserId();
 
-        UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getTitle(),sharedModel.getPicPath(), sharedText,SHARE_MEDIA.WEIXIN,umShareListener);
+
+
+
+        Globals.log("xxxxxxxx sharedModel.getContent()"+ sharedModel.getShopName()  +sharedModel.getContent());
+        UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.WEIXIN,umShareListener);
         //分享到朋友圈，---将 SHARE_MEDIA.WEIXIN_CIRCLE    ----------- SHARE_MEDIA.WEIXIN  替换
 //        UmShare.shareLink(this,path,sharedText,sharedModel.getPicPath(), sharedText,SHARE_MEDIA.WEIXIN_CIRCLE,umShareListener);
 

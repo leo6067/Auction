@@ -3,13 +3,9 @@ package com.leo.auction.ui.main.mine.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.widget.wheel.entity.IWheelEntity;
 import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
-
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +22,22 @@ import java.util.List;
  * ================================================
  */
 public class DistrictListModel {
+
+
     /**
-     * districts : [{"addr":110000,"level":1,"name":"北京市"},{"addr":120000,"level":1,"name":"天津市"},{"addr":130000,"level":1,"name":"河北省"},{"addr":140000,"level":1,"name":"山西省"},{"addr":150000,"level":1,"name":"内蒙古自治区"},{"addr":210000,"level":1,"name":"辽宁省"},{"addr":220000,"level":1,"name":"吉林省"},{"addr":230000,"level":1,"name":"黑龙江省"},{"addr":310000,"level":1,"name":"上海市"},{"addr":320000,"level":1,"name":"江苏省"},{"addr":330000,"level":1,"name":"浙江省"},{"addr":340000,"level":1,"name":"安徽省"},{"addr":350000,"level":1,"name":"福建省"},{"addr":360000,"level":1,"name":"江西省"},{"addr":370000,"level":1,"name":"山东省"},{"addr":410000,"level":1,"name":"河南省"},{"addr":420000,"level":1,"name":"湖北省"},{"addr":430000,"level":1,"name":"湖南省"},{"addr":440000,"level":1,"name":"广东省"},{"addr":450000,"level":1,"name":"广西壮族自治区"},{"addr":460000,"level":1,"name":"海南省"},{"addr":500000,"level":1,"name":"重庆市"},{"addr":510000,"level":1,"name":"四川省"},{"addr":520000,"level":1,"name":"贵州省"},{"addr":530000,"level":1,"name":"云南省"},{"addr":540000,"level":1,"name":"西藏自治区"},{"addr":610000,"level":1,"name":"陕西省"},{"addr":620000,"level":1,"name":"甘肃省"},{"addr":630000,"level":1,"name":"青海省"},{"addr":640000,"level":1,"name":"宁夏回族自治区"},{"addr":650000,"level":1,"name":"新疆维吾尔自治区"},{"addr":710000,"level":1,"name":"台湾省"},{"addr":810000,"level":1,"name":"香港特别行政区"},{"addr":820000,"level":1,"name":"澳门特别行政区"}]
-     * result : {"code":"0","message":"请求成功","success":true}
+     * data : [{"id":110000,"name":"北京市"},{"id":120000,"name":"天津市"},{"id":130000,"name":"河北省"},{"id":140000,"name":"山西省"},{"id":150000,"name":"内蒙古自治区"},{"id":210000,"name":"辽宁省"},{"id":220000,"name":"吉林省"},{"id":230000,"name":"黑龙江省"},{"id":310000,"name":"上海市"},{"id":320000,"name":"江苏省"},{"id":330000,"name":"浙江省"},{"id":340000,"name":"安徽省"},{"id":350000,"name":"福建省"},{"id":360000,"name":"江西省"},{"id":370000,"name":"山东省"},{"id":410000,"name":"河南省"},{"id":420000,"name":"湖北省"},{"id":430000,"name":"湖南省"},{"id":440000,"name":"广东省"},{"id":450000,"name":"广西壮族自治区"},{"id":460000,"name":"海南省"},{"id":500000,"name":"重庆市"},{"id":510000,"name":"四川省"},{"id":520000,"name":"贵州省"},{"id":530000,"name":"云南省"},{"id":540000,"name":"西藏自治区"},{"id":610000,"name":"陕西省"},{"id":620000,"name":"甘肃省"},{"id":630000,"name":"青海省"},{"id":640000,"name":"宁夏回族自治区"},{"id":650000,"name":"新疆维吾尔自治区"},{"id":710000,"name":"台湾省"},{"id":810000,"name":"香港特别行政区"},{"id":820000,"name":"澳门特别行政区"}]
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1596013474266}
      */
 
     private ResultBean result;
-    private List<DistrictsBean> data;
+    private List<DataBean> data;
+
+    public static void sendDistrictListRequest(String id, String level, HttpRequest.HttpCallback httpCallback) {
+        HashMap<String,String> mHash = new HashMap<>();
+        mHash.put("parentId",id);
+        mHash.put("level",level);
+        HttpRequest.httpGetString(Constants.Api.ADDRESS_DISTRICT_URL, mHash, httpCallback);
+    }
 
     public ResultBean getResult() {
         return result;
@@ -42,12 +47,12 @@ public class DistrictListModel {
         this.result = result;
     }
 
-    public List<DistrictsBean> getDistricts() {
+    public List<DataBean> getData() {
         return data;
     }
 
-    public void setDistricts(List<DistrictsBean> districts) {
-        this.data = districts;
+    public void setData(List<DataBean> data) {
+        this.data = data;
     }
 
     public static class ResultBean {
@@ -55,11 +60,13 @@ public class DistrictListModel {
          * code : 0
          * message : 请求成功
          * success : true
+         * timestamp : 1596013474266
          */
 
         private String code;
         private String message;
         private boolean success;
+        private long timestamp;
 
         public String getCode() {
             return code;
@@ -84,33 +91,51 @@ public class DistrictListModel {
         public void setSuccess(boolean success) {
             this.success = success;
         }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(long timestamp) {
+            this.timestamp = timestamp;
+        }
     }
 
-    public static class DistrictsBean implements Parcelable , IWheelEntity {
+    public static class DataBean implements Parcelable, IWheelEntity {
         /**
-         * addr : 110000
-         * level : 1
+         * id : 110000
          * name : 北京市
          */
 
-        private String addr;
-        private String level;
+        private String id;
         private String name;
 
-        public String getAddr() {
-            return addr;
+        public DataBean() {
         }
 
-        public void setAddr(String addr) {
-            this.addr = addr;
+        protected DataBean(Parcel in) {
+            id = in.readString();
+            name = in.readString();
         }
 
-        public String getLevel() {
-            return level;
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
+
+        public String getId() {
+            return id;
         }
 
-        public void setLevel(String level) {
-            this.level = level;
+        public void setId(String id) {
+            this.id = id;
         }
 
         public String getName() {
@@ -128,43 +153,13 @@ public class DistrictListModel {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.addr);
-            dest.writeString(this.level);
-            dest.writeString(this.name);
+            dest.writeString(id);
+            dest.writeString(name);
         }
-
-        public DistrictsBean() {
-        }
-
-        protected DistrictsBean(Parcel in) {
-            this.addr = in.readString();
-            this.level = in.readString();
-            this.name = in.readString();
-        }
-
-        public static final Creator<DistrictsBean> CREATOR = new Creator<DistrictsBean>() {
-            @Override
-            public DistrictsBean createFromParcel(Parcel source) {
-                return new DistrictsBean(source);
-            }
-
-            @Override
-            public DistrictsBean[] newArray(int size) {
-                return new DistrictsBean[size];
-            }
-        };
 
         @Override
         public String getWheelText() {
             return getName();
         }
-    }
-
-
-    public static void sendDistrictListRequest(String id, String level, HttpRequest.HttpCallback httpCallback) {
-        HashMap<String,String> mHash = new HashMap<>();
-        mHash.put("parentId",id);
-        mHash.put("level",level);
-        HttpRequest.httpGetString(Constants.Api.ADDRESS_DISTRICT_URL, mHash, httpCallback);
     }
 }

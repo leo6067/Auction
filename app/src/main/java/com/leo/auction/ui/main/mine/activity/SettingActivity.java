@@ -105,6 +105,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
     public void initView() {
         super.initView();
         mTitleBar.getTitleView().setText("设置");
+        UserModel.httpUpdateUser();
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
 
 
@@ -140,7 +141,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
                 UpdatePhoneActivity.newIntance(SettingActivity.this, Constants.RequestCode.RETURNREQUEST_REFRESH_UPDATEPHONE);
                 break;
             case R.id.rl_real_name_auth:  //实名认证
-                ActivityManager.JumpActivity(SettingActivity.this,IdentityActivity.class);
+                ActivityManager.JumpActivity(SettingActivity.this, IdentityActivity.class);
                 break;
             case R.id.rl_address: //收货地址
                 AddressActivity.newIntance(SettingActivity.this, "0", "0", Constants.RequestCode.RETURNREQUEST_REFRESH_SETTING_ADDRESS);
@@ -166,8 +167,8 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
                                 showWaitDialog();
                                 removeAllCookie();
                                 loginOut();
-                                ActivityManager.JumpActivity(SettingActivity.this, LoginActivity.class);
                                 finish();
+                                LoginActivity.newIntance(SettingActivity.this, 1);
                             }
                         });
                 break;
@@ -179,13 +180,11 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
 
 
     //清除所有cookie
-    private void removeAllCookie()
-    {
+    private void removeAllCookie() {
         CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(SettingActivity.this);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
         cookieManager.removeSessionCookie();
-
 
 
         cookieManager.removeAllCookie();
@@ -303,9 +302,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
         });
 
 
-
     }
-
 
 
 }

@@ -37,9 +37,11 @@ import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
 import com.leo.auction.ui.main.mine.activity.SettingActivity;
 import com.leo.auction.ui.main.mine.activity.StoreQRCodeActivity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 import com.tencent.smtt.sdk.CookieSyncManager;
 
@@ -80,6 +82,8 @@ public class MineFragment extends BaseFragment {
     public int getLayoutId() {
         return R.layout.fragment_mine;
     }
+
+
 
 
 
@@ -175,8 +179,8 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        if (!Constants.Var.ISLOGIN) {
+        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+        if (userJson == null) {
             return;
         }
 

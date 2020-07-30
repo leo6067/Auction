@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewActivity;
+import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.aten.compiler.widget.title.TitleBar;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.ui.login.model.CommonModel;
@@ -34,9 +36,8 @@ public class StoreQRCodeActivity extends BaseRecyclerViewActivity {
     TitleBar mTitleBar;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @BindView(R.id.refreshLayout)
-    CustRefreshLayout mRefreshLayout;
 
+    ArrayList<StoreQRCodeModel> storeQRCodeModels = new ArrayList<>();
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_store_qrcode);
@@ -55,7 +56,8 @@ public class StoreQRCodeActivity extends BaseRecyclerViewActivity {
         mTitleBar.setTitle("推广二维码");
         refreshLayout.setEnableOverScrollDrag(true);
         recyclerView.addItemDecoration(new StoreQRCodeDecoration(this));
-        onRefresh(refreshLayout);
+        getData();
+
     }
 
     @Override
@@ -81,11 +83,25 @@ public class StoreQRCodeActivity extends BaseRecyclerViewActivity {
         View mHeadView = LayoutInflater.from(this).inflate(R.layout.layout_store_qrcode_head, recyclerView, false);
 
         mAdapter.addHeaderView(mHeadView);
+
+
+//        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+//
+//                ToastUtils.showShort("ssssssssssssssssssssssssssssss");
+//
+//
+//                StoreQRCodeModel item = storeQRCodeModels.get(i);
+//
+//                GenerateQRCodeActivity.newIntance(StoreQRCodeActivity.this, item.getFourImgsBg(), item.getQrCodeType());
+//            }
+//        });
     }
 
     @Override
     public void getData() {
-        ArrayList<StoreQRCodeModel> storeQRCodeModels = new ArrayList<>();
+
 //        StoreQRCodeModel storeQRCodeModel01 = new StoreQRCodeModel("https://w.taojianlou.com/image/qrcodeTwo/sj_yl.png",
 //                "https://w.taojianlou.com/image/qrcodeTwo/sj.png", "店铺二维码");
 //        StoreQRCodeModel storeQRCodeModel02 = new StoreQRCodeModel("https://w.taojianlou.com/image/qrcodeTwo/sy1_yl.png",
@@ -99,7 +115,7 @@ public class StoreQRCodeActivity extends BaseRecyclerViewActivity {
 //        StoreQRCodeModel storeQRCodeModel06 = new StoreQRCodeModel("https://w.taojianlou.com/image/qrcodeTwo/sjsqbg_yl.png",
 //                "https://w.taojianlou.com/image/qrcodeTwo/sjsqbg.png", "推荐供货商");
 
-
+        storeQRCodeModels = new ArrayList<>();
         CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
 
 
@@ -117,6 +133,10 @@ public class StoreQRCodeActivity extends BaseRecyclerViewActivity {
 
 
         mAdapter.setNewData(storeQRCodeModels);
+        mAdapter.closeLoadAnimation();
+        mAdapter.loadMoreEnd(true);
+
+        mAdapter.loadMoreComplete();
     }
 
     //item点击事件

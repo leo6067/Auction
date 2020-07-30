@@ -2,8 +2,6 @@ package com.leo.auction.ui.main.mine.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,14 +14,12 @@ import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.switchButton.SwitchButton;
 import com.leo.auction.R;
-import com.leo.auction.base.BaseModel;
-import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.model.AddAddressModel;
-import com.leo.auction.ui.main.mine.model.AddressModel;
 import com.leo.auction.ui.main.mine.model.DistrictListModel;
 import com.leo.auction.ui.main.mine.model.OneKeyFillingModel;
 import com.leo.auction.utils.CityWheelUtils;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.TextOptionUtils;
 
 import butterknife.BindView;
@@ -70,6 +66,7 @@ public class IncreaseAddressActivity extends BaseActivity {
         setTitle("添加地址");
         cityWheelUtils = new CityWheelUtils();
 
+
     }
 
 
@@ -103,6 +100,8 @@ public class IncreaseAddressActivity extends BaseActivity {
         }
         switch (view.getId()) {
             case R.id.tv_address:
+
+
                 cityWheelUtils.showCityWheel(IncreaseAddressActivity.this, new CityWheelUtils.CityWheelClickListener() {
                     @Override
                     public void onCity(String provinceId) {
@@ -115,21 +114,21 @@ public class IncreaseAddressActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onchooseCity(int provincePos, DistrictListModel.DistrictsBean provinceItemData,
-                                             int cityPos, DistrictListModel.DistrictsBean cityItemData,
-                                             int areaPos, DistrictListModel.DistrictsBean areaItemData) {
+                    public void onchooseCity(int provincePos, DistrictListModel.DataBean provinceItemData,
+                                             int cityPos, DistrictListModel.DataBean cityItemData,
+                                             int areaPos, DistrictListModel.DataBean areaItemData) {
                         if (provinceItemData != null) {
-                            provinceId = provinceItemData.getAddr();
+                            provinceId = provinceItemData.getId();
                             provinceName = provinceItemData.getName();
                         }
 
                         if (cityItemData != null) {
-                            cityId = cityItemData.getAddr();
+                            cityId = cityItemData.getId();
                             cityName = cityItemData.getName();
                         }
 
                         if (areaItemData != null) {
-                            areaId = areaItemData.getAddr();
+                            areaId = areaItemData.getId();
                             areaName = areaItemData.getName();
                         }
 
@@ -201,33 +200,35 @@ public class IncreaseAddressActivity extends BaseActivity {
             public void httpResponse(String resultData) {
                 hideWaitDialog();
                 DistrictListModel returnData = JSONObject.parseObject(resultData, DistrictListModel.class);
+
+                Globals.log("xxxxxxxxxxxxxx  returnData"  +returnData.getData());
                 if ("1".equals(level)) {
-                    cityWheelUtils.setProvinceData(returnData.getDistricts());
-                    for (int i = 0; i < returnData.getDistricts().size(); i++) {
-                        if (provinceId.equals(returnData.getDistricts().get(i).getAddr())) {
+                    cityWheelUtils.setProvinceData(returnData.getData());
+                    for (int i = 0; i < returnData.getData().size(); i++) {
+                        if (provinceId.equals(returnData.getData().get(i).getId())) {
                             cityWheelUtils.setProvinceSelectItem(i);
                             break;
                         }
                     }
 
-                    if (!returnData.getDistricts().isEmpty()) {
-                        getAddressData("2", returnData.getDistricts().get(0).getAddr());
+                    if (!returnData.getData().isEmpty()) {
+                        getAddressData("2", returnData.getData().get(0).getId());
                     }
                 } else if ("2".equals(level)) {
-                    cityWheelUtils.setCityData(returnData.getDistricts());
-                    for (int i = 0; i < returnData.getDistricts().size(); i++) {
-                        if (cityId.equals(returnData.getDistricts().get(i).getAddr())) {
+                    cityWheelUtils.setCityData(returnData.getData());
+                    for (int i = 0; i < returnData.getData().size(); i++) {
+                        if (cityId.equals(returnData.getData().get(i).getId())) {
                             cityWheelUtils.setCitySelectItem(i);
                             break;
                         }
                     }
-                    if (!returnData.getDistricts().isEmpty()) {
-                        getAddressData("3", returnData.getDistricts().get(0).getAddr());
+                    if (!returnData.getData().isEmpty()) {
+                        getAddressData("3", returnData.getData().get(0).getId());
                     }
                 } else if ("3".equals(level)) {
-                    cityWheelUtils.setAreaData(returnData.getDistricts());
-                    for (int i = 0; i < returnData.getDistricts().size(); i++) {
-                        if (areaId.equals(returnData.getDistricts().get(i).getAddr())) {
+                    cityWheelUtils.setAreaData(returnData.getData());
+                    for (int i = 0; i < returnData.getData().size(); i++) {
+                        if (areaId.equals(returnData.getData().get(i).getId())) {
                             cityWheelUtils.setAreaSelectItem(i);
                             break;
                         }

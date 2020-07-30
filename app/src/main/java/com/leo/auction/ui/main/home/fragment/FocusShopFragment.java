@@ -16,9 +16,11 @@ import com.aten.compiler.utils.ScreenUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.main.sort.SortShopAdapter;
 import com.leo.auction.ui.main.sort.SortShopModel;
 
@@ -28,8 +30,8 @@ import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
- *
- *
+ * <p>
+ * <p>
  * 首页---关注  ----店铺
  */
 public class FocusShopFragment extends BaseRecyclerViewFragment {
@@ -38,6 +40,7 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     ImageView mIvToTop;
 
     private int totalDy = 0;
+
     public FocusShopFragment() {
         // Required empty public constructor
     }
@@ -58,21 +61,21 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
 
             @Override
             public void soreItemListener(int layoutPosition) {
-                SortShopModel.DataBean json = ( SortShopModel.DataBean )mAdapter.getData().get(layoutPosition);
+                SortShopModel.DataBean json = (SortShopModel.DataBean) mAdapter.getData().get(layoutPosition);
                 Bundle bundle = new Bundle();
-                bundle.putString("shopUri",json.getProductUser().getUserId());
-                bundle.putString("shopName",json.getProductUser().getNickname());
-                ActivityManager.JumpActivity(getActivity(), ShopActivity.class,bundle);
+                bundle.putString("shopUri", json.getProductUser().getUserId());
+                bundle.putString("shopName", json.getProductUser().getNickname());
+                ActivityManager.JumpActivity(getActivity(), ShopActivity.class, bundle);
             }
         });
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                SortShopModel.DataBean json = ( SortShopModel.DataBean )mAdapter.getData().get(i);
+                SortShopModel.DataBean json = (SortShopModel.DataBean) mAdapter.getData().get(i);
                 Bundle bundle = new Bundle();
-                bundle.putString("shopUri",json.getProductUser().getUserId());
-                bundle.putString("shopName",json.getProductUser().getNickname());
-                ActivityManager.JumpActivity(getActivity(), ShopActivity.class,bundle);
+                bundle.putString("shopUri", json.getProductUser().getUserId());
+                bundle.putString("shopName", json.getProductUser().getNickname());
+                ActivityManager.JumpActivity(getActivity(), ShopActivity.class, bundle);
 
 
             }
@@ -99,10 +102,23 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     }
 
 
+    private boolean visibleToUser = false;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        visibleToUser = isVisibleToUser;
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        onRefresh(refreshLayout);
+
+        if (visibleToUser) {
+            onRefresh(refreshLayout);
+        }
+
     }
 
     @Override
@@ -114,6 +130,11 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     @Override
     protected void getData() {
         super.getData();
+
+        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+        if (userJson == null) {
+            return;
+        }
 
         showWaitDialog();
         SortShopModel.httpSort("", mPageNum + "", new HttpRequest.HttpCallback() {

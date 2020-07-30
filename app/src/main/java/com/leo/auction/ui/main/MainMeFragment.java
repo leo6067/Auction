@@ -26,6 +26,7 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.home.fragment.MineOrderFragment;
@@ -86,8 +87,8 @@ public class MainMeFragment extends BaseFragment {
 
     private OrderPagerAdapter mOrderPagerAdapter;
 
-    private String shopUri= "";
-    private String shopName= "";
+    private String shopUri = "";
+    private String shopName = "";
 
 
     public MainMeFragment() {
@@ -104,6 +105,7 @@ public class MainMeFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
+
         httpUser();
     }
 
@@ -118,8 +120,8 @@ public class MainMeFragment extends BaseFragment {
                 break;
             case R.id.fl_shop:
                 Bundle bundle = new Bundle();
-                bundle.putString("shopUri",shopUri);
-                bundle.putString("shopName",shopName);
+                bundle.putString("shopUri", shopUri);
+                bundle.putString("shopName", shopName);
                 ActivityManager.JumpActivity(getActivity(), ShopActivity.class);
                 break;
             case R.id.ll_follow:

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.allen.library.SuperButton;
 import com.aten.compiler.utils.EmptyUtils;
+import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.glide.GlideUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -38,6 +39,7 @@ public class StoreQRCodeAdapter extends BaseQuickAdapter<StoreQRCodeModel, BaseV
         sbtnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 onItemListener.onClick(v);
             }
         });

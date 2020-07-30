@@ -15,11 +15,14 @@ import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.fragment.FocusAllFragment;
 import com.leo.auction.ui.main.home.fragment.FocusShopFragment;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
@@ -57,9 +60,12 @@ public class MainFocusFragment extends BaseFragment {
     }
 
 
+
+
     @Override
     public void initView(View view) {
         super.initView(view);
+
 
         mSegmentTabLayout.setTabData(mTitlesStr);
 
@@ -109,7 +115,7 @@ public class MainFocusFragment extends BaseFragment {
             }
         });
 
-        mViewPager.setCurrentItem(0);
+        mViewPager.setCurrentItem(Constants.Var.FOCUS_TYPE);
 
     }
 

@@ -44,7 +44,6 @@ import com.leo.auction.utils.SpannableStringUtils;
  */
 public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseViewHolder> {
 
-
     private int screenWidth;
 
     public HomeAdapter(int screenWidth) {
@@ -57,7 +56,6 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
 
 //        helper.setIsRecyclable(false);
         ImageView iv = helper.getView(R.id.iv);
-
 
         TextView tvProductTitle = helper.getView(R.id.tv_product_title);
         TextView tvProductPrice = helper.getView(R.id.tv_product_price);
@@ -90,7 +88,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
                 .setForegroundColor(Color.parseColor("#7c1313")).setXProportion((float) 1.0)
                 .append(item.getCurrentPrice()).setXProportion((float) 1.3).setForegroundColor(Color.parseColor("#7c1313"))
                 .append("已出价").setForegroundColor(Color.parseColor("#708090"))
-                .append(item.getBidNum())
+                .append(item.getBidNum()).setForegroundColor(Color.parseColor("#7c1313"))
                 .append("次").setForegroundColor(Color.parseColor("#708090"))
                 .create());
 
@@ -140,7 +138,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
                 .transition(DrawableTransitionOptions.withCrossFade(800))
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .dontAnimate()
-//                .placeholder(R.drawable.interim_morena)
+                .placeholder(R.drawable.interim_morena)
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .skipMemoryCache(true)
 

@@ -61,6 +61,7 @@ public class BaseRecyclerViewActivity extends BaseActivity implements OnRefreshL
             recyclerView.setLayoutManager(getLayoutManager());
         }
 
+
         setEmptyView();
         recyclerView.setAdapter(mAdapter);
         setRefreshInfo();
@@ -108,6 +109,7 @@ public class BaseRecyclerViewActivity extends BaseActivity implements OnRefreshL
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setEnableLoadMore(enadble);
         mAdapter.setEnableLoadMore(enadble);
+        mAdapter.loadMoreEnd(true);
         mAdapter.setOnLoadMoreListener(BaseRecyclerViewActivity.this, recyclerView);
     }
 

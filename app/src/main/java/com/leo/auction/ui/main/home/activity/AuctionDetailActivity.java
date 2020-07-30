@@ -57,6 +57,7 @@ import com.leo.auction.ui.main.home.model.HomeListModel;
 import com.leo.auction.ui.main.home.model.PayModel;
 import com.leo.auction.ui.main.home.model.PicGridNineModel;
 import com.leo.auction.ui.main.home.model.SceneModel;
+import com.leo.auction.ui.main.home.web.HWebViewActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
 import com.leo.auction.ui.main.mine.activity.VideoPlayerActivity;
 import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
@@ -259,6 +260,17 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 intent.putExtra("hasNeedLeftView", true);
                 startActivity(intent);
 
+
+//                Intent intent = new Intent(AuctionDetailActivity.this, HWebViewActivity.class);
+//                intent.putExtra("title", "投诉");
+//                intent.putExtra("url", Constants.WebApi.WEB_REPROCT_URL + mGoodsDetailModel.getData().getProductInstanceCode());
+//
+//                startActivity(intent);
+
+
+
+
+
             }
         });
         //收藏
@@ -371,7 +383,9 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             public void onClick(View v) {
 
                 if (mUserJson == null) {
-                    ActivityManager.JumpActivity(AuctionDetailActivity.this, LoginActivity.class);
+
+
+                    LoginActivity.newIntance(AuctionDetailActivity.this,0);
                     ToastUtils.showShort("请先登录");
                     return;
                 }
@@ -481,7 +495,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         if (userJson == null) {
             showShortToast("请先登录");
-            LoginActivity.newIntance(AuctionDetailActivity.this);
+            LoginActivity.newIntance(AuctionDetailActivity.this,0);
             return;
         }
 
@@ -497,24 +511,27 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
         Random ra = new Random();
         int anInt = ra.nextInt(shareShopTitlelList.size());
-        String shareTitle = "【" + detailModelData.getProductUser().getNickname() + "】" + shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
 
 
-        SharedModel sharedModel = new SharedModel(shareTitle, detailModelData.getTitle(), detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
+
+        String shareName = "【" + detailModelData.getProductUser().getNickname() + "】" + shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
+
+        String sharedText = mMEpContent.getmContent().toString();
+
+        SharedModel sharedModel = new SharedModel(shareName, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
                 detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceCode(), userJson.getUserId(),
                 Constants.Action.ACTION_ACTION);
 
 
-        String sharedText = mMEpContent.getmContent().toString();
 
 
 //        SharedActvity.newIntance(AuctionDetailActivity.this, sharedModel, sharedText, "0");
 
 
         if (mGoodsDetailModel.getData().getVideo() != null && !mGoodsDetailModel.getData().getVideo().isEmpty()) {
-            SharedActvity.newIntance(AuctionDetailActivity.this, sharedModel, nineImgList, sharedText, mGoodsDetailModel.getData().getVideo());
+            SharedActvity.newIntance(AuctionDetailActivity.this, sharedModel, nineImgList, sharedText +path , mGoodsDetailModel.getData().getVideo());
         } else {
-            SharedActvity.newIntance(AuctionDetailActivity.this, sharedModel, nineImgList, sharedText, "");
+            SharedActvity.newIntance(AuctionDetailActivity.this, sharedModel, nineImgList, sharedText +path, "");
         }
 
 
@@ -620,20 +637,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 .setXProportion((float) 1.2).setForegroundColor(getResources().getColor(R.color.home_title_bg)).create());
 
 
-        long countDowntime = goodsDetailModel.getInterceptTime() - System.currentTimeMillis();
-        int delayTime = goodsDetailModel.getDelayTime();
-
-        mDetailEnd.start(countDowntime);
-
-        mDetailEnd.setOnCountdownIntervalListener(3000, new CountdownView.OnCountdownIntervalListener() {
-            @Override
-            public void onInterval(CountdownView cv, long remainTime) { //当前时间
-                if (remainTime < delayTime) {
-                    mDetailIng.setText("延迟竞拍");
-                }
-            }
-        });
-
 
         int detailModelStatus = goodsDetailModel.getStatus();
         mDetailBidAdapter.setBidStaus(detailModelStatus);//根据状态显示竞拍列表的第一个状态
@@ -668,7 +671,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                     bidPage = 1;
                     if (mUserJson == null) {
                         ToastUtils.showShort("请先登录");
-                        LoginActivity.newIntance(AuctionDetailActivity.this);
+                        LoginActivity.newIntance(AuctionDetailActivity.this,0);
                         return;
                     }
                     UserModel.httpUpdateUser();
@@ -704,7 +707,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         } else {
             String timeToString = DateTimeUtils.timeToString(goodsDetailModel.getInterceptTime() + "", "yyyy-MM-dd HH:mm:ss");
             mDetailBid.setText("拍品已结束   " + timeToString);
-            mDetailBid.setBackgroundColor(getResources().getColor(R.color.collect_text));
+            mDetailBid.setBackgroundColor(getResources().getColor(R.color.home_pick));
         }
 
         if (goodsDetailModel.getProductUser().getUserId().equals(mUserJson.getUserId()) && detailModelStatus == 1 && mBidBeanList.size() == 0) {
@@ -715,6 +718,35 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         } else {
             mDetailOnline.setVisibility(View.GONE);
         }
+
+
+
+        long countDowntime = goodsDetailModel.getInterceptTime() - System.currentTimeMillis();
+        int delayTime = goodsDetailModel.getDelayTime();
+
+
+        if (countDowntime <0){
+            mDetailIng.setText("竞拍结束");
+            String timeToString = DateTimeUtils.timeToString(goodsDetailModel.getInterceptTime() + "", "yyyy-MM-dd HH:mm:ss");
+            mDetailBid.setText("拍品已结束   " + timeToString);
+            mDetailBid.setBackgroundColor(getResources().getColor(R.color.home_pick));
+
+            return;
+        }
+
+        mDetailEnd.start(countDowntime);
+
+        mDetailEnd.setOnCountdownIntervalListener(3000, new CountdownView.OnCountdownIntervalListener() {
+            @Override
+            public void onInterval(CountdownView cv, long remainTime) { //当前时间
+                if (remainTime < delayTime) {
+                    mDetailIng.setText("延迟竞拍");
+                }
+            }
+        });
+
+
+
 
 
 //        } else if (detailModelStatus == 2) {
@@ -781,7 +813,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                         mDetailBidAdapter.addData(data);
                     }
 
-                    if (  data.size() > Constants.Var.LIST_NUMBER_INT_F) {
+                    if (data.size() >= Constants.Var.LIST_NUMBER_INT_F) {
                         mDetailMore.setVisibility(View.VISIBLE);
                     }else {
                         mDetailMore.setVisibility(View.GONE);
@@ -793,6 +825,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                     } else {
                         bidPrice = mOnePrice;
                     }
+                    mDetailMore.setVisibility(View.GONE);
                 }
                 if (showBid) {
                     showBidDialog();
@@ -956,9 +989,11 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     @Override
     public void onEnd(CountdownView cv) {
         mDetailIng.setText("竞拍结束");
-        mDetailBid.setText("拍品已结束");
+        GoodsDetailModel.DataBean goodsDetailModelData = mGoodsDetailModel.getData();
+        String timeToString = DateTimeUtils.timeToString(goodsDetailModelData.getInterceptTime() + "", "yyyy-MM-dd HH:mm:ss");
+        mDetailBid.setText("拍品已结束" + timeToString);
         mDetailBid.setClickable(false);
-        mDetailBid.setBackgroundColor(getResources().getColor(R.color.collect_text));
+        mDetailBid.setBackgroundColor(getResources().getColor(R.color.home_pick));
         httpDetail();
     }
 
@@ -1101,6 +1136,10 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 MainActivity.newIntance(AuctionDetailActivity.this, 0);
                 break;
             case R.id.tab_focus:
+                if (mUserJson == null){
+                    LoginActivity.newIntance(AuctionDetailActivity.this,0);
+                    return;
+                }
                 ActivityManager.JumpActivity(AuctionDetailActivity.this, MainActivity.class);
 //                MainActivity.newIntance(AuctionDetailActivity.this, 4);
                 ActivityManager.mainActivity.setCurrent(2);
@@ -1112,10 +1151,18 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 ActivityManager.JumpActivity(AuctionDetailActivity.this, ShopActivity.class, bundle);
                 break;
             case R.id.tab_news:
+                if (mUserJson == null){
+                    LoginActivity.newIntance(AuctionDetailActivity.this,0);
+                    return;
+                }
                 ActivityManager.JumpActivity(AuctionDetailActivity.this, MainActivity.class);
                 ActivityManager.mainActivity.setCurrent(3);
                 break;
             case R.id.tab_mine:
+                if (mUserJson == null){
+                    LoginActivity.newIntance(AuctionDetailActivity.this,0);
+                    return;
+                }
                 ActivityManager.JumpActivity(AuctionDetailActivity.this, MainActivity.class);
 //                MainActivity.newIntance(AuctionDetailActivity.this, 4);
                 ActivityManager.mainActivity.setCurrent(4);

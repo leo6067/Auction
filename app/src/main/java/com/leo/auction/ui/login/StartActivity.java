@@ -117,7 +117,7 @@ public class StartActivity extends BaseActivity {
                 }
             });
         }else {
-            Constants.Var.ISLOGIN = false;
+
             MainActivity.newIntance(StartActivity.this, 0);
             finish();
         }
