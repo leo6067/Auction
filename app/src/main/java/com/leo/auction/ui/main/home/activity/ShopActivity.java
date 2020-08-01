@@ -291,31 +291,21 @@ public class ShopActivity extends BaseActivity {
         mTitleBar.getRightView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Globals.log("xxxxxx mTitleBar");
                 if (mUserJson == null) {
-                    Globals.log("xxxxxx mTitleBar 01 ");
                     LoginActivity.newIntance(ShopActivity.this, 0);
                     return;
                 }
 
 
                 ArrayList<String> shareShopTitlelList = CommonUsedData.getInstance().getShareShopTitlelList();
-
                 Random ra = new Random();
                 int anInt = ra.nextInt(shareShopTitlelList.size());
                 String shareTitle = "【锤定】" + shopName + shareShopTitlelList.get(anInt);
-
-
-                Globals.log("xxxxxx mTitleBar 02");
-
                 String path = Constants.WebApi.SHARE_SHOP_URL + dataBean.getShopUri()
                         + "&tpm_shareAgentId=" + mUserJson.getUserId();
                 SharedModel sharedModel = new SharedModel(shareTitle, shareTitle, dataBean.getHeadImg(),
                         "0.00", dataBean.getHeadImg(), type, path, dataBean.getShopUri(), mUserJson.getUserId(),
                         Constants.Action.ACTION_ACTION);
-
                 SharedActvity.newIntance(ShopActivity.this, sharedModel, imgStr, shareTitle, "");
             }
         });

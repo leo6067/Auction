@@ -54,15 +54,17 @@ public class DetailBidAdapter extends BaseQuickAdapter<GoodsDetailModel.DataBean
         int position = helper.getAdapterPosition();
 
 //        Globals.log("xxxxx   mDetailBidAdapter  000 LevelUrl" + mBidStaus  +"     " +position);
-        if (position == 0 && mBidStaus == 1) {
-            itemStatus.setText("领先");
-            itemStatus.setTextColor(Color.parseColor("#7c1313"));
-            itemStatus.getHelper().setBorderColorNormal(Color.parseColor("#7c1313"));
-        } else if (position == 0 && mBidStaus == 8) {
-            itemStatus.setText("成交");
-            itemStatus.setTextColor(Color.parseColor("#a0a0a0"));
-            itemStatus.getHelper().setBorderColorNormal(Color.parseColor("#7c1313"));
-        }else{
+        if (position == 0) {
+            if (mBidStaus == 1){
+                itemStatus.setText("领先");
+                itemStatus.setTextColor(Color.parseColor("#7c1313"));
+                itemStatus.getHelper().setBorderColorNormal(Color.parseColor("#7c1313"));
+            }else {
+                itemStatus.setText("成交");
+                itemStatus.setTextColor(Color.parseColor("#7c1313"));
+                itemStatus.getHelper().setBorderColorNormal(Color.parseColor("#7c1313"));
+            }
+        }  else{
             itemStatus.setText( "出局");
             itemStatus.setTextColor(Color.parseColor("#a0a0a0"));
             itemStatus.getHelper().setBorderColorNormal(Color.parseColor("#a0a0a0"));

@@ -31,7 +31,7 @@ import okhttp3.Call;
 public class AddressActivity extends BaseRecyclerViewActivity implements AddressAdapter.IAddressOption {
 
 
-    private String type, itemClickBackType;
+    private String type, itemClickBackType;     //type 收货或者退货   itemClickBackType下订单item点击返回，或者编辑
 
     @Override
     public void setContentViewLayout() {

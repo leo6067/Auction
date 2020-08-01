@@ -57,7 +57,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.home.web.HWebViewActivity"></activity>
+        <activity android:name=".ui.order.activity.GoodOrederStatusActivity"></activity>
+        <activity android:name=".ui.order.activity.GoodOrderActivity" />
+        <activity android:name=".ui.web.AgentWebActivity" />
+        <activity android:name=".ui.main.home.web.HWebViewActivity" />
         <activity android:name=".ui.main.mine.activity.RealNameActivity" />
         <activity
             android:name=".ui.main.SharedActvity"
@@ -85,7 +88,6 @@
         <activity android:name=".ui.main.mine.activity.ResetPwdActivity" />
         <activity android:name=".ui.main.mine.activity.PaySafeActivity" />
         <activity android:name=".ui.main.mine.activity.BalanceActivity" />
-        <activity android:name=".ui.main.WebViewActivity" />
         <activity android:name=".ui.main.mine.activity.CommodityEditActivity" />
         <activity android:name=".ui.main.mine.activity.AuctionManagementActivity" />
         <activity android:name=".ui.main.mine.activity.AssetDetailActivity" />
@@ -100,8 +102,9 @@
         <activity android:name=".ui.main.mine.activity.VideoPlayerActivity" />
         <activity android:name=".ui.main.mine.activity.CommodityReleaseActivity" />
         <activity android:name=".ui.main.home.activity.ShopActivity" />
-        <activity android:name=".ui.main.home.activity.HomeSearchActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan"/>
+        <activity
+            android:name=".ui.main.home.activity.HomeSearchActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".ui.main.home.activity.AuctionDetailActivity"
             android:launchMode="singleTop" />
@@ -140,9 +143,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_version_paths" />
         </provider>
-
-
-
         <provider
             android:name=".ui.main.home.web.PhotosFileProvider"
             android:authorities="com.leo.auction.ui.main.home.web.PhotosFileProvider"
@@ -152,8 +152,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/photo_paths_public" />
         </provider>
-
-
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -215,7 +213,7 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.main.SlidingMainActivity" />
+
         <activity android:name=".base.TempActivity" />
         <activity android:name=".ui.main.home.activity.ImageShowActivity" />
     </application>

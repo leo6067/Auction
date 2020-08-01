@@ -113,7 +113,7 @@ public class VersionDialog extends Dialog {
                 Runnable runnableUi = new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtils.showShort("再次点击退出");
+                        ToastUtils.showShort("锤定：再次点击退出");
                     }
                 };
                 runnableUi.run();

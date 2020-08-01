@@ -14,9 +14,10 @@ import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.main.WebViewActivity;
+
 import com.leo.auction.ui.main.news.adapter.NewsAdapter;
 import com.leo.auction.ui.main.news.model.NewsModel;
+import com.leo.auction.ui.web.AgentWebActivity;
 
 import java.util.HashMap;
 
@@ -49,14 +50,10 @@ public class SystemNewsFragment extends BaseRecyclerViewFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 NewsModel.DataBean json = (NewsModel.DataBean) mAdapter.getData().get(position);
-
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "公告详情");
                 bundle.putString("url", json.getSkipUrl());
-                bundle.putBoolean("hasNeedTitleBar", true);
-                bundle.putBoolean("hasNeedRightView", false);
-
-                ActivityManager.JumpActivity(getActivity(), WebViewActivity.class, bundle);
+                ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
             }
         });
     }

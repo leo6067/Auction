@@ -51,6 +51,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
         this.screenWidth = screenWidth;
     }
 
+
     @Override
     protected void convert(@NonNull BaseViewHolder helper, final HomeListModel.DataBean item) {
 
@@ -74,13 +75,16 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
 
         tvFreeShipping.setText(item.getDistributeType().equals("1") ? "包邮" : "到付");
         tvRefund.setVisibility(item.isRefund() ? View.VISIBLE : View.GONE);  //包退
-        btPriceIv.setVisibility(item.isSubsidyProduct()? View.VISIBLE : View.GONE);
-        btPriceTv.setVisibility(item.isSubsidyProduct()? View.VISIBLE : View.GONE);
 
-        if (item.isSubsidyProduct()){
-            btPriceTv.setText("补贴"+item.getSubsidyMoney()+"元");
+        try {
+            btPriceIv.setVisibility(item.isSubsidyProduct() ? View.VISIBLE : View.GONE);
+            btPriceTv.setVisibility(item.isSubsidyProduct() ? View.VISIBLE : View.GONE);
+            if (item.isSubsidyProduct()) {
+                btPriceTv.setText("补贴" + item.getSubsidyMoney() + "元");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
 
 
         tvProductTitle.setText(EmptyUtils.strEmpty(item.getTitle()));

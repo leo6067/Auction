@@ -24,7 +24,10 @@ import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginModel;
 
 import com.leo.auction.ui.main.MainActivity;
+import com.leo.auction.ui.main.home.model.SceneModel;
+import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.utils.DialogUtils;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -48,22 +51,24 @@ public class LoginWxActivity extends BaseActivity {
     TextView tvAgree;
 
     private int backPager;
-    private String loginCloseType="1";
+    private String loginCloseType = "1";
+
+    private DialogUtils dialogUtils;
+
 
     //操作登录页面
-    private BroadCastReceiveUtils mOnLoginOption=new BroadCastReceiveUtils() {
+    private BroadCastReceiveUtils mOnLoginOption = new BroadCastReceiveUtils() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String type=intent.getStringExtra("type");
-            switch (type){
+            String type = intent.getStringExtra("type");
+            switch (type) {
                 case "0"://关闭该页面
-                    loginCloseType="0";
+                    loginCloseType = "0";
                     finish();
                     break;
             }
         }
     };
-
 
 
     @Override
@@ -75,9 +80,9 @@ public class LoginWxActivity extends BaseActivity {
     @Override
     public void initData() {
         backPager = getIntent().getIntExtra("backPager", 0);
+        dialogUtils = new DialogUtils();
 
-
-        BroadCastReceiveUtils.registerLocalReceiver(this, Constants.Action.ACTION_OPTION_LOGIN_ACTIVITY,mOnLoginOption);
+        BroadCastReceiveUtils.registerLocalReceiver(this, Constants.Action.ACTION_OPTION_LOGIN_ACTIVITY, mOnLoginOption);
     }
 
     @Override
@@ -99,21 +104,24 @@ public class LoginWxActivity extends BaseActivity {
         super.initEvent();
     }
 
-    @OnClick({R.id.iv_common_login,R.id.ll_phone_login,R.id.iv_close})
+    @OnClick({R.id.iv_common_login, R.id.ll_phone_login, R.id.iv_close})
     public void onViewClicked(View view) {
         if (!RxTool.isFastClick(RxTool.MIN_CLICK_DELAY_TIME_500)) {
             return;
         }
         switch (view.getId()) {
+            case R.id.tv_agree:
+                showAgreeDialog("1");
+                break;
             case R.id.iv_common_login:
-                if (!cbCheck.isChecked()){
+                if (!cbCheck.isChecked()) {
                     ToastUtils.showShort("请勾选用户协议");
                     return;
                 }
                 wxLogin();
                 break;
             case R.id.ll_phone_login:
-                LoginActivity.newIntance(LoginWxActivity.this,0);
+                LoginActivity.newIntance(LoginWxActivity.this, 0);
                 break;
             case R.id.iv_close:
                 goFinish();
@@ -121,20 +129,69 @@ public class LoginWxActivity extends BaseActivity {
         }
     }
 
+
+    //出价 隐私 协议 政策
+    private void showAgreeDialog(String type) {
+
+        showWaitDialog();
+        SceneModel.httpGetScene(type, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                SceneModel sceneModel = JSONObject.parseObject(resultData, SceneModel.class);
+                if (sceneModel.getData() == null) {
+                    return;
+                }
+                int redirectType = sceneModel.getData().getRedirectType(); //1-富文本  2-H5页面
+
+                if (redirectType == 1) {
+                    dialogUtils.showRuleProtocolDialog(LoginWxActivity.this,
+                            sceneModel.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
+                                @Override
+                                public void onClose() {
+                                    dialogUtils.dissRuleProtocolDialog();
+                                }
+                            });
+                } else {
+
+                    String url= sceneModel.getData().getH5Url();
+                    if(sceneModel.getData().getH5Url().contains("?")){
+                        url += "&isMargin=4";
+                    }else  {
+                        url += "?isMargin=4";
+                    }
+                    Intent intent = new Intent(LoginWxActivity.this, AgreementActivity.class);
+                    intent.putExtra("title", "协议");
+                    intent.putExtra("url", url);
+                    intent.putExtra("hasNeedTitleBar", true);
+                    intent.putExtra("hasNeedRightView", false);
+                    intent.putExtra("hasNeedLeftView", true);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
     //微信登录
     private void wxLogin() {
         UMShareAPI.get(this).getPlatformInfo(this, SHARE_MEDIA.WEIXIN, new UMAuthListener() {
             @Override
-            public void onStart(SHARE_MEDIA share_media) {}
+            public void onStart(SHARE_MEDIA share_media) {
+            }
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                 showWaitDialog();
                 HashMap<String, String> hashMap = new HashMap<>();
-                hashMap.put("unionId",map.get("unionid"));
-                hashMap.put("openId",map.get("openid"));
-                hashMap.put("nickname",map.get("name"));
-                hashMap.put("headImg",map.get("iconurl"));
+                hashMap.put("unionId", map.get("unionid"));
+                hashMap.put("openId", map.get("openid"));
+                hashMap.put("nickname", map.get("name"));
+                hashMap.put("headImg", map.get("iconurl"));
                 HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_WX_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
@@ -145,12 +202,14 @@ public class LoginWxActivity extends BaseActivity {
                     public void httpResponse(String resultData) {
                         hideWaitDialog();
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
-                        if (loginModel.getResult().isSuccess()){
+                        if (loginModel.getResult().isSuccess()) {
                             ToastUtils.showShort("登录成功");
                             httpUser();
                             BaseSharePerence.getInstance().setLoginJson(resultData);
                             MainActivity.newIntance(LoginWxActivity.this, 0);
                             finish();
+                        } else {
+                            ToastUtils.showShort(loginModel.getResult().getMessage());
                         }
                     }
                 });
@@ -173,12 +232,11 @@ public class LoginWxActivity extends BaseActivity {
     }
 
     //关闭页面
-    private void onClosePager(boolean isDialogConnect){
+    private void onClosePager(boolean isDialogConnect) {
         //刷新首页
-        Intent intent=new Intent(Constants.Action.ACTION_REFRESH_HOME);
-        intent.putExtra("type","0");
+        Intent intent = new Intent(Constants.Action.ACTION_REFRESH_HOME);
+        intent.putExtra("type", "0");
         BroadCastReceiveUtils.sendLocalBroadCast(LoginWxActivity.this, intent);
-
 
 
         if (1 == backPager) {
@@ -237,18 +295,17 @@ public class LoginWxActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 //        UMShareAPI.get(this).release();
-        BroadCastReceiveUtils.unregisterLocalReceiver(this,mOnLoginOption);
+        BroadCastReceiveUtils.unregisterLocalReceiver(this, mOnLoginOption);
     }
 
     //backPager 0:代表返回上一页 1：代表回到首页
@@ -258,6 +315,6 @@ public class LoginWxActivity extends BaseActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
-        ((BaseActivity)context).overridePendingTransition(R.anim.activity_down_to_up,0);
+        ((BaseActivity) context).overridePendingTransition(R.anim.activity_down_to_up, 0);
     }
 }

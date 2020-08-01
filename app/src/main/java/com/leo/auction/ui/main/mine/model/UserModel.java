@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
 
@@ -739,8 +740,30 @@ public class UserModel {
     }
 
     public static void httpUpdateUser( ){
-
         HashMap<String, String> hashMap = new HashMap<>();
+        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+                Globals.log("xxxxxxxx首页 03  token" + userModel.getData().getH5Token());
+            }
+        });
+    }
+
+
+    public static void httpUpdateUser(HttpRequest.HttpCallback httpCallback){
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap,httpCallback);
+
+
+
 
         HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
@@ -752,9 +775,9 @@ public class UserModel {
             public void httpResponse(String resultData) {
                 UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
                 BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+                Globals.log("xxxxxxxx首页 03  token" + userModel.getData().getH5Token());
             }
         });
-
     }
 
 }

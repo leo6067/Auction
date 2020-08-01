@@ -96,6 +96,8 @@ public class GoodsDetailModel {
         private String subsidyMoney;
         private int status;
         private TimeBean time;
+        private OrderBean order;
+
         private String title;
         private String cutPic;
         private String video;
@@ -105,6 +107,8 @@ public class GoodsDetailModel {
 
         public DataBean() {
         }
+
+
 
         protected DataBean(Parcel in) {
             bidNum = in.readInt();
@@ -134,6 +138,35 @@ public class GoodsDetailModel {
             images = in.createStringArrayList();
         }
 
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(bidNum);
+            dest.writeInt(categoryId);
+            dest.writeString(categoryName);
+            dest.writeByte((byte) (collect ? 1 : 0));
+            dest.writeString(content);
+            dest.writeLong(createTime);
+            dest.writeInt(currentPrice);
+            dest.writeInt(delayTime);
+            dest.writeInt(distributeType);
+            dest.writeByte((byte) (follow ? 1 : 0));
+            dest.writeLong(interceptTime);
+            dest.writeInt(markupRange);
+            dest.writeInt(parentCategoryId);
+            dest.writeString(parentCategoryName);
+            dest.writeString(productInstanceCode);
+            dest.writeInt(productInstanceId);
+            dest.writeByte((byte) (refund ? 1 : 0));
+            dest.writeString(startPrice);
+            dest.writeByte((byte) (subsidyProduct ? 1 : 0));
+            dest.writeString(subsidyMoney);
+            dest.writeInt(status);
+            dest.writeString(title);
+            dest.writeString(cutPic);
+            dest.writeString(video);
+            dest.writeStringList(images);
+        }
+
         public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
             @Override
             public DataBean createFromParcel(Parcel in) {
@@ -145,6 +178,17 @@ public class GoodsDetailModel {
                 return new DataBean[size];
             }
         };
+
+        public OrderBean getOrder() {
+            return order;
+        }
+
+        public void setOrder(OrderBean order) {
+            this.order = order;
+        }
+
+
+
 
         public boolean isSubsidyProduct() {
             return subsidyProduct;
@@ -383,34 +427,7 @@ public class GoodsDetailModel {
             return 0;
         }
 
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(bidNum);
-            dest.writeInt(categoryId);
-            dest.writeString(categoryName);
-            dest.writeByte((byte) (collect ? 1 : 0));
-            dest.writeString(content);
-            dest.writeLong(createTime);
-            dest.writeInt(currentPrice);
-            dest.writeInt(delayTime);
-            dest.writeInt(distributeType);
-            dest.writeByte((byte) (follow ? 1 : 0));
-            dest.writeLong(interceptTime);
-            dest.writeInt(markupRange);
-            dest.writeInt(parentCategoryId);
-            dest.writeString(parentCategoryName);
-            dest.writeString(productInstanceCode);
-            dest.writeInt(productInstanceId);
-            dest.writeByte((byte) (refund ? 1 : 0));
-            dest.writeString(startPrice);
-            dest.writeByte((byte) (subsidyProduct ? 1 : 0));
-            dest.writeString(subsidyMoney);
-            dest.writeInt(status);
-            dest.writeString(title);
-            dest.writeString(cutPic);
-            dest.writeString(video);
-            dest.writeStringList(images);
-        }
+
 
         public static class ProductUserBean {
             /**
@@ -842,6 +859,29 @@ public class GoodsDetailModel {
                 this.userAccountId = userAccountId;
             }
         }
+
+        public static class OrderBean {
+            /**
+             * bidPrice : 1
+             * createTime : 1592807645000
+             * headImg : https://file.taojianlou.com/ut/user/1592376005448.png
+             * level : 12
+             * nickname : 小***包
+             * userAccountId : 72
+             */
+
+            private String orderCode;
+
+            public String getOrderCode() {
+                return orderCode;
+            }
+
+            public void setOrderCode(String orderCode) {
+                this.orderCode = orderCode;
+            }
+        }
+
+
     }
 
     public static class ResultBean {

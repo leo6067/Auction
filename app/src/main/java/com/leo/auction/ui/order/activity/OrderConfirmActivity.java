@@ -96,6 +96,9 @@ public class OrderConfirmActivity extends BaseActivity implements SetPaypwdUtils
     private String orderCode;
     private OrderListModel.DataBean dataBean;
 
+
+
+
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_order_confirm);
@@ -118,7 +121,7 @@ public class OrderConfirmActivity extends BaseActivity implements SetPaypwdUtils
     //获取联系人地址
     private void getAddress() {
         showWaitDialog();
-        AddressModel.httpAddressList(1, Constants.Var.AA, "0", new HttpRequest.HttpCallback() {
+        AddressModel.httpAddressList(1, Constants.Var.BB, "0", new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();
@@ -223,7 +226,7 @@ public class OrderConfirmActivity extends BaseActivity implements SetPaypwdUtils
             UserActionUtils.actionLog("0", "3", item.getInstanceCode(), "1");
         }
         payInputPwdBoardUtils.dismissPayPasswordDialog();
-        PayModel.httpPay(2, "order", Integer.valueOf(payment), orderCode, null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
+        PayModel.httpPay(2, "order", payment, orderCode, null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
 

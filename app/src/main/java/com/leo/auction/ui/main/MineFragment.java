@@ -190,10 +190,6 @@ public class MineFragment extends BaseFragment {
             String token = BaseSharePerence.getInstance().getUserJson().getH5Token();
             String userId = BaseSharePerence.getInstance().getUserJson().getUserId();
             String httpUrl = Constants.WebApi.WEB_MINE_URL + token + "&userId="+userId;
-
-            Globals.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + httpUrl);
-
-
             webLoad(httpUrl);
         } catch (Exception e) {
         }
@@ -411,8 +407,6 @@ public class MineFragment extends BaseFragment {
                     Constants.Var.FOCUS_TYPE = 1;
                     getActivity().finish();
                     MainActivity.newIntance(getActivity(), 2);
-
-
                 }
 
             }

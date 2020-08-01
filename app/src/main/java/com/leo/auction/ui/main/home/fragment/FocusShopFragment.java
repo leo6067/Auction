@@ -1,6 +1,7 @@
 package com.leo.auction.ui.main.home.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -48,6 +49,17 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_focus_shop;
+    }
+
+
+    /*
+     *是否开启懒加载 调用该方法开启
+     */
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        enableLazyLoad();
     }
 
     @Override

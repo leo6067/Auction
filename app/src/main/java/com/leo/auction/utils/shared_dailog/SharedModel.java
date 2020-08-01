@@ -22,14 +22,16 @@ public class SharedModel implements Parcelable {
     private String shopName;
     private String shopHeadImg;
 
+
+
     //获取二维码需求的
 
-    private String type;
+    private String type;  //  1-点击  2-收藏 3-出价  4-分享 5-分享新用户 6-分享朋友圈  7-分享QQ
     private String shareUrl;
     private String shareGoodsCode;
-
     private String shareUserId;
-    private String channelType;//0-频道类型 1-超级购 2-超人气 3-精选 4-首页 5-分类 6-店铺首页 7-收藏关注',
+    private String channelType;//1-首页 2-分类频道 3-店铺推荐  4-关注-拍品 5-参拍  6-足迹  7-收藏
+//    private String actionType;//动作类型   1-点击  2-收藏 3-出价  4-分享 5-分享新用户 6-分享朋友圈  7-分享QQ
 
     public String getPicPath() {
         return picPath;
@@ -119,14 +121,28 @@ public class SharedModel implements Parcelable {
         this.price = price;
         this.shopName = shopName;
         this.shopHeadImg = shopHeadImg;
-
         this.type = type;
         this.shareUrl = shareUrl;
         this.shareGoodsCode = shareGoodsCode;
         this.shareUserId = shareUserId;
         this.channelType = channelType;
-
     }
+
+
+
+
+    // type 0 分类
+    public SharedModel(String shopName, String content, String picPath,String shareUrl,String  channelType) {
+        this.shopName = shopName;
+        this.content = content;
+        this.picPath = picPath;
+        this.shareUrl = shareUrl;
+        this.channelType = channelType;
+    }
+
+
+
+
 
 
     protected SharedModel(Parcel in) {

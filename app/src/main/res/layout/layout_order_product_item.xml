@@ -45,20 +45,39 @@
         android:textSize="@dimen/sp_24"
         android:includeFontPadding="false"/>
 
+
+
     <TextView
-        android:id="@+id/item_time"
+        android:id="@+id/tv_time_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_product_title"
-        android:layout_marginRight="@dimen/dp_90"
         android:layout_marginTop="@dimen/dp_20"
         android:layout_toRightOf="@+id/riv_product_pic"
-        android:ellipsize="end"
-        android:singleLine="true"
-        tools:text="成交时间：1321231"
+        android:text="付款剩余："
         android:textColor="@color/color_868686"
         android:textSize="@dimen/sp_24"
         android:includeFontPadding="false"/>
+
+
+    <com.aten.compiler.widget.countDownTime.CountdownView
+        android:id="@+id/item_time"
+        android:layout_width="wrap_content"
+
+        android:layout_height="@dimen/dp_30"
+        android:layout_below="@+id/tv_product_title"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_toRightOf="@+id/tv_time_hint"
+        app:isConvertDaysToHours="true"
+        app:suffixTextColor="@color/color_868686"
+        app:timeTextColor="@color/color_868686"
+        app:isShowHour="true"
+        app:isShowMinute="true"
+        app:isShowMillisecond="true"
+        app:suffixHour="时"
+        app:suffixMinute="分"
+        app:suffixMillisecond="秒"
+      />
 
 
     <TextView

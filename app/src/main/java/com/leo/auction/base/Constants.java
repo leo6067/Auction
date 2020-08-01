@@ -171,7 +171,7 @@ public class Constants {
 
 
         //用户行为
-        public static String ACTION_ACTION  = "ACTION_ACTION";  //     1-首页 2-分类频道 3-店铺推荐  4-关注-拍品 5-参拍  6-足迹  7-收藏
+        public static String ACTION_ACTION  = "1";  //     1-首页 2-分类频道 3-店铺推荐  4-关注-拍品 5-参拍  6-足迹  7-收藏
 
 
 
@@ -197,10 +197,11 @@ public class Constants {
         public static String WEB_MINE_URL =WEB_BASE_URL+"auction-web/pages/personal/personal?isMargin=4&subsidyToken=";// 我的
 
 
-        public static String WEB_REPROCT_URL =WEB_BASE_URL+"auction-web/pages/sub/complaint/list?productInstanceCode=";// 举报
+        public static String WEB_REPROCT_URL =WEB_BASE_URL+"auction-web/pages/sub/complaint/list?isMargin=4&productInstanceCode=";// 举报
         public static String SHARE_PRODUCT_URL =WEB_BASE_URL+"auction-web/pages/sub/product/productDetail?productInstanceCode=";// 分享拍品详情
         public static String SHARE_SHOP_URL =WEB_BASE_URL+"auction-web/pages/sub/mercahnt/index?shopUri=";// 分享拍品详情
         public static String QRCODE_URL =WEB_BASE_URL+"auction-web?tpm_shareAgentId=";// 生成二维码
+        public static String SORT_URL =WEB_BASE_URL+"auction-web/pages/category/category?tpm_shareAgentId=";// 分享 分类
 
 
         public static String YZM_URL =" https://w.taojianlou.com/super-store/hd2.html";// 登录验证码
@@ -251,7 +252,7 @@ public class Constants {
         public static String QCODE_URL = domain+"spread/qrcode";
 
         //oss
-        public static String OSS_FOLDER =   "Android";
+        public static String OSS_FOLDER = "Android";
         public static String OSS_COMMON_URL = domain+"platform/oss";
         public static String OSS_FOLDER_IMG_GOODS = OSS_FOLDER+"/goods/img";
         public static String OSS_FOLDER_IMG_USER = OSS_FOLDER+"/user/img";
@@ -387,6 +388,9 @@ public class Constants {
 
         //订单
         public static String ORDER_LIST_URL = domain + "order/list";//
+
+        //猜你喜欢
+        public static String ORDER_LIKE_URL = domain + "order/you-like";//
 
 
 

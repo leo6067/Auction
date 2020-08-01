@@ -10,9 +10,8 @@
 
 
     <LinearLayout
-
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_70"
+        android:layout_height="@dimen/dp_99"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -33,12 +32,13 @@
             app:corner_radius="@dimen/dp_20" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/title_more"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
-            android:drawableEnd="@drawable/right_more"
+            android:src="@drawable/title_more"
            />
 
     </LinearLayout>

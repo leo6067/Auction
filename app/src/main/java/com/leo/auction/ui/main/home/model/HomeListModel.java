@@ -202,4 +202,20 @@ public class HomeListModel {
         HttpRequest.httpGetString(Constants.Api.SHOP_NEWEST_URL, hashMap, httpCallback);
     }
 
+
+
+
+    public static void httpGetOrderLike(String instanceCode, String price, String pageNum,   HttpRequest.HttpCallback httpCallback){
+
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        hashMap.put("instanceCode",instanceCode);
+        hashMap.put("price",price);
+        hashMap.put("pageNum",pageNum);
+        hashMap.put("pageSize",Constants.Var.LIST_NUMBER);
+
+        HttpRequest.httpGetString(Constants.Api.ORDER_LIKE_URL,hashMap,httpCallback);
+
+
+    }
 }

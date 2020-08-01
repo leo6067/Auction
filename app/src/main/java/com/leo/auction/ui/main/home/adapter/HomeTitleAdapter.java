@@ -50,7 +50,6 @@ public class HomeTitleAdapter extends BaseQuickAdapter<SubsidyModel.DataBean, Ba
 
 
 
-
         itemTime.start(fitTimeSpan);
 
         GlideUtils.loadImg(json.getFirstPic(), itemImage);

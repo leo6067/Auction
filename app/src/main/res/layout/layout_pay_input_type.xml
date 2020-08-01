@@ -93,6 +93,7 @@
     </com.aten.compiler.widget.CustomeRecyclerView>
 
     <TextView
+        android:id="@+id/dialog_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_40"

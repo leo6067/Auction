@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="@dimen/dp_125"
                 android:layout_height="wrap_content"
-                android:text="名字"
+                android:text=" 姓名"
                 android:textColor="@color/black" />
 
 
@@ -210,7 +210,7 @@
             <TextView
                 android:layout_width="@dimen/dp_125"
                 android:layout_height="wrap_content"
-                android:text="名字"
+                android:text=" 姓名"
                 android:textColor="@color/black" />
 
 

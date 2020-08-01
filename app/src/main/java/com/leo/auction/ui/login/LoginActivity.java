@@ -41,8 +41,12 @@ import com.leo.auction.ui.login.model.LoginVerModel;
 import com.leo.auction.ui.login.model.SmsCodeModel;
 
 import com.leo.auction.ui.main.MainActivity;
+import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
+import com.leo.auction.ui.main.home.model.SceneModel;
+import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.Globals;
 import com.tencent.smtt.sdk.CookieSyncManager;
 import com.umeng.socialize.UMAuthListener;
@@ -119,6 +123,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
         }
     };
+    private DialogUtils dialogUtils;
 
 
     @Override
@@ -130,7 +135,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void initData() {
         super.initData();
-
+        dialogUtils = new DialogUtils();
     }
 
 
@@ -232,13 +237,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    @OnClick({R.id.fl_verif_code, R.id.iv_common_login, R.id.iv_close, R.id.iv_wx_login, R.id.iv_name_delete})
+    @OnClick({R.id.tv_agree,R.id.fl_verif_code, R.id.iv_common_login, R.id.iv_close, R.id.iv_wx_login, R.id.iv_name_delete})
     public void onViewClicked(View view) {
         if (!RxTool.isFastClick(RxTool.MIN_CLICK_DELAY_TIME_500)) {
             return;
         }
         switch (view.getId()) {
 
+            case R.id.tv_agree:
+                showAgreeDialog("1");
+                break;
             case R.id.iv_common_login:
                 login();
                 break;
@@ -266,6 +274,55 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 nameDelete();
                 break;
         }
+    }
+
+
+
+    //出价 隐私 协议 政策
+    private void showAgreeDialog(String type) {
+
+        showWaitDialog();
+        SceneModel.httpGetScene(type, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                SceneModel sceneModel = JSONObject.parseObject(resultData, SceneModel.class);
+                if (sceneModel.getData() == null) {
+                    return;
+                }
+                int redirectType = sceneModel.getData().getRedirectType(); //1-富文本  2-H5页面
+
+                if (redirectType == 1) {
+                    dialogUtils.showRuleProtocolDialog(LoginActivity.this,
+                            sceneModel.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
+                                @Override
+                                public void onClose() {
+                                    dialogUtils.dissRuleProtocolDialog();
+                                }
+                            });
+                } else {
+
+                    String url= sceneModel.getData().getH5Url();
+                    if(sceneModel.getData().getH5Url().contains("?")){
+                        url += "&isMargin=4";
+                    }else  {
+                        url += "?isMargin=4";
+                    }
+                    Intent intent = new Intent(LoginActivity.this, AgreementActivity.class);
+                    intent.putExtra("title", "协议");
+                    intent.putExtra("url", url);
+                    intent.putExtra("hasNeedTitleBar", true);
+                    intent.putExtra("hasNeedRightView", false);
+                    intent.putExtra("hasNeedLeftView", true);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     //获取短信验证码
@@ -354,6 +411,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         ActivityManager.mainActivity.setCurrent(0);
                         finish();
                     }
+                }else {
+                    ToastUtils.showShort(loginModel.getResult().getMessage());
                 }
             }
         });
@@ -405,6 +464,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                 ActivityManager.mainActivity.setCurrent(0);
                                 finish();
                             }
+                        }else {
+                            ToastUtils.showShort(loginModel.getResult().getMessage());
                         }
                     }
                 });
@@ -504,7 +565,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Runnable runnableUi = new Runnable() {
                     @Override
                     public void run() {
-                        ToastUtils.showShort("再次点击退出应用");
+                        ToastUtils.showShort("锤定：再次点击退出");
                     }
                 };
                 runnableUi.run();

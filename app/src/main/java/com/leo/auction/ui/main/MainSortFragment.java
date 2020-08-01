@@ -11,25 +11,32 @@ import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.ActivityManager;
 import com.aten.compiler.base.BaseFragment;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
+import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.TouchCheckView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.LoginActivity;
+import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.main.home.MyUtils;
 import com.leo.auction.ui.main.home.activity.CategoryActivity;
 import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.adapter.SortAdapter;
 import com.leo.auction.ui.main.home.adapter.SortRightAdapter;
 import com.leo.auction.ui.main.home.model.SortLeftModel;
+import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.layoutManager.SortLinearSmoothScroller;
+import com.leo.auction.utils.shared_dailog.SharedModel;
 import com.ruffian.library.widget.RTextView;
 
 import java.util.ArrayList;
@@ -55,6 +62,10 @@ public class MainSortFragment extends BaseFragment {
 
     @BindView(R.id.view_view)
     View mViewView;
+
+
+    @BindView(R.id.title_more)
+    ImageView mTitleMore;
 
 
     private SortAdapter mSortAdapter;
@@ -89,6 +100,32 @@ public class MainSortFragment extends BaseFragment {
                 ActivityManager.JumpActivity(getActivity(), HomeSearchActivity.class);
             }
         });
+
+
+
+        mTitleMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+                if (userJson==null){
+                    LoginActivity.newIntance(getActivity(),0);
+                    return;
+                }
+
+                CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
+                String titleStr = "【锤定】客官，请留步，进来逛逛呗！";
+                String content = "TOP百亿补贴，福利不断，放漏不断！简单易用、免费发拍、二手回血、万物皆可拍！";
+                String shareUrl = Constants.WebApi.SORT_URL +userJson.getUserId();
+                String picUrl = commonJson.getSpread().getSpread_default();
+
+
+                SharedModel sharedModel = new SharedModel(titleStr,content,picUrl,shareUrl,"2" );
+                SharedActvity.newIntance(getActivity(),sharedModel,null,"","");
+            }
+        });
+
+
+
 
 
         mSortLeftList = new ArrayList<>();
@@ -166,7 +203,6 @@ public class MainSortFragment extends BaseFragment {
 
     void setViewView(int index){
 
-        Globals.log("xxxxxxxxxx scrollItemToTop" +index);
 
         if (index ==5) {
             LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) mViewView.getLayoutParams();
@@ -191,7 +227,6 @@ public class MainSortFragment extends BaseFragment {
     void scrollItemToTop(LinearLayoutManager mLayoutManager, int position) {
 
 //        mLayoutManager.scrollToPositionWithOffset(position, 0);
-
 
         SortLinearSmoothScroller smoothScroller = new SortLinearSmoothScroller(getActivity());
         smoothScroller.setTargetPosition(position);

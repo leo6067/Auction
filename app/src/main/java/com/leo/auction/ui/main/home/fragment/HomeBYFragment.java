@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
@@ -29,13 +30,14 @@ import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.LoginActivity;
-import com.leo.auction.ui.main.WebViewActivity;
+
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.adapter.HomeTitleAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
 import com.leo.auction.ui.main.home.model.SubsidyModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
- *
+ * <p>
  * 百亿补贴
  */
 
@@ -94,10 +96,7 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
-
-
-            onRefresh(refreshLayout);
-
+        onRefresh(refreshLayout);
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
         Constants.Action.ACTION_ACTION = "1";
     }
@@ -161,30 +160,32 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
             }
         });
 
-
-        UserModel.DataBean mUserJsonn = BaseSharePerence.getInstance().getUserJson();
-
         mTitleHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-                if (userJson==null){
-                    LoginActivity.newIntance(getActivity(),0);
+                if (userJson == null) {
+                    LoginActivity.newIntance(getActivity(), 0);
                     return;
                 }
 
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("title", "TOP百亿补贴");
-                if (mUserJsonn == null) {
-                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL);
-                } else {
-                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + mUserJsonn.getH5Token());
-                }
-                intent.putExtra("hasNeedTitleBar", true);
-                intent.putExtra("hasNeedRightView", false);
-                intent.putExtra("hasNeedLeftView", true);
-                startActivity(intent);
+                UserModel.httpUpdateUser(new HttpRequest.HttpCallback() {
+                    @Override
+                    public void httpError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void httpResponse(String resultData) {
+                        UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                        BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", "TOP百亿补贴");
+                        bundle.putString("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userModel.getData().getH5Token());
+                        Globals.log("xxxxxxxx首页 02  token" + userJson.getH5Token());
+                        ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
+                    }
+                });
             }
         });
 
@@ -205,7 +206,7 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 
 //        int homeType = Constants.Var.HOME_TYPE;
 
-        String   mUrl = Constants.Api.HOME_SUBSIDY_URL;
+        String mUrl = Constants.Api.HOME_SUBSIDY_URL;
 //        if (homeType == 0) {//首页--百亿
 //        } else if (homeType == 1) {//首页--全部
 //            mUrl = Constants.Api.HOME_UNITARY_URL;
@@ -218,8 +219,6 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 //        } else {
 //            return;
 //        }
-
-
 
 
         hashMap.put("keyword", "");
@@ -268,7 +267,7 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
             @Override
             public void httpResponse(String resultData) {
                 SubsidyModel subsidyModel = JSONObject.parseObject(resultData, SubsidyModel.class);
-                if (subsidyModel.getData().size() < 4){
+                if (subsidyModel.getData().size() < 4) {
                     mInflate.setVisibility(View.GONE);  //隐藏百亿补贴
                     return;
                 }
@@ -277,7 +276,6 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
                 mHomeTitleAdapter.setNewData(subsidyModel.getData());
             }
         });
-
 
 
     }

@@ -405,9 +405,17 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                                 }
                             });
                 } else {
+                    String url= sceneModel.getData().getH5Url();
+                    if(sceneModel.getData().getH5Url().contains("?")){
+                        url += "&isMargin=4";
+                    }else  {
+                        url += "?isMargin=4";
+                    }
+
+
                     Intent intent = new Intent(CommodityEditActivity.this, AgreementActivity.class);
                     intent.putExtra("title", "协议");
-                    intent.putExtra("url", sceneModel.getData().getH5Url());
+                    intent.putExtra("url", url);
                     intent.putExtra("hasNeedTitleBar", true);
                     intent.putExtra("hasNeedRightView", false);
                     intent.putExtra("hasNeedLeftView", true);

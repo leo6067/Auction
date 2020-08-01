@@ -38,7 +38,7 @@ public class SharedDailogUtils {
     private LinearLayout llContain;
 
     //显示分享弹框 type:0则是普通页面分享 不带朋友圈分享  1：是商品详情 带朋友圈分享  2抽奖详情
-    public void showSharedDialog(Context context, SharedModel sharedModel,String type, final ISharedDialog iSharedDialog) {
+    public void showSharedDialog(Context context, SharedModel sharedModel,final ISharedDialog iSharedDialog) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_shared_dailog, null);
         llContain = view.findViewById(R.id.ll_contain);
         ImageView ivStaredPic = view.findViewById(R.id.iv_stared_pic);
@@ -55,7 +55,8 @@ public class SharedDailogUtils {
         tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
         GlideUtils.loadImg(sharedModel.getShopHeadImg(), civHead);
         tvShopName.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
-        tvMoney.setText(DecimalFormatUtils.getInstance().keepPlaces("#0.00",Double.valueOf(sharedModel.getPrice())));
+        tvMoney.setVisibility(View.GONE);
+//        tvMoney.setText(DecimalFormatUtils.getInstance().keepPlaces("#0.00",Double.valueOf(sharedModel.getPrice())));
         //设置recycleview的一些配置
         crlBtn.setHasFixedSize(true);
 
@@ -68,25 +69,32 @@ public class SharedDailogUtils {
 //        CrlBtnModel crlBtnModel05 = new CrlBtnModel(5, R.drawable.ic_shared_save, "保存图片");
 //        CrlBtnModel crlBtnModel06 = new CrlBtnModel(6, R.drawable.ic_xianyu_icon, "闲鱼");
 //        CrlBtnModel crlBtnModel07 = new CrlBtnModel(7, R.drawable.ic_wwdz_icon, "玩物得志");
+        CrlBtnModel crlBtnModel08 = new CrlBtnModel(8, R.drawable.share_qq, "QQ");
 
-        crlBtnModels.add(crlBtnModel01);
-        crlBtnModels.add(crlBtnModel02);
-        if ("1".equals(type)){//商品详情
+
+
+
+
+        if(sharedModel.getChannelType().equals("2")){//分类
             crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
+            crlBtnModels.add(crlBtnModel01);
+            crlBtnModels.add(crlBtnModel02);
+            crlBtnModels.add(crlBtnModel04);
+            crlBtnModels.add(crlBtnModel08);
+            tvTag.setVisibility(View.GONE);
+        }else{
+            crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
+            crlBtnModels.add(crlBtnModel01);
+            crlBtnModels.add(crlBtnModel02);
             crlBtnModels.add(crlBtnModel03);
             crlBtnModels.add(crlBtnModel04);
-//            crlBtnModels.add(crlBtnModel06);
-//            crlBtnModels.add(crlBtnModel07);
-
-            tvTag.setVisibility(View.GONE);
-
-        }else {//普通分享
-            crlBtn.setLayoutManager(new GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false));
-
+            crlBtnModels.add(crlBtnModel08);
             tvTag.setVisibility(View.GONE);
         }
 
-//        crlBtnModels.add(crlBtnModel05);
+
+
+
 
         //设置recycleview的适配器
         CrlBtnAdapter crlBtnAdapter = new CrlBtnAdapter(crlBtnModels);
@@ -110,24 +118,37 @@ public class SharedDailogUtils {
                     switch (pos) {
                         case 1:
                             iSharedDialog.onCopyLink();
+                            iSharedDialog.dissmiss();
                             break;
                         case 2:
                             iSharedDialog.onSharedWX();
+                            iSharedDialog.dissmiss();
                             break;
                         case 3:
                             iSharedDialog.onSharedWXCircle_qrcode(llContain);
+                            iSharedDialog.dissmiss();
                             break;
                         case 4:
                             iSharedDialog.onSharedWXCircle();
+                            iSharedDialog.dissmiss();
                             break;
                         case 5:
                             iSharedDialog.onDowload(llContain);
+                            iSharedDialog.dissmiss();
                             break;
                         case 6:
                             iSharedDialog.onXYShared();
+                            iSharedDialog.dissmiss();
                             break;
                         case 7:
                             iSharedDialog.onWWDZShared();
+                            iSharedDialog.dissmiss();
+                            break;
+
+
+                        case 8:
+                            iSharedDialog.onQQShared();
+                            iSharedDialog.dissmiss();
                             break;
                     }
                 }
@@ -175,5 +196,7 @@ public class SharedDailogUtils {
         void onXYShared();
 
         void onWWDZShared();
+
+        void onQQShared();
     }
 }

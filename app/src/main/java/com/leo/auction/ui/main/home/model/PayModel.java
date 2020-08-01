@@ -180,6 +180,30 @@ public class PayModel {
 * 多业务单号  业务场景为 订单-order 时使用
 * */
 // extendContent 订单支付的情况下 需传递该字段,用于接收收货地址。前端需将收货地址信息序列化成json格式的字符串。
+    public static void httpPay(int payType, String scene, String money, String tradeNo, ArrayList<String> tradeNoList, String payPwd,
+                               String exempt, String extendContent, HttpRequest.HttpCallback httpCallback) {
+
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("payType", payType);
+        jsonObject.put("scene", scene);
+        jsonObject.put("money", money);
+        if (tradeNo.length() > 0) {
+            jsonObject.put("tradeNo", tradeNo);
+        } else {
+            jsonObject.put("tradeNoList", tradeNoList);
+        }
+        jsonObject.put("payPwd", payPwd);
+        jsonObject.put("exempt", exempt);
+        jsonObject.put("extendContent", extendContent);
+
+
+        HttpRequest.httpPostString(Constants.Api.PAY_ORDER_URL, jsonObject, httpCallback);
+
+
+    }
+
+
     public static void httpPay(int payType, String scene, int money, String tradeNo, ArrayList<String> tradeNoList, String payPwd,
                                String exempt, String extendContent, HttpRequest.HttpCallback httpCallback) {
 

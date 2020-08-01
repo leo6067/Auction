@@ -85,7 +85,7 @@ public class HomeSearchAdapter extends BaseQuickAdapter<HomeListModel.DataBean, 
                 .setForegroundColor(Color.parseColor("#7c1313")).setXProportion((float) 1.0)
                 .append(item.getCurrentPrice()).setXProportion((float) 1.3).setForegroundColor(Color.parseColor("#7c1313"))
                 .append("已出价").setForegroundColor(Color.parseColor("#708090"))
-                .append(item.getBidNum())
+                .append(item.getBidNum()).setForegroundColor(Color.parseColor("#7c1313"))
                 .append("次").setForegroundColor(Color.parseColor("#708090"))
                 .create());
 

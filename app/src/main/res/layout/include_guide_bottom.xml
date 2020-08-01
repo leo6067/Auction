@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+
+    <TextView
+        android:id="@+id/tab_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/home_a"
+        android:gravity="center"
+        android:text="首页" />
+
+    <TextView
+        android:id="@+id/tab_sort"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/sort_a"
+        android:gravity="center"
+        android:text="分类" />
+
+
+    <TextView
+        android:id="@+id/tab_focus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/focus_a"
+        android:gravity="center"
+        android:text="关注" />
+
+
+    <TextView
+        android:id="@+id/tab_news"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/news_b"
+        android:gravity="center"
+        android:text="消息" />
+
+    <TextView
+        android:id="@+id/tab_mine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/mine_a"
+        android:gravity="center"
+        android:text="我的" />
+
+</LinearLayout>
+
+

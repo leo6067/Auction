@@ -17,10 +17,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
-import com.aten.compiler.base.BaseWebActivity;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.ScreenUtils;
 import com.aten.compiler.utils.ToastUtils;
@@ -33,7 +33,7 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.AgreementActivity;
 import com.leo.auction.ui.login.LoginActivity;
-import com.leo.auction.ui.main.WebViewActivity;
+
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.adapter.HomeTitleAdapter;
@@ -41,6 +41,7 @@ import com.leo.auction.ui.main.home.model.HomeListModel;
 import com.leo.auction.ui.main.home.model.SubsidyModel;
 import com.leo.auction.ui.main.mine.model.ProductListModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
@@ -173,24 +174,29 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
         mTitleHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-                if (userJson==null){
-                    LoginActivity.newIntance(getActivity(),0);
+                if (userJson == null) {
+                    LoginActivity.newIntance(getActivity(), 0);
                     return;
                 }
 
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("title", "TOP百亿补贴");
-                if (mUserJsonn == null) {
-                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL);
-                } else {
-                    intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + mUserJsonn.getH5Token());
-                }
-                intent.putExtra("hasNeedTitleBar", true);
-                intent.putExtra("hasNeedRightView", false);
-                intent.putExtra("hasNeedLeftView", true);
-                startActivity(intent);
+                UserModel.httpUpdateUser(new HttpRequest.HttpCallback() {
+                    @Override
+                    public void httpError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void httpResponse(String resultData) {
+                        UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                        BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", "TOP百亿补贴");
+                        bundle.putString("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userModel.getData().getH5Token());
+                        Globals.log("xxxxxxxx首页 02  token" + userJson.getH5Token());
+                        ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
+                    }
+                });
             }
         });
 

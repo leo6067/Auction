@@ -76,7 +76,15 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
     }
 
 
+    /*
+     *是否开启懒加载 调用该方法开启
+     */
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        enableLazyLoad();
+    }
 
 
     @Override
@@ -91,7 +99,6 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         visibleToUser = isVisibleToUser;
-
     }
 
     @Override

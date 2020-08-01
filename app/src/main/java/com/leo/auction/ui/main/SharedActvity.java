@@ -71,7 +71,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     private String copyText = "",videoUrl="";
 
     private List<String> nineImgs_qrcode;
- ;
+
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_shared_actvity);
@@ -96,9 +96,13 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         sharedModel = getIntent().getParcelableExtra("sharedModel");
 
 
-        nineImgs = getIntent().getStringArrayListExtra("nineImgs");
-        copyText = getIntent().getStringExtra("copyText");
-        videoUrl = getIntent().getStringExtra("videoUrl");
+        try {
+            nineImgs = getIntent().getStringArrayListExtra("nineImgs");
+            copyText = getIntent().getStringExtra("copyText");
+            videoUrl = getIntent().getStringExtra("videoUrl");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //监听下载状态
         Aria.download(this).register();
@@ -107,7 +111,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         super.initData();
         getQrCode();
 
-        sharedDailogUtils.showSharedDialog(this, sharedModel, "1", this);
+        sharedDailogUtils.showSharedDialog(this, sharedModel, this);
     }
 
     //获取分享二维码
@@ -162,7 +166,9 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 //        String path = Constants.WEB_BASE_URL+ "auction-web/pages/sub/product/productDetail?productInstanceCode=" + sharedModel.getId()
 //                + "&shareAgentId=" +userJson.getUserId();
 
-
+        if (sharedDailogUtils != null) {
+            sharedDailogUtils.dissSharedDialog();
+        }
 
 
         Globals.log("xxxxxxxx sharedModel.getContent()"+ sharedModel.getShopName()  +sharedModel.getContent());
@@ -175,7 +181,9 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     //分享朋友圈
     @Override
     public void onSharedWXCircle() {
-
+        if (sharedDailogUtils != null) {
+            sharedDailogUtils.dissSharedDialog();
+        }
 //        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            UserActionUtils.actionLog(sharedModel.getChannelType(), "6", sharedModel.getShareGoodsCode(),  "1");
 //            showWaitDialog();
@@ -191,6 +199,9 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     //分享朋友圈(带二维码)
     @Override
     public void onSharedWXCircle_qrcode(LinearLayout llContain) {
+        if (sharedDailogUtils != null) {
+            sharedDailogUtils.dissSharedDialog();
+        }
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             UserActionUtils.actionLog(sharedModel.getChannelType(), "6", sharedModel.getShareGoodsCode(),  "1");
             showWaitDialog();
@@ -199,14 +210,35 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         } else {
             showShortToast("系统版本太低,无法使用该功能");
         }
-
-
-
     }
+
+
+
+
+    @Override
+    public void onXYShared() {
+    }
+
+    @Override
+    public void onWWDZShared() {
+    }
+
+    @Override
+    public void onQQShared() {
+        UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.QQ,umShareListener);
+    }
+
+
+
+
+
 
     //下载
     @Override
     public void onDowload(LinearLayout llContain) {
+        if (sharedDailogUtils != null) {
+            sharedDailogUtils.dissSharedDialog();
+        }
         showWaitDialog();
         Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
         FileUtils.fileDirExis(BaseGlobal.getQrCodeDir());
@@ -218,13 +250,6 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         showShortToast("保存成功");
     }
 
-    @Override
-    public void onXYShared() {
-    }
-
-    @Override
-    public void onWWDZShared() {
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -246,6 +271,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         public void onResult(SHARE_MEDIA platform) {
             Globals.log("plat","platform"+platform);
             Toast.makeText(SharedActvity.this,"分享成功", Toast.LENGTH_SHORT).show();
+
         }
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
@@ -282,7 +308,6 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
                             picDatas.add(picBitmaps.get(key));
                         }
                         picBitmaps.clear();
-
                         Options options = new Options();
                         options.setText(copyText);
                         options.setAutoFill(true);
@@ -304,14 +329,19 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
     //分享多张图片到朋友圈(带二维码)
     private void shareMuiltImgToFriendCircle_qrcode(LinearLayout llContain) {
+        if (sharedDailogUtils != null) {
+            sharedDailogUtils.dissSharedDialog();
+        }
         Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
 
         final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();
         picBitmaps.put("0", bitmap);
         if (nineImgs != null &&nineImgs.size() >= 9) {
             nineImgs_qrcode = nineImgs.subList(0, 8);
-        } else {
+        } else  if (nineImgs != null){
             nineImgs_qrcode = nineImgs;
+        }else {
+            return;
         }
 
         for (int i = 1; i < nineImgs_qrcode.size() + 1; i++) {
@@ -333,7 +363,6 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
                             picDatas.add(picBitmaps.get(key));
                         }
                         picBitmaps.clear();
-
                         Options options = new Options();
                         options.setText(copyText);
                         options.setAutoFill(true);
@@ -345,7 +374,6 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
                                 options.setNeedShowLoading(false);
                             }
                         });
-
                         hideWaitDialog();
                         WXShareMultiImageHelper.shareToTimeline(SharedActvity.this, (Bitmap[]) picDatas.toArray(new Bitmap[picDatas.size()]), options);
                     }
@@ -372,6 +400,13 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         intent.putExtra("nineImgs", nineImgs);
         intent.putExtra("copyText", copyText);
         intent.putExtra("videoUrl", videoUrl);
+        context.startActivity(intent);
+    }
+
+
+    public static void newIntance(Context context, SharedModel sharedModel) {
+        Intent intent = new Intent(context, SharedActvity.class);
+        intent.putExtra("sharedModel", sharedModel);
         context.startActivity(intent);
     }
 }

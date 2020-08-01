@@ -2,6 +2,7 @@ package com.leo.auction.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.ToastUtils;
@@ -30,6 +32,8 @@ import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.version.VersionDialog;
 import com.leo.auction.ui.version.VersionDownDialog;
 import com.leo.auction.ui.version.VersionModel;
+import com.leo.auction.ui.web.AgentWebActivity;
+import com.leo.auction.ui.web.AgentWebFragment;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
@@ -60,7 +64,7 @@ public class MainActivity extends BaseActivity {
 
 
     private int current = 0;
-    private MineFragment mMineFragment;
+    private MineWebFragment mMineFragment;
 
     @Override
     public void setContentViewLayout() {
@@ -95,7 +99,7 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new NewsFragment());
 //        mFragments.add(new MainMeFragment());
 
-        mMineFragment = new MineFragment();
+        mMineFragment = new MineWebFragment();
         mFragments.add(mMineFragment);
 
 
@@ -112,7 +116,7 @@ public class MainActivity extends BaseActivity {
         mCommonBottom.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                Globals.log("xxxxxx mCommonBottom"+ position );
+
                 UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
                 if (position == 2 || position == 3 || position == 4) {
                     if (userJson ==null) {
@@ -128,6 +132,10 @@ public class MainActivity extends BaseActivity {
                 } else {
                     initImmersionBar(R.color.white);
                 }
+
+
+
+
                 mViewPager.setCurrentItem(position);
             }
 
@@ -268,12 +276,16 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (mMineFragment != null && mMineFragment.mWebview != null && mMineFragment.mWebview.canGoBack()) {
-                mMineFragment.mWebview.goBack();
+
+
+            if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
+                mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
                 return true;
             }
+
+
             if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(this, "再次点击退出", Toast.LENGTH_SHORT).show();
+                ToastUtils.showShort("锤定：再次点击退出");
                 exitTime = System.currentTimeMillis();
             } else {
                 ActivityManager.exitAPP();

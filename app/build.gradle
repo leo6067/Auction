@@ -194,4 +194,9 @@ dependencies {
     implementation project(path: ':autoShare')
     implementation files('libs/isoparser-1.0.6.jar')
     implementation files('libs/aspectjrt-1.7.3.jar')
+
+
+    implementation 'com.just.agentweb:agentweb:4.1.3' // (必选)
+    implementation 'com.just.agentweb:filechooser:4.1.3'// (可选)
+    implementation 'com.download.library:Downloader:4.1.3'// (可选)
 }

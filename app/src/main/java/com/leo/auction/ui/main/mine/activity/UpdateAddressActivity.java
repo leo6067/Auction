@@ -75,7 +75,14 @@ public class UpdateAddressActivity extends BaseActivity {
         setTitle("编辑地址");
         cityWheelUtils = new CityWheelUtils();
         etConsigneeName.setText(EmptyUtils.strEmpty(item.getLinkman()));
-        tvAddress.setText(item.getAddr1Name() + item.getAddr2Name() + item.getAddr3Name());
+
+
+        if(item.getAddr3Name()!= null &&item.getAddr3Name().length() >0  && !item.getAddr3Name().equals("null")){
+            tvAddress.setText(item.getAddr1Name() + item.getAddr2Name() + item.getAddr3Name());
+        }else {
+            tvAddress.setText(item.getAddr1Name() + item.getAddr2Name());
+        }
+
         etPhone.setText(EmptyUtils.strEmpty(item.getPhone()));
         etDetailAddress.setText(EmptyUtils.strEmpty(item.getAddress()));
         etPostalCode.setText(EmptyUtils.strEmpty(item.getCode()));
@@ -121,14 +128,24 @@ public class UpdateAddressActivity extends BaseActivity {
                     public void onchooseCity(int provincePos, DistrictListModel.DataBean provinceItemData,
                                              int cityPos, DistrictListModel.DataBean cityItemData,
                                              int areaPos, DistrictListModel.DataBean areaItemData) {
-                        provinceId = provinceItemData.getId();
-                        provinceName = provinceItemData.getName();
-                        cityId = cityItemData.getId();
-                        cityName = cityItemData.getName();
-                        areaId = areaItemData.getId();
-                        areaName = areaItemData.getName();
+                        if (provinceItemData != null) {
+                            provinceId = provinceItemData.getId();
+                            provinceName = provinceItemData.getName();
+                        }
 
-                        tvAddress.setText(provinceItemData.getName() + cityItemData.getName() + areaItemData.getName());
+                        if (cityItemData != null) {
+                            cityId = cityItemData.getId();
+                            cityName = cityItemData.getName();
+                        }
+
+                        if (areaItemData != null) {
+                            areaId = areaItemData.getId();
+                            areaName = areaItemData.getName();
+                        }
+
+                        tvAddress.setText((provinceItemData == null ? "" : provinceItemData.getName()) +
+                                (cityItemData == null ? "" : cityItemData.getName()) +
+                                (areaItemData == null ? "" : areaItemData.getName()));
                     }
                 });
                 getAddressData("1", "");
@@ -310,7 +327,7 @@ public class UpdateAddressActivity extends BaseActivity {
         });
     }
 
-    public static void newIntance(Activity activity,String type, AddressModel.DataBean item, int requestCode) {
+    public static void newIntance(Activity activity, String type, AddressModel.DataBean item, int requestCode) {
         Intent intent = new Intent(activity, UpdateAddressActivity.class);
         intent.putExtra("item", item);
         intent.putExtra("type", type);

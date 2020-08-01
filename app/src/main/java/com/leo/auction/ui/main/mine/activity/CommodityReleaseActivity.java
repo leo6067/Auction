@@ -48,8 +48,7 @@ import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.AgreementActivity;
 import com.leo.auction.ui.login.model.OssTokenModel;
-import com.leo.auction.ui.main.WebViewActivity;
-import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
+
 import com.leo.auction.ui.main.home.activity.ImageShowActivity;
 import com.leo.auction.ui.main.home.model.SceneModel;
 import com.leo.auction.ui.main.home.model.SortLeftModel;

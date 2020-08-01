@@ -35,6 +35,7 @@ public class PayPwdBoardUtils {
     CustomSafeKeyboard viewKeyboard;
 
     private BottomDialog payTypeBottomDialog;
+    private BottomDialog payTypeBottomDialogTime;
     private BottomDialog bottomDialog;
     private SetPaypwdUtils setPaypwdUtils;
     private GoSettingPaypwdDialog goSettingPaypwdDialog;
@@ -98,6 +99,83 @@ public class PayPwdBoardUtils {
 
     }
     //-------------------------------------------弹出支付方式选择框  end-------------------------------------------------
+
+
+
+    public void showPayTypeDialogTime(Context context, String payMoney,String time, ArrayList<OrderPayTypeModel> orderPayTypeModels, final IPayType iPayType) {
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View bottomChooseLayout = inflater.inflate(R.layout.layout_pay_input_type, null);
+        TextView tvMoney = (TextView) bottomChooseLayout.findViewById(R.id.tv_money);
+        TextView dialogTime = (TextView) bottomChooseLayout.findViewById(R.id.dialog_time);
+        TextView dialogEarnest = (TextView) bottomChooseLayout.findViewById(R.id.dialog_earnest);
+        CustomeRecyclerView crlPayTytpe = (CustomeRecyclerView) bottomChooseLayout.findViewById(R.id.crl_pay_tytpe);
+        TextView tvSure = (TextView) bottomChooseLayout.findViewById(R.id.tv_sure);
+        //设置金额
+        tvMoney.setText(EmptyUtils.strEmpty(payMoney));
+        //设置支付列表
+        crlPayTytpe.setHasFixedSize(true);
+        crlPayTytpe.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        final PayTypeAdapter payTypeAdapter = new PayTypeAdapter(iPayType);
+        crlPayTytpe.setAdapter(payTypeAdapter);
+        payTypeAdapter.setNewData(orderPayTypeModels);
+
+
+
+        dialogTime.setText("为避免订单违约，建议您在" + time +"前支付");
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!RxTool.isFastClick(RxTool.MIN_CLICK_DELAY_TIME_500)) {
+                    return;
+                }
+
+                iPayType.choosePayType(payTypeAdapter.getChoosePos());
+            }
+        });
+
+        dialogEarnest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!RxTool.isFastClick(RxTool.MIN_CLICK_DELAY_TIME_500)) {
+                    return;
+                }
+
+                new EarnestRuleDialog(context).show();
+            }
+        });
+        payTypeBottomDialogTime = new BottomDialog(context, bottomChooseLayout);
+        payTypeBottomDialogTime.show();
+
+
+    }
+
+    //关闭支付方式的dialog
+    public void dismissPayTypeDialogTime() {
+        if (payTypeBottomDialogTime != null) {
+            payTypeBottomDialogTime.dismiss();
+            payTypeBottomDialogTime = null;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //-------------------------------------------弹出密码支付框  start-------------------------------------------------

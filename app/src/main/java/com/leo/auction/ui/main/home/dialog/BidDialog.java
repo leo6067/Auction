@@ -2,6 +2,7 @@ package com.leo.auction.ui.main.home.dialog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -9,11 +10,12 @@ import android.widget.TextView;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.widget.dialog.base.BottomBaseDialog;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
-import com.leo.auction.ui.main.WebViewActivity;
-import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
+
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.web.AgentWebActivity;
 import com.ruffian.library.widget.RTextView;
 
 import java.util.HashMap;
@@ -73,12 +75,9 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, WebViewActivity.class);
+                Intent intent = new Intent(mContext, AgentWebActivity.class);
                 intent.putExtra("title", "TOP百亿补贴");
                 intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL +  mUserJson.getH5Token());
-                intent.putExtra("hasNeedTitleBar", true);
-                intent.putExtra("hasNeedRightView", false);
-                intent.putExtra("hasNeedLeftView", true);
                 mContext.startActivity(intent);
             }
         });
