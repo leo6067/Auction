@@ -125,7 +125,7 @@ public class MainMeFragment extends BaseFragment {
                 ActivityManager.JumpActivity(getActivity(), ShopActivity.class);
                 break;
             case R.id.ll_follow:
-                ActivityManager.mainActivity.setCurrentItem(2);
+                ActivityManager.mainActivity.setCurrent(2);
                 break;
             case R.id.ll_fans:
                 break;

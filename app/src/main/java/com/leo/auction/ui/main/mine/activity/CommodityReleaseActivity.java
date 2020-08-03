@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -34,6 +35,7 @@ import com.aten.compiler.utils.VibratorUtils;
 import com.aten.compiler.widget.CustomeRecyclerView;
 import com.aten.compiler.widget.ZzHorizontalProgressBar;
 import com.aten.compiler.widget.text.MoneyValueFilter;
+import com.aten.compiler.widget.title.OnTitleBarListener;
 import com.aten.compiler.widget.title.TitleBar;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -41,6 +43,7 @@ import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.huantansheng.easyphotos.utils.video.ReleaseVideoModel;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
@@ -49,6 +52,7 @@ import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.AgreementActivity;
 import com.leo.auction.ui.login.model.OssTokenModel;
 
+import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.home.activity.ImageShowActivity;
 import com.leo.auction.ui.main.home.model.SceneModel;
 import com.leo.auction.ui.main.home.model.SortLeftModel;
@@ -187,6 +191,27 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     @Override
     public void initData() {
         mTitleBar.setTitle("发布拍品");
+        mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+                ActivityManager.JumpActivity(CommodityReleaseActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.recreateActivity();
+                finish();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
+
+
+
+
         uploadPicUtils = new CompressUploadPicUtils();
         uploadVideoUtils = new CompressUploadVideoUtils();
         textLightUtils = new TextLightUtils();
@@ -1352,5 +1377,16 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            ActivityManager.JumpActivity(CommodityReleaseActivity.this, MainActivity.class);
+            ActivityManager.mainActivity.recreateActivity();
+            ActivityManager.mainActivity.setCurrent(4);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

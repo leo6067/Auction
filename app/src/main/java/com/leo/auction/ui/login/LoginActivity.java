@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -129,6 +130,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_login);
+
+
+
     }
 
 
@@ -136,12 +140,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void initData() {
         super.initData();
         dialogUtils = new DialogUtils();
+
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
+        ActivityManager.loginActivity = this;
+        Globals.log("XXXXXXXXXX testWebview  00 " + Constants.WebApi.YZM_URL);
         setWebView();
         backPager = getIntent().getIntExtra("backPager", 0);
         BaseSharePerence.getInstance().setUserJson("");
@@ -170,8 +177,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    private void setWebView() {
-
+    public void setWebView() {
+        Globals.log("XXXXXXXXXX testWebview  01 " + Constants.WebApi.YZM_URL);
         WebSettings settings = testWebview.getSettings();
         settings.setDefaultTextEncodingName("utf-8");// 避免中文乱码
         settings.setJavaScriptEnabled(true);
@@ -234,10 +241,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //        testWebview.addJavascriptInterface(new testJsInterface(), "testInterface");
         // 加载业务页面。
         testWebview.loadUrl(Constants.WebApi.YZM_URL);
+
+
+        Globals.log("XXXXXXXXXX testWebview 02" + Constants.WebApi.YZM_URL);
     }
 
 
-    @OnClick({R.id.tv_agree,R.id.fl_verif_code, R.id.iv_common_login, R.id.iv_close, R.id.iv_wx_login, R.id.iv_name_delete})
+    @OnClick({R.id.tv_agree, R.id.fl_verif_code, R.id.iv_common_login, R.id.iv_close, R.id.iv_wx_login, R.id.iv_name_delete})
     public void onViewClicked(View view) {
         if (!RxTool.isFastClick(RxTool.MIN_CLICK_DELAY_TIME_500)) {
             return;
@@ -253,8 +263,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.iv_close:
 //                ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
 //                ActivityManager.mainActivity.setCurrent(0);
-
-                Globals.log("xxxxxxxxxxx " + backPager);
                 if (backPager == 0) {
                     finish();
                 } else {
@@ -275,7 +283,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
         }
     }
-
 
 
     //出价 隐私 协议 政策
@@ -307,10 +314,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             });
                 } else {
 
-                    String url= sceneModel.getData().getH5Url();
-                    if(sceneModel.getData().getH5Url().contains("?")){
+                    String url = sceneModel.getData().getH5Url();
+                    if (sceneModel.getData().getH5Url().contains("?")) {
                         url += "&isMargin=4";
-                    }else  {
+                    } else {
                         url += "?isMargin=4";
                     }
                     Intent intent = new Intent(LoginActivity.this, AgreementActivity.class);
@@ -403,15 +410,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     ToastUtils.showShort("登录成功");
                     httpUser();
                     BaseSharePerence.getInstance().setLoginJson(resultData);
-
-                    if (backPager == 0) {
-                        finish();
-                    } else {
+                    if (backPager == 1) {
                         ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
                         ActivityManager.mainActivity.setCurrent(0);
-                        finish();
                     }
-                }else {
+                    finish();
+                } else {
                     ToastUtils.showShort(loginModel.getResult().getMessage());
                 }
             }
@@ -464,7 +468,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                 ActivityManager.mainActivity.setCurrent(0);
                                 finish();
                             }
-                        }else {
+                        } else {
                             ToastUtils.showShort(loginModel.getResult().getMessage());
                         }
                     }
@@ -521,6 +525,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //注意WebView的处理要写在super.onDestroy()之前
+        if (testWebview != null) {
+            testWebview.stopLoading();
+            ViewGroup parent = (ViewGroup) testWebview.getParent();
+            if (parent != null) {
+                parent.removeView(testWebview);
+            }
+            testWebview.clearHistory();
+            testWebview.destroy();
+            testWebview=null;
+        }
+
         BroadCastReceiveUtils.unregisterLocalReceiver(LoginActivity.this, mStartActivity);
         UMShareAPI.get(this).release();
     }
@@ -532,29 +548,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //        cookieManager.removeAllCookie();
 //        CookieSyncManager.getInstance().sync();
 
-        Globals.log("xxxxxxxx  context"  +context.getClass().getName());
-
+        Globals.log("xxxxxxxx  context" + context.getClass().getName());
         Constants.Var.ISLOGIN = false;
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("backPager", backPager);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-
     }
 
 
-    @Override
-    public void onBackPressed() {
-        if (backPager == 1) {
-            MainActivity.newIntance(LoginActivity.this, 0);
-        }
-        super.onBackPressed();
-//        if ("0".equals(loginCloseType)) {
-//            this.overridePendingTransition(0, 0);
-//        } else {
-//            this.overridePendingTransition(0, R.anim.activity_up_to_down);
-//        }
-    }
+
 
 
     @Override

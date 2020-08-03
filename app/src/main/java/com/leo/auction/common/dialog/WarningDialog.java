@@ -44,8 +44,7 @@ public class WarningDialog extends BaseDialog<WarningDialog> implements View.OnC
 
     @Override
     public View onCreateView() {
-        widthScale(0.8f);
-
+        widthScale(0.7f);
         View view = View.inflate(mContext, R.layout.dialog_warning, null);
         mTitleTitle = (TextView) view.findViewById(R.id.warning_title);
         mTitleText = (TextView) view.findViewById(R.id.warning_text);
@@ -54,8 +53,6 @@ public class WarningDialog extends BaseDialog<WarningDialog> implements View.OnC
         mCancelTV = (TextView) view.findViewById(R.id.warning_btn_cancel);
         mCancelTV.setOnClickListener(this);
         setCanceledOnTouchOutside(false);
-
-
         return view;
     }
 

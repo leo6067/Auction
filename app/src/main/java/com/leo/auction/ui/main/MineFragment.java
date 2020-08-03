@@ -187,7 +187,7 @@ public class MineFragment extends BaseFragment {
 
 
         try {
-            String token = BaseSharePerence.getInstance().getUserJson().getH5Token();
+            String token = BaseSharePerence.getInstance().getUserJson().getNestedToken();
             String userId = BaseSharePerence.getInstance().getUserJson().getUserId();
             String httpUrl = Constants.WebApi.WEB_MINE_URL + token + "&userId="+userId;
             webLoad(httpUrl);

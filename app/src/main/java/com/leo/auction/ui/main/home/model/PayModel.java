@@ -3,6 +3,9 @@ package com.leo.auction.ui.main.home.model;
 import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.order.model.AddressJson;
+
+
 
 import java.util.ArrayList;
 
@@ -181,7 +184,7 @@ public class PayModel {
 * */
 // extendContent 订单支付的情况下 需传递该字段,用于接收收货地址。前端需将收货地址信息序列化成json格式的字符串。
     public static void httpPay(int payType, String scene, String money, String tradeNo, ArrayList<String> tradeNoList, String payPwd,
-                               String exempt, String extendContent, HttpRequest.HttpCallback httpCallback) {
+                               String exempt, AddressJson extendContent, HttpRequest.HttpCallback httpCallback) {
 
         JSONObject jsonObject = new JSONObject();
 
@@ -195,7 +198,13 @@ public class PayModel {
         }
         jsonObject.put("payPwd", payPwd);
         jsonObject.put("exempt", exempt);
-        jsonObject.put("extendContent", extendContent);
+
+
+        String jsonString = JSONObject.toJSONString(extendContent);
+        String str = jsonString.replace("\"","");
+
+
+        jsonObject.put("extendContent",str );
 
 
         HttpRequest.httpPostString(Constants.Api.PAY_ORDER_URL, jsonObject, httpCallback);
@@ -219,6 +228,9 @@ public class PayModel {
         }
         jsonObject.put("payPwd", payPwd);
         jsonObject.put("exempt", exempt);
+
+
+
         jsonObject.put("extendContent", extendContent);
 
 

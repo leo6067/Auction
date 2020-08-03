@@ -158,6 +158,7 @@
             <enum name="transparent" value="0x30" />
             <enum name="green" value="0x40" />
             <enum name="white" value="0x50" />
+            <enum name="gray" value="0x60" />
         </attr>
         <!-- 标题 -->
         <attr name="title" format="string" />

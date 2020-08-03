@@ -64,7 +64,7 @@ public class Constants {
         public static boolean ISLOGIN = false;//是否处于登录状态
 //        public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个     // 5开始是关注
         public static int SHOP_TYPE = 0 ;//用于记录是商家店铺主页 片段中具体哪个
-        public static int FOCUS_TYPE = 0 ;//用于记录是关注Tab 片段中具体哪个
+        public static int FOCUS_TYPE = -1 ;//用于记录是关注Tab 片段中具体哪个  -1表示未登录
         public static int MINE_TYPE = 0 ;//用于记录是个人中心是 买入 还是卖出订单
         public static String HOME_SORT_TYPE = "HOME_SORT_TYPE" ;//用于记录是分类id
 

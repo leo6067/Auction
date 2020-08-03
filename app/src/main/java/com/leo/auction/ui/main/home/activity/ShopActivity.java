@@ -220,6 +220,8 @@ public class ShopActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
+
+        Constants.Action.ACTION_ACTION = "3";
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("shopUri", shopUri);
         showWaitDialog();

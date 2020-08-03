@@ -159,8 +159,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-
-
                     android:drawableEnd="@drawable/ic_enter_03"
                     android:drawablePadding="@dimen/dp_30"
                     android:text="已个人认证"
@@ -168,6 +166,7 @@
                     android:textSize="@dimen/sp_24" />
 
                 <ImageView
+
                     android:id="@+id/iv_real_name_auth_status"
                     android:layout_width="@dimen/dp_30"
                     android:layout_height="@dimen/dp_30"

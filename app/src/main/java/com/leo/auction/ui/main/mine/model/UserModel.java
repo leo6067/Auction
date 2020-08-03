@@ -125,6 +125,15 @@ public class UserModel {
         private String mpToken;
         private String h5Token;
         private String webToken;
+        private String nestedToken;
+
+        public String getNestedToken() {
+            return nestedToken;
+        }
+
+        public void setNestedToken(String nestedToken) {
+            this.nestedToken = nestedToken;
+        }
 
         public AddressBean getAddress() {
             return address;
@@ -731,27 +740,20 @@ public class UserModel {
         }
     }
 
-    public static void httpUserInfo(HttpRequest.HttpCallback httpCallback){
 
-        HashMap<String, String> hashMap = new HashMap<>();
-
-        HttpRequest.httpGetString(Constants.Api.USER_URL,hashMap ,httpCallback);
-
-    }
 
     public static void httpUpdateUser( ){
         HashMap<String, String> hashMap = new HashMap<>();
         HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-
             }
 
             @Override
             public void httpResponse(String resultData) {
                 UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
                 BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
-                Globals.log("xxxxxxxx首页 03  token" + userModel.getData().getH5Token());
+                Globals.log("xxxxxx获取最新用户信息" + userModel.toString());
             }
         });
     }
@@ -759,25 +761,7 @@ public class UserModel {
 
     public static void httpUpdateUser(HttpRequest.HttpCallback httpCallback){
         HashMap<String, String> hashMap = new HashMap<>();
-
         HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap,httpCallback);
-
-
-
-
-        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
-                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
-                Globals.log("xxxxxxxx首页 03  token" + userModel.getData().getH5Token());
-            }
-        });
     }
 
 }

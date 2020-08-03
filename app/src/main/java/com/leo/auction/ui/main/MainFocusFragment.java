@@ -20,6 +20,9 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.fragment.FocusAllFragment;
+import com.leo.auction.ui.main.home.fragment.FocusCollectFragment;
+import com.leo.auction.ui.main.home.fragment.FocusFootmarkFragment;
+import com.leo.auction.ui.main.home.fragment.FocusJoinFragment;
 import com.leo.auction.ui.main.home.fragment.FocusShopFragment;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
 import com.leo.auction.ui.main.mine.model.UserModel;
@@ -60,7 +63,11 @@ public class MainFocusFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
 
+    }
 
     @Override
     public void initView(View view) {
@@ -72,17 +79,14 @@ public class MainFocusFragment extends BaseFragment {
 
         mFragments.add(new FocusAllFragment());
         mFragments.add(new FocusShopFragment());
-        mFragments.add(new FocusAllFragment());
-        mFragments.add(new FocusAllFragment());
-        mFragments.add(new FocusAllFragment());
+        mFragments.add(new FocusCollectFragment());  //收藏
+        mFragments.add(new FocusJoinFragment());
+        mFragments.add(new FocusFootmarkFragment());
         TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(titlePagerAdapter);
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-
-                Globals.log("hhhhhhhhhhhhhhhh"  + position);
-                Constants.Var.FOCUS_TYPE = position ;
                 mViewPager.setCurrentItem(position);
                 BroadCastReceiveUtils.sendLocalBroadCast(getActivity(),Constants.Action.ACTION_FOCUS_TYPE);
             }
@@ -103,8 +107,6 @@ public class MainFocusFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-                Globals.log("hhhhhhhhhhhhhhhh 01  "  + position);
-                Constants.Var.FOCUS_TYPE = position ;
                 mSegmentTabLayout.setCurrentTab(position);
                 BroadCastReceiveUtils.sendLocalBroadCast(getActivity(),Constants.Action.ACTION_FOCUS_TYPE);
             }

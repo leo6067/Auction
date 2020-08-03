@@ -189,8 +189,7 @@ public class HomeYYPFragment extends BaseRecyclerViewFragment {
                         BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
                         Bundle bundle = new Bundle();
                         bundle.putString("title", "TOP百亿补贴");
-                        bundle.putString("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userModel.getData().getH5Token());
-                        Globals.log("xxxxxxxx首页 02  token" + userJson.getH5Token());
+                        bundle.putString("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userModel.getData().getNestedToken());
                         ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
                     }
                 });

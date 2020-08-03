@@ -81,10 +81,7 @@ public class GenerateQRCodeActivity extends BaseActivity {
         tvQrCodeType.setText(name);
         ivSpinView.setAnimationSpeed(1);
         ivSpinView.setVisibility(View.VISIBLE);
-
         getQrCode();
-
-
     }
 
     private void getQrCode() {
@@ -133,7 +130,7 @@ public class GenerateQRCodeActivity extends BaseActivity {
         switch (name) {
             case "推荐粉丝":
             case "推荐商家":
-                rQrWidth = bgWidth * 0.32 ;
+                rQrWidth = bgWidth * 0.45 ;
                 rQrHeight = rQrWidth*0.9 ;
                 rQrX = (bgWidth - rQrWidth - bgWidth * 0.015) / 2;
                 rQrY = bgHeight * 0.254;
@@ -142,7 +139,7 @@ public class GenerateQRCodeActivity extends BaseActivity {
             case "首页二维码2":
             case "首页二维码3":
             case "代理二维码":
-                rQrWidth = bgWidth * 0.175;
+                rQrWidth = bgWidth * 0.25;
                 rQrHeight = rQrWidth;
                 rQrX = bgWidth * 0.758;
                 rQrY = bgHeight * 0.043;
@@ -151,7 +148,7 @@ public class GenerateQRCodeActivity extends BaseActivity {
 
         final double finalRQrWidth = rQrWidth;
         final double finalRQrHeight = rQrHeight;
-        final double finalRQrX = rQrX *0.6;
+        final double finalRQrX = rQrX *0.5;
         final double finalRQrY = rQrY * 2.7;
         ivQrCodeBg.post(new Runnable() {
             @Override

@@ -2,7 +2,9 @@ package com.leo.auction.ui.main.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import com.aten.compiler.widget.CircleImageView;
 import com.aten.compiler.widget.dialog.NormalDialog;
 import com.aten.compiler.widget.dialog.listener.OnBtnClickL;
 import com.aten.compiler.widget.glide.GlideUtils;
+import com.aten.compiler.widget.title.OnTitleBarListener;
 import com.aten.compiler.widget.title.TitleBar;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -31,6 +34,7 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
+import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.login.model.OssTokenModel;
@@ -38,9 +42,12 @@ import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.mine.model.AddressModel;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.ossUpload.DecryOssDataModel;
 import com.leo.auction.utils.ossUpload.UploadSinglePicUtils;
 import com.tencent.smtt.sdk.CookieSyncManager;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -105,10 +112,34 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
     public void initView() {
         super.initView();
         mTitleBar.getTitleView().setText("设置");
+
+
+        mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+                ActivityManager.JumpActivity(SettingActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.recreateActivity();
+                finish();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
         UserModel.httpUpdateUser();
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-
-
         GlideUtils.loadImg(userJson.getHeadImg(), mIvHead);
         mTvContactsName.setText(userJson.getNickname());
         mTvContactsPhone.setText(EmptyUtils.strEmpty(userJson.getPhone()));
@@ -116,8 +147,15 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
         mTvReturn.setText(EmptyUtils.strEmpty(userJson.getAddress().getReturnAddress().getAddress()));
         mTvAbout.setText(AppUtils.getAppVersionName());
 
-    }
+        if(!EmptyUtils.isEmpty(userJson.getUsername())){
+            mTvRealNameAuth.setText(userJson.getUsername());
+            mIvRealNameAuthStatus.setVisibility(View.VISIBLE);
 
+        }else {
+            mTvRealNameAuth.setText("");
+            mIvRealNameAuthStatus.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void initData() {
@@ -155,22 +193,30 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
 
                 break;
             case R.id.sbtn_exit_account:
-                CustomerDialogUtils.getInstance().showNormalDialog(SettingActivity.this, true, "温馨提示",
-                        "确定要退出登录么？", NormalDialog.STYLE_TWO, 2, "取消,确定", new OnBtnClickL() {
-                            @Override
-                            public void onBtnClick() {
-                                CustomerDialogUtils.getInstance().dissNormalDialog();
-                            }
-                        }, new OnBtnClickL() {
-                            @Override
-                            public void onBtnClick() {
-                                showWaitDialog();
-                                removeAllCookie();
-                                loginOut();
-                                finish();
-                                LoginActivity.newIntance(SettingActivity.this, 1);
-                            }
-                        });
+
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("content","确定要退出登录么？");
+                hashMap.put("title","温馨提示");
+                WarningDialog warningDialog = new WarningDialog(SettingActivity.this,hashMap);
+                warningDialog.show();
+                warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+                    @Override
+                    public void onWarningOk() {
+
+                        removeAllCookie();
+                        loginOut();
+                        LoginActivity.newIntance(SettingActivity.this, 1);
+                        finish();
+
+                        Constants.Var.FOCUS_TYPE =-1;  //  关注片段 防止预加载
+                    }
+
+                    @Override
+                    public void onWaringCancel() {
+
+                    }
+                });
+
                 break;
             case R.id.sbtn_cancellation_account:
                 break;
@@ -186,11 +232,8 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
         cookieManager.setAcceptCookie(true);
         cookieManager.removeSessionCookie();
 
-
         cookieManager.removeAllCookie();
         cookieSyncManager.sync();
-
-
     }
 
     @Override
@@ -300,9 +343,21 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
             public void httpResponse(String resultData) {
             }
         });
-
-
     }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            ActivityManager.JumpActivity(SettingActivity.this, MainActivity.class);
+            ActivityManager.mainActivity.recreateActivity();
+            ActivityManager.mainActivity.setCurrent(4);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 
 }

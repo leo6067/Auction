@@ -151,9 +151,11 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         ToastUtils.showShort("链接复制成功");
     }
 
-    //分享微信
+    //分享微信   Constants.Action.ACTION_ACTION 4-分享 5-分享新用户 6-分享朋友圈  7-分享QQ
     @Override
     public void onSharedWX() {
+
+
 //        UserActionUtils.actionLog(sharedModel.getChannelType(),"4",sharedModel.getShareGoodsId(),sharedModel.getShareShopUri(),"1");
         if (EmptyUtils.isEmpty(sharedModel.getPicPath())) {
             showShortToast("图片有误");
@@ -170,15 +172,15 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
             sharedDailogUtils.dissSharedDialog();
         }
 
+        UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "4", sharedModel.getShareGoodsCode() , "1");
 
-        Globals.log("xxxxxxxx sharedModel.getContent()"+ sharedModel.getShopName()  +sharedModel.getContent());
         UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.WEIXIN,umShareListener);
         //分享到朋友圈，---将 SHARE_MEDIA.WEIXIN_CIRCLE    ----------- SHARE_MEDIA.WEIXIN  替换
 //        UmShare.shareLink(this,path,sharedText,sharedModel.getPicPath(), sharedText,SHARE_MEDIA.WEIXIN_CIRCLE,umShareListener);
 
     }
 
-    //分享朋友圈
+    //分享朋友圈  4-分享 5-分享新用户 6-分享朋友圈  7-分享QQ
     @Override
     public void onSharedWXCircle() {
         if (sharedDailogUtils != null) {
@@ -192,13 +194,14 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 //        } else {
 //            showShortToast("系统版本太低,无法使用该功能");
 //        }
-
+        UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode() , "1");
         UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.WEIXIN_CIRCLE,umShareListener);
     }
 
     //分享朋友圈(带二维码)
     @Override
     public void onSharedWXCircle_qrcode(LinearLayout llContain) {
+
         if (sharedDailogUtils != null) {
             sharedDailogUtils.dissSharedDialog();
         }
@@ -225,6 +228,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
     @Override
     public void onQQShared() {
+        UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "7", sharedModel.getShareGoodsCode() , "1");
         UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.QQ,umShareListener);
     }
 

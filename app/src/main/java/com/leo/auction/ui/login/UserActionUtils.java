@@ -20,13 +20,13 @@ import okhttp3.Call;
  */
 public class UserActionUtils {
     /*
-     * channelType:频道类型  1-首页 2-分类频道 3-店铺推荐  4-关注-拍品 5-参拍  6-足迹  7-收藏
-     * actionType:'动作类型   1-点击  2-收藏 3-出价  4-分享 5-分享新用户 6-分享朋友圈
+     * channelType:频道类型 //'频道类型 1-首页 2-分类频道 3-店铺推荐  4-关注-拍品 5-参拍  6-足迹  7-收藏
+     * actionType:'动作类型//'动作类型  1-点击  2-收藏 3-出价  4-分享 5-分享新用户 6-分享朋友圈  7-分享QQ
      *productInstanceId:'商品标识',//必须
 
      *status:'	状态 1-(默认)  2-取消
      */
-    public static void actionLog(String channelType, String actionType, String productInstanceId,   String status) {
+    public static void actionLog(String channelType, String actionType, String productInstanceId,  String status) {
 
         BaseModel.sendActionLogRequest(channelType, actionType, productInstanceId, status, new HttpRequest.HttpCallback() {
             @Override

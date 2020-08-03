@@ -77,7 +77,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AgentWebActivity.class);
                 intent.putExtra("title", "TOP百亿补贴");
-                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL +  mUserJson.getH5Token());
+                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL +  mUserJson.getNestedToken());
                 mContext.startActivity(intent);
             }
         });

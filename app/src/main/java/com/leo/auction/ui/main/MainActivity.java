@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
+import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.ToastUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.flyco.tablayout.CommonTabLayout;
@@ -80,6 +81,7 @@ public class MainActivity extends BaseActivity {
     public void initImmersionBar(int color) {
         //在BaseActivity里初始化
         mImmersionBar = ImmersionBar.with(this)
+                 .statusBarDarkFont(true)
                 .statusBarColor(color)
                 .keyboardEnable(true);
         mImmersionBar.init();
@@ -91,7 +93,7 @@ public class MainActivity extends BaseActivity {
         initImmersionBar();
         ActivityManager.mainActivity = this;
         mViewPager.setAdapter(new TitlePagerAdapter(getSupportFragmentManager()));
-        mViewPager.setOffscreenPageLimit(0);
+
 
         mFragments.add(new HomeFragment());
         mFragments.add(new MainSortFragment());
@@ -134,6 +136,11 @@ public class MainActivity extends BaseActivity {
                 }
 
 
+                if ( position == 2 ) {
+
+                    Constants.Var.FOCUS_TYPE = 0;
+                    BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this,Constants.Action.ACTION_FOCUS_TYPE);
+                }
 
 
                 mViewPager.setCurrentItem(position);
@@ -153,7 +160,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Globals.log("xxxxxx mViewPager"+ position );
+
                 UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
                 if (position == 2 || position == 3 || position == 4) {
                     if (userJson ==null) {
@@ -169,6 +176,13 @@ public class MainActivity extends BaseActivity {
                 } else {
                     initImmersionBar(R.color.white);
                 }
+
+                if ( position == 2 ) {
+
+                    Constants.Var.FOCUS_TYPE = 0;
+                    BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this,Constants.Action.ACTION_FOCUS_TYPE);
+                }
+
                 mCommonBottom.setCurrentTab(position);
             }
 
@@ -185,10 +199,26 @@ public class MainActivity extends BaseActivity {
     }
 
 
+
+
     public void setCurrent(int current) {
         mViewPager.setCurrentItem(current);
         mCommonBottom.setCurrentTab(current);
+        mCommonBottom.setVisibility(View.VISIBLE);
     }
+
+
+
+    //用于web 返回app首页
+    public void recreateActivity(){
+        mViewPager.setCurrentItem(current);
+        mCommonBottom.setCurrentTab(current);
+        mCommonBottom.setVisibility(View.VISIBLE);
+        recreate();
+    }
+
+
+
 
 
     public void httpVerison() {
@@ -227,10 +257,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-
-    public void setCurrentItem(int position) {
-        mViewPager.setCurrentItem(position);
-    }
 
     public void setBottomGone() {
         mCommonBottom.setVisibility(View.GONE);
@@ -273,8 +299,22 @@ public class MainActivity extends BaseActivity {
     }
 
 
+
+
+    public void mineWebBack() {
+        if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
+            mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
+
+        }
+    }
+
+
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        Globals.log("xxxxxxx onKeyDown" +keyCode);
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 
 
@@ -282,8 +322,6 @@ public class MainActivity extends BaseActivity {
                 mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
                 return true;
             }
-
-
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 ToastUtils.showShort("锤定：再次点击退出");
                 exitTime = System.currentTimeMillis();

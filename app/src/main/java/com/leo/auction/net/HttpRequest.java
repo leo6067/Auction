@@ -331,21 +331,6 @@ public class HttpRequest {
     }
 
 
-    public static String map2Form(Map<String, String> map) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if(map == null) {
-            return stringBuilder.toString();
-        } else {
-            for (Map.Entry<String, String> entry:
-                    map.entrySet() ) {
-                stringBuilder.append(entry.getKey())
-                        .append("=")
-                        .append(entry.getValue())
-                        .append("&");
-            }
-            return stringBuilder.substring(0, stringBuilder.length() - 1);
-        }
-    }
 
 
 
@@ -387,6 +372,11 @@ public class HttpRequest {
 //                }
 //            }
 //        });
+
+
+//        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+//        RequestBody body = RequestBody.create(mediaType, map2Form(data));
+//        OkHttpUtils.post()
 
 
         OkHttpUtils.post()
@@ -445,5 +435,23 @@ public class HttpRequest {
         public abstract void httpResponse(String resultData);
     }
 
+
+
+
+    public static String map2Form(Map<String, String> map) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if(map == null) {
+            return stringBuilder.toString();
+        } else {
+            for (Map.Entry<String, String> entry:
+                    map.entrySet() ) {
+                stringBuilder.append(entry.getKey())
+                        .append("=")
+                        .append(entry.getValue())
+                        .append("&");
+            }
+            return stringBuilder.substring(0, stringBuilder.length() - 1);
+        }
+    }
 
 }

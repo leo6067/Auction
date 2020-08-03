@@ -10,9 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -27,11 +25,8 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.login.LoginActivity;
-import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.adapter.FocusAdapter;
-import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
@@ -45,10 +40,10 @@ import okhttp3.Call;
 /**
  * A simple {@link Fragment} subclass.
  *
- *  关注--拍品
+ *  关注--收藏
  *
  */
-public class FocusAllFragment extends BaseRecyclerViewFragment {
+public class FocusCollectFragment extends BaseRecyclerViewFragment {
 
 
     @BindView(R.id.recyclerView)
@@ -72,7 +67,7 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
     };
 
 
-    public FocusAllFragment() {
+    public FocusCollectFragment() {
         // Required empty public constructor
     }
 
@@ -148,23 +143,22 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
 
 
 
+
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         if (userJson == null) {
             return;
         }
 
-        int focusType = Constants.Var.FOCUS_TYPE;  //用来防止预加载
 
-        if (focusType > -1) {  //关注--拍品
-            mUrl = Constants.Api.SORT_FOLLOW_URL;
-            Constants.Action.ACTION_ACTION = "4";
+        int focusType = Constants.Var.FOCUS_TYPE;
+        if (focusType > -1) {  //关注--收藏
+            mUrl = Constants.Api.SORT_COLLECT_URL;
+            Constants.Action.ACTION_ACTION = "7";
         }else {
             return;
         }
 
 
-
-        Globals.log("xxxxxxx visibleToUser getData  00");
 
         hashMap.put("pageNum", "" + mPageNum);
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
@@ -208,8 +202,8 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
         recyclerView.scrollToPosition(0);
     }
 
-    public static FocusAllFragment newIntance(String shopUri) {  //角度  1-买家角度(默认1)   2-卖家角度
-        FocusAllFragment shopAllFragment = new FocusAllFragment();
+    public static FocusCollectFragment newIntance(String shopUri) {  //角度  1-买家角度(默认1)   2-卖家角度
+        FocusCollectFragment shopAllFragment = new FocusCollectFragment();
         Bundle bundle = new Bundle();
         bundle.putString("shopUri", shopUri);
         shopAllFragment.setArguments(bundle);

@@ -144,6 +144,8 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
     @Override
     public void onResume() {
 
+
+        Globals.log("xxxxxx  01 "     );
         UserModel.httpUpdateUser(new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -154,7 +156,9 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
             public void httpResponse(String resultData) {
                 UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
                 BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+                Globals.log("xxxxxx  02 "     );
                 if (mRootView != null) {
+                    Globals.log("xxxxxx  03 "     );
                     initAgentWeb(mRootView);
                 }
             }
@@ -165,10 +169,6 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
     }
 
 
-    private void refreshLoad() {
-
-
-    }
 
 
     private void initAgentWeb(View view) {
@@ -202,6 +202,8 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
             mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new AndroidInterface(mAgentWeb, this.getActivity()));
         }
 
+
+
     }
 
 
@@ -223,12 +225,9 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
         });
 
         if (BaseSharePerence.getInstance().getUserJson()!=null){
-              token = BaseSharePerence.getInstance().getUserJson().getH5Token();
+              token = BaseSharePerence.getInstance().getUserJson().getNestedToken();
               userId = BaseSharePerence.getInstance().getUserJson().getUserId();
         }
-
-
-
 
 
         return Constants.WebApi.WEB_MINE_URL + token + "&userId=" + userId;
@@ -264,7 +263,6 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
     public IAgentWebSettings getSettings() {
         return new AbsAgentWebSettings() {
             private AgentWeb mAgentWeb;
-
             @Override
             protected void bindAgentWebSupport(AgentWeb agentWeb) {
                 this.mAgentWeb = agentWeb;
@@ -369,25 +367,30 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
                 if (mAgentWeb.getWebCreator().getWebView().canGoBack()) {
                     mAgentWeb.getWebCreator().getWebView().goBack();
                 }
+
                 ActivityManager.JumpActivity(getActivity(), SettingActivity.class);
             }
             if (title.equals("推广中心")) {  // 我的--推广
                 if (mAgentWeb.getWebCreator().getWebView().canGoBack()) {
                     mAgentWeb.getWebCreator().getWebView().goBack();
                 }
+
                 ActivityManager.JumpActivity(getActivity(), StoreQRCodeActivity.class);
             }
             if (title.equals("发布拍品")) {  // 我的--推广
                 if (mAgentWeb.getWebCreator().getWebView().canGoBack()) {
                     mAgentWeb.getWebCreator().getWebView().goBack();
                 }
+
                 ActivityManager.JumpActivity(getActivity(), CommodityReleaseActivity.class);
             }
 
             if (title.equals("关注")) {  // 我的--关注
                 Constants.Var.FOCUS_TYPE = 1;
-                getActivity().finish();
-                MainActivity.newIntance(getActivity(), 2);
+                ActivityManager.JumpActivity(getActivity(), MainActivity.class);
+//                MainActivity.newIntance(AuctionDetailActivity.this, 4);
+                ActivityManager.mainActivity.setCurrent(2);
+
             }
 
         }
@@ -493,10 +496,14 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.iv_back:
-                    // true表示AgentWeb处理了该事件
+//                     true表示AgentWeb处理了该事件
+                    Globals.log("xxxxxxx  mAgentWeb.back 00 ");
                     if (!mAgentWeb.back()) {
-                        MineWebFragment.this.getActivity().finish();
+                        Globals.log("xxxxxxx  mAgentWeb.back 01 ");
+                        ActivityManager.JumpActivity(getActivity(), MainActivity.class);
+                        ActivityManager.mainActivity.setCurrent(0);
                     }
+
                     break;
                 case R.id.iv_finish:
                     ActivityManager.JumpActivity(getActivity(), MainActivity.class);

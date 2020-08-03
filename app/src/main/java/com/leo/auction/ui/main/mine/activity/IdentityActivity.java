@@ -3,12 +3,14 @@ package com.leo.auction.ui.main.mine.activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -18,12 +20,14 @@ import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.countDownTime.CountdownView;
 import com.aten.compiler.widget.title.TitleBar;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.model.LoginVerModel;
 import com.leo.auction.ui.login.model.SmsCodeModel;
+import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 import com.ruffian.library.widget.RTextView;
@@ -59,6 +63,12 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     TextView mSfzhTv;
     @BindView(R.id.status_lin)
     LinearLayout mStatusLin;
+    @BindView(R.id.phone_lin)
+    LinearLayout mPhoneLin;
+    @BindView(R.id.yzm_lin)
+    LinearLayout mYzmLin;
+    @BindView(R.id.web_rlin)
+    RelativeLayout mWebRlin;
 
     @BindView(R.id.cv_verif_code)
     CountdownView cvVerifCode;
@@ -96,16 +106,26 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         super.initData();
         mTitleBar.setTitle("实名认证");
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-        if (userJson == null || "".equals(userJson.getIdCard())) {
-            mAuthLin.setVisibility(View.VISIBLE);
-            mStatusLin.setVisibility(View.GONE);
-            setWebView();
+        if (userJson == null || EmptyUtils.isEmpty(userJson.getIdCard())) {
+
+            if (EmptyUtils.isEmpty(userJson.getPhone())) {   //手机号为空
+                mAuthLin.setVisibility(View.VISIBLE);
+                mStatusLin.setVisibility(View.GONE);
+                mPhoneLin.setVisibility(View.VISIBLE);
+                mYzmLin.setVisibility(View.VISIBLE);
+                mWebRlin.setVisibility(View.VISIBLE);
+                setWebView();
+            } else {
+                mAuthLin.setVisibility(View.VISIBLE);
+                mPhoneLin.setVisibility(View.GONE);
+                mYzmLin.setVisibility(View.GONE);
+                mStatusLin.setVisibility(View.GONE);
+                mWebRlin.setVisibility(View.GONE);
+            }
         } else {
             mAuthLin.setVisibility(View.GONE);
             mStatusLin.setVisibility(View.VISIBLE);
-
             mNameTv.setText(userJson.getUsername());
-
             String cardStr = userJson.getIdCard();
             // 用于显示的加*身份证
             String show_id = cardStr.substring(0, 3) + "********" + cardStr.substring(11);
@@ -203,16 +223,12 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         String phoneStr = mPhoneEdit.getText().toString();
         String codeStr = mYzmEdit.getText().toString();
 
-        if (nameStr.length() > 1) {
+        if (nameStr.length() == 0) {
             ToastUtils.showShort("请输入正确的名字");
             return;
         }
-        if (cardStr.length() < 15) {
+        if (cardStr.length() != 18) {
             ToastUtils.showShort("请输入正确的身份证号");
-            return;
-        }
-        if (phoneStr.length() != 11) {
-            ToastUtils.showShort("请输入正确的手机号");
             return;
         }
 
@@ -220,10 +236,14 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         mHashMap.clear();
         mHashMap.put("idCard", cardStr);
         mHashMap.put("username", nameStr);
-        mHashMap.put("phone", phoneStr);
-        mHashMap.put("code", codeStr);
+        if (phoneStr.length() > 0) {
+            mHashMap.put("phone", phoneStr);
+        }
+        if (codeStr.length() > 0) {
+            mHashMap.put("code", codeStr);
+        }
         showWaitDialog();
-        HttpRequest.httpPostForm(Constants.Api.REAL_NAME_URL, mHashMap, new HttpRequest.HttpCallback() {
+        HttpRequest.httpPostString(Constants.Api.REAL_NAME_URL, mHashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();
@@ -233,7 +253,11 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
             public void httpResponse(String resultData) {
                 hideWaitDialog();
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-                ToastUtils.showShort(baseModel.getResult().getMessage());
+                if (baseModel.getResult().isSuccess()) {
+                    ToastUtils.showShort("认证成功");
+                } else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
             }
         });
 
@@ -248,5 +272,17 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     public void onEnd(CountdownView cv) {
         cvVerifCode.setVisibility(View.GONE);
         testWebview.loadUrl("https://w.taojianlou.com/super-store/hd2.html");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            ActivityManager.JumpActivity(IdentityActivity.this, MainActivity.class);
+            ActivityManager.mainActivity.recreateActivity();
+            ActivityManager.mainActivity.setCurrent(4);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

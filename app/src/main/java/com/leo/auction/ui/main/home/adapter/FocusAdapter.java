@@ -59,7 +59,7 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
     @Override
     protected void convert(@NonNull BaseViewHolder helper, HomeListModel.DataBean item) {
 
-//        helper.setIsRecyclable(false);
+        helper.setIsRecyclable(false);
         ImageView iv = helper.getView(R.id.iv);
 
 
@@ -85,13 +85,14 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
             btPriceTv.setText("补贴" + item.getSubsidyMoney() + "元");
         }
 
-        try {
-            if (!item.getStatus().equals("1")) {
-                tvProductPrice.setVisibility(View.GONE);
-                overTv.setVisibility(View.VISIBLE);
-            }
-        } catch (NullPointerException e) {
 
+        Globals.log("xxxxxx" +  item.getTitle() + item.getStatus());
+        if (EmptyUtils.isEmpty(item.getStatus()  )) {
+            tvProductPrice.setVisibility(View.VISIBLE);
+            overTv.setVisibility(View.GONE);
+        } else if (!item.getStatus() .equals("1")) {  //拍卖结束
+            tvProductPrice.setVisibility(View.GONE);
+            overTv.setVisibility(View.VISIBLE);
         }
 
 

@@ -59,7 +59,9 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.order.activity.GoodOrederStatusActivity"></activity>
         <activity android:name=".ui.order.activity.GoodOrderActivity" />
-        <activity android:name=".ui.web.AgentWebActivity" />
+        <activity android:name=".ui.web.AgentWebActivity"
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".ui.main.home.web.HWebViewActivity" />
         <activity android:name=".ui.main.mine.activity.RealNameActivity" />
         <activity
@@ -113,10 +115,10 @@
         <activity android:name=".ui.login.LoginWxActivity" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".ui.login.StartActivity"
-            android:launchMode="singleTask"
             android:theme="@style/Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -212,7 +214,9 @@
         <activity android:name=".ui.common.ViewPagerActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:launchMode="singleTask" />
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:launchMode="singleTask"
+           />
 
         <activity android:name=".base.TempActivity" />
         <activity android:name=".ui.main.home.activity.ImageShowActivity" />

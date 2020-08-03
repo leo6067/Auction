@@ -14,19 +14,21 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.aten.compiler.R;
 import com.aten.compiler.widget.title.style.TitleBarGreenStyle;
 import com.aten.compiler.widget.title.style.TitleBarLightStyle;
 import com.aten.compiler.widget.title.style.TitleBarNightStyle;
 import com.aten.compiler.widget.title.style.TitleBarTransparentStyle;
 import com.aten.compiler.widget.title.style.TitleBarWhiteStyle;
+import com.aten.compiler.widget.title.style.TitleGrayStyle;
 
 
 /**
- *    author : HJQ
- *    github : https://github.com/getActivity/TitleBar
- *    time   : 2018/08/17
- *    desc   : Android 通用标题栏
+ * author : HJQ
+ * github : https://github.com/getActivity/TitleBar
+ * time   : 2018/08/17
+ * desc   : Android 通用标题栏
  */
 public class TitleBar extends FrameLayout implements View.OnClickListener, Runnable {
 
@@ -129,6 +131,9 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
             case 0x50:
                 style = new TitleBarWhiteStyle();
                 break;
+            case 0x60:
+                style = new TitleGrayStyle();
+                break;
             default:
                 style = TitleBar.sDefaultStyle;
                 break;
@@ -158,7 +163,7 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
 
         if (ta.hasValue(R.styleable.TitleBar_icon_left)) {
             setLeftIcon(getContext().getResources().getDrawable(ta.getResourceId(R.styleable.TitleBar_icon_left, 0)));
-        }else {
+        } else {
             if (ta.getBoolean(R.styleable.TitleBar_icon_back, style.getBackIconResource() > 0)) {
                 // 显示返回图标
                 setLeftIcon(getContext().getResources().getDrawable(style.getBackIconResource()));
@@ -177,7 +182,7 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
         // 文字大小设置
         setLeftSize(TypedValue.COMPLEX_UNIT_PX, ta.getDimensionPixelSize(R.styleable.TitleBar_size_left, (int) style.getLeftViewSize()));
         setTitleSize(TypedValue.COMPLEX_UNIT_PX, ta.getDimensionPixelSize(R.styleable.TitleBar_size_title, (int) style.getTitleViewSize()));
-        setRightSize(TypedValue.COMPLEX_UNIT_PX, ta.getDimensionPixelSize(R.styleable.TitleBar_size_right, (int)style.getRightViewSize()));
+        setRightSize(TypedValue.COMPLEX_UNIT_PX, ta.getDimensionPixelSize(R.styleable.TitleBar_size_right, (int) style.getRightViewSize()));
 
         // 背景设置
         setLeftBackground(ta.getResourceId(R.styleable.TitleBar_background_left, style.getLeftViewBackground()));
@@ -235,9 +240,9 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
         final int id = v.getId();
         if (id == R.id.bar_id_left_view) {
             getOnTitleBarListener().onLeftClick(v);
-        }else if (id == R.id.bar_id_title_view) {
+        } else if (id == R.id.bar_id_title_view) {
             getOnTitleBarListener().onTitleClick(v);
-        }else if (id == R.id.bar_id_right_view) {
+        } else if (id == R.id.bar_id_right_view) {
             getOnTitleBarListener().onRightClick(v);
         }
     }
@@ -327,8 +332,16 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
     }
 
     public void setLeftIcon(Drawable drawable) {
-        drawable.setBounds(0,0,(int) getResources().getDimension(R.dimen.dp_40),(int)getResources().getDimension(R.dimen.dp_40));
+        drawable.setBounds(0, 0, (int) getResources().getDimension(R.dimen.dp_40), (int) getResources().getDimension(R.dimen.dp_40));
         mLeftView.setCompoundDrawables(drawable, null, null, null);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins((int) getResources().getDimension(R.dimen.dp_30), 0, 0, 0);//4个参数按顺序分别是左上右下
+        mLeftView.setLayoutParams(layoutParams);
+
+
+//        mLeftView.setMinWidth((int) getResources().getDimension(R.dimen.dp_80));
+//        mLeftView.setWidth((int) getResources().getDimension(R.dimen.dp_130));
         post(this);
     }
 
@@ -379,7 +392,7 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
     public void setLeftBackground(Drawable drawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mLeftView.setBackground(drawable);
-        }else {
+        } else {
             mLeftView.setBackgroundDrawable(drawable);
         }
     }
@@ -396,7 +409,7 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
     public void setRightBackground(Drawable drawable) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mRightView.setBackground(drawable);
-        }else {
+        } else {
             mRightView.setBackgroundDrawable(drawable);
         }
     }
@@ -483,10 +496,10 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
     /**
      * 统一全局的TitleBar样式，建议在{@link android.app.Application#onCreate()}中初始化
      *
-     * @param style         样式实现类，框架已经实现三种不同的样式
-     *                      日间模式：{@link TitleBarLightStyle}
-     *                      夜间模式：{@link TitleBarNightStyle}
-     *                      透明模式：{@link TitleBarTransparentStyle}
+     * @param style 样式实现类，框架已经实现三种不同的样式
+     *              日间模式：{@link TitleBarLightStyle}
+     *              夜间模式：{@link TitleBarNightStyle}
+     *              透明模式：{@link TitleBarTransparentStyle}
      */
     public static void initStyle(ITitleBarStyle style) {
         TitleBar.sDefaultStyle = style;

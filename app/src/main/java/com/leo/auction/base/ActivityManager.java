@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 
 import com.aten.compiler.utils.ToastUtils;
 import com.leo.auction.R;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.utils.Globals;
@@ -31,6 +32,7 @@ public class ActivityManager {
 
     public static MainActivity mainActivity;
     public static AgentWebActivity agentWebActivity;
+    public static LoginActivity loginActivity;
 
 
 

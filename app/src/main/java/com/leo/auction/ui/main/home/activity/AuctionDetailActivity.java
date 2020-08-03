@@ -29,6 +29,7 @@ import com.aten.compiler.widget.glide.GlideUtils;
 import com.aten.compiler.widget.title.TitleBar;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
@@ -187,6 +188,12 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         setContentView(R.layout.activity_auction_detail);
     }
 
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
+
+
 
     @Override
     public void initView() {
@@ -286,12 +293,12 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                                 mDetailCollect.setImageResource(R.drawable.goods_uncollect);
                                 ToastUtils.showShort("取消收藏成功");
                                 mGoodsDetailModel.getData().setCollect(false);
-                                UserActionUtils.actionLog("1", "2", mGoodsDetailModel.getData().getProductInstanceId() + "", "2");
+                                UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "2", mGoodsDetailModel.getData().getProductInstanceId() + "", "2");
                             } else {
                                 mDetailCollect.setImageResource(R.drawable.goods_collect);
                                 ToastUtils.showShort("收藏成功");
                                 mGoodsDetailModel.getData().setCollect(true);
-                                UserActionUtils.actionLog("1", "2", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
+                                UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "2", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
                             }
                         } else {
                             ToastUtils.showShort("操作失败");
@@ -368,7 +375,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "TOP百亿补贴");
-                bundle.putString("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + mUserJson.getH5Token());
+                bundle.putString("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + mUserJson.getNestedToken());
                 ActivityManager.JumpActivity(AuctionDetailActivity.this, AgentWebActivity.class, bundle);
             }
         });
@@ -408,9 +415,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         mPayPwdBoardUtils = new PayPwdBoardUtils();
         dialogUtils = new DialogUtils();
         httpDetail();
-        if (mUserJson != null) {
-            UserActionUtils.actionLog("1", "1", mGoodsCode + "", "1");
-        }
+
         BroadCastReceiveUtils.registerLocalReceiver(this, Constants.Action.ACTION_DETAIL_REFRESH, mBroadCastReceiveUtils);
     }
 
@@ -430,6 +435,11 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 hideWaitDialog();
                 mGoodsDetailModel = JSONObject.parseObject(resultData, GoodsDetailModel.class);
                 upUIdata(mGoodsDetailModel.getData());
+
+                if (mUserJson != null) {
+                    UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "1", mGoodsDetailModel.getData().getProductInstanceId()+"", "1");
+                }
+
                 httpGoodsList();
             }
         });
@@ -455,7 +465,8 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                     mDetailOnline.setTextColor(getResources().getColor(R.color.home_text));
                     mDetailIng.setText("竞拍结束");
                     mDetailEnd.stop();
-                    mDetailEnd.start(0);
+                    mDetailEnd.allShowZero();
+
                     httpDetail();
                 } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
@@ -630,6 +641,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         if (detailModelStatus == 1) {  //竞拍中 1-竞拍中  2-在线付款 4-当面交易 8-未付款  16-流拍 32-未及时付款 64-已下架 128-退款
             mDetailBid.setText("出个价");
             mDetailBid.setBackgroundColor(getResources().getColor(R.color.home_title_bg));
+
             //出价
             mDetailBid.setOnClickListener(new View.OnClickListener() {
                 @Override

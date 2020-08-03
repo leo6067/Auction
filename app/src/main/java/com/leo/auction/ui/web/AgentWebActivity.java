@@ -79,14 +79,14 @@ public class AgentWebActivity extends AppCompatActivity {
                 mGuideBottomLin.setVisibility(View.VISIBLE);
                 mBundle = new Bundle();
                 mBundle.putString(AgentWebFragment.URL_KEY, mUrlStr);
-                Globals.log("xxxxxxxx百亿补贴  token" + Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userJson.getH5Token());
+                Globals.log("xxxxxxxx百亿补贴  token" + Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userJson.getNestedToken());
                 ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
                 break;
 
             case "投诉":
                 UserModel.DataBean userJsonB = BaseSharePerence.getInstance().getUserJson();
                 mBundle = new Bundle();
-                mBundle.putString(AgentWebFragment.URL_KEY,  Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userJsonB.getH5Token());
+                mBundle.putString(AgentWebFragment.URL_KEY,  Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userJsonB.getNestedToken());
                 ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
                 break;
 

@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewActivity;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
+import com.aten.compiler.widget.title.OnTitleBarListener;
 import com.aten.compiler.widget.title.TitleBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.ui.login.model.CommonModel;
+import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.mine.adapter.StoreQRCodeAdapter;
 import com.leo.auction.ui.main.mine.model.StoreQRCodeModel;
 import com.leo.auction.widget.customDialog.StoreQRCodeDecoration;
@@ -57,6 +61,27 @@ public class StoreQRCodeActivity extends BaseRecyclerViewActivity {
         refreshLayout.setEnableOverScrollDrag(true);
         recyclerView.addItemDecoration(new StoreQRCodeDecoration(this));
         getData();
+
+
+        mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+                ActivityManager.JumpActivity(StoreQRCodeActivity.this, MainActivity.class);
+                ActivityManager.mainActivity.recreateActivity();
+                finish();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
+
+
 
     }
 
@@ -163,5 +188,16 @@ public class StoreQRCodeActivity extends BaseRecyclerViewActivity {
         context.startActivity(intent);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            ActivityManager.JumpActivity(StoreQRCodeActivity.this, MainActivity.class);
+            ActivityManager.mainActivity.recreateActivity();
+            ActivityManager.mainActivity.setCurrent(4);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

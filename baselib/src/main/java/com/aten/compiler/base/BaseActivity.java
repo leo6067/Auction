@@ -133,7 +133,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
 //                .autoStatusBarDarkModeEnable(true,0.2f) //自动状态栏字体变色，必须指定状态栏颜色才可以自动变色哦
 //                .transparentStatusBar()
+                .statusBarDarkFont(true)
                 .keyboardEnable(true);
+
         mImmersionBar.init();
     }
 

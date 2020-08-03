@@ -2,6 +2,7 @@ package com.leo.auction.ui.main.home.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
+import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.ScreenUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
@@ -46,21 +48,24 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
         // Required empty public constructor
     }
 
+
+
+    BroadCastReceiveUtils mBroadCastReceiveUtils = new BroadCastReceiveUtils() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mPageNum = 1;
+
+            onRefresh(refreshLayout);
+        }
+    };
+
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_focus_shop;
     }
 
 
-    /*
-     *是否开启懒加载 调用该方法开启
-     */
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        enableLazyLoad();
-    }
 
     @Override
     protected void initAdapter() {
@@ -114,24 +119,14 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     }
 
 
-    private boolean visibleToUser = false;
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        visibleToUser = isVisibleToUser;
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        if (visibleToUser) {
-            onRefresh(refreshLayout);
-        }
-
+        onRefresh(refreshLayout);
+        BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_FOCUS_TYPE, mBroadCastReceiveUtils);
     }
+
 
     @Override
     public void initData() {
@@ -142,6 +137,13 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     @Override
     protected void getData() {
         super.getData();
+
+
+        int focusType = Constants.Var.FOCUS_TYPE;  //防止预加载
+        if (focusType == -1) {
+            return;
+        }
+
 
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         if (userJson == null) {
@@ -185,4 +187,9 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     }
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BroadCastReceiveUtils.unregisterLocalReceiver(getActivity(),mBroadCastReceiveUtils);
+    }
 }

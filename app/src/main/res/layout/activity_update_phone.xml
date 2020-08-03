@@ -127,19 +127,17 @@
             android:layout_gravity="center"
             android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_88"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_50"
             android:layout_marginRight="@dimen/dp_50"
             android:layout_marginBottom="@dimen/dp_30"
-            android:paddingStart="@dimen/dp_50"
-
             />
 
         <TextView
             android:id="@+id/view_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_130"/>
+            android:layout_height="@dimen/dp_150"/>
 
 
     </FrameLayout>

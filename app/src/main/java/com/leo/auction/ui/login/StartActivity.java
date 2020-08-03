@@ -110,34 +110,18 @@ public class StartActivity extends BaseActivity {
                     LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                     if (loginModel.getResult().isSuccess()){
                         BaseSharePerence.getInstance().setLoginJson(resultData);
-                        httpUser();
+                        UserModel.httpUpdateUser();
                         MainActivity.newIntance(StartActivity.this, 0);
                         finish();
                     }
                 }
             });
         }else {
-
             MainActivity.newIntance(StartActivity.this, 0);
             finish();
         }
     }
-    private void httpUser() {
-        HashMap<String, String> hashMap = new HashMap<>();
 
-        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
-                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
-            }
-        });
-    }
 
 
     private void httpCommon(){
