@@ -164,9 +164,20 @@ public class MainSortFragment extends BaseFragment {
                 LinearLayoutManager mLayoutManager =
                         (LinearLayoutManager) mHomeSortMin.getLayoutManager();
 //                mLayoutManager.scrollToPositionWithOffset(indexMap.get(position), 0);
-                setViewView(position);
-                scrollItemToTop(mLayoutManager, indexMap.get(position));
+//                setViewView(position);
+//                scrollItemToTop(mLayoutManager, indexMap.get(position));
+
+
                 mSortAdapter.setSelectedPosition(position);
+
+                MyUtils.moveToMiddle(mHomeSortMax, position);
+                // 右侧滑到对应位置
+                ((GridLayoutManager)mHomeSortMin.getLayoutManager())
+                        .scrollToPositionWithOffset(indexMap.get(position),0);
+
+
+
+
             }
         });
 
@@ -196,8 +207,24 @@ public class MainSortFragment extends BaseFragment {
                         }
                     }
                     mSortAdapter.setSelectedPosition(selectPosition);
-                    setViewView(selectPosition);
+//                    setViewView(selectPosition);
+
+
+
+//                    //获取右侧列表的第一个可见Item的position
+//                    int topPosition = ((GridLayoutManager)mHomeSortMin.getLayoutManager()).findFirstVisibleItemPosition();
+//                    // 如果此项对应的是左边的大类的index
+//                    if (mSortRightList.get(topPosition).getPosition() != -1) {
+//                        MyUtils.moveToMiddle(mHomeSortMin, mSortRightList.get(topPosition).getPosition());
+//                        mSortAdapter.setSelectedPosition(mSortRightList.get(topPosition).getPosition());
+//                    }
+
+
+
                 }
+
+
+
             }
         });
 
@@ -205,28 +232,8 @@ public class MainSortFragment extends BaseFragment {
     }
 
 
-    void setViewView(int index){
 
 
-        if (index ==5) {
-            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) mViewView.getLayoutParams();
-            linearParams.height = (index -3) * ((int)getResources().getDimension(R.dimen.dp_240));
-            mViewView.setLayoutParams(linearParams);
-            mViewView.setVisibility(View.VISIBLE);
-        }else  if (index >5){
-            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) mViewView.getLayoutParams();
-            linearParams.height = (index -4) * ((int)getResources().getDimension(R.dimen.dp_220))+((int)getResources().getDimension(R.dimen.dp_240));
-            mViewView.setLayoutParams(linearParams);
-            mViewView.setVisibility(View.VISIBLE);
-        }else {
-            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) mViewView.getLayoutParams();
-            linearParams.height = 0;
-            mViewView.setLayoutParams(linearParams);
-            mViewView.setVisibility(View.GONE);
-        }
-
-
-    }
 
     void scrollItemToTop(LinearLayoutManager mLayoutManager, int position) {
 

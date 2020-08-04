@@ -87,6 +87,13 @@ public class MainActivity extends BaseActivity {
         mImmersionBar.init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mCommonBottom !=null){
+            mCommonBottom.setVisibility(View.VISIBLE);
+        }
+    }
 
     public void initData() {
         ActivityManager.addActivity(this);

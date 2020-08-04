@@ -18,21 +18,41 @@
         android:textSize="20sp" />
 
 
-    <com.aten.compiler.widget.tabLayout.SlidingTabLayout
+<!--    <com.aten.compiler.widget.tabLayout.SlidingTabLayout-->
+<!--        android:id="@+id/stb_order"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/dp_88"-->
+<!--        android:layout_marginBottom="@dimen/dp_3"-->
+<!--        android:background="@android:color/white"-->
+<!--        app:tl_tab_space_equal="true"-->
+<!--        app:tl_indicator_color="@color/color_fe7f67"-->
+<!--        app:tl_indicator_corner_radius="@dimen/dp_4"-->
+<!--        app:tl_indicator_height="@dimen/dp_7"-->
+<!--        app:tl_indicator_width="@dimen/dp_50"-->
+<!--        app:tl_textSelectColor="@color/color_fe7f67"-->
+<!--        app:tl_textUnselectColor="@color/color_1a1a1a"-->
+<!--        app:tl_textsize="@dimen/sp_24"-->
+<!--        app:tl_textSelectSize="@dimen/sp_24"/>-->
+
+
+
+
+    <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/stb_order"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_88"
-        android:layout_marginBottom="@dimen/dp_3"
-        android:background="@android:color/white"
+        android:background="@color/white"
+        app:tl_textSelectColor="@color/home_title_bg"
+        app:tl_textUnselectColor="@color/black"
+        app:tl_indicator_width_equal_title="true"
         app:tl_tab_space_equal="true"
-        app:tl_indicator_color="@color/color_fe7f67"
-        app:tl_indicator_corner_radius="@dimen/dp_4"
-        app:tl_indicator_height="@dimen/dp_7"
-        app:tl_indicator_width="@dimen/dp_50"
-        app:tl_textSelectColor="@color/color_fe7f67"
-        app:tl_textUnselectColor="@color/color_1a1a1a"
-        app:tl_textsize="@dimen/sp_24"
-        app:tl_textSelectSize="@dimen/sp_24"/>
+        app:tl_indicator_color="@color/home_title_bg"
+        app:tl_indicator_height="1.5dp"
+        app:tl_textAllCaps="true"
+        app:tl_textBold="BOTH"
+        app:tl_textsize="14sp" />
+
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_order"

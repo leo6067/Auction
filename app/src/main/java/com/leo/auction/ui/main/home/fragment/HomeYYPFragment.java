@@ -238,18 +238,16 @@ public class HomeYYPFragment extends BaseRecyclerViewFragment {
         hashMap.put("pageNum", "" + mPageNum);
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
-        showWaitDialog();
+
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
                 HomeListModel homeListModel = JSONObject.parseObject(resultData, HomeListModel.class);
-
                 if (mPageNum == 1) {
                     mAdapter.setNewData(homeListModel.getData());
                 } else {
@@ -257,18 +255,13 @@ public class HomeYYPFragment extends BaseRecyclerViewFragment {
                     mAdapter.loadMoreComplete();
                 }
 
-
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 1;
-
                 } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
-
                 } else {
-
                     mAdapter.loadMoreEnd();
                 }
-
             }
         });
 

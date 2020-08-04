@@ -58,14 +58,9 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, HomeListModel.DataBean item) {
-
-        helper.setIsRecyclable(false);
         ImageView iv = helper.getView(R.id.iv);
-
-
         TextView tvProductTitle = helper.getView(R.id.tv_product_title);
         TextView tvProductPrice = helper.getView(R.id.tv_product_price);
-
         TextView tvFreeShipping = helper.getView(R.id.tv_free_shipping);
         TextView tvRefund = helper.getView(R.id.tv_refund);
 

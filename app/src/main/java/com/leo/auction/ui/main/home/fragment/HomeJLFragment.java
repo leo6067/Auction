@@ -50,7 +50,7 @@ import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
- *
+ * <p>
  * 捡漏
  */
 
@@ -97,9 +97,7 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
-
-
-            onRefresh(refreshLayout);
+        onRefresh(refreshLayout);
 
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
         Constants.Action.ACTION_ACTION = "1";
@@ -109,9 +107,9 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
     protected void initAdapter() {
 
 
-        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_10)));
+        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(), (int) getResources().getDimension(R.dimen.dp_10)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels );
+        mAdapter = new HomeAdapter(dm.widthPixels);
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
@@ -135,7 +133,7 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
                 totalDy += dy;
                 if (totalDy <= ScreenUtils.getScreenHeight()) {
                     mIvToTop.setVisibility(View.GONE);
-                    if (mHomeTitleAdapter !=null){
+                    if (mHomeTitleAdapter != null) {
                         mHomeTitleAdapter.notifyDataSetChanged();
                     }
                 } else {
@@ -236,16 +234,16 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
         hashMap.put("pageNum", "" + mPageNum);
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
-        showWaitDialog();
+
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+
                 HomeListModel homeListModel = JSONObject.parseObject(resultData, HomeListModel.class);
 
                 if (mPageNum == 1) {
@@ -258,12 +256,12 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 1;
-                    Globals.log("xxxxx  "+  01 );
+                    Globals.log("xxxxx  " + 01);
                 } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
-                    Globals.log("xxxxx  "+  02 );
+                    Globals.log("xxxxx  " + 02);
                 } else {
-                    Globals.log("xxxxx  "+  03 );
+                    Globals.log("xxxxx  " + 03);
                     mAdapter.loadMoreEnd();
                 }
 
@@ -281,7 +279,7 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
             @Override
             public void httpResponse(String resultData) {
                 SubsidyModel subsidyModel = JSONObject.parseObject(resultData, SubsidyModel.class);
-                if (subsidyModel.getData().size() < 4){
+                if (subsidyModel.getData().size() < 4) {
                     mInflate.setVisibility(View.GONE);  //隐藏百亿补贴
                     return;
                 }
@@ -290,7 +288,6 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
                 mHomeTitleAdapter.setNewData(subsidyModel.getData());
             }
         });
-
 
 
     }

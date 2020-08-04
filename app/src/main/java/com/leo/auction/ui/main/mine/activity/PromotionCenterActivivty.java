@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewActivity;
+import com.aten.compiler.widget.CostomLoadMoreViewNull;
 import com.aten.compiler.widget.CustRefreshLayout;
+import com.aten.compiler.widget.title.OnTitleBarListener;
 import com.aten.compiler.widget.title.TitleBar;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
+import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.mine.adapter.PromotionCenterAdapter;
 import com.leo.auction.ui.main.mine.model.PromotionCenterModel;
 import com.leo.auction.widget.PromotionCenterDividerDecoration;
@@ -38,23 +43,38 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
     }
 
 
-    @Override
-    protected boolean isImmersionBarEnabled() {
-        return true;
-    }
 
     @Override
     public void initData() {
         super.initData();
         mTitleBar.setTitle("推广中心");
-        refreshLayout.setEnableOverScrollDrag(true);
         recyclerView.addItemDecoration(new PromotionCenterDividerDecoration(this));
         onRefresh(refreshLayout);
+
+        mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+                ActivityManager.JumpActivity(PromotionCenterActivivty.this, MainActivity.class);
+                ActivityManager.mainActivity.recreateActivity();
+                finish();
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+            }
+
+            @Override
+            public void onRightClick(View v) {
+
+            }
+        });
+
     }
 
     @Override
     public void initAdapter() {
         mAdapter = new PromotionCenterAdapter();
+        mAdapter.setLoadMoreView(new CostomLoadMoreViewNull());
     }
 
     @Override
@@ -75,16 +95,16 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
 
         PromotionCenterModel promotionCenterModel01 = new PromotionCenterModel(
                 R.drawable.ic_store_qr_code_icon, "推广二维码");
-//        PromotionCenterModel promotionCenterModel02 = new PromotionCenterModel(
-//                R.drawable.ic_lucky_draw_icon, "抽奖");
-//        PromotionCenterModel promotionCenterModel03 = new PromotionCenterModel(
-//                R.drawable.ic_super_buy_icon, "超级购");
-//        PromotionCenterModel promotionCenterModel04 = new PromotionCenterModel(
-//                R.drawable.ic_selection_good_icon, "精选好货");
-//        PromotionCenterModel promotionCenterModel05 = new PromotionCenterModel(
-//                R.drawable.live_live, "直播供货");
-//        PromotionCenterModel promotionCenterModel06 = new PromotionCenterModel(
-//                -1, "");
+        PromotionCenterModel promotionCenterModel02 = new PromotionCenterModel(
+                -1, "" );
+        PromotionCenterModel promotionCenterModel03 = new PromotionCenterModel(
+                -1, "");
+        PromotionCenterModel promotionCenterModel04 = new PromotionCenterModel(
+                -1, " ");
+        PromotionCenterModel promotionCenterModel05 = new PromotionCenterModel(
+                -1, " ");
+        PromotionCenterModel promotionCenterModel06 = new PromotionCenterModel(
+                -1, "");
 //
 //        if (UserTypeUtils.getInstance().isAgent()){
 //            promotionCenterModels.add(promotionCenterModel01);promotionCenterModels.add(promotionCenterModel06);
@@ -100,6 +120,11 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
 //            promotionCenterModels.add(promotionCenterModel06);promotionCenterModels.add(promotionCenterModel06);
 //        }
         promotionCenterModels.add(promotionCenterModel01);
+        promotionCenterModels.add(promotionCenterModel02);
+        promotionCenterModels.add(promotionCenterModel03);
+        promotionCenterModels.add(promotionCenterModel04);
+        promotionCenterModels.add(promotionCenterModel05);
+        promotionCenterModels.add(promotionCenterModel06);
 
         mAdapter.setNewData(promotionCenterModels);
     }
@@ -132,6 +157,19 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
         Intent intent = new Intent(context, PromotionCenterActivivty.class);
         context.startActivity(intent);
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            ActivityManager.JumpActivity(PromotionCenterActivivty.this, MainActivity.class);
+            ActivityManager.mainActivity.recreateActivity();
+            ActivityManager.mainActivity.setCurrent(4);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 
 }

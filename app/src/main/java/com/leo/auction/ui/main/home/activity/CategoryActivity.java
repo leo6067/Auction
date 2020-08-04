@@ -121,9 +121,7 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
         mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
         mAdapter.setHeaderAndEmpty(true);
         setSmartHasRefreshOrLoadMore(true);
-
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-
         mAdapter.setHasStableIds(true);
 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

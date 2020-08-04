@@ -142,6 +142,4 @@ public class HomeTitleAdapter extends BaseQuickAdapter<SubsidyModel.DataBean, Ba
     }
 
 
-
-
 }

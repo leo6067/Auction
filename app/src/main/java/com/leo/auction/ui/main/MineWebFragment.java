@@ -58,6 +58,7 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
+import com.leo.auction.ui.main.mine.activity.PromotionCenterActivivty;
 import com.leo.auction.ui.main.mine.activity.SettingActivity;
 import com.leo.auction.ui.main.mine.activity.StoreQRCodeActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
@@ -251,7 +252,7 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
          */
         @Override
         public boolean intercept(String url, String[] permissions, String action) {
-            Globals.log(TAG, "mUrl:" + url + "  permission:" + mGson.toJson(permissions) + " action:" + action);
+            Globals.log( "mUrl:" + url + "  permission:" + mGson.toJson(permissions) + " action:" + action);
             return false;
         }
     };
@@ -327,7 +328,7 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
         public void onProgressChanged(WebView view, int newProgress) {
             //  super.onProgressChanged(view, newProgress);
             if (newProgress == 100) {
-                Globals.log(TAG, "onProgressChanged:" + newProgress + "  view:" + view);
+                Globals.log( "onProgressChanged:" + newProgress + "  view:" + view);
                 mAgentWeb.getIndicatorController().setProgress(newProgress);
             }
         }
@@ -340,6 +341,10 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
                     title = title.substring(0, 10).concat("...");
                 }
             }
+
+            Globals.log("onReceivedTitle: title" +title);
+
+
             mTitleTextView.setText(title);
             //当上一次有标题表示不是第一次进来，且 上一次标题不等于这一次，表示不是用界面可以返回，且不是首页
             if (newTitleString.length() > 0 && !newTitleString.equals(title) && !webView.getUrl().equals(getWebUrl())) {
@@ -375,7 +380,7 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
                     mAgentWeb.getWebCreator().getWebView().goBack();
                 }
 
-                ActivityManager.JumpActivity(getActivity(), StoreQRCodeActivity.class);
+                ActivityManager.JumpActivity(getActivity(), PromotionCenterActivivty.class);
             }
             if (title.equals("发布拍品")) {  // 我的--推广
                 if (mAgentWeb.getWebCreator().getWebView().canGoBack()) {
@@ -437,7 +442,7 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            Globals.log(TAG, "mUrl:" + url + " onPageStarted  target:" + getWebUrl());
+            Globals.log( "mUrl:" + url + " onPageStarted  target:" + getWebUrl());
             timer.put(url, System.currentTimeMillis());
             if (url.equals(getWebUrl())) {
                 pageNavigator(View.GONE);
@@ -452,7 +457,7 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
             if (timer.get(url) != null) {
                 long overTime = System.currentTimeMillis();
                 Long startTime = timer.get(url);
-                Globals.log(TAG, "  page mUrl:" + url + "  used time:" + (overTime - startTime));
+                Globals.log( "  page mUrl:" + url + "  used time:" + (overTime - startTime));
             }
         }
         /*错误页回调该方法 ， 如果重写了该方法， 上面传入了布局将不会显示 ， 交由开发者实现，注意参数对齐。*/
@@ -662,7 +667,7 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
              */
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Globals.log(TAG, "MiddlewareWebClientBase#shouldOverrideUrlLoading url:" + url);
+                Globals.log(  "MiddlewareWebClientBase#shouldOverrideUrlLoading url:" + url);
 				/*if (url.startsWith("agentweb")) { // 拦截 url，不执行 DefaultWebClient#shouldOverrideUrlLoading
 					Log.i(TAG, "agentweb scheme ~");
 					return true;
@@ -677,7 +682,7 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Globals.log(TAG, "MiddlewareWebClientBase#shouldOverrideUrlLoading request url:" + request.getUrl().toString());
+                Globals.log("MiddlewareWebClientBase#shouldOverrideUrlLoading request url:" + request.getUrl().toString());
                 return super.shouldOverrideUrlLoading(view, request);
             }
         };

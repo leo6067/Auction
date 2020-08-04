@@ -76,10 +76,10 @@
             android:layout_height="wrap_content"
             app:isConvertDaysToHours="true"
             app:isShowHour="true"
-            app:suffixTextColor="@color/color_191919"
+            app:suffixTextColor="#999999"
             app:suffixGravity="center"
             app:suffixTextSize="@dimen/sp_20"
-            app:timeTextColor="@color/color_191919"
+            app:timeTextColor="#999999"
             app:timeTextSize="10sp" />
 
 

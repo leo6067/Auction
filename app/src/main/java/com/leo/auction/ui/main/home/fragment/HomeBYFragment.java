@@ -106,9 +106,9 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
     protected void initAdapter() {
 
 
-        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_10)));
+        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_1)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels + (int) getResources().getDimension(R.dimen.dp_10)*4);
+        mAdapter = new HomeAdapter(dm.widthPixels + (int) getResources().getDimension(R.dimen.dp_10)*10);
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
@@ -228,16 +228,16 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
         hashMap.put("pageNum", "" + mPageNum);
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
-        showWaitDialog();
+
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+
                 HomeListModel homeListModel = JSONObject.parseObject(resultData, HomeListModel.class);
 
                 if (mPageNum == 1) {
