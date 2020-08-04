@@ -68,7 +68,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         mItemCdjy = view.findViewById(R.id.item_cdjy);
         mItemYszc = view.findViewById(R.id.item_yszc);
         RelativeLayout relativeLayout = view.findViewById(R.id.re_bt);
-        UserModel.httpUpdateUser();
+        UserModel.httpUpdateUser(mContext );
 
 
         UserModel.DataBean mUserJson = BaseSharePerence.getInstance().getUserJson();

@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:padding="@dimen/dp_15"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/dp_15">
 
 
     <LinearLayout
-android:id="@+id/swipe_layout"
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -21,15 +21,14 @@ android:id="@+id/swipe_layout"
             android:id="@+id/item_head"
             android:layout_width="@dimen/dp_76"
             android:layout_height="@dimen/dp_76"
-            app:qmui_corner_radius="@dimen/dp_10"
-            />
+            app:qmui_corner_radius="@dimen/dp_10" />
 
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/dp_15"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:paddingStart="@dimen/dp_15">
 
 
             <com.ruffian.library.widget.RImageView
@@ -39,8 +38,7 @@ android:id="@+id/swipe_layout"
                 android:layout_marginStart="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_7"
 
-                app:corner_radius="@dimen/dp_3"
-                 />
+                app:corner_radius="@dimen/dp_3" />
 
 
             <TextView
@@ -64,10 +62,10 @@ android:id="@+id/swipe_layout"
 
             <TextView
                 android:id="@+id/item_fan"
-                android:layout_marginStart="@dimen/dp_55"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/item_name"
+                android:layout_marginStart="@dimen/dp_55"
                 android:layout_marginTop="@dimen/dp_15"
                 android:layout_toRightOf="@+id/item_score"
                 tools:text=" 粉丝555" />
@@ -82,40 +80,38 @@ android:id="@+id/swipe_layout"
             android:layout_marginEnd="@dimen/dp_35"
             android:drawableEnd="@drawable/ic_enter_03"
             android:drawablePadding="@dimen/dp_25"
+            android:textColor="@color/home_title_bg"
             android:textSize="12sp"
-            tools:text="14123"
-            android:textColor="@color/home_title_bg" />
+            tools:text="14123" />
 
 
     </LinearLayout>
 
 
-
-
     <com.ruffian.library.widget.RTextView
         android:id="@+id/item_cancel"
-        android:layout_width="@dimen/dp_100"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:background_normal="@color/item_baoyou"
-        android:text="取消关注"
-        android:singleLine="true"
-        android:lines="1"
-        android:textColor="@color/white"
+        android:minWidth="@dimen/dp_100"
         android:gravity="center"
-        />
+        android:lines="1"
+        android:singleLine="true"
+        android:text="取消关注"
+        android:textColor="@color/white"
+        app:background_normal="@color/item_baoyou" />
 
 
     <com.ruffian.library.widget.RTextView
         android:id="@+id/item_top"
-        android:layout_width="@dimen/dp_100"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:background_normal="@color/home_title_bg"
-        android:text="置顶"
-        android:singleLine="true"
-        android:lines="1"
-        android:textColor="@color/white"
         android:gravity="center"
-        />
+        android:lines="1"
+        android:minWidth="@dimen/dp_100"
+        android:singleLine="true"
+        android:text="置顶"
+        android:textColor="@color/white"
+        app:background_normal="@color/home_title_bg" />
 
 
 </com.aten.compiler.widget.swipeMenuLayout.SwipeMenuLayout>

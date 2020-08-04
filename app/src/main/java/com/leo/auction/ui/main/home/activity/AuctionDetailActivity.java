@@ -260,10 +260,11 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         mDetailTs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AuctionDetailActivity.this, AgentWebActivity.class);
-                intent.putExtra("title", "投诉");
-                intent.putExtra("url", Constants.WebApi.WEB_REPROCT_URL + mGoodsDetailModel.getData().getProductInstanceCode());
-                startActivity(intent);
+                Globals.log("xxxxxxx  mTitleStr 01"  );
+                Bundle bundle = new Bundle();
+                bundle.putString("title", "投诉");
+                bundle.putString("url",Constants.WebApi.WEB_REPROCT_URL + mGoodsDetailModel.getData().getProductInstanceCode());
+                ActivityManager.JumpActivity(AuctionDetailActivity.this, AgentWebActivity.class, bundle);
             }
         });
         //收藏
@@ -414,6 +415,12 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void initData() {
         super.initData();
         mGoodsCode = getIntent().getExtras().getString("goodsCode");
@@ -440,11 +447,11 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             public void httpResponse(String resultData) {
                 hideWaitDialog();
                 mGoodsDetailModel = JSONObject.parseObject(resultData, GoodsDetailModel.class);
-                upUIdata(mGoodsDetailModel.getData());
                 if (mUserJson != null) {
                     UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "1", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
                 }
-                httpGoodsList();
+                upUIdata(mGoodsDetailModel.getData());
+                httpGoodsList(mGoodsDetailModel.getData().getProductUser().getUserId());
             }
         });
     }
@@ -652,12 +659,14 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 public void onClick(View v) {
                     //先更新价格 再弹出出价窗口
                     bidPage = 1;
+                    mUserJson = BaseSharePerence.getInstance().getUserJson();
                     if (mUserJson == null) {
+                        Globals.log("xxxxxx出价02");
                         ToastUtils.showShort("请先登录");
                         LoginActivity.newIntance(AuctionDetailActivity.this, 0);
                         return;
                     }
-                    UserModel.httpUpdateUser();
+                    UserModel.httpUpdateUser(AuctionDetailActivity.this);
 
                     if (goodsDetailModel.getProductUser().getUserId().equals(mUserJson.getUserId())) {
                         ToastUtils.showShort("不允许对自己的拍品出价");
@@ -706,25 +715,31 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             mDetailBid.setBackgroundColor(getResources().getColor(R.color.home_pick));
         }
 
-        if (goodsDetailModel.getProductUser().getUserId().equals(mUserJson.getUserId()) && detailModelStatus == 1 && mBidBeanList.size() == 0) {
-            mDetailOnline.setVisibility(View.VISIBLE);
-        } else if (goodsDetailModel.getProductUser().getUserId().equals(mUserJson.getUserId()) && detailModelStatus == 64 && mBidBeanList.size() == 0) {
-            mDetailOnline.setText("已下架");
-            mDetailIng.setText("竞拍结束");
-            mDetailEnd.start(0);
-            mDetailEnd.stop();
-            mDetailOnline.setTextColor(getResources().getColor(R.color.home_text));
-            return;
+
+        if (mUserJson !=null){
+            if (goodsDetailModel.getProductUser().getUserId().equals(mUserJson.getUserId()) && detailModelStatus == 1 && mBidBeanList.size() == 0) {
+                mDetailOnline.setVisibility(View.VISIBLE);
+            } else if (goodsDetailModel.getProductUser().getUserId().equals(mUserJson.getUserId()) && detailModelStatus == 64 && mBidBeanList.size() == 0) {
+                mDetailOnline.setText("已下架");
+                mDetailIng.setText("竞拍结束");
+                mDetailEnd.start(0);
+                mDetailEnd.stop();
+                mDetailOnline.setTextColor(getResources().getColor(R.color.home_text));
+                return;
+            }
+
         } else {
             mDetailOnline.setVisibility(View.GONE);
         }
+
+
 
 
         long countDowntime = goodsDetailModel.getInterceptTime() - System.currentTimeMillis();
         int delayTime = goodsDetailModel.getDelayTime();
 
 
-        if (countDowntime < 0) {
+        if (countDowntime <= 0) {
             mDetailIng.setText("竞拍结束");
             String timeToString = DateTimeUtils.timeToString(goodsDetailModel.getInterceptTime() + "", "yyyy-MM-dd HH:mm:ss");
             mDetailBid.setText("拍卖已结束   " + timeToString);
@@ -954,7 +969,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     }
 
 
-    public void httpGoodsList() {
+    public void httpGoodsList(String shopUri) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("shopUri", shopUri);
         hashMap.put("pageNum", "1");

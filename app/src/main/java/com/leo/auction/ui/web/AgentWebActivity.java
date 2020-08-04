@@ -65,6 +65,7 @@ public class AgentWebActivity extends AppCompatActivity {
         mFragmentManager = this.getSupportFragmentManager();
         mUserJson = BaseSharePerence.getInstance().getUserJson();
         mTitleStr = getIntent().getStringExtra("title");
+        Globals.log("xxxxxxx  mTitleStr"  +mTitleStr);
         mUrlStr = getIntent().getStringExtra("url");
         loadWebFragment(mTitleStr);
     }
@@ -74,19 +75,17 @@ public class AgentWebActivity extends AppCompatActivity {
         FragmentTransaction ft = mFragmentManager.beginTransaction();
         switch (mTitleStr) {
             case "TOP百亿补贴":
-
                 UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
                 mGuideBottomLin.setVisibility(View.VISIBLE);
                 mBundle = new Bundle();
                 mBundle.putString(AgentWebFragment.URL_KEY, mUrlStr);
-                Globals.log("xxxxxxxx百亿补贴  token" + Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userJson.getNestedToken());
                 ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
                 break;
 
             case "投诉":
                 UserModel.DataBean userJsonB = BaseSharePerence.getInstance().getUserJson();
                 mBundle = new Bundle();
-                mBundle.putString(AgentWebFragment.URL_KEY,  Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userJsonB.getNestedToken());
+                mBundle.putString(AgentWebFragment.URL_KEY,  mUrlStr);
                 ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
                 break;
 

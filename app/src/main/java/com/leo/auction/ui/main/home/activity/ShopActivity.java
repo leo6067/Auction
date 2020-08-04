@@ -22,6 +22,7 @@ import com.aten.compiler.widget.glide.GlideUtils;
 import com.aten.compiler.widget.title.TitleBar;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
@@ -104,12 +105,28 @@ public class ShopActivity extends BaseActivity {
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_shop);
+        initImmersionBar(R.color.home_title_bg);
     }
+
+    @Override
+    protected boolean isImmersionBarEnabled() {
+        return false;
+    }
+
+    public void initImmersionBar(int color) {
+        //在BaseActivity里初始化
+        mImmersionBar = ImmersionBar.with(this)
+                .statusBarDarkFont(true)
+                .statusBarColor(color)
+                .keyboardEnable(true);
+        mImmersionBar.init();
+    }
+
 
     @Override
     public void initView() {
         super.initView();
-
+        initImmersionBar();
         mUserJson = BaseSharePerence.getInstance().getUserJson();
         shopUri = getIntent().getExtras().getString("shopUri");
         shopName = getIntent().getExtras().getString("shopName");

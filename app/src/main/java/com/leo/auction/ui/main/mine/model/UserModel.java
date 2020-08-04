@@ -1,5 +1,7 @@
 package com.leo.auction.ui.main.mine.model;
 
+import android.content.Context;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.base.BaseSharePerence;
@@ -742,7 +744,16 @@ public class UserModel {
 
 
 
-    public static void httpUpdateUser( ){
+    public static void httpUpdateUser(Context context){
+
+        Globals.log("xxxxx  httpUpdateUser 01 " +context.getClass().getName());
+
+        boolean loginStatus = BaseSharePerence.getInstance().getLoginStatus();
+        Globals.log("httpUpdateUser 02 "  +loginStatus );
+        if (!loginStatus){
+            return;
+        }
+
         HashMap<String, String> hashMap = new HashMap<>();
         HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
@@ -760,6 +771,14 @@ public class UserModel {
 
 
     public static void httpUpdateUser(HttpRequest.HttpCallback httpCallback){
+        boolean loginStatus = BaseSharePerence.getInstance().getLoginStatus();
+         Globals.log("httpUpdateUser 020 "  +loginStatus );
+        if (!loginStatus){
+            return;
+        }
+
+
+
         HashMap<String, String> hashMap = new HashMap<>();
         HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap,httpCallback);
     }

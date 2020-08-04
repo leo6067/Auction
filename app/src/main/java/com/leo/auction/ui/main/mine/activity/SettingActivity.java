@@ -138,7 +138,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
     @Override
     public void onResume() {
         super.onResume();
-        UserModel.httpUpdateUser();
+        UserModel.httpUpdateUser(SettingActivity.this);
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         GlideUtils.loadImg(userJson.getHeadImg(), mIvHead);
         mTvContactsName.setText(userJson.getNickname());
@@ -204,9 +204,9 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
                     public void onWarningOk() {
                         removeAllCookie();
                         loginOut();
+                        Constants.Var.FOCUS_TYPE = -1;  //  关注片段 防止预加载
                         LoginActivity.newIntance(SettingActivity.this, 1);
                         finish();
-                        Constants.Var.FOCUS_TYPE =-1;  //  关注片段 防止预加载
                     }
 
                     @Override
@@ -331,7 +331,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
     private void loginOut() {
         BaseSharePerence.getInstance().setUserJson("");
         BaseSharePerence.getInstance().setLoginJson("");
-        Constants.Var.ISLOGIN = false;
+        BaseSharePerence.getInstance().setLoginStatus(false);
         HttpRequest.httpPostString(Constants.Api.LOGINOUT_URL, new JSONObject(), new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_300"
-    android:layout_marginBottom="@dimen/dp_43"
+    android:layout_marginBottom="@dimen/dp_66"
     android:background="@drawable/ic_qr_code_top_bg">
 
     <TextView

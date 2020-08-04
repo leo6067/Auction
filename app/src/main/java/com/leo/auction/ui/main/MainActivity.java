@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
     public void initImmersionBar(int color) {
         //在BaseActivity里初始化
         mImmersionBar = ImmersionBar.with(this)
-                 .statusBarDarkFont(true)
+                .statusBarDarkFont(true)
                 .statusBarColor(color)
                 .keyboardEnable(true);
         mImmersionBar.init();
@@ -105,7 +105,6 @@ public class MainActivity extends BaseActivity {
         mFragments.add(mMineFragment);
 
 
-
 //        mFragments.add( MineFragment.newIntance("",httpUrl,true,false) );
         initImmersionBar(R.color.home_title_bg);
 
@@ -121,7 +120,7 @@ public class MainActivity extends BaseActivity {
 
                 UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
                 if (position == 2 || position == 3 || position == 4) {
-                    if (userJson ==null) {
+                    if (userJson == null) {
                         ToastUtils.showShort("请先登录");
                         finish();
                         LoginActivity.newIntance(MainActivity.this, 1);
@@ -136,9 +135,9 @@ public class MainActivity extends BaseActivity {
                 }
 
 
-                if ( position == 2 ) {
+                if (position == 2) {
                     Constants.Var.FOCUS_TYPE = 0;
-                    BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this,Constants.Action.ACTION_FOCUS_TYPE);
+                    BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this, Constants.Action.ACTION_FOCUS_TYPE);
                 }
 
 
@@ -162,7 +161,7 @@ public class MainActivity extends BaseActivity {
 
                 UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
                 if (position == 2 || position == 3 || position == 4) {
-                    if (userJson ==null) {
+                    if (userJson == null) {
                         ToastUtils.showShort("请先登录");
                         finish();
                         LoginActivity.newIntance(MainActivity.this, 1);
@@ -176,10 +175,10 @@ public class MainActivity extends BaseActivity {
                     initImmersionBar(R.color.white);
                 }
 
-                if ( position == 2 ) {
+                if (position == 2) {
 
                     Constants.Var.FOCUS_TYPE = 0;
-                    BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this,Constants.Action.ACTION_FOCUS_TYPE);
+                    BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this, Constants.Action.ACTION_FOCUS_TYPE);
                 }
 
                 mCommonBottom.setCurrentTab(position);
@@ -198,8 +197,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
     public void setCurrent(int current) {
         mViewPager.setCurrentItem(current);
         mCommonBottom.setCurrentTab(current);
@@ -207,17 +204,13 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     //用于web 返回app首页
-    public void recreateActivity(){
+    public void recreateActivity() {
         mViewPager.setCurrentItem(current);
         mCommonBottom.setCurrentTab(current);
         mCommonBottom.setVisibility(View.VISIBLE);
         recreate();
     }
-
-
-
 
 
     public void httpVerison() {
@@ -298,8 +291,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
     public void mineWebBack() {
         if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
             mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
@@ -308,12 +299,10 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        Globals.log("xxxxxxx onKeyDown" +keyCode);
+        Globals.log("xxxxxxx onKeyDown" + keyCode);
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 
 

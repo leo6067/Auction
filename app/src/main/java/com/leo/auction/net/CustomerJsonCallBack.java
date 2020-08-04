@@ -120,11 +120,11 @@ public abstract class CustomerJsonCallBack<T> extends StringCallback {
                 if ("5002".equals(code) || "5004".equals(code)) {//登录超时，重新登录
                     //1.清空数据得数据
                     //2.跳转首页
-                    LitePal.deleteAll(UserModel.class);
-                    //刷新首页
-                    Intent intent = new Intent(Constants.Action.ACTION_LOGIN);
-                    intent.putExtra("type", "0");
-                    BroadCastReceiveUtils.sendLocalBroadCast(RxTool.getContext(), intent);
+//                    LitePal.deleteAll(UserModel.class);
+//                    //刷新首页
+//                    Intent intent = new Intent(Constants.Action.ACTION_LOGIN);
+//                    intent.putExtra("type", "0");
+//                    BroadCastReceiveUtils.sendLocalBroadCast(RxTool.getContext(), intent);
                 }
 
                 try {

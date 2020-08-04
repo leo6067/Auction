@@ -20,6 +20,7 @@ import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.home.dialog.PayPwdBoardUtils;
 import com.leo.auction.ui.main.mine.banlance.model.WithdrawNumModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
@@ -177,7 +178,7 @@ public class WithdrawalActivity extends BaseActivity implements SetPaypwdUtils.I
                 } else {
                     showShortToast(baseModel.getResult().getMessage());
                 }
-                UserModel.httpUpdateUser();
+                UserModel.httpUpdateUser(WithdrawalActivity.this);
                 goFinish();
             }
         });

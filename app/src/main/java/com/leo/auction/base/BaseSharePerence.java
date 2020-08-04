@@ -85,7 +85,7 @@ public class BaseSharePerence {
      * 保存用户登录基本信息
      */
     public void setLoginJson(String userJson) {
-        Constants.Var.ISLOGIN = true;
+
         mSharedPreferences.edit().putString("setLoginJson", userJson).commit();
     }
 
@@ -105,7 +105,6 @@ public class BaseSharePerence {
      * 保存用户账号基本信息
      */
     public void setUserJson(String userJson) {
-        Constants.Var.ISLOGIN = true;
         mSharedPreferences.edit().putString("setUserJson", userJson).commit();
     }
 
@@ -113,6 +112,23 @@ public class BaseSharePerence {
         String infoStr = mSharedPreferences.getString("setUserJson", "");
         return JSONObject.parseObject(infoStr, UserModel.DataBean.class);
     }
+
+
+
+
+    /**
+     * 保存用户是否登录
+     */
+    public void setLoginStatus(boolean loginStatus) {
+        mSharedPreferences.edit().putBoolean("setLoginStatus", loginStatus).commit();
+    }
+
+    public boolean getLoginStatus() {
+
+        return  mSharedPreferences.getBoolean("setLoginStatus", false);
+    }
+
+
 
 
     /**

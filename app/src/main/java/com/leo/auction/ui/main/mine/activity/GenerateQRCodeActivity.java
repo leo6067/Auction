@@ -150,9 +150,11 @@ public class GenerateQRCodeActivity extends BaseActivity {
         final double finalRQrHeight = rQrHeight;
         final double finalRQrX = rQrX *0.5;
         final double finalRQrY = rQrY * 2.7;
+
         ivQrCodeBg.post(new Runnable() {
             @Override
             public void run() {
+                //大张背景图
                 RelativeLayout.LayoutParams qrCodeBgParams = (RelativeLayout.LayoutParams) ivQrCodeBg.getLayoutParams();
                 qrCodeBgParams.height = bgHeight;
                 ivQrCodeBg.setLayoutParams(qrCodeBgParams);

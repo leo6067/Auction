@@ -82,7 +82,7 @@ public class LoginWxActivity extends BaseActivity {
     public void initData() {
         backPager = getIntent().getIntExtra("backPager", 0);
         dialogUtils = new DialogUtils();
-
+        BaseSharePerence.getInstance().setLoginStatus(false);
         BroadCastReceiveUtils.registerLocalReceiver(this, Constants.Action.ACTION_OPTION_LOGIN_ACTIVITY, mOnLoginOption);
     }
 
@@ -213,9 +213,9 @@ public class LoginWxActivity extends BaseActivity {
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                         if (loginModel.getResult().isSuccess()) {
                             ToastUtils.showShort("登录成功");
-
-                            UserModel.httpUpdateUser();
+                            BaseSharePerence.getInstance().setLoginStatus(true);
                             BaseSharePerence.getInstance().setLoginJson(resultData);
+                            UserModel.httpUpdateUser(LoginWxActivity.this);
                             MainActivity.newIntance(LoginWxActivity.this, 0);
                             finish();
                         } else {
@@ -296,7 +296,8 @@ public class LoginWxActivity extends BaseActivity {
         intent.putExtra("backPager", backPager);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-
+        BaseSharePerence.getInstance().setLoginStatus(false);
+        BaseSharePerence.getInstance().setUserJson("");
         ((BaseActivity) context).overridePendingTransition(R.anim.activity_down_to_up, 0);
     }
 }

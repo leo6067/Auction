@@ -35,11 +35,15 @@ public class AboutActivity extends BaseActivity {
     @Override
     public void setContentViewLayout() {
         setContentView(R.layout.activity_about);
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
         mTitleBar.setTitle("关于我们");
         AppUtils.AppInfo appInfo = AppUtils.getAppInfo();
         mVersionTv.setText("当前版本：v"  +  appInfo.getVersionName());
     }
-
 
     @OnClick(R.id.version_info)
     public void onViewClicked() {

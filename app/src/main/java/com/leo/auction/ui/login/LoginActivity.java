@@ -85,20 +85,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     CheckBox cbCheck;
     @BindView(R.id.tv_agree)
     TextView tvAgree;
-    @BindView(R.id.webview)
+
     WebView testWebview;
     @BindView(R.id.view_view)
     View viewView;
     private boolean isError = false;
     private int backPager;
-
-
-    private BroadCastReceiveUtils mStartActivity = new BroadCastReceiveUtils() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            LoginActivity.newIntance(context, 0);
-        }
-    };
 
     //账号输入监听
     private TextWatcher textWatcher = new TextWatcher() {
@@ -138,18 +130,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void initData() {
         super.initData();
         dialogUtils = new DialogUtils();
-        Constants.Var.FOCUS_TYPE =-1;  //  关注片段 防止预加载
+        setWebView();
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
+        Constants.Var.FOCUS_TYPE = -1;  //  关注片段 防止预加载
         ActivityManager.loginActivity = this;
-        setWebView();
         backPager = getIntent().getIntExtra("backPager", 0);
         BaseSharePerence.getInstance().setUserJson("");
-        BroadCastReceiveUtils.registerLocalReceiver(LoginActivity.this, Constants.Action.ACTION_LOGIN, mStartActivity);
+        BaseSharePerence.getInstance().setLoginStatus(false);
+
     }
 
 
@@ -165,7 +158,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
             testWebview.clearHistory();
             testWebview.destroy();
-            testWebview=null;
+            testWebview = null;
         }
 
     }
@@ -193,7 +186,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
     public void setWebView() {
-
+        testWebview = findViewById(R.id.webview);
         WebSettings settings = testWebview.getSettings();
         settings.setDefaultTextEncodingName("utf-8");// 避免中文乱码
         settings.setJavaScriptEnabled(true);
@@ -230,7 +223,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else {
                     return false;
                 }
-
             }
 
             @Override
@@ -241,7 +233,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 } else {
                     viewView.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
@@ -256,7 +247,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //        testWebview.addJavascriptInterface(new testJsInterface(), "testInterface");
         // 加载业务页面。
         testWebview.loadUrl(Constants.WebApi.YZM_URL);
-
 
         Globals.log("XXXXXXXXXX testWebview 02" + Constants.WebApi.YZM_URL);
     }
@@ -423,8 +413,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                 if (loginModel.getResult().isSuccess()) {
                     ToastUtils.showShort("登录成功");
-                    httpUser();
                     BaseSharePerence.getInstance().setLoginJson(resultData);
+                    BaseSharePerence.getInstance().setLoginStatus(true);
+                    UserModel.httpUpdateUser(LoginActivity.this);
                     if (backPager == 1) {
                         ActivityManager.JumpActivity(LoginActivity.this, MainActivity.class);
                         ActivityManager.mainActivity.setCurrent(0);
@@ -474,8 +465,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                         if (loginModel.getResult().isSuccess()) {
                             ToastUtils.showShort("登录成功");
-                            httpUser();
                             BaseSharePerence.getInstance().setLoginJson(resultData);
+                            BaseSharePerence.getInstance().setLoginStatus(true);
+                            UserModel.httpUpdateUser(LoginActivity.this);
                             if (backPager == 0) {
                                 finish();
                             } else {
@@ -483,6 +475,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                 ActivityManager.mainActivity.setCurrent(0);
                                 finish();
                             }
+
                         } else {
                             ToastUtils.showShort(loginModel.getResult().getMessage());
                         }
@@ -507,22 +500,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    private void httpUser() {
-        HashMap<String, String> hashMap = new HashMap<>();
 
-        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
-                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
-            }
-        });
-    }
 
 
     //清空登录号码
@@ -549,10 +527,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
             testWebview.clearHistory();
             testWebview.destroy();
-            testWebview=null;
+            testWebview = null;
         }
 
-        BroadCastReceiveUtils.unregisterLocalReceiver(LoginActivity.this, mStartActivity);
+
         UMShareAPI.get(this).release();
     }
 
@@ -562,17 +540,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //        CookieManager cookieManager = CookieManager.getInstance();
 //        cookieManager.removeAllCookie();
 //        CookieSyncManager.getInstance().sync();
-
-        Globals.log("xxxxxxxx  context" + context.getClass().getName());
-        Constants.Var.ISLOGIN = false;
+        BaseSharePerence.getInstance().setLoginStatus(false);
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra("backPager", backPager);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
-
-
-
 
 
     @Override
@@ -595,6 +568,5 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 }

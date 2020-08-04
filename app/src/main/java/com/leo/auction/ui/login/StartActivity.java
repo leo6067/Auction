@@ -110,7 +110,7 @@ public class StartActivity extends BaseActivity {
                     LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                     if (loginModel.getResult().isSuccess()){
                         BaseSharePerence.getInstance().setLoginJson(resultData);
-                        UserModel.httpUpdateUser();
+                        UserModel.httpUpdateUser(StartActivity.this);
                         MainActivity.newIntance(StartActivity.this, 0);
                         finish();
                     }

@@ -61,7 +61,7 @@ public class Constants {
     public static class Var{
 
         //变量
-        public static boolean ISLOGIN = false;//是否处于登录状态
+
 //        public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个     // 5开始是关注
         public static int SHOP_TYPE = 0 ;//用于记录是商家店铺主页 片段中具体哪个
         public static int FOCUS_TYPE = -1 ;//用于记录是关注Tab 片段中具体哪个  -1表示未登录

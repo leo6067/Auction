@@ -25,6 +25,7 @@ import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.login.model.LoginVerModel;
 import com.leo.auction.ui.login.model.SmsCodeModel;
 import com.leo.auction.ui.main.MainActivity;
@@ -235,7 +236,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
             return;
         }
         if (shopName.length() == 0 ||shopName.length() > 6) {
-            ToastUtils.showShort("请输入不超过6个字的店铺名字");
+            ToastUtils.showShort("店铺昵称最多6个字哦");
             return;
         }
 
@@ -263,7 +264,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                 if (baseModel.getResult().isSuccess()) {
                     ToastUtils.showShort("认证成功");
-                    UserModel.httpUpdateUser();
+                    UserModel.httpUpdateUser(IdentityActivity.this);
                     finish();
                 } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
