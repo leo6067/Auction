@@ -86,7 +86,7 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
         }
 
 
-        Globals.log("xxxxxx" +  item.getTitle() + item.getStatus());
+
         if (EmptyUtils.isEmpty(item.getStatus()  )) {
             tvProductPrice.setVisibility(View.VISIBLE);
             overTv.setVisibility(View.GONE);
@@ -121,6 +121,7 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
             picHeight = Integer.valueOf(imgPathSplit[1]);
         }
 
+        Globals.log("xxxxxx" +  picWidth +   picHeight );
         //1.已知图片宽高得情况
         int width = screenWidth / 2;
 
@@ -148,14 +149,13 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
         iv.setTag(R.id.iv, path);
         String finalPath = path;
         Glide.with(iv.getContext()).load(path)
-                .transition(DrawableTransitionOptions.withCrossFade(800))
+
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .dontAnimate()
                 .placeholder(R.drawable.interim_morena)
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .skipMemoryCache(true)
-                .transform(new CenterCrop(), new RoundedCornersTransformation((int) mContext.getResources().getDimension(R.dimen.dp_7),
-                        0, RoundedCornersTransformation.CornerType.TOP))
+
                 .override(width, height)
                 .into(new Target<Drawable>() {
                     @Override

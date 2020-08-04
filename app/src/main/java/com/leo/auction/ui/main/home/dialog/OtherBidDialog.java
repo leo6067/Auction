@@ -28,11 +28,12 @@ public class OtherBidDialog extends BottomBaseDialog<OtherBidDialog> {
 
     TextView mDialogPrice;
     TextView mDialogOK;
+    TextView mDialogJyxy;
+    TextView mDialogYsxy;
+
 
     ImageView mDialogClose;
-
     EditText mDialogBid;
-
     String nowPrice;
     String binPirce;
 
@@ -41,13 +42,11 @@ public class OtherBidDialog extends BottomBaseDialog<OtherBidDialog> {
 
 
 
-
     public OtherBidDialog(Context context, String nowPrice, String binPirce,  InterOtherDialog interOtherDialog) {
         super(context);
         mContext = context;
         this.nowPrice = nowPrice;
         this.binPirce = binPirce;
-
         mInterOtherDialog = interOtherDialog;
     }
 
@@ -58,6 +57,8 @@ public class OtherBidDialog extends BottomBaseDialog<OtherBidDialog> {
         mDialogClose = view.findViewById(R.id.dialog_close);
         mDialogBid = view.findViewById(R.id.dialog_bid);
         mDialogOK = view.findViewById(R.id.dialog_ok);
+        mDialogJyxy = view.findViewById(R.id.dialog_jyxy);
+        mDialogYsxy = view.findViewById(R.id.dialog_ysxy);
         return view;
     }
 
@@ -67,9 +68,7 @@ public class OtherBidDialog extends BottomBaseDialog<OtherBidDialog> {
         setCanceledOnTouchOutside(false);
         mDialogPrice.setText(nowPrice);
         mDialogBid.setText(binPirce);
-
-
-
+        mDialogBid.setSelection(mDialogBid.getText().length());
 
         mDialogClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,16 +85,33 @@ public class OtherBidDialog extends BottomBaseDialog<OtherBidDialog> {
                     ToastUtils.showShort("请先输入出价价格");
                     return;
                 }
+                dismiss();
                 mInterOtherDialog.dialogOk(string);
             }
         });
 
 
+        mDialogJyxy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInterOtherDialog.onItemCDJY( );
+            }
+        });
+
+
+        mDialogYsxy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInterOtherDialog.onItemYSZC( );
+            }
+        });
 
     }
 
 
     public interface InterOtherDialog {
         void dialogOk(String price);
+        void onItemCDJY( );
+        void onItemYSZC( );
     }
 }

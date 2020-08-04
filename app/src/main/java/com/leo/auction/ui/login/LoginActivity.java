@@ -131,8 +131,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void setContentViewLayout() {
         setContentView(R.layout.activity_login);
 
-
-
     }
 
 
@@ -140,7 +138,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void initData() {
         super.initData();
         dialogUtils = new DialogUtils();
-
+        Constants.Var.FOCUS_TYPE =-1;  //  关注片段 防止预加载
     }
 
 
@@ -148,11 +146,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onResume() {
         super.onResume();
         ActivityManager.loginActivity = this;
-        Globals.log("XXXXXXXXXX testWebview  00 " + Constants.WebApi.YZM_URL);
         setWebView();
         backPager = getIntent().getIntExtra("backPager", 0);
         BaseSharePerence.getInstance().setUserJson("");
         BroadCastReceiveUtils.registerLocalReceiver(LoginActivity.this, Constants.Action.ACTION_LOGIN, mStartActivity);
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (testWebview != null) {
+            testWebview.stopLoading();
+            ViewGroup parent = (ViewGroup) testWebview.getParent();
+            if (parent != null) {
+                parent.removeView(testWebview);
+            }
+            testWebview.clearHistory();
+            testWebview.destroy();
+            testWebview=null;
+        }
+
     }
 
     @Override
@@ -178,7 +193,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
     public void setWebView() {
-        Globals.log("XXXXXXXXXX testWebview  01 " + Constants.WebApi.YZM_URL);
+
         WebSettings settings = testWebview.getSettings();
         settings.setDefaultTextEncodingName("utf-8");// 避免中文乱码
         settings.setJavaScriptEnabled(true);

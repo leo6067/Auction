@@ -33,11 +33,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="@dimen/dp_160"
-                android:layout_height="@dimen/dp_160"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp_5"
-                android:src="@drawable/logo" />
+                android:layout_marginTop="@dimen/dp_35"
+                android:src="@drawable/login_app" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -227,7 +227,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_86"
                 android:layout_marginLeft="@dimen/dp_80"
-                android:layout_marginTop="@dimen/dp_120"
+                android:layout_marginTop="@dimen/dp_30"
                 android:layout_marginRight="@dimen/dp_80"
                 app:background_normal="@color/home_title_bg"
                 app:corner_radius="@dimen/dp_15"

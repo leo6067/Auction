@@ -30,16 +30,16 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.UserActionUtils;
 import com.leo.auction.ui.main.home.dialog.PayPwdBoardUtils;
-import com.leo.auction.ui.main.home.model.GoodsDetailModel;
 import com.leo.auction.ui.main.home.model.PayModel;
 import com.leo.auction.ui.main.mine.activity.AddressActivity;
 
 import com.leo.auction.ui.main.mine.model.AddressModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 
-import com.leo.auction.ui.order.model.AddressJson;
+import com.leo.auction.ui.order.model.OrderExtendContentJson;
 import com.leo.auction.ui.order.model.OrderGoodJson;
 import com.leo.auction.ui.order.model.OrderPayTypeModel;
+import com.leo.auction.ui.order.model.SubsidyJson;
 import com.leo.auction.utils.DateTimeUtils;
 import com.leo.auction.utils.SetPaypwdUtils;
 import com.leo.auction.utils.wxPay.WXPay;
@@ -110,8 +110,12 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
     private PayPwdBoardUtils payInputPwdBoardUtils;
     private String paymoney;
     private String orderCode;
+    private String productInstanceCode;
     private String scene;
+    private String subsidyLimit = "";
     private OrderGoodJson.DataBean mOrderGoodJsonData;
+
+    private OrderExtendContentJson mOrderExtendContentJson;
 
 
     @Override
@@ -123,11 +127,24 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
     @Override
     public void initData() {
         super.initData();
+        mOrderExtendContentJson = new OrderExtendContentJson();
+
         payInputPwdBoardUtils = new PayPwdBoardUtils();
-        getAddress();
         Bundle bundle = getIntent().getExtras();
+        productInstanceCode = bundle.getString("productInstanceCode");
         orderCode = bundle.getString("orderCode");
         scene = bundle.getString("scene");
+        subsidyLimit = bundle.getString("subsidyLimit");
+
+        if (subsidyLimit.length() > 0) {  //单订单--补贴---参数
+            ArrayList<OrderExtendContentJson.SubsidyBean> subsidyBeans = new ArrayList<>();
+            OrderExtendContentJson.SubsidyBean subsidyBean = new OrderExtendContentJson.SubsidyBean();
+            subsidyBean.setOrderCode(orderCode);
+            subsidyBean.setSubsidyLimit(subsidyLimit);
+            subsidyBeans.add(subsidyBean);
+            mOrderExtendContentJson.setSubsidy(subsidyBeans);
+        }
+        getAddress();
         getOrderData();
     }
 
@@ -171,6 +188,11 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
                     mAddressName.setVisibility(View.VISIBLE);
                     mAddressName.setText(addressInfo.getLinkman() + "  " + addressInfo.getPhone());
                     mAddressAddress.setText(addressInfo.getAddr1Name() + " " + addressInfo.getAddr2Name() + " " + addressInfo.getAddr3Name() + " " + addressInfo.getAddress());
+
+                    mOrderExtendContentJson.setReceiver(addressInfo.getLinkman());
+                    mOrderExtendContentJson.setReceiverAreaName(mAddressAddress.getText().toString());
+                    mOrderExtendContentJson.setReceiverCode(addressInfo.getCode());
+                    mOrderExtendContentJson.setReceiverMobile(addressInfo.getPhone());
                 } else {
                     addressInfo = null;
                     mAddressName.setVisibility(View.GONE);
@@ -229,11 +251,9 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
 
 
         String timeToString = DateTimeUtils.timeToString(mOrderGoodJsonData.getExpire() + "", "MM月dd日 HH:mm");
-
-
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonUsedData.getInstance().getOrderPayTypeData(userJson.getBalance(), paymoney);
-        payInputPwdBoardUtils.showPayTypeDialogTime(GoodOrderActivity.this, paymoney,timeToString,
+        payInputPwdBoardUtils.showPayTypeDialogTime(GoodOrderActivity.this, paymoney, timeToString,
                 orderPayTypeModels, this);
     }
 
@@ -276,21 +296,16 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
     public void balance(String payPwd, String exempt) {
         for (OrderGoodJson.DataBean.ItemsBean item : mOrderGoodJsonData.getItems()) {
 //            UserActionUtils.actionLog("0","3",item.getGoodsId(),payItemTag.getShopUri(),"1");
-            UserActionUtils.actionLog("1", "3", item.getInstanceCode(), "1");
+            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "3", item.getProductInstanceId() + "", "1");
         }
 
 
-//        {"receiver":"收货人","receiverAreaName":"收货地址","receiverCode":"收货邮编","receiverMobile":"收货人手机号"}
-
-        AddressJson addressJson = new AddressJson();
-        addressJson.setReceiver(addressInfo.getLinkman());
-        addressJson.setReceiverAreaName(mAddressAddress.getText().toString());
-        addressJson.setReceiverCode(addressInfo.getCode());
-        addressJson.setReceiverMobile(addressInfo.getPhone());
-
-
         payInputPwdBoardUtils.dismissPayPasswordDialog();
-        PayModel.httpPay(2, "order", paymoney, orderCode, null, payPwd, exempt, addressJson, new HttpRequest.HttpCallback() {
+
+        ArrayList<String> tradeNoList = new ArrayList<>();
+        tradeNoList.add(orderCode);
+        //exempt 免密标识
+        PayModel.httpPay(2, "order", paymoney, "", tradeNoList, payPwd, exempt, mOrderExtendContentJson, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
             }
@@ -303,7 +318,7 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
 
 
                     Bundle bundle = new Bundle();
-                    bundle.putString("instanceCode", orderCode);
+                    bundle.putString("productInstanceCode", productInstanceCode);
                     bundle.putString("price", paymoney);
                     ActivityManager.JumpActivity(GoodOrderActivity.this, GoodOrederStatusActivity.class, bundle);
                     finish();
@@ -318,20 +333,17 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
     //微信支付
     private void wxPay() {
         for (OrderGoodJson.DataBean.ItemsBean item : mOrderGoodJsonData.getItems()) {
-            UserActionUtils.actionLog("1", "3", item.getInstanceCode(), "1");
+            UserActionUtils.actionLog("1", "3", item.getProductInstanceId() + "", "1");
         }
-
 
         payInputPwdBoardUtils.dismissPayPasswordDialog();
 
 
-        AddressJson addressJson = new AddressJson();
-        addressJson.setReceiver(addressInfo.getLinkman());
-        addressJson.setReceiverAreaName(mAddressAddress.getText().toString());
-        addressJson.setReceiverCode(addressInfo.getCode());
-        addressJson.setReceiverMobile(addressInfo.getPhone());
+        ArrayList<String> tradeNoList = new ArrayList<>();
+        tradeNoList.add(orderCode);
 
-        PayModel.httpPay(1, "order", paymoney, orderCode, null, "", "", addressJson, new HttpRequest.HttpCallback() {
+
+        PayModel.httpPay(1, "order", paymoney, "", tradeNoList, "", "", mOrderExtendContentJson, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
             }
@@ -354,7 +366,7 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
 //                  OrderStatusActivity.newIntance(getContext(),shopUri,"0");
 
                         Bundle bundle = new Bundle();
-                        bundle.putString("instanceCode", orderCode);
+                        bundle.putString("productInstanceCode", productInstanceCode);
                         bundle.putString("price", paymoney);
                         ActivityManager.JumpActivity(GoodOrderActivity.this, GoodOrederStatusActivity.class, bundle);
                         finish();
@@ -382,13 +394,16 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
         if (requestCode == Constants.RequestCode.RETURNREQUEST_REFRESH_SETTING_ADDRESS && resultCode == RESULT_OK) {
             AddressModel.DataBean address = data.getParcelableExtra("address");
             addressInfo = address;
-            if(address.getAddr3Name()!= null &&address.getAddr3Name().length() >0  && !address.getAddr3Name().equals("null")){
-                mAddressAddress.setText(address.getAddr1Name() + address.getAddr2Name() + address.getAddr3Name());
-            }else {
-                mAddressAddress.setText(address.getAddr1Name() + address.getAddr2Name());
+            if (address.getAddr3Name() != null && address.getAddr3Name().length() > 0 && !address.getAddr3Name().equals("null")) {
+                mAddressAddress.setText(address.getAddr1Name() + address.getAddr2Name() + address.getAddr3Name() + address.getAddress());
+            } else {
+                mAddressAddress.setText(address.getAddr1Name() + address.getAddr2Name() + address.getAddress());
             }
             mAddressName.setText(addressInfo.getLinkman() + "  " + addressInfo.getPhone());
-
+            mOrderExtendContentJson.setReceiver(addressInfo.getLinkman());
+            mOrderExtendContentJson.setReceiverAreaName(mAddressAddress.getText().toString());
+            mOrderExtendContentJson.setReceiverCode(addressInfo.getCode());
+            mOrderExtendContentJson.setReceiverMobile(addressInfo.getPhone());
         }
     }
 

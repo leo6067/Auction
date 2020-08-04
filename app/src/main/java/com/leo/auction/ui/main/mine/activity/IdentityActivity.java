@@ -61,6 +61,8 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     TextView mNameTv;
     @BindView(R.id.sfzh_tv)
     TextView mSfzhTv;
+    @BindView(R.id.shop_name)
+    TextView mShopName;
     @BindView(R.id.status_lin)
     LinearLayout mStatusLin;
     @BindView(R.id.phone_lin)
@@ -222,6 +224,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         String cardStr = mSfzhEdit.getText().toString();
         String phoneStr = mPhoneEdit.getText().toString();
         String codeStr = mYzmEdit.getText().toString();
+        String shopName = mShopName.getText().toString();
 
         if (nameStr.length() == 0) {
             ToastUtils.showShort("请输入正确的名字");
@@ -229,6 +232,10 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         }
         if (cardStr.length() != 18) {
             ToastUtils.showShort("请输入正确的身份证号");
+            return;
+        }
+        if (shopName.length() == 0 ||shopName.length() > 6) {
+            ToastUtils.showShort("请输入不超过6个字的店铺名字");
             return;
         }
 
@@ -242,6 +249,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         if (codeStr.length() > 0) {
             mHashMap.put("code", codeStr);
         }
+        mHashMap.put("shopName", shopName);
         showWaitDialog();
         HttpRequest.httpPostString(Constants.Api.REAL_NAME_URL, mHashMap, new HttpRequest.HttpCallback() {
             @Override
@@ -255,6 +263,8 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                 if (baseModel.getResult().isSuccess()) {
                     ToastUtils.showShort("认证成功");
+                    UserModel.httpUpdateUser();
+                    finish();
                 } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
                 }

@@ -483,3 +483,10 @@ public static java.lang.String TABLENAME;
 
 
 
+
+#最强框架  记得初始化 Utils.init(application);
+
+-keep class com.blankj.utilcode.** { *; }
+-keepclassmembers class com.blankj.utilcode.** { *; }
+-dontwarn com.blankj.utilcode.**
+

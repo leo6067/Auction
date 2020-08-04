@@ -137,7 +137,6 @@ public class MainActivity extends BaseActivity {
 
 
                 if ( position == 2 ) {
-
                     Constants.Var.FOCUS_TYPE = 0;
                     BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this,Constants.Action.ACTION_FOCUS_TYPE);
                 }

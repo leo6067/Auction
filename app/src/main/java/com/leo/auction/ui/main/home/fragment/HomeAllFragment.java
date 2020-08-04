@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
+import com.aten.compiler.base.BaseRecyclerView.StaggeredDividerItemDecoration;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.ScreenUtils;
 import com.aten.compiler.utils.ToastUtils;
@@ -101,9 +102,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
-
-
-            onRefresh(refreshLayout);
+        onRefresh(refreshLayout);
 
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
         Constants.Action.ACTION_ACTION = "1";
@@ -113,9 +112,9 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
     protected void initAdapter() {
 
 
-        recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
+        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(), (int) getResources().getDimension(R.dimen.dp_10)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_10)) * 2);
+        mAdapter = new HomeAdapter(dm.widthPixels);
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
@@ -229,8 +228,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 //        } else {
 //            return;
 //        }
-        String  mUrl = Constants.Api.HOME_ALL_PRODUCT_URL;
-
+        String mUrl = Constants.Api.HOME_ALL_PRODUCT_URL;
 
 
         hashMap.put("keyword", "");
@@ -259,12 +257,12 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
 
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 1;
-                    Globals.log("xxxxx  "+  01 );
+                    Globals.log("xxxxx  " + 01);
                 } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
                     mAdapter.loadMoreEnd(true);
-                    Globals.log("xxxxx  "+  02 );
+                    Globals.log("xxxxx  " + 02);
                 } else {
-                    Globals.log("xxxxx  "+  03 );
+                    Globals.log("xxxxx  " + 03);
                     mAdapter.loadMoreEnd();
                 }
 
@@ -282,7 +280,7 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
             @Override
             public void httpResponse(String resultData) {
                 SubsidyModel subsidyModel = JSONObject.parseObject(resultData, SubsidyModel.class);
-                if (subsidyModel.getData().size() < 4){
+                if (subsidyModel.getData().size() < 4) {
                     mInflate.setVisibility(View.GONE);  //隐藏百亿补贴
                     return;
                 }
@@ -291,7 +289,6 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
                 mHomeTitleAdapter.setNewData(subsidyModel.getData());
             }
         });
-
 
 
     }

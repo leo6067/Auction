@@ -17,6 +17,7 @@ import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
+import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 
@@ -124,7 +125,15 @@ public class LoginWxActivity extends BaseActivity {
                 LoginActivity.newIntance(LoginWxActivity.this, 0);
                 break;
             case R.id.iv_close:
-                goFinish();
+
+                if (backPager == 0) {
+                    finish();
+                } else {
+                    ActivityManager.JumpActivity(LoginWxActivity.this, MainActivity.class);
+                    ActivityManager.mainActivity.setCurrent(0);
+                    finish();
+                }
+
                 break;
         }
     }
@@ -204,7 +213,8 @@ public class LoginWxActivity extends BaseActivity {
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                         if (loginModel.getResult().isSuccess()) {
                             ToastUtils.showShort("登录成功");
-                            httpUser();
+
+                            UserModel.httpUpdateUser();
                             BaseSharePerence.getInstance().setLoginJson(resultData);
                             MainActivity.newIntance(LoginWxActivity.this, 0);
                             finish();
@@ -264,35 +274,7 @@ public class LoginWxActivity extends BaseActivity {
 //        }
     }
 
-    @Override
-    public void onBackPressed() {
-//        if (backPager==1){
-//            MainActivity.newIntance(LoginWxActivity.this, 0);
-//        }
-//        super.onBackPressed();
-//        if ("0".equals(loginCloseType)){
-//            this.overridePendingTransition(0,0);
-//        }else {
-//            this.overridePendingTransition(0,R.anim.activity_up_to_down);
-//        }
-    }
 
-    private void httpUser() {
-        HashMap<String, String> hashMap = new HashMap<>();
-
-        HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-                UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
-                BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
-            }
-        });
-    }
 
 
     @Override

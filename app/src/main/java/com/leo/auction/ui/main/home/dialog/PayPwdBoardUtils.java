@@ -102,10 +102,16 @@ public class PayPwdBoardUtils {
 
 
 
+
+
+
+    //普通订单金额支付
     public void showPayTypeDialogTime(Context context, String payMoney,String time, ArrayList<OrderPayTypeModel> orderPayTypeModels, final IPayType iPayType) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomChooseLayout = inflater.inflate(R.layout.layout_pay_input_type, null);
+        TextView dialogTitle = (TextView) bottomChooseLayout.findViewById(R.id.pay_dialog_title);
+        TextView dialogRule = (TextView) bottomChooseLayout.findViewById(R.id.dialog_earnest);
         TextView tvMoney = (TextView) bottomChooseLayout.findViewById(R.id.tv_money);
         TextView dialogTime = (TextView) bottomChooseLayout.findViewById(R.id.dialog_time);
         TextView dialogEarnest = (TextView) bottomChooseLayout.findViewById(R.id.dialog_earnest);
@@ -120,7 +126,8 @@ public class PayPwdBoardUtils {
         crlPayTytpe.setAdapter(payTypeAdapter);
         payTypeAdapter.setNewData(orderPayTypeModels);
 
-
+        dialogTitle.setText("确认支付");
+        dialogRule.setVisibility(View.GONE);
 
         dialogTime.setText("为避免订单违约，建议您在" + time +"前支付");
         tvSure.setOnClickListener(new View.OnClickListener() {

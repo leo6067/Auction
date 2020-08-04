@@ -190,7 +190,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
 
                 break;
             case R.id.rl_about://关于我们
-
+                ActivityManager.JumpActivity(SettingActivity.this, AboutActivity.class);
                 break;
             case R.id.sbtn_exit_account:
 
@@ -202,12 +202,10 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
                 warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                     @Override
                     public void onWarningOk() {
-
                         removeAllCookie();
                         loginOut();
                         LoginActivity.newIntance(SettingActivity.this, 1);
                         finish();
-
                         Constants.Var.FOCUS_TYPE =-1;  //  关注片段 防止预加载
                     }
 

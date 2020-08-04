@@ -67,7 +67,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         mItemBtPrice = view.findViewById(R.id.bt_price);
         mItemCdjy = view.findViewById(R.id.item_cdjy);
         mItemYszc = view.findViewById(R.id.item_yszc);
-        RelativeLayout relativeLayout= view.findViewById(R.id.re_bt);
+        RelativeLayout relativeLayout = view.findViewById(R.id.re_bt);
         UserModel.httpUpdateUser();
 
 
@@ -77,7 +77,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AgentWebActivity.class);
                 intent.putExtra("title", "TOP百亿补贴");
-                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL +  mUserJson.getNestedToken());
+                intent.putExtra("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + mUserJson.getNestedToken());
                 mContext.startActivity(intent);
             }
         });
@@ -94,27 +94,27 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
 
         int twoPrice = bidPrice + rangePrice;
 
-        if (userLevel ==0){
+        if (userLevel == 0) {
             mItemTwo.setVisibility(View.GONE);
             mItemThree.setVisibility(View.GONE);
         }
 
 
-        mDialogPrice.setText("￥ "+ lastPrice);
-        mItemOne.setText("￥"+ bidPrice );
+        mDialogPrice.setText("￥ " + lastPrice);
+        mItemOne.setText("￥" + bidPrice);
         mItemTwo.setText("￥" + twoPrice);
-        bidPriceStr = bidPrice+"";
+        bidPriceStr = bidPrice + "";
 
 
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
 
 
-        mItemBtPrice.setText("可用补贴额￥"+EmptyUtils.strEmpty(userJson.getSubsidyMoney()));
+        mItemBtPrice.setText("可用补贴额￥" + EmptyUtils.strEmpty(userJson.getSubsidyMoney()));
 
         int byPrice = bidPrice / 2;
 
 
-        mItemByPrice.setText("本次出价最多补贴￥"+ byPrice );
+        mItemByPrice.setText("本次出价最多补贴￥" + byPrice);
 
 
         mItemOne.setOnClickListener(new View.OnClickListener() {
@@ -146,17 +146,27 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         });
 
 
-
         mItemThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dismiss();
                 OtherBidDialog otherBidDialog = new OtherBidDialog(mContext, lastPrice + "", bidPrice + "", new OtherBidDialog.InterOtherDialog() {
                     @Override
                     public void dialogOk(String price) {
+                        dismiss();
                         bidPriceStr = price;
 
                         mInterBidDialog.onItemOkClick(bidPriceStr);
+                    }
+
+                    @Override
+                    public void onItemCDJY() {
+                        mInterBidDialog.onItemCDJY();
+                    }
+
+                    @Override
+                    public void onItemYSZC() {
+                        mInterBidDialog.onItemYSZC();
                     }
                 });
 
@@ -173,11 +183,11 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         });
 
 
-
         mItemCdjy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterBidDialog.onItemCDJY( );
+                mInterBidDialog.onItemCDJY();
+
             }
         });
 
@@ -185,7 +195,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         mItemYszc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterBidDialog.onItemYSZC( );
+                mInterBidDialog.onItemYSZC();
             }
         });
 
@@ -194,7 +204,9 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
 
     public interface InterBidDialog {
         void onItemOkClick(String price);
-        void onItemCDJY( );
-        void onItemYSZC( );
+
+        void onItemCDJY();
+
+        void onItemYSZC();
     }
 }

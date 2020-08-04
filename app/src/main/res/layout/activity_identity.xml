@@ -80,6 +80,40 @@
         <include layout="@layout/include_line_a" />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_88"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dp_35"
+            android:paddingEnd="@dimen/dp_35">
+
+
+            <TextView
+                android:layout_width="@dimen/dp_125"
+                android:layout_height="wrap_content"
+                android:text="店铺名字"
+                android:textColor="@color/black" />
+
+
+            <EditText
+                android:id="@+id/shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="店铺名字最多6个字"
+                android:textColor="@color/color_191919"
+                android:inputType="text"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <include layout="@layout/include_line_a" />
+
+
+
+
+
+        <LinearLayout
             android:id="@+id/phone_lin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_88"

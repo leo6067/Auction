@@ -47,6 +47,7 @@ import com.leo.auction.ui.main.SharedActvity;
 
 import com.leo.auction.ui.main.home.adapter.DetailBidAdapter;
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
+import com.leo.auction.ui.main.home.adapter.HomeXYAdapter;
 import com.leo.auction.ui.main.home.adapter.PicGridNineAdapter;
 import com.leo.auction.ui.main.home.dialog.BidDialog;
 import com.leo.auction.ui.main.home.dialog.EarnestDialog;
@@ -153,7 +154,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     private int rangePrice = 0;
     private int bidPrice = 0;
     private String mGoodsCode;
-    private HomeAdapter mHomeAdapter;
+    private HomeXYAdapter mHomeAdapter;
 
 
     //截拍时间
@@ -192,7 +193,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     protected boolean isImmersionBarEnabled() {
         return true;
     }
-
 
 
     @Override
@@ -339,7 +339,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
                     }
                 });
-
             }
         });
 
@@ -381,11 +380,18 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         });
 
 
-        mGoodsRecycler.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
+//        mGoodsRecycler.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mGoodsRecycler.setLayoutManager(staggeredGridLayoutManager);
-        mHomeAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
+//        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        mGoodsRecycler.setLayoutManager(staggeredGridLayoutManager);
+
+
+//        GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+
+        mGoodsRecycler.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
+
+
+        mHomeAdapter = new HomeXYAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
         mHomeAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) mGoodsRecycler.getItemAnimator()).setSupportsChangeAnimations(false);
         mHomeAdapter.setHasStableIds(true);
@@ -435,11 +441,9 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 hideWaitDialog();
                 mGoodsDetailModel = JSONObject.parseObject(resultData, GoodsDetailModel.class);
                 upUIdata(mGoodsDetailModel.getData());
-
                 if (mUserJson != null) {
-                    UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "1", mGoodsDetailModel.getData().getProductInstanceId()+"", "1");
+                    UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "1", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
                 }
-
                 httpGoodsList();
             }
         });
@@ -668,16 +672,29 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 String userId = mBidBeanList.get(0).getUserAccountId() + "";
                 if (userId.equals(mUserJson.getId() + "")) {
                     mDetailBid.setText("立即付款");
+                    mDetailIng.setText("竞拍结束");
                     mDetailBid.setBackgroundColor(getResources().getColor(R.color.home_title_bg));
                 }
 
                 mDetailBid.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v) {// {"subsidy":[{"orderCode":"132123131","subsidyLimit":"12"}]}
                         Bundle bundle = new Bundle();
                         bundle.putString("orderCode", goodsDetailModel.getOrder().getOrderCode());
                         bundle.putString("scene", "order");
+                        bundle.putString("productInstanceCode", goodsDetailModel.getProductInstanceCode());
+                        //是否是补贴商品
+                        if (mGoodsDetailModel.getData().isSubsidyProduct() && mBidBeanList.get(0).getBidPrice() ==2 ) {  //金额要大于等于2
+                            bundle.putString("subsidyLimit", mGoodsDetailModel.getData().getSubsidyMoney());
+//                            Globals.log("xxxxxx  mBidBeanList.get(0).getBidPrice()01 " +mBidBeanList.get(0).getBidPrice());
+                        }else if (mGoodsDetailModel.getData().isSubsidyProduct() &&  mBidBeanList.get(0).getBidPrice() >2) {  //金额要大于等于2
+                            bundle.putString("subsidyLimit", mGoodsDetailModel.getData().getSubsidyMoney());
+//                            Globals.log("xxxxxx  mBidBeanList.get(0).getBidPrice()010  " +mBidBeanList.get(0).getBidPrice());
+                        }else {
+                            bundle.putString("subsidyLimit","");
+                        }
                         ActivityManager.JumpActivity(AuctionDetailActivity.this, GoodOrderActivity.class, bundle);
+                        finish();
                     }
                 });
                 return;
@@ -714,7 +731,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             mDetailEnd.start(0);
             mDetailEnd.stop();
             mDetailBid.setBackgroundColor(getResources().getColor(R.color.home_pick));
-
             return;
         }
 
@@ -876,10 +892,10 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                             });
                 } else {
 
-                    String url= sceneModel.getData().getH5Url();
-                    if(sceneModel.getData().getH5Url().contains("?")){
+                    String url = sceneModel.getData().getH5Url();
+                    if (sceneModel.getData().getH5Url().contains("?")) {
                         url += "&isMargin=4";
-                    }else  {
+                    } else {
                         url += "?isMargin=4";
                     }
 
@@ -1064,7 +1080,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
 
         UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "3", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
-        PayModel.httpPay(2, "bid", payMoney+"", "", null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
+        PayModel.httpPay(2, "bid", payMoney + "", mBidModelData.getTradeNo(), null, payPwd, exempt, null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
 
@@ -1093,7 +1109,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         mPayPwdBoardUtils.dismissPayPasswordDialog();
 
         UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "3", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
-        PayModel.httpPay(1, "bid", payMoney+"", "", null, "", "", null, new HttpRequest.HttpCallback() {
+        PayModel.httpPay(1, "bid", payMoney + "",  mBidModelData.getTradeNo(), null, "", "", null, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
 

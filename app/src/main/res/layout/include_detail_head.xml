@@ -159,6 +159,7 @@
             android:layout_marginStart="@dimen/dp_20"
             android:gravity="center"
             android:text="下架"
+            android:visibility="gone"
             android:textColor="@color/home_title_bg"
             />
 

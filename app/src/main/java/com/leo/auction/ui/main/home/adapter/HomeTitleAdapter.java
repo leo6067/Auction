@@ -1,6 +1,8 @@
 package com.leo.auction.ui.main.home.adapter;
 
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aten.compiler.utils.DateUtil;
 import com.aten.compiler.widget.countDownTime.CountdownView;
 import com.aten.compiler.widget.glide.GlideUtils;
 import com.blankj.utilcode.constant.TimeConstants;
@@ -16,8 +19,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
 import com.leo.auction.ui.main.home.model.SubsidyModel;
+import com.leo.auction.ui.order.model.OrderHolder;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ==============================================
@@ -31,8 +41,53 @@ import java.util.List;
  */
 public class HomeTitleAdapter extends BaseQuickAdapter<SubsidyModel.DataBean, BaseViewHolder> {
 
+    private Set<OrderHolder> orderTimeSets;
+    private ScheduledExecutorService mExecutorService;
+    private long serverCurrentTime;
+    private long elapsedRealtime;
+
+
+    private Handler.Callback mCallback = new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            long time = msg.getData().getLong("time", 0);
+            TextView tv = (TextView) msg.obj;
+            switch (msg.what) {
+                case 0:
+                    tv.setText("00分00秒");
+                    break;
+                case 1:
+                    tv.setText(DateUtil.longToString(time));
+                    break;
+            }
+            return true;
+        }
+    };
+
+
+
     public HomeTitleAdapter() {
         super(R.layout.item_title_home, null);
+
+        orderTimeSets = new HashSet<>();
+        mExecutorService = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
+            @Override
+            public Thread newThread(@NonNull Runnable r) {
+                Thread thread = new Thread(r);
+                thread.setName("countdown");
+                return thread;
+            }
+        });
+
+        mExecutorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                for (OrderHolder helper : orderTimeSets) {
+//                    updateTime(helper, helper.getHasTime());
+                }
+            }
+        }, 0, 1000, TimeUnit.MILLISECONDS);
+
     }
 
     @Override
@@ -43,12 +98,8 @@ public class HomeTitleAdapter extends BaseQuickAdapter<SubsidyModel.DataBean, Ba
         TextView itemHint = baseViewHolder.getView(R.id.item_hint);
 
         CountdownView itemTime = baseViewHolder.getView(R.id.item_time);
-
-
         //获取某时间与当前时间的  时间差 TimeConstants.MSEC单位毫秒
         long  fitTimeSpan = TimeUtils.getTimeSpanByNow(json.getInterceptTime(), TimeConstants.MSEC);
-
-
 
         itemTime.start(fitTimeSpan);
 

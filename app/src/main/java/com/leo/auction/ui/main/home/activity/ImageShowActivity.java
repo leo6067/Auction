@@ -278,8 +278,8 @@ public class ImageShowActivity extends AppCompatActivity {
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setAdjustViewBounds(true);
 
-        GlideApp.with(imageView.getContext()).load(url).fitCenter().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(R.drawable.ic_rectangle_placeholder_vertical).
-                error(R.drawable.ic_rectangle_placeholder_vertical).into(imageView);
+        GlideApp.with(imageView.getContext()).load(url).fitCenter().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(R.drawable.define_shop).
+                error(R.drawable.define_shop).into(imageView);
     }
 
     public int getStatusHeight() {

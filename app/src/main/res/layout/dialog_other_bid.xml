@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_567"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -62,9 +63,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_35"
-            android:inputType="number"
+            android:background="@null"
             android:digits="0123456789"
-            android:background="@null" />
+            android:inputType="number"
+            android:textColor="@color/home_title_bg" />
 
 
     </LinearLayout>
@@ -84,14 +86,30 @@
         app:corner_radius="@dimen/dp_5" />
 
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_35"
         android:layout_marginBottom="@dimen/dp_35"
         android:gravity="center"
-        android:text="出价即表示同意《锤定交易服务协议》 《隐私保护政策》"
-        android:textSize="10sp" />
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/dialog_jyxy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="出价即表示同意《锤定交易服务协议》 "
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/dialog_ysxy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="    《隐私保护政策》"
+            android:textSize="10sp" />
+
+    </LinearLayout>
 
 </LinearLayout>

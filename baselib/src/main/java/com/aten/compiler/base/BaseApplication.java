@@ -11,6 +11,7 @@ import com.aten.compiler.utils.LogUtils;
 import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ThreadUtils;
 
+import com.blankj.utilcode.util.Utils;
 import com.tencent.smtt.sdk.QbSdk;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
@@ -46,7 +47,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         RxTool.init(this);
         initOkGo();
-
+        Utils.init(this);
         ThreadUtils.getSinglePool().execute(new Runnable() {
             @Override
             public void run() {

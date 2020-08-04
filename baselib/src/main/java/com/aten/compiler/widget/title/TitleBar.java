@@ -356,6 +356,11 @@ public class TitleBar extends FrameLayout implements View.OnClickListener, Runna
 
     public void setRightIcon(Drawable drawable) {
         mRightView.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0, 0, (int) getResources().getDimension(R.dimen.dp_30), 0);//4个参数按顺序分别是左上右下
+        mRightView.setLayoutParams(layoutParams);
+
         post(this);
     }
 

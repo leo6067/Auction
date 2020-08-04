@@ -1,10 +1,12 @@
 package com.leo.auction.ui.main.home.model;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.order.model.AddressJson;
-
+import com.leo.auction.ui.order.model.OrderExtendContentJson;
+import com.leo.auction.utils.Globals;
 
 
 import java.util.ArrayList;
@@ -184,7 +186,7 @@ public class PayModel {
 * */
 // extendContent 订单支付的情况下 需传递该字段,用于接收收货地址。前端需将收货地址信息序列化成json格式的字符串。
     public static void httpPay(int payType, String scene, String money, String tradeNo, ArrayList<String> tradeNoList, String payPwd,
-                               String exempt, AddressJson extendContent, HttpRequest.HttpCallback httpCallback) {
+                               String exempt, OrderExtendContentJson extendContent, HttpRequest.HttpCallback httpCallback) {
 
         JSONObject jsonObject = new JSONObject();
 
@@ -200,19 +202,24 @@ public class PayModel {
         jsonObject.put("exempt", exempt);
 
 
-        String jsonString = JSONObject.toJSONString(extendContent);
-        String str = jsonString.replace("\"","");
+//        Gson gson = new Gson();
+//        String jsonStr = gson.toJson(extendContent);
+
+//        String jsonString = JSON.toJSONString(extendContent);
 
 
-        jsonObject.put("extendContent",str );
+        jsonObject.put("extendContent",extendContent );
 
+//        Globals.log("xxxxxxxxxx" + jsonStr);
+
+//        Globals.log("xxxxxxxxxx 02 " + jsonString);
 
         HttpRequest.httpPostString(Constants.Api.PAY_ORDER_URL, jsonObject, httpCallback);
-
-
     }
 
 
+
+    //废弃待修改
     public static void httpPay(int payType, String scene, int money, String tradeNo, ArrayList<String> tradeNoList, String payPwd,
                                String exempt, String extendContent, HttpRequest.HttpCallback httpCallback) {
 

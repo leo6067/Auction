@@ -135,8 +135,6 @@ public class AddressActivity extends BaseRecyclerViewActivity implements Address
         showWaitDialog();
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("addressId", addressId);
-
-        Globals.log("XXXXXXXXXXXXXXXASADSD");
         HttpRequest.httpDeleteString(Constants.Api.ADDRESS_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {

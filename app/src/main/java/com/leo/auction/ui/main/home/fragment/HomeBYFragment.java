@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
+import com.aten.compiler.base.BaseRecyclerView.StaggeredDividerItemDecoration;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.ScreenUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
@@ -105,9 +106,9 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
     protected void initAdapter() {
 
 
-        recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
+        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_10)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_10)) * 2);
+        mAdapter = new HomeAdapter(dm.widthPixels + (int) getResources().getDimension(R.dimen.dp_10)*4);
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
@@ -131,6 +132,9 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
                 totalDy += dy;
                 if (totalDy <= ScreenUtils.getScreenHeight()) {
                     mIvToTop.setVisibility(View.GONE);
+                    if (mHomeTitleAdapter !=null){
+                        mHomeTitleAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     mIvToTop.setVisibility(View.VISIBLE);
                 }

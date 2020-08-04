@@ -40,7 +40,7 @@ public class PicGridNineAdapter extends BaseQuickAdapter<PicGridNineModel, BaseV
         RatioImageView rivGridNineItem=helper.getView(R.id.riv_grid_nine_item);
         ImageView ivVideo=helper.getView(R.id.iv_video);
 
-        GlideUtils.loadImg(item.getImage(),rivGridNineItem,R.drawable.ic_square_placeholder02,R.drawable.ic_square_placeholder02);
+        GlideUtils.loadImg(item.getImage(),rivGridNineItem,R.drawable.define_shop,R.drawable.define_shop);
 
         if ("1".equals(item.getIsVideo())){
             ivVideo.setVisibility(View.VISIBLE);

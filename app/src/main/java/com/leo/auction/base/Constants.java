@@ -107,7 +107,7 @@ public class Constants {
         public static int RETURNREQUEST_REFRESH_UPDATENAME= 9003;//修改用户名
         public static int RETURNREQUEST_REFRESH_UPDATEPHONE= 9004;//修改手机号码
         public static int RETURNREQUEST_REFRESH_UPDATEADDRESS= 9005;//修改地址
-        public static int RETURNREQUEST_REFRESH_SETTING_ADDRESS= 9006;//修改地址
+        public static int RETURNREQUEST_REFRESH_SETTING_ADDRESS= 9006;//切换地址
         public static int RETURNREQUEST_REFRESH_SELECT_RECEIVE_ADDRESS= 9007;//修改地址(订单结算页面)
         public static int RETURNREQUEST_REFRESH_SELECT_RECEIVE_ADDRESS_ORDER_DETAIL= 9008;//修改地址(订单详情页面)
         public static int RETURNREQUEST_REFRESH_ORDER_LIST= 9009;//订单详情 操作 刷新订单列表页面
