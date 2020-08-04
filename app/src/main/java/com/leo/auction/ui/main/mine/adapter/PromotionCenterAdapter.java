@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
 import com.leo.auction.ui.main.mine.model.PromotionCenterModel;
+import com.leo.auction.utils.Globals;
 
 
 public class PromotionCenterAdapter extends BaseQuickAdapter<PromotionCenterModel, BaseViewHolder> {
@@ -36,14 +37,17 @@ public class PromotionCenterAdapter extends BaseQuickAdapter<PromotionCenterMode
             GlideUtils.loadImg(item.getIcon(),ivIcon);
         }
 
+
+        Globals.log("xxxxxx 推广二维码 020 " +EmptyUtils.strEmpty(item.getTitle()));
         tvTitle.setText(EmptyUtils.strEmpty(item.getTitle()));
 
-        helper.itemView.setTag(item.getTitle());
-        helper.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemListener.onClick(view);
-            }
-        });
+//        helper.itemView.setTag(item.getTitle());
+//        helper.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Globals.log("xxxxxx 推广二维码 02 ");
+//                onItemListener.onClick(view);
+//            }
+//        });
     }
 }

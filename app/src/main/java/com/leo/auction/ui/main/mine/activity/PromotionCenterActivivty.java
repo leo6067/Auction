@@ -13,11 +13,13 @@ import com.aten.compiler.widget.CostomLoadMoreViewNull;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.aten.compiler.widget.title.OnTitleBarListener;
 import com.aten.compiler.widget.title.TitleBar;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.mine.adapter.PromotionCenterAdapter;
 import com.leo.auction.ui.main.mine.model.PromotionCenterModel;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.widget.PromotionCenterDividerDecoration;
 
 import java.util.ArrayList;
@@ -41,7 +43,6 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
     public void setContentViewLayout() {
         setContentView(R.layout.activity_promotion_center_activivty);
     }
-
 
 
     @Override
@@ -75,6 +76,43 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
     public void initAdapter() {
         mAdapter = new PromotionCenterAdapter();
         mAdapter.setLoadMoreView(new CostomLoadMoreViewNull());
+        ArrayList<PromotionCenterModel> promotionCenterModels = new ArrayList<>();
+        PromotionCenterModel promotionCenterModel01 = new PromotionCenterModel(
+                R.drawable.ic_store_qr_code_icon, "推广二维码");
+        PromotionCenterModel promotionCenterModel02 = new PromotionCenterModel(
+                -1, "");
+        PromotionCenterModel promotionCenterModel03 = new PromotionCenterModel(
+                -1, "");
+        PromotionCenterModel promotionCenterModel04 = new PromotionCenterModel(
+                -1, " ");
+        PromotionCenterModel promotionCenterModel05 = new PromotionCenterModel(
+                -1, " ");
+        PromotionCenterModel promotionCenterModel06 = new PromotionCenterModel(
+                -1, "");
+        promotionCenterModels.add(promotionCenterModel01);
+        promotionCenterModels.add(promotionCenterModel02);
+        promotionCenterModels.add(promotionCenterModel03);
+        promotionCenterModels.add(promotionCenterModel04);
+        promotionCenterModels.add(promotionCenterModel05);
+        promotionCenterModels.add(promotionCenterModel06);
+
+        mAdapter.setNewData(promotionCenterModels);
+
+        mAdapter.loadMoreComplete();
+        mAdapter.loadMoreEnd(true);
+        mAdapter.closeLoadAnimation();
+
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+
+                if (position == 0) {
+                    StoreQRCodeActivity.newIntance(PromotionCenterActivivty.this);
+                }
+                Globals.log("xxxxxx 推广二维码 0100  " + position);
+            }
+        });
+
     }
 
     @Override
@@ -89,52 +127,16 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
         ((PromotionCenterAdapter) mAdapter).setOnItemListener(mOnItemListener);
     }
 
-    @Override
-    public void getData() {
-        ArrayList<PromotionCenterModel> promotionCenterModels = new ArrayList<>();
-
-        PromotionCenterModel promotionCenterModel01 = new PromotionCenterModel(
-                R.drawable.ic_store_qr_code_icon, "推广二维码");
-        PromotionCenterModel promotionCenterModel02 = new PromotionCenterModel(
-                -1, "" );
-        PromotionCenterModel promotionCenterModel03 = new PromotionCenterModel(
-                -1, "");
-        PromotionCenterModel promotionCenterModel04 = new PromotionCenterModel(
-                -1, " ");
-        PromotionCenterModel promotionCenterModel05 = new PromotionCenterModel(
-                -1, " ");
-        PromotionCenterModel promotionCenterModel06 = new PromotionCenterModel(
-                -1, "");
-//
-//        if (UserTypeUtils.getInstance().isAgent()){
-//            promotionCenterModels.add(promotionCenterModel01);promotionCenterModels.add(promotionCenterModel06);
-//            promotionCenterModels.add(promotionCenterModel06);promotionCenterModels.add(promotionCenterModel06);
-//            promotionCenterModels.add(promotionCenterModel06);promotionCenterModels.add(promotionCenterModel06);
-//        }else if(UserTypeUtils.getInstance().isSeller()){
-//            promotionCenterModels.add(promotionCenterModel01);promotionCenterModels.add(promotionCenterModel02);
-//            promotionCenterModels.add(promotionCenterModel03);promotionCenterModels.add(promotionCenterModel04);
-//            promotionCenterModels.add(promotionCenterModel05);promotionCenterModels.add(promotionCenterModel06);
-//        }else if (UserTypeUtils.getInstance().isCommon()){
-//            promotionCenterModels.add(promotionCenterModel01);promotionCenterModels.add(promotionCenterModel06);
-//            promotionCenterModels.add(promotionCenterModel06);promotionCenterModels.add(promotionCenterModel06);
-//            promotionCenterModels.add(promotionCenterModel06);promotionCenterModels.add(promotionCenterModel06);
-//        }
-        promotionCenterModels.add(promotionCenterModel01);
-        promotionCenterModels.add(promotionCenterModel02);
-        promotionCenterModels.add(promotionCenterModel03);
-        promotionCenterModels.add(promotionCenterModel04);
-        promotionCenterModels.add(promotionCenterModel05);
-        promotionCenterModels.add(promotionCenterModel06);
-
-        mAdapter.setNewData(promotionCenterModels);
-    }
 
     //item点击时间
     private View.OnClickListener mOnItemListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch ((String) view.getTag()) {
+
                 case "推广二维码":
+
+                    Globals.log("xxxxxx 推广二维码 01 ");
                     StoreQRCodeActivity.newIntance(PromotionCenterActivivty.this);
                     break;
 //                case "抽奖":
@@ -169,7 +171,6 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 
 }
