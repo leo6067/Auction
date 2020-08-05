@@ -8,22 +8,94 @@
     tools:context=".ui.main.home.activity.CategoryActivity">
 
 
-    <include layout="@layout/include_search_back" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_15">
+
+
+        <ImageView
+            android:id="@+id/search_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bar_icon_back_black" />
+
+
+        <com.ruffian.library.widget.RLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_25"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:background_normal="@color/home_line"
+            app:corner_radius="@dimen/dp_60">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp_30"
+                android:paddingStart="@dimen/dp_15"
+                android:src="@drawable/gray_search" />
+
+
+            <EditText
+                android:id="@+id/search_search"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_65"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="1"
+                android:background="@null"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint=" 请输入你想要搜索的产品"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dp_15"
+                android:background="@color/gray" />
+
+
+            <TextView
+                android:id="@+id/tv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:hint="搜索"
+                android:textSize="12sp" />
+
+        </com.ruffian.library.widget.RLinearLayout>
+
+
+    </LinearLayout>
 
 
     <include
         layout="@layout/include_line_a"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-          />
+        android:layout_height="1dp" />
 
 
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_88"
-        android:gravity="center"
         android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal">
 
 
@@ -33,36 +105,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_11"
-            android:textColor="@drawable/selector_group_sort"
-            android:text="综合排序" />
+            android:text="综合排序"
+            android:textColor="@drawable/selector_group_sort" />
 
         <RadioButton
             android:id="@+id/radio_b"
-            android:checked="false"
             style="@style/radiobutton_guide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@drawable/selector_group_sort"
+            android:checked="false"
             android:padding="@dimen/dp_11"
-            android:text="最新上拍" />
+            android:text="最新上拍"
+            android:textColor="@drawable/selector_group_sort" />
 
         <RadioButton
             android:id="@+id/radio_c"
-            android:checked="false"
             style="@style/radiobutton_guide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@drawable/selector_group_sort"
+            android:checked="false"
             android:padding="@dimen/dp_11"
-            android:text="即将截拍" />
+            android:text="即将截拍"
+            android:textColor="@drawable/selector_group_sort" />
 
     </RadioGroup>
 
 
     <FrameLayout
-        android:layout_marginTop="@dimen/dp_20"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_20">
 
 
         <com.aten.compiler.widget.CustRefreshLayout
@@ -86,13 +158,13 @@
         </com.aten.compiler.widget.CustRefreshLayout>
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/iv_to_top"
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
             android:layout_marginRight="@dimen/dp_30"
             android:layout_marginBottom="@dimen/dp_60"
-            android:src="@drawable/ic_home_top_bg" />
+            android:src="@drawable/ic_home_top_bg"
+            android:visibility="gone" />
 
     </FrameLayout>
 

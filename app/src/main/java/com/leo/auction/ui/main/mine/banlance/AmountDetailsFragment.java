@@ -103,7 +103,7 @@ public class AmountDetailsFragment extends BaseRecyclerViewFragment implements S
     }
 
     @Override
-    protected void getData() {
+    public void getData() {
 
         AmountDetailsModel.httpAmountDetailsModel(mPageNum, parentType, changeType, startTime, endTime, new HttpRequest.HttpCallback() {
             @Override

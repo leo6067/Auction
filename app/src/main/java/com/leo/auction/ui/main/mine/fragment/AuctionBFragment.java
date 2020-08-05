@@ -203,7 +203,7 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
 
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
         Constants.Var.PPGL_SORT_TYPE = 1;
@@ -230,7 +230,7 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
 
             @Override
             public void httpResponse(String resultData) {
-                hideRefreshView();
+
                 ProductListModel productListModel = JSONObject.parseObject(resultData, ProductListModel.class);
                 if (mPageNum == 1) {
                     mAdapter.setNewData(productListModel.getData());

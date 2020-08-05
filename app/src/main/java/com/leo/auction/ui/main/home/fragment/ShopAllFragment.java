@@ -207,7 +207,7 @@ public class ShopAllFragment extends BaseRecyclerViewFragment {
     }
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
         String shopUri = getArguments().getString("shopUri", "");

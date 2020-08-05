@@ -135,7 +135,7 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     }
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
 

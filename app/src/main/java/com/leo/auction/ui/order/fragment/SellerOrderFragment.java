@@ -41,6 +41,7 @@ import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.SetPaypwdUtils;
 import com.leo.auction.utils.wxPay.WXPay;
 import com.leo.auction.utils.wxPay.WXPayBean;
+import com.zhy.adapter.recyclerview.CommonAdapter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
 //    }
 //
 //
+
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 //                             Bundle savedInstanceState) {
@@ -153,7 +155,7 @@ public class SellerOrderFragment extends BaseRecyclerViewFragment implements Set
 
 
     @Override
-    protected void getData() {
+    public void getData() {
 
         OrderListModel.httpOrderList(mPageNum, "", isSeller + "", status, new HttpRequest.HttpCallback() {
             @Override

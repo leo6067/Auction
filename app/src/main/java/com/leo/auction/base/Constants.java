@@ -26,34 +26,24 @@ public class Constants {
 
 
     public static class Nouns {   //名词类，文件名，
-
-
-
         public final static String PACK_NAME = "com.leo.auction";
-
         //app更新下载本地的文件名
         public final static String APK_NAME = "auction.apk";
         //log
         public final static String LOG_TAG = "Leo";
-
         //SharedPreferences 缓存文件
         public final static String SHARE_NAME = "auction_share";
         //greenDao 数据库名字
         public final static String DB_NAME = "auction_db";
-
-
         //数据库加密key
         public final static String AES_KEY = "HI9EIS6DJKF1FKDE7EOPLKJUI6NBGHY0";
         //oss返回体加密key
         public final static String OSS_KEY = "U2FsdGVkX1/ICQ5ijcEUsICSSOEe0ps9";
-
-
         //友盟 key
         public static String QQAPPID = "101731440";
         public static String QQAPPKEY = "f06eae4b68d8f8ddde0f2fb3616cbc25";
         public static String WEIXINAPPID = "wx083c4267d81c8961"; //7.10 新版
         public static String WEIXINAPPKEY = "2dc8dd30dd5d0db67e09af2e55dea168";
-
 
     }
 
@@ -70,10 +60,7 @@ public class Constants {
 
         public static int PPGL_SORT_TYPE = 0 ;//用于记录是拍品管理当前是哪个分类
         public static int PPGL_SORT_VALUE = 0 ;//用于记录是拍品管理当前是哪个分类接口分类值
-
         public static int MONEY_NO_PWD = 300 ;//设置免密支付金额
-
-
         public static String AA = "00A" ;
         public static String BB = "00B" ;
 
@@ -86,13 +73,12 @@ public class Constants {
         public final static int LAYOUT_TYPE_HEAD = 0 ;
         public final static int LAYOUT_TYPE = 1 ;
         public final static String LIST_NUMBER = "25" ;
-        public final static int LIST_NUMBER_INT = 25 ;
+        public final static int LIST_NUMBER_INT = 24 ;
         public final static String LIST_NUMBER_F = "5" ;
         public final static int LIST_NUMBER_INT_F= 5 ;
 
         public final static String COMMON_PROTOCOL = "common_Protocol";
         public final static String HAS_ADDRESS = "has_address";
-
 
         public final static String LIST_MAX = "300";
 
@@ -204,7 +190,13 @@ public class Constants {
         public static String SORT_URL =WEB_BASE_URL+"auction-web/pages/category/category?tpm_shareAgentId=";// 分享 分类
 
 
-        public static String YZM_URL =" https://w.taojianlou.com/super-store/hd2.html";// 登录验证码
+        public static String YZM_URL =" https://w.taojianlou.com/super-store/hd2.html";//
+
+
+
+        public static String MINE_DFK =WEB_BASE_URL+"auction-web/pages/order/list?viewType=1&status=1";// 待付款列表
+
+
 
 
 

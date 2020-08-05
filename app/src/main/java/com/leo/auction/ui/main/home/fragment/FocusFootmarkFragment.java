@@ -134,7 +134,7 @@ public class FocusFootmarkFragment extends BaseRecyclerViewFragment {
     }
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
         Globals.log("xxxxxxx visibleToUser getData  01");

@@ -106,9 +106,9 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new MainSortFragment());
         mFragments.add(new MainFocusFragment());
         mFragments.add(new NewsFragment());
-//        mFragments.add(new MainMeFragment());
+        mFragments.add(new MainMeFragment());
 
-        mMineFragment = new MineWebFragment();
+//        mMineFragment = new MineWebFragment();
         mFragments.add(mMineFragment);
 
 
@@ -311,8 +311,6 @@ public class MainActivity extends BaseActivity {
 
         Globals.log("xxxxxxx onKeyDown" + keyCode);
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-
-
             if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
                 mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
                 return true;

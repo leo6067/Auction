@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import com.aten.compiler.R;
@@ -13,10 +14,12 @@ import com.aten.compiler.widget.CostomLoadMoreView;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 /**
  * project:PJHAndroidFrame
@@ -26,9 +29,9 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
  * recyclerview fragment 基类
  */
 
-public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshListener,BaseQuickAdapter.RequestLoadMoreListener {
 
-    public CustRefreshLayout refreshLayout;
+    protected SmartRefreshLayout refreshLayout;
     protected RecyclerView recyclerView;
     protected BaseQuickAdapter mAdapter;
 
@@ -42,8 +45,8 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     @Override
     public void initView(View view) {
         super.initView(view);
-        refreshLayout = (CustRefreshLayout) view.findViewById(R.id.refreshLayout);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        refreshLayout=(SmartRefreshLayout)view.findViewById(R.id.refreshLayout);
+        recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
     }
 
     @Override
@@ -51,30 +54,37 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
         super.initData();
         initAdapter();
         mAdapter.setLoadMoreView(new CostomLoadMoreView());
-        refreshLayout.setEnableRefresh(true);
-        refreshLayout.setEnableLoadMore(true);
-        mAdapter.setEnableLoadMore(true);
-
-        if (isOpenAnim()) {
+        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableLoadMore(false);
+        mAdapter.setEnableLoadMore(false);
+        if (isOpenAnim()){
             mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
             mAdapter.isFirstOnly(false);
         }
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = getLayoutManager();
-        if (layoutManager == null) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        } else {
-            recyclerView.setLayoutManager(layoutManager);
+        if (getLayoutManager()==null){
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+        }else {
+            recyclerView.setLayoutManager(getLayoutManager());
         }
-        mAdapter.setEmptyView(R.layout.layout_empty_view, recyclerView);
-        recyclerView.setAdapter(mAdapter);
 
+        setEmptyView();
+        recyclerView.setAdapter(mAdapter);
         setRefreshInfo();
     }
+    //RecyclerView的LayoutManager
+    public RecyclerView.LayoutManager getLayoutManager(){
+        return null;
+    }
 
-    //初始化适配器
+    //设置recyclervie的空页面
+    public void setEmptyView() {
+        mAdapter.setEmptyView(R.layout.layout_empty_view,recyclerView);
+    }
+
+    //初始话适配器
     protected void initAdapter() {
-        mAdapter = new BaseAdapterRecyclerview();
+        mAdapter=new BaseAdapterRecyclerview();
     }
 
     //是否开启item加载动画
@@ -82,19 +92,15 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
         return false;
     }
 
-    //RecyclerView的LayoutManager
-    public RecyclerView.LayoutManager getLayoutManager() {
-        return null;
-    }
-
     //设置SmartRefreshLayout的刷新 加载样式
-    protected void setRefreshInfo() {
+    public void setRefreshInfo() {
         refreshLayout.setPrimaryColorsId(R.color.windowbackground, R.color.txt_color_666);
         refreshLayout.setRefreshFooter(new FalsifyFooter(getContext()));
         refreshLayout.setHeaderMaxDragRate(5);//最大显示下拉高度/Header标准高度  头部下拉高度的比例
-        setSmartHasRefreshOrLoadMore();
-        setLoadMore();
     }
+
+    //加载列表数据
+    public void getData() {}
 
     @Override
     public void initEvent() {
@@ -105,46 +111,33 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     public void setSmartHasRefreshOrLoadMore() {
         refreshLayout.setEnableRefresh(true);
         refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setEnableLoadMore(true);
+        refreshLayout.setEnableLoadMore(false);
     }
 
     //设置smartrefresh是否需要下拉刷新以及加载更多
     public void setLoadMore() {
         mAdapter.setEnableLoadMore(true);
-        mAdapter.setOnLoadMoreListener(BaseRecyclerViewFragment.this, recyclerView);
-    }
-
-
-    protected void getData() {
+        mAdapter.setOnLoadMoreListener(BaseRecyclerViewFragment.this,recyclerView);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        mPageNum = 1;
+        mPageNum=1;
         getData();
-
-        if (refreshLayout != null) {
-            refreshLayout.finishRefresh(600);
-        }
     }
 
     @Override
     public void onLoadMoreRequested() {
         mPageNum++;
         getData();
-        if (refreshLayout != null) {
-            refreshLayout.finishLoadMore(600);
-        }
-
     }
 
     //关闭刷新的view
-    public void hideRefreshView() {
+    public void hideRefreshView(){
         if (refreshLayout.getState() == RefreshState.Refreshing) {
             refreshLayout.finishRefresh();
         } else {
             hideWaitDialog();
         }
     }
-
 }

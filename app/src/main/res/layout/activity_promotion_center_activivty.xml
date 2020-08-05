@@ -23,8 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dp_7"
-        app:srlDragRate="0.75"
-        app:srlEnablePreviewInEditMode="true">
+       >
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
@@ -34,7 +33,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never" />
+         />
 
     </com.aten.compiler.widget.CustRefreshLayout>
 

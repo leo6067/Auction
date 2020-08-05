@@ -33,7 +33,7 @@ import com.leo.auction.ui.order.activity.OrderCompleteEvaluationActivity;
 import com.leo.auction.ui.order.activity.OrderConfirmActivity;
 import com.leo.auction.ui.order.activity.OrderDetailActivity;
 import com.leo.auction.ui.order.activity.OrderEvaluationActivity;
-import com.leo.auction.ui.order.activity.OrderRefuseGoodActivity;
+
 import com.leo.auction.ui.order.adapter.OrderAdapter;
 import com.leo.auction.ui.order.model.OrderListModel;
 import com.leo.auction.ui.order.model.OrderPayTypeModel;
@@ -154,7 +154,7 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
 
 
     @Override
-    protected void getData() {
+    public void getData() {
 
         OrderListModel.httpOrderList(mPageNum, "", isSeller + "", status, new HttpRequest.HttpCallback() {
             @Override
@@ -266,10 +266,10 @@ public class OrderFragment extends BaseRecyclerViewFragment implements SetPaypwd
                     ActivityManager.JumpActivity(getActivity(), OrderEvaluationActivity.class, bundle);
                     break;
                 case "申请退货":
-                    ActivityManager.JumpActivity(getActivity(), OrderRefuseGoodActivity.class);
+//                    ActivityManager.JumpActivity(getActivity(), OrderRefuseGoodActivity.class);
                     break;
                 case "申请退款":
-                    ActivityManager.JumpActivity(getActivity(), OrderRefuseGoodActivity.class);
+//                    ActivityManager.JumpActivity(getActivity(), OrderRefuseGoodActivity.class);
                     break;
                 case "延迟付款":
                     httpDelayPay();

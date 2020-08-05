@@ -327,8 +327,9 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             //  super.onProgressChanged(view, newProgress);
+            Globals.log( "onProgressChanged00:" + newProgress + "  view:" + view.getUrl());
             if (newProgress == 100) {
-                Globals.log( "onProgressChanged:" + newProgress + "  view:" + view);
+                Globals.log( "onProgressChanged:" + newProgress + "  view:" + view.getUrl());
                 mAgentWeb.getIndicatorController().setProgress(newProgress);
             }
         }
@@ -418,6 +419,8 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            Globals.log( "mUrl:  01 " + request + " onPageStarted  target:" + request.getUrl());
+
             return super.shouldOverrideUrlLoading(view, request);
         }
 
@@ -507,12 +510,17 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
                         Globals.log("xxxxxxx  mAgentWeb.back 01 ");
                         ActivityManager.JumpActivity(getActivity(), MainActivity.class);
                         ActivityManager.mainActivity.setCurrent(0);
+                        ActivityManager.mainActivity.setBottomVisible();
                     }
 
                     break;
                 case R.id.iv_finish:
+                    Globals.log("xxxxxxx  mAgentWeb.iv_finish 00 ");
                     ActivityManager.JumpActivity(getActivity(), MainActivity.class);
-                    ActivityManager.mainActivity.setCurrent(0);
+
+                    ActivityManager.mainActivity.setBottomVisible();
+                    ActivityManager.mainActivity.recreateActivity();
+
                     break;
                 case R.id.iv_more:
                     showPoPup(v);
@@ -682,7 +690,7 @@ public class MineWebFragment extends Fragment implements FragmentKeyDown {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Globals.log("MiddlewareWebClientBase#shouldOverrideUrlLoading request url:" + request.getUrl().toString());
+                Globals.log("MiddlewareWebClientBase#shouldOverrideUrlLoading request url:" );
                 return super.shouldOverrideUrlLoading(view, request);
             }
         };

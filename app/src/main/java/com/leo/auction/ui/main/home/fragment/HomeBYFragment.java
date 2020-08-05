@@ -97,23 +97,34 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
+
         onRefresh(refreshLayout);
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
         Constants.Action.ACTION_ACTION = "1";
     }
 
-    @Override
-    protected void initAdapter() {
 
+    @Override
+    public void initAdapter() {
 
         recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_1)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
         mAdapter = new HomeAdapter(dm.widthPixels + (int) getResources().getDimension(R.dimen.dp_10)*10);
-        mAdapter.setHeaderAndEmpty(true);
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        mAdapter.setHasStableIds(true);
+
+    }
+
+    @Override
+    public RecyclerView.LayoutManager getLayoutManager() {
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        return staggeredGridLayoutManager;
+    }
 
 
+    @Override
+    public void initEvent() {
+        super.initEvent();
+
+        initHeadView();
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -141,6 +152,18 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
             }
         });
 
+        setSmartHasRefreshOrLoadMore();
+        setLoadMore();
+    }
+
+    @Override
+    public void setSmartHasRefreshOrLoadMore() {
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setEnableLoadMore(false);
+    }
+
+    private void initHeadView(){
 
         //百亿补贴
         mInflate = LayoutInflater.from(getActivity()).inflate(R.layout.include_home_title, null);
@@ -191,18 +214,12 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
                 });
             }
         });
-
-
     }
 
-    @Override
-    public RecyclerView.LayoutManager getLayoutManager() {
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        return staggeredGridLayoutManager;
-    }
+
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
         HashMap<String, String> hashMap = new HashMap<>();
@@ -223,12 +240,11 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 //            return;
 //        }
 
+        Globals.log("xxxxx百亿补贴 SSS"   +mPageNum );
 
         hashMap.put("keyword", "");
         hashMap.put("pageNum", "" + mPageNum);
-        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
-
-
+        hashMap.put("pageSize", "3");
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -244,17 +260,19 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
                     mAdapter.setNewData(homeListModel.getData());
                 } else {
                     mAdapter.addData(homeListModel.getData());
-                    mAdapter.loadMoreComplete();
+//                    mAdapter.loadMoreComplete();
                 }
 
 
-                if (homeListModel.getData().isEmpty()) {
-                    mPageNum = 1;
-                } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
-                    mAdapter.loadMoreEnd(true);
-                } else {
-                    mAdapter.loadMoreEnd();
-                }
+                Globals.log("xxxxx百亿补贴 " +  homeListModel.getData().size());
+//                if (homeListModel.getData().isEmpty()) {
+//                    mPageNum = 1;
+//                } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+//                    Globals.log("xxxxx百亿补贴 01  " +  homeListModel.getData().size());
+//                    mAdapter.loadMoreEnd(true);
+//                } else {
+//                    mAdapter.loadMoreEnd();
+//                }
 
             }
         });

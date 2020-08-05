@@ -70,7 +70,7 @@ public class NoticeFragment extends BaseRecyclerViewFragment {
     }
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
         HashMap<String, String> hashMap = new HashMap<>();

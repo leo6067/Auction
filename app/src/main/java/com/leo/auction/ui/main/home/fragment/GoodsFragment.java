@@ -139,7 +139,7 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
     }
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
         if (listType == 0) {

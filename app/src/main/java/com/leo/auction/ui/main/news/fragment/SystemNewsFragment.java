@@ -68,7 +68,7 @@ public class SystemNewsFragment extends BaseRecyclerViewFragment {
     }
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
         HashMap<String, String> hashMap = new HashMap<>();
@@ -78,18 +78,18 @@ public class SystemNewsFragment extends BaseRecyclerViewFragment {
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
 
-        showWaitDialog();
+
         HttpRequest.httpGetString(Constants.Api.NEWS_SYS_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+
                 NewsModel newsModel = JSONObject.parseObject(resultData, NewsModel.class);
-                hideRefreshView();
+
                 if (mPageNum == 1) {
                     mAdapter.setNewData(newsModel.getData());
                 } else {

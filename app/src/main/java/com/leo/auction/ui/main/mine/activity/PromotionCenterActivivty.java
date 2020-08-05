@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewActivity;
 import com.aten.compiler.widget.CostomLoadMoreViewNull;
 import com.aten.compiler.widget.CustRefreshLayout;
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
 
 
 /*推广中心*/
-public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
+public class PromotionCenterActivivty extends BaseActivity {
 
 
     @BindView(R.id.title_bar)
@@ -38,6 +39,8 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
     RecyclerView mRecyclerView;
     @BindView(R.id.refreshLayout)
     CustRefreshLayout mRefreshLayout;
+
+    private PromotionCenterAdapter mAdapter;
 
     @Override
     public void setContentViewLayout() {
@@ -49,9 +52,10 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
     public void initData() {
         super.initData();
         mTitleBar.setTitle("推广中心");
-        recyclerView.addItemDecoration(new PromotionCenterDividerDecoration(this));
-        onRefresh(refreshLayout);
 
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
+
+        mRecyclerView.addItemDecoration(new PromotionCenterDividerDecoration(this));
         mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
             @Override
             public void onLeftClick(View v) {
@@ -70,12 +74,15 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
             }
         });
 
+        initAdapter();
     }
 
-    @Override
+
     public void initAdapter() {
+
+
         mAdapter = new PromotionCenterAdapter();
-        mAdapter.setLoadMoreView(new CostomLoadMoreViewNull());
+
         ArrayList<PromotionCenterModel> promotionCenterModels = new ArrayList<>();
         PromotionCenterModel promotionCenterModel01 = new PromotionCenterModel(
                 R.drawable.ic_store_qr_code_icon, "推广二维码");
@@ -96,35 +103,37 @@ public class PromotionCenterActivivty extends BaseRecyclerViewActivity {
         promotionCenterModels.add(promotionCenterModel05);
         promotionCenterModels.add(promotionCenterModel06);
 
-        mAdapter.setNewData(promotionCenterModels);
+        mAdapter.addData(promotionCenterModels);
 
-        mAdapter.loadMoreComplete();
-        mAdapter.loadMoreEnd(true);
-        mAdapter.closeLoadAnimation();
+        mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
-
                 if (position == 0) {
                     StoreQRCodeActivity.newIntance(PromotionCenterActivivty.this);
                 }
-                Globals.log("xxxxxx 推广二维码 0100  " + position);
             }
         });
 
     }
 
-    @Override
-    public RecyclerView.LayoutManager getLayoutManager() {
-        return new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
-    }
+
+
 
     @Override
     public void initEvent() {
         super.initEvent();
 
         ((PromotionCenterAdapter) mAdapter).setOnItemListener(mOnItemListener);
+
+
+//        mAdapter.loadMoreComplete();
+//        mRefreshLayout.finishLoadMore();
+//        mRefreshLayout.finishRefresh();
+//        mAdapter.closeLoadAnimation();
+//        mAdapter.setLoadMoreView(new CostomLoadMoreViewNull());
+//        mAdapter.removeAllFooterView();
     }
 
 

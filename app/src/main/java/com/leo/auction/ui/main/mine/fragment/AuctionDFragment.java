@@ -233,7 +233,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
 
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 
 
@@ -261,7 +261,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
                 @Override
                 public void httpResponse(String resultData) {
                     ProductListModel productListModel = JSONObject.parseObject(resultData, ProductListModel.class);
-                    hideRefreshView();
+
                     if (mPageNum == 1) {
                         mAdapter.setNewData(productListModel.getData());
                     } else {
@@ -287,7 +287,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
 
                 @Override
                 public void httpResponse(String resultData) {
-                    hideRefreshView();
+
                     ProductListModel productListModel = JSONObject.parseObject(resultData, ProductListModel.class);
                     if (mPageNum == 1) {
                         mAdapter.setNewData(productListModel.getData());

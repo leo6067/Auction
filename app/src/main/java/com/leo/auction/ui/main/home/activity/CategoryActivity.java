@@ -173,7 +173,6 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
                     mAdapter.loadMoreComplete();
                 }
 
-
                 if (homeListModel.getData().isEmpty()) {
                     mPageNum = 1;
                     Globals.log("xxxxxxxxx  01 " + homeListModel.getData());

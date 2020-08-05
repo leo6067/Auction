@@ -47,6 +47,7 @@ import okhttp3.Call;
 public class MainMeFragment extends BaseFragment {
 
 
+
     @BindView(R.id.civ_head)
     CircleImageView mCivHead;
     @BindView(R.id.mine_vip)
@@ -106,7 +107,8 @@ public class MainMeFragment extends BaseFragment {
     public void initData() {
         super.initData();
 
-        httpUser();
+        UserModel.httpUpdateUser(getActivity());
+
     }
 
 
@@ -247,13 +249,9 @@ public class MainMeFragment extends BaseFragment {
     public void upUserLevel(UserModel.DataBean userInfo, boolean isSeller) {
 
         if (!isSeller) {   //买家
-
             CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
-
             String[] myLevelVPicS = commonJson.getMy_level_v_pic().get(0).split("my_level_v_pic_");
             String vipUrl = myLevelVPicS[0] + "my_level_v_pic_" + userInfo.getLevel() + ".png";
-
-
             String[] myLevelPicS = commonJson.getMy_level_pic().get(0).split("auction_level_hd_");
             String LevelUrl = myLevelPicS[0] + "auction_level_hd_" + userInfo.getLevel() + ".png";
 
@@ -266,29 +264,20 @@ public class MainMeFragment extends BaseFragment {
             mTvFansNum.setText(String.valueOf(userInfo.getFansNum()));
             mTvCoinNum.setText(String.valueOf(userInfo.getScore()));
             mFlShop.setVisibility(View.INVISIBLE);
-
         } else {
-
             CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
-
             String[] myLevelVPicS = commonJson.getSeller_level_pic().get(0).split("seller_level_");
             String vipUrl = myLevelVPicS[0] + "seller_level_" + userInfo.getSellerLevel() + ".png";
-
-
             GlideUtils.loadImg(userInfo.getHeadImg(), mCivHead);
             GlideUtils.loadImgDefault(vipUrl, mMineVip);
 //            GlideUtils.loadImgDefault(LevelUrl, mMineLevel);
-
             mMineLevel.setVisibility(View.GONE);
             mFlShop.setVisibility(View.VISIBLE);
             mTvName.setText(userInfo.getNickname());
             mTvFollowNum.setText(String.valueOf(userInfo.getFollowNum()));
             mTvFansNum.setText(String.valueOf(userInfo.getFansNum()));
             mTvCoinNum.setText(String.valueOf(userInfo.getSellerScore()));
-
         }
-
-
     }
 
 

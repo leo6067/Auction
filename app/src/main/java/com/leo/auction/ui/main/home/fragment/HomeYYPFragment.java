@@ -210,7 +210,7 @@ public class HomeYYPFragment extends BaseRecyclerViewFragment {
     }
 
     @Override
-    protected void getData() {
+    public void getData() {
         super.getData();
 //        String mUrl = "";
         HashMap<String, String> hashMap = new HashMap<>();
