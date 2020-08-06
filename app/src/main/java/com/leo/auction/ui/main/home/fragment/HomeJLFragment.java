@@ -206,6 +206,15 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
     }
 
     @Override
+    public void initEvent() {
+        super.initEvent();
+        setSmartHasRefreshOrLoadMore();
+        setLoadMore();
+    }
+
+
+
+    @Override
     public void getData() {
         super.getData();
 

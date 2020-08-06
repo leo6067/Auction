@@ -55,6 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon_src_normal="@drawable/mine_logo"
+                android:visibility="gone"
                 app:is_circle="true" />
 
             <TextView

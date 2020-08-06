@@ -40,6 +40,8 @@ import com.leo.auction.ui.main.home.model.SubsidyModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.utils.Globals;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +91,11 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        enableLazyLoad();
+    }
+    @Override
     public int getLayoutId() {
         return R.layout.fragment_home_all;
     }
@@ -97,7 +104,7 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
-
+        initHeadView();
         onRefresh(refreshLayout);
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
         Constants.Action.ACTION_ACTION = "1";
@@ -107,63 +114,21 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
     @Override
     public void initAdapter() {
 
-        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_1)));
+
+        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_10)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels + (int) getResources().getDimension(R.dimen.dp_10)*10);
+        mAdapter = new HomeAdapter(dm.widthPixels -(int) getResources().getDimension(R.dimen.dp_10)*3);
+        mAdapter.setHeaderAndEmpty(true);
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        mAdapter.setHasStableIds(true);
+
+
+
 
     }
 
-    @Override
-    public RecyclerView.LayoutManager getLayoutManager() {
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        return staggeredGridLayoutManager;
-    }
 
-
-    @Override
-    public void initEvent() {
-        super.initEvent();
-
-        initHeadView();
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                HomeListModel.DataBean json = (HomeListModel.DataBean) mAdapter.getData().get(position);
-                Bundle bundle = new Bundle();
-                bundle.putString("goodsCode", json.getProductInstanceCode());
-                ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class, bundle);
-            }
-        });
-
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalDy += dy;
-                if (totalDy <= ScreenUtils.getScreenHeight()) {
-                    mIvToTop.setVisibility(View.GONE);
-                    if (mHomeTitleAdapter !=null){
-                        mHomeTitleAdapter.notifyDataSetChanged();
-                    }
-                } else {
-                    mIvToTop.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        setSmartHasRefreshOrLoadMore();
-        setLoadMore();
-    }
-
-    @Override
-    public void setSmartHasRefreshOrLoadMore() {
-        refreshLayout.setEnableRefresh(true);
-        refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setEnableLoadMore(false);
-    }
-
-    private void initHeadView(){
+    public void initHeadView(){
 
         //百亿补贴
         mInflate = LayoutInflater.from(getActivity()).inflate(R.layout.include_home_title, null);
@@ -216,35 +181,76 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
         });
     }
 
+    @Override
+    public void initEvent() {
+        super.initEvent();
+        setSmartHasRefreshOrLoadMore();
+        setLoadMore();
 
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                HomeListModel.DataBean json = (HomeListModel.DataBean) mAdapter.getData().get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("goodsCode", json.getProductInstanceCode());
+                ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class, bundle);
+            }
+        });
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalDy += dy;
+                if (totalDy <= ScreenUtils.getScreenHeight()) {
+                    mIvToTop.setVisibility(View.GONE);
+                    if (mHomeTitleAdapter !=null){
+                        mHomeTitleAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    mIvToTop.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                Globals.log("xxxxx百亿补贴 SSS  onLoadMore"   +mPageNum );
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                Globals.log("xxxxx百亿补贴 SSS onRefresh"   +mPageNum );
+            }
+        });
+
+
+    }
+
+    @Override
+    public RecyclerView.LayoutManager getLayoutManager() {
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        return staggeredGridLayoutManager;
+    }
 
     @Override
     public void getData() {
-        super.getData();
+
 
         HashMap<String, String> hashMap = new HashMap<>();
 
-//        int homeType = Constants.Var.HOME_TYPE;
 
         String mUrl = Constants.Api.HOME_SUBSIDY_URL;
-//        if (homeType == 0) {//首页--百亿
-//        } else if (homeType == 1) {//首页--全部
-//            mUrl = Constants.Api.HOME_UNITARY_URL;
-//        } else if (homeType == 2) {//首页--全部
-//            mUrl = Constants.Api.HOME_PICK_URL;
-//        } else if (homeType == 3) {//首页-- 二手
-//            mUrl = Constants.Api.HOME_SECOND_URL;
-//        } else if (homeType == 4) {//首页--万物拍
-//            mUrl = Constants.Api.HOME_ALL_PRODUCT_URL;
-//        } else {
-//            return;
-//        }
 
-        Globals.log("xxxxx百亿补贴 SSS"   +mPageNum );
 
         hashMap.put("keyword", "");
         hashMap.put("pageNum", "" + mPageNum);
-        hashMap.put("pageSize", "3");
+        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
+
+
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -253,26 +259,21 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 
             @Override
             public void httpResponse(String resultData) {
-
                 HomeListModel homeListModel = JSONObject.parseObject(resultData, HomeListModel.class);
-
                 if (mPageNum == 1) {
                     mAdapter.setNewData(homeListModel.getData());
                 } else {
                     mAdapter.addData(homeListModel.getData());
-//                    mAdapter.loadMoreComplete();
+                    mAdapter.loadMoreComplete();
                 }
 
-
-                Globals.log("xxxxx百亿补贴 " +  homeListModel.getData().size());
-//                if (homeListModel.getData().isEmpty()) {
-//                    mPageNum = 1;
-//                } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
-//                    Globals.log("xxxxx百亿补贴 01  " +  homeListModel.getData().size());
-//                    mAdapter.loadMoreEnd(true);
-//                } else {
-//                    mAdapter.loadMoreEnd();
-//                }
+                if (homeListModel.getData().isEmpty()) {
+                    mPageNum = 1;
+                } else if (homeListModel.getData().size() > Constants.Var.LIST_NUMBER_INT) {
+                    mAdapter.loadMoreEnd(true);
+                } else {
+                    mAdapter.loadMoreEnd();
+                }
 
             }
         });

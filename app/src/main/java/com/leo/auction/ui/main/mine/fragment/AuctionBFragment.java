@@ -31,6 +31,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.net.HttpRequest;
@@ -38,6 +39,7 @@ import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.mine.activity.AuctionUpperActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
 import com.leo.auction.ui.main.mine.adapter.AuctionManagementAdapter;
+import com.leo.auction.ui.main.mine.model.CateProductModel;
 import com.leo.auction.ui.main.mine.model.ProductListModel;
 
 import java.util.HashMap;
@@ -76,7 +78,7 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
     private EditText mEtMaxPrice;
     private SwipeConsumer mCurrentDrawerConsumer;
 
-    private String startPrice = "", endPrice = "", sortField = "", timeStr = "", priceStr = "";
+    private String startPrice = "", endPrice = "", sortField = "", timeStr = "", priceStr = "",sortType = "0";
 
     BroadCastReceiveUtils mBroadCastReceiveUtils = new BroadCastReceiveUtils() {
         @Override
@@ -129,12 +131,13 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
                 ProductListModel.DataBean item = (ProductListModel.DataBean) mAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
-                if ("2".equals(item.getSourceType())) {  // 1-自行发拍  2-产品库
-                    bundle.putString("goodsCode", item.getGoodsId());
-                } else {
+//                if ("2".equals(item.getSourceType())) {  // 1-自行发拍  2-产品库
+//                    bundle.putString("goodsCode", item.getGoodsId());
+//                } else {
+//                }
                     bundle.putString("goodsCode", item.getProductInstanceCode());
-                }
                 bundle.putString("type", item.getSourceType());
+                bundle.putString("AuctionType", "2");  //
                 ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class,bundle);
 
             }
@@ -145,7 +148,7 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
-        Constants.Var.PPGL_SORT_TYPE = 1;
+
         timeStr = "intercept_time";
         priceStr = "currentPrice";
         sortField = timeStr;
@@ -206,7 +209,7 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
     public void getData() {
         super.getData();
 
-        Constants.Var.PPGL_SORT_TYPE = 1;
+
         //竞拍中 时间排序按 createTime
         //已截拍 时间排序按 intercept_time
         //已失败 时间排序按 modify_time
@@ -214,10 +217,12 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
 
         HashMap<String, String> mhash = new HashMap<>();
 
-        mhash.put("status", Constants.Var.PPGL_SORT_VALUE + "");
+        CateProductModel auctionManager = BaseSharePerence.getInstance().getAuctionManager();
+
+        mhash.put("status", auctionManager.getData().get(1)+"");
         mhash.put("pageNum", mPageNum + "");
         mhash.put("pageSize", Constants.Var.LIST_NUMBER);
-        mhash.put("sort", "1");
+        mhash.put("sort", sortType);
         mhash.put("startPrice", startPrice);
         mhash.put("endPrice", endPrice);
         mhash.put("sortField", sortField);
@@ -260,19 +265,31 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
         switch (view.getId()) {
             case R.id.ll_time:
                 sortField = timeStr;
-                onRefresh(refreshLayout);
                 mTvTime.setTextColor(Color.parseColor("#7c1313"));
                 mTvPrice.setTextColor(Color.parseColor("#525252"));
-                mIvTime.setBackgroundResource(R.drawable.tip_top);
                 mIvPrice.setBackgroundResource(R.drawable.tip_tip);
+                if (sortType.equals("0")){  //   0-升序 1-降序
+                    sortType= "1";
+                    mIvTime.setBackgroundResource(R.drawable.tip_top);
+                }else {
+                    sortType= "0";
+                    mIvTime.setBackgroundResource(R.drawable.tip_down);
+                }
+                onRefresh(refreshLayout);
                 break;
             case R.id.ll_price:
                 sortField = priceStr;
-                onRefresh(refreshLayout);
                 mTvPrice.setTextColor(Color.parseColor("#7c1313"));
                 mTvTime.setTextColor(Color.parseColor("#525252"));
-                mIvPrice.setBackgroundResource(R.drawable.tip_top);
                 mIvTime.setBackgroundResource(R.drawable.tip_tip);
+                if (sortType.equals("0")){  //   0-升序 1-降序
+                    sortType= "1";
+                    mIvPrice.setBackgroundResource(R.drawable.tip_top);
+                }else {
+                    sortType= "0";
+                    mIvPrice.setBackgroundResource(R.drawable.tip_down);
+                }
+                onRefresh(refreshLayout);
                 break;
             case R.id.ll_screent:
                 if ((boolean) mLlScreent.getTag()) {

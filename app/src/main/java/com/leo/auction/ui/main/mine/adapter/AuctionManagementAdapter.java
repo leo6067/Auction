@@ -33,7 +33,10 @@ public class AuctionManagementAdapter extends BaseQuickAdapter<ProductListModel.
     @Override
     protected void convert(@NonNull BaseViewHolder helper, ProductListModel.DataBean item) {
 
+
+        ImageView houseImage = helper.getView(R.id.item_house);
         helper.setText(R.id.item_title, item.getTitle());
+
         helper.setText(R.id.item_qi, "起：￥" + item.getStartPrice());
         helper.setText(R.id.item_jia, "加：￥" + item.getMarkupRange());
 
@@ -48,6 +51,18 @@ public class AuctionManagementAdapter extends BaseQuickAdapter<ProductListModel.
         RTextView up = helper.getView(R.id.tv_01);
         RTextView down = helper.getView(R.id.tv_02);
         RTextView delete = helper.getView(R.id.tv_03);
+
+
+        try {
+            if (item.getSourceType().equals("2")){
+                houseImage.setVisibility(View.VISIBLE);
+            }else {
+                houseImage.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         if (auction== 0 && item.getBidNum()==0) {  //竞拍中 显示下架
             down.setVisibility(View.VISIBLE);

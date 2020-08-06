@@ -84,6 +84,8 @@ public class MainFocusFragment extends BaseFragment {
         mFragments.add(new FocusFootmarkFragment());
         TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(titlePagerAdapter);
+        mViewPager.setOffscreenPageLimit(5);
+
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {

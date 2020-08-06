@@ -31,12 +31,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.mine.activity.AuctionUpperActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
 import com.leo.auction.ui.main.mine.adapter.AuctionManagementAdapter;
+import com.leo.auction.ui.main.mine.model.CateProductModel;
 import com.leo.auction.ui.main.mine.model.ProductListModel;
 
 import java.util.HashMap;
@@ -77,14 +79,12 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
     private EditText mEtMaxPrice;
     private SwipeConsumer mCurrentDrawerConsumer;
 
-    private String startPrice = "", endPrice = "", sortField = "", timeStr = "", priceStr = "";
+    private String startPrice = "", endPrice = "", sortField = "", timeStr = "", priceStr = "",sortType = "0";
 
     BroadCastReceiveUtils mBroadCastReceiveUtils = new BroadCastReceiveUtils() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             onRefresh(refreshLayout);
-
         }
     };
 
@@ -126,6 +126,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
 
                 bundle.putString("value", item.getProductId()+"");
                 bundle.putString("type", item.getSourceType());
+                bundle.putString("AuctionType", "4");  //草稿
                 ActivityManager.JumpActivity(getActivity(), AuctionUpperActivity.class, bundle);
             }
 
@@ -162,6 +163,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
                 Bundle bundle = new Bundle();
                 bundle.putString("value", item.getProductId()+"");
                 bundle.putString("type", item.getSourceType());
+
                 ActivityManager.JumpActivity(getActivity(), CommodityEditActivity.class,bundle);
             }
         });
@@ -172,7 +174,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
     @Override
     public void initData() {
         super.initData();
-        Constants.Var.PPGL_SORT_TYPE = 3;
+
         timeStr = "modify_time";//时间-modify_time    价格-  markup_range
         priceStr = "markup_range";//时间-modify_time    价格-  markup_range
         sortField = timeStr;
@@ -241,17 +243,21 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
         //已截拍 时间排序按 intercept_time
         //已失败 时间排序按 modify_time
         //价格排序 按 currentPrice
-        Constants.Var.PPGL_SORT_TYPE = 3;
+
         HashMap<String, String> mhash = new HashMap<>();
 
-        mhash.put("status", Constants.Var.PPGL_SORT_VALUE + "");
+        CateProductModel auctionManager = BaseSharePerence.getInstance().getAuctionManager();
+
+        mhash.put("status", auctionManager.getData().get(2) + "");
         mhash.put("pageNum", mPageNum + "");
         mhash.put("pageSize", Constants.Var.LIST_NUMBER);
-        mhash.put("sort", "1");
+        mhash.put("sort", sortType);
         mhash.put("startPrice", startPrice);
         mhash.put("endPrice", endPrice);
         mhash.put("sortField", sortField);
-        if (Constants.Var.PPGL_SORT_TYPE == 3) {  //草稿箱
+
+
+
             HttpRequest.httpGetString(Constants.Api.PRODUCT_DRAFT_URL, mhash, new HttpRequest.HttpCallback() {
                 @Override
                 public void httpError(Call call, Exception e) {
@@ -278,34 +284,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
                     }
                 }
             });
-        } else {
-            HttpRequest.httpGetString(Constants.Api.PRODUCT_URL, mhash, new HttpRequest.HttpCallback() {
-                @Override
-                public void httpError(Call call, Exception e) {
 
-                }
-
-                @Override
-                public void httpResponse(String resultData) {
-
-                    ProductListModel productListModel = JSONObject.parseObject(resultData, ProductListModel.class);
-                    if (mPageNum == 1) {
-                        mAdapter.setNewData(productListModel.getData());
-                    } else {
-                        mAdapter.addData(productListModel.getData());
-                        mAdapter.loadMoreComplete();
-                    }
-
-                    if (productListModel.getData().isEmpty()) {
-                        mPageNum = 1;
-                    } else if (productListModel.getData().size() < Constants.Var.LIST_NUMBER_INT) {
-                        mAdapter.loadMoreEnd(true);
-                    } else  {
-                        mAdapter.loadMoreEnd();
-                    }
-                }
-            });
-        }
 
 
     }
@@ -316,19 +295,32 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
         switch (view.getId()) {
             case R.id.ll_time:
                 sortField = timeStr;
-                onRefresh(refreshLayout);
                 mTvTime.setTextColor(Color.parseColor("#7c1313"));
                 mTvPrice.setTextColor(Color.parseColor("#525252"));
-                mIvTime.setBackgroundResource(R.drawable.tip_top);
                 mIvPrice.setBackgroundResource(R.drawable.tip_tip);
+                if (sortType.equals("0")){  //   0-升序 1-降序
+                    sortType= "1";
+                    mIvTime.setBackgroundResource(R.drawable.tip_top);
+                }else {
+                    sortType= "0";
+                    mIvTime.setBackgroundResource(R.drawable.tip_down);
+                }
+                onRefresh(refreshLayout);
                 break;
             case R.id.ll_price:
                 sortField = priceStr;
-                onRefresh(refreshLayout);
                 mTvPrice.setTextColor(Color.parseColor("#7c1313"));
                 mTvTime.setTextColor(Color.parseColor("#525252"));
-                mIvPrice.setBackgroundResource(R.drawable.tip_top);
                 mIvTime.setBackgroundResource(R.drawable.tip_tip);
+
+                if (sortType.equals("0")){  //   0-升序 1-降序
+                    sortType= "1";
+                    mIvPrice.setBackgroundResource(R.drawable.tip_top);
+                }else {
+                    sortType= "0";
+                    mIvPrice.setBackgroundResource(R.drawable.tip_down);
+                }
+                onRefresh(refreshLayout);
                 break;
             case R.id.ll_screent:
                 if ((boolean) mLlScreent.getTag()) {
@@ -369,7 +361,12 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
             public void httpResponse(String resultData) {
                 hideWaitDialog();
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
-                ToastUtils.showShort(baseModel.getResult().getMessage());
+                if (baseModel.getResult().isSuccess()) {
+                    ToastUtils.showShort("删除成功");
+                } else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
+
             }
         });
     }

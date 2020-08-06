@@ -39,6 +39,14 @@ public class ProductListModel {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "ProductListModel{" +
+                "result=" + result +
+                ", data=" + data +
+                '}';
+    }
+
     public static class ResultBean {
         /**
          * code : 0
@@ -82,6 +90,17 @@ public class ProductListModel {
 
         public void setTimestamp(long timestamp) {
             this.timestamp = timestamp;
+        }
+
+
+        @Override
+        public String toString() {
+            return "ResultBean{" +
+                    "code='" + code + '\'' +
+                    ", message='" + message + '\'' +
+                    ", success=" + success +
+                    ", timestamp=" + timestamp +
+                    '}';
         }
     }
 
@@ -239,5 +258,27 @@ public class ProductListModel {
         public void setStartPrice(int startPrice) {
             this.startPrice = startPrice;
         }
-    }
-}
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "productInstanceId=" + productInstanceId +
+                    ", productInstanceCode='" + productInstanceCode + '\'' +
+                    ", productId=" + productId +
+                    ", title='" + title + '\'' +
+                    ", firstPic='" + firstPic + '\'' +
+                    ", createTime='" + createTime + '\'' +
+                    ", currentPrice='" + currentPrice + '\'' +
+                    ", status='" + status + '\'' +
+                    ", statusName='" + statusName + '\'' +
+                    ", sourceType='" + sourceType + '\'' +
+                    ", agentPrice='" + agentPrice + '\'' +
+                    ", bidNum=" + bidNum +
+                    ", goodsId='" + goodsId + '\'' +
+                    ", markupRange=" + markupRange +
+                    ", startPrice=" + startPrice +
+                    '}';
+        }
+    }}
+
+

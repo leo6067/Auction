@@ -9,8 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.aten.compiler.base.BaseActivity;
-import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewActivity;
-import com.aten.compiler.widget.CostomLoadMoreViewNull;
+
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.aten.compiler.widget.title.OnTitleBarListener;
 import com.aten.compiler.widget.title.TitleBar;

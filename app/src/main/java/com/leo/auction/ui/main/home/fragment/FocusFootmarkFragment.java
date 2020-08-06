@@ -163,11 +163,11 @@ public class FocusFootmarkFragment extends BaseRecyclerViewFragment {
         hashMap.put("pageNum", "" + mPageNum);
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
-        showWaitDialog();
+
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override

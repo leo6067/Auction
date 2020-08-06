@@ -13,7 +13,6 @@
 
     <com.ruffian.library.widget.RTextView
         android:id="@+id/item_release"
-
         android:layout_width="@dimen/dp_120"
         android:layout_height="@dimen/dp_65"
         android:layout_marginEnd="@dimen/dp_25"
@@ -253,16 +252,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="包邮"
+                android:button="@drawable/shoppingcar_checkbox_style"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/sp_30"
+        />
 
-                android:textColor="@drawable/selector_group_sort" />
 
 
             <RadioButton
+                android:layout_marginStart="@dimen/dp_35"
                 android:id="@+id/item_radio_fu"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/dp_120"
                 android:layout_height="wrap_content"
-                android:textColor="@drawable/selector_group_sort"
-                android:text="到付" />
+                android:text=" 到付"
+                android:button="@drawable/shoppingcar_checkbox_style"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/sp_30"
+          />
+
 
 
         </RadioGroup>
@@ -291,7 +298,6 @@
 
 
         <com.aten.compiler.widget.switchButton.SwitchButton
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"

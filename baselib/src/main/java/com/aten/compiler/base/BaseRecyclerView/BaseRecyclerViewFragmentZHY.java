@@ -1,25 +1,21 @@
 package com.aten.compiler.base.BaseRecyclerView;
 
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.aten.compiler.R;
 import com.aten.compiler.base.BaseFragment;
-import com.aten.compiler.widget.CostomLoadMoreView;
-import com.aten.compiler.widget.CustRefreshLayout;
-import com.blankj.utilcode.util.LogUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.umeng.commonsdk.debug.D;
+
+import java.util.ArrayList;
 
 /**
  * project:PJHAndroidFrame
@@ -29,17 +25,18 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
  * recyclerview fragment 基类
  */
 
-public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshLoadMoreListener,BaseQuickAdapter.RequestLoadMoreListener {
+public class BaseRecyclerViewFragmentZHY extends BaseFragment implements OnRefreshLoadMoreListener {
 
     protected SmartRefreshLayout refreshLayout;
     protected RecyclerView recyclerView;
-    protected BaseQuickAdapter mAdapter;
+    protected RecyclerView.Adapter mAdapter ;
+
 
     public int mPageNum = 1;
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_base_recyclerview;
+        return R.layout.activity_base_recyclerview_zhy;
     }
 
     @Override
@@ -53,21 +50,17 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     public void initData() {
         super.initData();
         initAdapter();
-        mAdapter.setLoadMoreView(new CostomLoadMoreView());
-        refreshLayout.setEnableRefresh(false);
-        refreshLayout.setEnableLoadMore(false);
-        mAdapter.setEnableLoadMore(false);
-
-        recyclerView.setHasFixedSize(true);
         if (getLayoutManager()==null){
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
         }else {
             recyclerView.setLayoutManager(getLayoutManager());
         }
 
-        setEmptyView();
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
+        setEmptyView();
         setRefreshInfo();
+        setSmartHasRefreshOrLoadMore(true,true);
     }
     //RecyclerView的LayoutManager
     public RecyclerView.LayoutManager getLayoutManager(){
@@ -76,17 +69,17 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
 
     //设置recyclervie的空页面
     public void setEmptyView() {
-        mAdapter.setEmptyView(R.layout.layout_empty_view,recyclerView);
+//        recyclerView.emp
+//        mAdapter.setEmptyView(R.layout.layout_empty_view,recyclerView);
     }
 
     //初始话适配器
-    protected void initAdapter() {
-        mAdapter=new BaseAdapterRecyclerview();
-    }
+    public void initAdapter() {
 
-    //是否开启item加载动画
-    public boolean isOpenAnim() {
-        return false;
+    }
+    @Override
+    public void initEvent() {
+        super.initEvent();
     }
 
     //设置SmartRefreshLayout的刷新 加载样式
@@ -99,57 +92,34 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     //加载列表数据
     public void getData() {}
 
-    @Override
-    public void initEvent() {
-        super.initEvent();
-    }
+
 
     //设置smartrefresh是否需要下拉刷新以及加载更多
-    public void setSmartHasRefreshOrLoadMore() {
-        refreshLayout.setEnableRefresh(true);
-        refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setEnableLoadMore(true);
+    public void setSmartHasRefreshOrLoadMore(boolean refresh,boolean loadmore) {
+        refreshLayout.setEnableRefresh(refresh);
+        refreshLayout.setEnableLoadMore(loadmore);
+        refreshLayout.autoLoadMore();
     }
 
-    //设置smartrefresh是否需要下拉刷新以及加载更多
-    public void setLoadMore() {
-        mAdapter.setEnableLoadMore(true);
-        mAdapter.setOnLoadMoreListener(BaseRecyclerViewFragment.this,recyclerView);
-    }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         mPageNum=1;
         getData();
-        if (refreshLayout !=null){
+        Log.e("xxxxxxxxxxxxx","onRefresh");
+        if (refreshLayout!=null){
             refreshLayout.finishRefresh(800);
         }
     }
 
-    @Override
-    public void onLoadMoreRequested() {
-        mPageNum++;
-        getData();
-        if (refreshLayout !=null){
-            refreshLayout.finishLoadMore(800);
-        }
-        LogUtils.e("refresh  00 ");
-    }
-
-    //关闭刷新的view
-    public void hideRefreshView(){
-        if (refreshLayout.getState() == RefreshState.Refreshing) {
-            refreshLayout.finishRefresh();
-        } else {
-            hideWaitDialog();
-        }
-    }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        if (refreshLayout !=null){
+        mPageNum++;
+        getData();
+        Log.e("xxxxxxxxxxxxx","onLoadMore");
+        if (refreshLayout!=null){
             refreshLayout.finishLoadMore(800);
         }
-        LogUtils.e("refresh ");
     }
 }

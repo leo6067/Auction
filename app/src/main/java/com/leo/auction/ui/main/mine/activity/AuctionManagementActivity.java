@@ -85,8 +85,8 @@ public class AuctionManagementActivity extends BaseActivity {
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new AuctionAFragment());
         fragments.add(new AuctionBFragment());
-        fragments.add(new AuctionCFragment());
-        fragments.add(new AuctionDFragment());
+        fragments.add(new AuctionCFragment());  //失效
+        fragments.add(new AuctionDFragment()); //草稿箱
 
 
         BaseViewPagerAndTabsAdapter baseViewPagerAndTabsAdapter = new BaseViewPagerAndTabsAdapter(getSupportFragmentManager()) {
@@ -109,15 +109,15 @@ public class AuctionManagementActivity extends BaseActivity {
                 switch (position) {
                     case 0://竞拍中
                         Constants.Var.PPGL_SORT_TYPE = 0;
-                        Constants.Var.PPGL_SORT_VALUE = mDataBeanList.get(0).getId();
+
                         break;
                     case 1://已截拍
                         Constants.Var.PPGL_SORT_TYPE = 1;
-                        Constants.Var.PPGL_SORT_VALUE = mDataBeanList.get(1).getId();
+
                         break;
                     case 2://已失效
                         Constants.Var.PPGL_SORT_TYPE = 2;
-                        Constants.Var.PPGL_SORT_VALUE = mDataBeanList.get(2).getId();
+
                         break;
                     case 3://草稿箱
                         Constants.Var.PPGL_SORT_TYPE = 3;
@@ -137,7 +137,7 @@ public class AuctionManagementActivity extends BaseActivity {
 
 
         Constants.Var.PPGL_SORT_TYPE = 0;
-        Constants.Var.PPGL_SORT_VALUE = mDataBeanList.get(0).getId();
+
 
         baseViewPagerAndTabsAdapter.setData(Arrays.asList(titles));
         vpOrder.setAdapter(baseViewPagerAndTabsAdapter);

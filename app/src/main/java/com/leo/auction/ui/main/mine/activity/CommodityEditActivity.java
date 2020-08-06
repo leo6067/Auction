@@ -171,9 +171,8 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
     private DialogUtils dialogUtils;
     private TextLightUtils textLightUtils;
 
-
-    private String timeNodeId = "";  //时间节点
-    private String distributeType = "";//1-包邮  2-到付
+    private String timeNodeID = "";  //时间节点
+    private String distributeType = "1";//1-包邮  2-到付
     private String sourceType = "1";  // 1-自行发布 2-产品库
 
     private String timeType = ""; //快速截拍
@@ -182,7 +181,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
     private TimeDialogModel mTimeDialogModel;
 
 
-    ArrayList<TimeDialogModel> TimeDialogModelLists = new ArrayList<>();
+    private ArrayList<TimeDialogModel> mTimeDialogModelLists;
 
 
     @Override
@@ -293,11 +292,9 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             }
         });
 
-        cbCheck.setChecked(true);
-        cbCheck.setEnabled(false);
+
         showWaitDialog();
         getProductDetailData();
-
         geOssToken();
     }
 
@@ -331,7 +328,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
         etSellingPrice.setText(EmptyUtils.strEmpty(info.getStartPrice()));
         etSupplyPrice.setText(EmptyUtils.strEmpty(info.getMarkupRange()));
 
-        etRemarks.setText(EmptyUtils.strEmpty(info.getComment()));
+//        etRemarks.setText(EmptyUtils.strEmpty(info.getContent()));
 
 
         int distributeType = info.getDistributeType();
@@ -368,9 +365,9 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
 
         timeType = mTimeDialogModel.getTimeType();
-        timeNodeId = mTimeDialogModel.getTimeNodeId() + "";
-        httpTimeData();
+        timeNodeID = mTimeDialogModel.getTimeNodeId() + "";
 
+        initTimeData(false);
 
         getOneSortData();
     }
@@ -415,7 +412,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
                     Intent intent = new Intent(CommodityEditActivity.this, AgreementActivity.class);
                     intent.putExtra("title", "协议");
-                    intent.putExtra("url", url);
+                    intent.putExtra("url", sceneModel.getData().getH5Url());
                     intent.putExtra("hasNeedTitleBar", true);
                     intent.putExtra("hasNeedRightView", false);
                     intent.putExtra("hasNeedLeftView", true);
@@ -492,7 +489,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "1");
+//                    SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).put("isAgree", "1");
                     cbCheck.setEnabled(false);
                 }
             }
@@ -563,16 +560,19 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                             if (!ivOpenClose01.isSelected()) {
                                 centerOneSortLayoutManager.smoothScrollToPosition(crlOneSort, new RecyclerView.State(), position);
                             }
+                            getTwoSortData(position);
                         } else {
                             dataOneBeans.get(0).setSelected(true);
                             releaseOneSortData = dataOneBeans.get(0);
+                            getTwoSortData(0); //默认选中0
                         }
                     } else {
                         dataOneBeans.get(0).setSelected(true);
                         releaseOneSortData = dataOneBeans.get(0);
+                        getTwoSortData(0); //默认选中0
                     }
                     releaseOneSortAdapter.setNewData(dataOneBeans);
-                    getTwoSortData(0); //默认选中0
+
                 }
             }
         });
@@ -590,7 +590,9 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     dataTwoBeans.get(i).setSelect(true);
                     releaseTwoSortData = dataTwoBeans.get(i);
                     tag = true;
-                    break;
+                    getAttributeData(dataTwoBeans.get(i).getId());
+                } else {
+                    dataTwoBeans.get(i).setSelect(false);
                 }
             }
             if (tag) {
@@ -600,14 +602,16 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             } else {
                 dataTwoBeans.get(0).setSelect(true);
                 releaseTwoSortData = dataTwoBeans.get(0);
+                getAttributeData(dataTwoBeans.get(0).getId());
             }
         } else {
             dataTwoBeans.get(0).setSelect(true);
             releaseTwoSortData = dataTwoBeans.get(0);
+            getAttributeData(dataTwoBeans.get(0).getId());
         }
 
         releaseTwoSortAdapter.setNewData(dataTwoBeans);
-        getAttributeData(dataTwoBeans.get(0).getId());
+
     }
 
 
@@ -775,7 +779,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 break;
 
             case R.id.goods_jpsj:
-                showTimeDialog();
+                initTimeData(true);
                 break;
 
             case R.id.tv_save:
@@ -1031,8 +1035,13 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
     //发布前得准备
     private void preRelease() {
-        if ("0".equals(SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).getString("isAgree"))) {
-            getProtocolInfo(0);
+//        if ("0".equals(SPUtils.getInstance(Constants.Var.COMMON_PROTOCOL).getString("isAgree"))) {
+//            getProtocolInfo(0);
+//            return;
+//        }
+
+        if (!cbCheck.isChecked()) {
+            ToastUtils.showShort("发拍需同意锤定交易服务用户协议");
             return;
         }
 
@@ -1065,16 +1074,11 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             ToastUtils.showShort("请设置拍品加价幅度");
             return;
         }
-
-
-        if (EmptyUtils.isEmpty(timeNodeId)) {
+        if (EmptyUtils.isEmpty(timeNodeID)) {
             ToastUtils.showShort("请设置截拍时间");
             return;
         }
-        if (EmptyUtils.isEmpty(distributeType)) {
-            ToastUtils.showShort("请选择包邮或者到付");
-            return;
-        }
+
 
         //判断属性信息是否都按要求填写
         if (attributes != null) {
@@ -1168,7 +1172,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 etSellingPrice.getText().toString(),
                 etSupplyPrice.getText().toString(),
                 ossVideoPaths, cutPic,
-                sourceType, isPublish, distributeType, timeNodeId, timeType,
+                sourceType, isPublish, distributeType, timeNodeID, timeType,
                 releaseAttributesModels,
                 ossPaths, goodId, productId,
                 new HttpRequest.HttpCallback() {
@@ -1183,10 +1187,12 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("修改拍品成功");
+                            finish();
                         }else {
                             ToastUtils.showShort("修改拍品失败");
+
                         }
-                        cleanRelease();
+
                     }
                 }
         );
@@ -1241,7 +1247,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 etSellingPrice.getText().toString(),
                 etSupplyPrice.getText().toString(),
                 ossVideoPaths, cutPic,
-                sourceType, isPublish, distributeType, timeNodeId, timeType,
+                sourceType, isPublish, distributeType, timeNodeID, timeType,
                 releaseAttributesModels,
                 ossPaths, goodId,
                 new HttpRequest.HttpCallback() {
@@ -1256,11 +1262,11 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("发布拍品成功");
-                        }else {
-                            ToastUtils.showShort("发布拍品失败");
+                           finish();
+                        } else {
+                            ToastUtils.showShort(baseModel.getResult().getMessage());
+
                         }
-                        cleanRelease();
-                        finish();
                     }
                 }
         );
@@ -1301,7 +1307,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
     }
 
 
-    private void httpTimeData() {
+    private void initTimeData(boolean isShowTime) {
         showWaitDialog();
         AuctionTimeModel.httpTimeModel(new HttpRequest.HttpCallback() {
             @Override
@@ -1314,8 +1320,8 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 hideWaitDialog();
                 AuctionTimeModel auctionTimeModel = JSONObject.parseObject(resultData, AuctionTimeModel.class);
                 AuctionTimeModel.DataBean data = auctionTimeModel.getData();
+                mTimeDialogModelLists = new ArrayList<>();
 
-                TimeDialogModelLists.clear();
 
                 //快速截拍
                 TimeDialogModel quickBean = new TimeDialogModel();
@@ -1325,7 +1331,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 quickBean.setType(data.getQuick().getType());
                 quickBean.setTypeName(data.getQuick().getTypeName());
                 quickBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
-                TimeDialogModelLists.add(quickBean);
+                mTimeDialogModelLists.add(quickBean);
 
                 for (int i = 0; i < data.getQuick().getTimeNodes().size(); i++) {
                     TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
@@ -1335,12 +1341,12 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("quick");
                     timeNodesBeanXXX.setTypeName(data.getQuick().getTypeName());
-                    if (data.getQuick().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
-                            && mTimeDialogModel.getTimeType().equals("quick")) {
+                    if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
                         timeNodesBeanXXX.setSelect(true);
-                        goodsJpsj.setText(data.getQuick().getTypeName() + mTimeDialogModel.getShowText());
+                        goodsJpsj.setText(timeNodesBeanXXX.getTypeName() + timeNodesBeanXXX.getShowText());
                     }
-                    TimeDialogModelLists.add(timeNodesBeanXXX);
+
+                    mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
 
@@ -1352,7 +1358,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 todayBean.setType(data.getToday().getType());
                 todayBean.setTypeName(data.getToday().getTypeName());
                 quickBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
-                TimeDialogModelLists.add(todayBean);
+                mTimeDialogModelLists.add(todayBean);
                 for (int i = 0; i < data.getToday().getTimeNodes().size(); i++) {
                     TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
                     timeNodesBeanXXX.setShowText(data.getToday().getTimeNodes().get(i).getShowText());
@@ -1361,13 +1367,11 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("today");
                     timeNodesBeanXXX.setTypeName(data.getToday().getTypeName());
-                    if (data.getToday().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
-                            && mTimeDialogModel.getTimeType().equals("today")) {
+                    if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
                         timeNodesBeanXXX.setSelect(true);
-                        goodsJpsj.setText(data.getToday().getTypeName() + mTimeDialogModel.getShowText());
+                        goodsJpsj.setText(timeNodesBeanXXX.getTypeName() + timeNodesBeanXXX.getShowText());
                     }
-
-                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                    mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
 
@@ -1379,7 +1383,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 tomorrowBean.setType(data.getTomorrow().getType());
                 tomorrowBean.setTypeName(data.getTomorrow().getTypeName());
                 tomorrowBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
-                TimeDialogModelLists.add(tomorrowBean);
+                mTimeDialogModelLists.add(tomorrowBean);
                 for (int i = 0; i < data.getTomorrow().getTimeNodes().size(); i++) {
                     TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
                     timeNodesBeanXXX.setShowText(data.getTomorrow().getTimeNodes().get(i).getShowText());
@@ -1388,12 +1392,11 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("tomorrow");
                     timeNodesBeanXXX.setTypeName(data.getTomorrow().getTypeName());
-                    if (data.getTomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
-                            && mTimeDialogModel.getTimeType().equals("tomorrow")) {
+                    if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
                         timeNodesBeanXXX.setSelect(true);
-                        goodsJpsj.setText(data.getTomorrow().getTypeName() + mTimeDialogModel.getShowText());
+                        goodsJpsj.setText(timeNodesBeanXXX.getTypeName() + timeNodesBeanXXX.getShowText());
                     }
-                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                    mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
 
 
@@ -1405,7 +1408,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                 affterTomorrowBean.setType(data.getAfter_tomorrow().getType());
                 affterTomorrowBean.setTypeName(data.getAfter_tomorrow().getTypeName());
                 affterTomorrowBean.setItemType(Constants.Var.LAYOUT_TYPE_HEAD);
-                TimeDialogModelLists.add(affterTomorrowBean);
+                mTimeDialogModelLists.add(affterTomorrowBean);
                 for (int i = 0; i < data.getAfter_tomorrow().getTimeNodes().size(); i++) {
                     TimeDialogModel timeNodesBeanXXX = new TimeDialogModel();
                     timeNodesBeanXXX.setShowText(data.getAfter_tomorrow().getTimeNodes().get(i).getShowText());
@@ -1414,29 +1417,31 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("after_tomorrow");
                     timeNodesBeanXXX.setTypeName(data.getAfter_tomorrow().getTypeName());
-                    if (data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()
-                            && mTimeDialogModel.getTimeType().equals("after_tomorrow")) {
+
+                    if (timeType.equals(timeNodesBeanXXX.getTimeType()) && timeNodeID.equals(timeNodesBeanXXX.getTimeNodeId() + "")) {
                         timeNodesBeanXXX.setSelect(true);
-                        goodsJpsj.setText(data.getAfter_tomorrow().getTypeName() + mTimeDialogModel.getShowText());
+                        goodsJpsj.setText(timeNodesBeanXXX.getTypeName() + timeNodesBeanXXX.getShowText());
                     }
-                    TimeDialogModelLists.add(timeNodesBeanXXX);
+                    mTimeDialogModelLists.add(timeNodesBeanXXX);
                 }
-
-
+                if (isShowTime) {
+                    showTimeDialog();
+                }
             }
         });
+
+
     }
 
 
     private void showTimeDialog() {
 
-        TimeDialog timeDialog = new TimeDialog(CommodityEditActivity.this, TimeDialogModelLists, new TimeDialog.InterTimeDialog() {
+        TimeDialog timeDialog = new TimeDialog(CommodityEditActivity.this, mTimeDialogModelLists, new TimeDialog.InterTimeDialog() {
             @Override
             public void itemTimeClick(TimeDialogModel timeDialogModel) {
                 timeType = timeDialogModel.getTimeType();
-                timeNodeId = timeDialogModel.getTimeNodeId() + "";
-                mTimeDialogModel.setTimeNodeId(timeDialogModel.getTimeNodeId());
-                mTimeDialogModel.setTimeType(timeType);
+                timeNodeID = timeDialogModel.getTimeNodeId() + "";
+
                 goodsJpsj.setText(timeDialogModel.getTypeName() + timeDialogModel.getShowText());
             }
         });

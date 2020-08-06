@@ -7,9 +7,11 @@
 
 
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_82"
+        android:layout_height="@dimen/dp_88"
         android:background="@android:color/white"
         android:orientation="horizontal">
 
@@ -34,7 +36,8 @@
                 android:id="@+id/iv_time"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_28"
-                />
+                android:background="@drawable/tip_down"/>
+
 
         </LinearLayout>
 
@@ -59,6 +62,7 @@
                 android:id="@+id/iv_price"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_28"
+                android:background="@drawable/ic_no_select"/>
                 />
 
         </LinearLayout>
@@ -96,6 +100,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         app:srlDragRate="0.75"
         app:srlEnableAutoLoadMore="true"
         app:srlEnablePreviewInEditMode="true">
@@ -108,6 +113,8 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
             android:overScrollMode="never" />
 
     </com.aten.compiler.widget.CustRefreshLayout>

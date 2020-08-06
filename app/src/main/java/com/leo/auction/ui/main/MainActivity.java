@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity {
 
 
     private int current = 0;
-    private MineWebFragment mMineFragment;
+//    private MineWebFragment mMineFragment;
 
     @Override
     public void setContentViewLayout() {
@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity {
         initImmersionBar();
         ActivityManager.mainActivity = this;
         mViewPager.setAdapter(new TitlePagerAdapter(getSupportFragmentManager()));
-
+        mViewPager.setOffscreenPageLimit(4);
 
         mFragments.add(new HomeFragment());
         mFragments.add(new MainSortFragment());
@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
         mFragments.add(new MainMeFragment());
 
 //        mMineFragment = new MineWebFragment();
-        mFragments.add(mMineFragment);
+//        mFragments.add(mMineFragment);
 
 
 //        mFragments.add( MineFragment.newIntance("",httpUrl,true,false) );
@@ -298,12 +298,12 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    public void mineWebBack() {
-        if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
-            mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
-
-        }
-    }
+//    public void mineWebBack() {
+//        if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
+//            mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
+//
+//        }
+//    }
 
 
     @Override
@@ -311,10 +311,10 @@ public class MainActivity extends BaseActivity {
 
         Globals.log("xxxxxxx onKeyDown" + keyCode);
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
-                mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
-                return true;
-            }
+//            if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
+//                mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();
+//                return true;
+//            }
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 ToastUtils.showShort("锤定：再次点击退出");
                 exitTime = System.currentTimeMillis();

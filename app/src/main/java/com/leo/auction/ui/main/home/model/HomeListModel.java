@@ -66,6 +66,14 @@ public class HomeListModel {
         public void setMessage(String message) {
             this.message = message;
         }
+
+        @Override
+        public String toString() {
+            return "ResultBean{" +
+                    "success=" + success +
+                    ", message='" + message + '\'' +
+                    '}';
+        }
     }
 
     public static class DataBean {
@@ -186,11 +194,34 @@ public class HomeListModel {
             this.distributeType = distributeType;
         }
 
-
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "productInstanceId='" + productInstanceId + '\'' +
+                    ", productInstanceCode='" + productInstanceCode + '\'' +
+                    ", title='" + title + '\'' +
+                    ", bidNum='" + bidNum + '\'' +
+                    ", firstPic='" + firstPic + '\'' +
+                    ", currentPrice='" + currentPrice + '\'' +
+                    ", distributeType='" + distributeType + '\'' +
+                    ", refund=" + refund +
+                    ", subsidyMoney='" + subsidyMoney + '\'' +
+                    ", subsidyProduct=" + subsidyProduct +
+                    ", status='" + status + '\'' +
+                    '}';
+        }
     }
 
 
-    public static void httpHomeList(String shopUri,String pageNum,HttpRequest.HttpCallback httpCallback){
+    @Override
+    public String toString() {
+        return "HomeListModel{" +
+                "result=" + result +
+                ", data=" + data +
+                '}';
+    }
+
+    public static void httpHomeList(String shopUri, String pageNum, HttpRequest.HttpCallback httpCallback){
 
         HashMap<String, String> hashMap = new HashMap<>();
 

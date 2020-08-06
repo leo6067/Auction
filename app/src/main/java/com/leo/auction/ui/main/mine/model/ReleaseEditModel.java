@@ -21,12 +21,14 @@ public class ReleaseEditModel {
 
 
     /**
-     * data : {"attributes":[{"id":3,"length":18,"option":0,"tab":"羊脂白玉,白玉,青白玉,青玉,等等","tags":[],"title":"品种","value":"111111"},{"id":1,"length":18,"option":1,"tab":"","tags":[{"name":"戈壁料","tagId":3},{"name":"山料","tagId":1},{"name":"籽料","tagId":4},{"name":"山流水料","tagId":2}],"title":"产状","value":"戈壁料"},{"id":8,"length":18,"option":0,"tab":"龙龟,貔貅,财神等","tags":[],"title":"题材","value":"22222"},{"id":7,"length":18,"option":1,"tab":"","tags":[{"name":"玉牌","tagId":6},{"name":"器皿","tagId":11},{"name":"把件","tagId":8},{"name":"原石","tagId":5},{"name":"耳饰/配饰","tagId":17},{"name":"摆件","tagId":10},{"name":"挂件","tagId":7},{"name":"戒指/戒面","tagId":16},{"name":"手串/手镯","tagId":9}],"title":"类型","value":"器皿"},{"id":6,"length":18,"option":0,"tab":"张克山,侯晓峰","tags":[],"title":"雕刻师","value":"33333"}],"startPrice":"12","categoryId":2,"comment":"","content":"666666","distributeType":2,"images":["https://file.taojianlou.com/ut/goods/1591667786146.png?image=1080,1064","https://file.taojianlou.com/ut/goods/1591667786337.png?image=1512,2016","https://file.taojianlou.com/ut/goods/1591667786467.png?image=1080,1240","https://file.taojianlou.com/ut/goods/1591667786548.png?image=1512,2016","https://file.taojianlou.com/ut/goods/1591667786670.png?image=1078,1122","https://file.taojianlou.com/ut/goods/1591667786731.png?image=1080,824"],"markupRange":"20","parentCategoryId":1,"productId":3,"refund":true,"time":{"interceptTimeDay":0,"showText":"5分钟","timeNode":300,"timeNodeId":3,"type":"quick","systemTime":13423},"title":"发布拍品到付"}
-     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1591668736740}
+     * data : {"attributes":[{"id":3,"length":18,"option":0,"tab":"羊脂白玉,白玉,青白玉,青玉,等等","tags":[],"title":"品种","value":"android"},{"id":1,"length":18,"option":1,"tab":"","tags":[{"name":"籽料","tagId":4},{"name":"山流水料","tagId":2},{"name":"戈壁料","tagId":3},{"name":"山料","tagId":1}],"title":"产状","value":"籽料"},{"id":8,"length":18,"option":0,"tab":"龙龟,貔貅,财神等","tags":[],"title":"题材","value":"android"},{"id":7,"length":18,"option":1,"tab":"","tags":[{"name":"挂件","tagId":7},{"name":"戒指/戒面","tagId":16},{"name":"手串/手镯","tagId":9},{"name":"玉牌","tagId":6},{"name":"器皿","tagId":11},{"name":"把件","tagId":8},{"name":"原石","tagId":5},{"name":"耳饰/配饰","tagId":17},{"name":"摆件","tagId":10}],"title":"类型","value":"摆件"},{"id":6,"length":18,"option":0,"tab":"张克山,侯晓峰","tags":[],"title":"雕刻师","value":"之井"}],"categoryId":2,"categoryName":"和田玉","content":"heheheehhehe","cutPic":"https://file.taojianlou.com/ut/product/1594201862077.mp4?x-oss-process=video/snapshot,t_1,f_jpg,w_1080,h_1920,m_fast","distributeType":2,"images":["https://file.taojianlou.com/ut/product/vpQEeoLe52wNfJNrb8Uz6gfHmdLEhyJ8.png?image=300,300","https://file.taojianlou.com/ut/product/NNEIjzNaSWcV5yt0sjZUKk8lEL3orFqL.png?image=300,300","https://file.taojianlou.com/ut/product/E9ApatoPcPRrjn0Ruz2iJQZxvaW6ix6c.png?image=300,300","https://file.taojianlou.com/ut/product/NeFa34W7RqH7qymfcTF4I4XmctCLTKYA.png?image=300,300","https://file.taojianlou.com/ut/product/SDOE1lhQIJb1yjbl75foyBg3fiASwDdg.png?image=96,48","https://file.taojianlou.com/ut/product/Nq4wNAvvVETfGqKKC2ul8wYEWUUjvdvC.png?image=96,48","https://file.taojianlou.com/https://cd.taojianlou.com/ut/Android/goods/img20200708/1594198527398.png?image=1080,1920"],"markupRange":"122","parentCategoryId":1,"parentCategoryName":"玉翠珠宝","productId":99,"refund":true,"startPrice":"0","time":{"interceptTimeDay":2,"showText":"23:00","systemTime":1596695674000,"timeNode":82800,"timeNodeId":14,"type":"after_tomorrow"},"title":"安卓修改kkk","video":"https://file.taojianlou.com/ut/product/1594201862077.mp4"}
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1596695673547}
      */
 
     private DataBean data;
     private ResultBean result;
+
+
 
     public DataBean getData() {
         return data;
@@ -44,63 +46,43 @@ public class ReleaseEditModel {
         this.result = result;
     }
 
+
     public static class DataBean {
         /**
-         * attributes : [{"id":3,"length":18,"option":0,"tab":"羊脂白玉,白玉,青白玉,青玉,等等","tags":[],"title":"品种","value":"111111"},{"id":1,"length":18,"option":1,"tab":"","tags":[{"name":"戈壁料","tagId":3},{"name":"山料","tagId":1},{"name":"籽料","tagId":4},{"name":"山流水料","tagId":2}],"title":"产状","value":"戈壁料"},{"id":8,"length":18,"option":0,"tab":"龙龟,貔貅,财神等","tags":[],"title":"题材","value":"22222"},{"id":7,"length":18,"option":1,"tab":"","tags":[{"name":"玉牌","tagId":6},{"name":"器皿","tagId":11},{"name":"把件","tagId":8},{"name":"原石","tagId":5},{"name":"耳饰/配饰","tagId":17},{"name":"摆件","tagId":10},{"name":"挂件","tagId":7},{"name":"戒指/戒面","tagId":16},{"name":"手串/手镯","tagId":9}],"title":"类型","value":"器皿"},{"id":6,"length":18,"option":0,"tab":"张克山,侯晓峰","tags":[],"title":"雕刻师","value":"33333"}]
-         * startPrice : 12
+         * attributes : [{"id":3,"length":18,"option":0,"tab":"羊脂白玉,白玉,青白玉,青玉,等等","tags":[],"title":"品种","value":"android"},{"id":1,"length":18,"option":1,"tab":"","tags":[{"name":"籽料","tagId":4},{"name":"山流水料","tagId":2},{"name":"戈壁料","tagId":3},{"name":"山料","tagId":1}],"title":"产状","value":"籽料"},{"id":8,"length":18,"option":0,"tab":"龙龟,貔貅,财神等","tags":[],"title":"题材","value":"android"},{"id":7,"length":18,"option":1,"tab":"","tags":[{"name":"挂件","tagId":7},{"name":"戒指/戒面","tagId":16},{"name":"手串/手镯","tagId":9},{"name":"玉牌","tagId":6},{"name":"器皿","tagId":11},{"name":"把件","tagId":8},{"name":"原石","tagId":5},{"name":"耳饰/配饰","tagId":17},{"name":"摆件","tagId":10}],"title":"类型","value":"摆件"},{"id":6,"length":18,"option":0,"tab":"张克山,侯晓峰","tags":[],"title":"雕刻师","value":"之井"}]
          * categoryId : 2
-         * comment :
-         * content : 666666
+         * categoryName : 和田玉
+         * content : heheheehhehe
+         * cutPic : https://file.taojianlou.com/ut/product/1594201862077.mp4?x-oss-process=video/snapshot,t_1,f_jpg,w_1080,h_1920,m_fast
          * distributeType : 2
-         * images : ["https://file.taojianlou.com/ut/goods/1591667786146.png?image=1080,1064","https://file.taojianlou.com/ut/goods/1591667786337.png?image=1512,2016","https://file.taojianlou.com/ut/goods/1591667786467.png?image=1080,1240","https://file.taojianlou.com/ut/goods/1591667786548.png?image=1512,2016","https://file.taojianlou.com/ut/goods/1591667786670.png?image=1078,1122","https://file.taojianlou.com/ut/goods/1591667786731.png?image=1080,824"]
-         * markupRange : 20
+         * images : ["https://file.taojianlou.com/ut/product/vpQEeoLe52wNfJNrb8Uz6gfHmdLEhyJ8.png?image=300,300","https://file.taojianlou.com/ut/product/NNEIjzNaSWcV5yt0sjZUKk8lEL3orFqL.png?image=300,300","https://file.taojianlou.com/ut/product/E9ApatoPcPRrjn0Ruz2iJQZxvaW6ix6c.png?image=300,300","https://file.taojianlou.com/ut/product/NeFa34W7RqH7qymfcTF4I4XmctCLTKYA.png?image=300,300","https://file.taojianlou.com/ut/product/SDOE1lhQIJb1yjbl75foyBg3fiASwDdg.png?image=96,48","https://file.taojianlou.com/ut/product/Nq4wNAvvVETfGqKKC2ul8wYEWUUjvdvC.png?image=96,48","https://file.taojianlou.com/https://cd.taojianlou.com/ut/Android/goods/img20200708/1594198527398.png?image=1080,1920"]
+         * markupRange : 122
          * parentCategoryId : 1
-         * productId : 3
+         * parentCategoryName : 玉翠珠宝
+         * productId : 99
          * refund : true
-         * time : {"interceptTimeDay":0,"showText":"5分钟","timeNode":300,"timeNodeId":3,"type":"quick","systemTime":13423}
-         * title : 发布拍品到付
+         * startPrice : 0
+         * time : {"interceptTimeDay":2,"showText":"23:00","systemTime":1596695674000,"timeNode":82800,"timeNodeId":14,"type":"after_tomorrow"}
+         * title : 安卓修改kkk
+         * video : https://file.taojianlou.com/ut/product/1594201862077.mp4
          */
 
-        private String startPrice;
         private String categoryId;
-        private String comment;
+        private String categoryName;
         private String content;
+        private String cutPic;
         private int distributeType;
         private String markupRange;
         private String parentCategoryId;
+        private String parentCategoryName;
         private int productId;
         private boolean refund;
+        private String startPrice;
         private TimeBean time;
         private String title;
         private String video;
-        private String cutPic;
         private List<AttributesBean> attributes;
         private List<String> images;
-
-
-        public String getVideo() {
-            return video;
-        }
-
-        public void setVideo(String video) {
-            this.video = video;
-        }
-
-        public String getCutPic() {
-            return cutPic;
-        }
-
-        public void setCutPic(String cutPic) {
-            this.cutPic = cutPic;
-        }
-
-        public String getStartPrice() {
-            return startPrice;
-        }
-
-        public void setStartPrice(String startPrice) {
-            this.startPrice = startPrice;
-        }
 
         public String getCategoryId() {
             return categoryId;
@@ -110,12 +92,12 @@ public class ReleaseEditModel {
             this.categoryId = categoryId;
         }
 
-        public String getComment() {
-            return comment;
+        public String getCategoryName() {
+            return categoryName;
         }
 
-        public void setComment(String comment) {
-            this.comment = comment;
+        public void setCategoryName(String categoryName) {
+            this.categoryName = categoryName;
         }
 
         public String getContent() {
@@ -124,6 +106,14 @@ public class ReleaseEditModel {
 
         public void setContent(String content) {
             this.content = content;
+        }
+
+        public String getCutPic() {
+            return cutPic;
+        }
+
+        public void setCutPic(String cutPic) {
+            this.cutPic = cutPic;
         }
 
         public int getDistributeType() {
@@ -150,6 +140,14 @@ public class ReleaseEditModel {
             this.parentCategoryId = parentCategoryId;
         }
 
+        public String getParentCategoryName() {
+            return parentCategoryName;
+        }
+
+        public void setParentCategoryName(String parentCategoryName) {
+            this.parentCategoryName = parentCategoryName;
+        }
+
         public int getProductId() {
             return productId;
         }
@@ -166,6 +164,14 @@ public class ReleaseEditModel {
             this.refund = refund;
         }
 
+        public String getStartPrice() {
+            return startPrice;
+        }
+
+        public void setStartPrice(String startPrice) {
+            this.startPrice = startPrice;
+        }
+
         public TimeBean getTime() {
             return time;
         }
@@ -180,6 +186,14 @@ public class ReleaseEditModel {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
         }
 
         public List<AttributesBean> getAttributes() {
@@ -200,20 +214,20 @@ public class ReleaseEditModel {
 
         public static class TimeBean {
             /**
-             * interceptTimeDay : 0
-             * showText : 5分钟
-             * timeNode : 300
-             * timeNodeId : 3
-             * type : quick
-             * systemTime : 13423
+             * interceptTimeDay : 2
+             * showText : 23:00
+             * systemTime : 1596695674000
+             * timeNode : 82800
+             * timeNodeId : 14
+             * type : after_tomorrow
              */
 
             private int interceptTimeDay;
             private String showText;
+            private long systemTime;
             private int timeNode;
             private int timeNodeId;
             private String type;
-            private int systemTime;
 
             public int getInterceptTimeDay() {
                 return interceptTimeDay;
@@ -229,6 +243,14 @@ public class ReleaseEditModel {
 
             public void setShowText(String showText) {
                 this.showText = showText;
+            }
+
+            public long getSystemTime() {
+                return systemTime;
+            }
+
+            public void setSystemTime(long systemTime) {
+                this.systemTime = systemTime;
             }
 
             public int getTimeNode() {
@@ -254,14 +276,6 @@ public class ReleaseEditModel {
             public void setType(String type) {
                 this.type = type;
             }
-
-            public int getSystemTime() {
-                return systemTime;
-            }
-
-            public void setSystemTime(int systemTime) {
-                this.systemTime = systemTime;
-            }
         }
 
         public static class AttributesBean {
@@ -272,7 +286,7 @@ public class ReleaseEditModel {
              * tab : 羊脂白玉,白玉,青白玉,青玉,等等
              * tags : []
              * title : 品种
-             * value : 111111
+             * value : android
              */
 
             private int id;
@@ -346,7 +360,7 @@ public class ReleaseEditModel {
          * code : 0
          * message : 请求成功
          * success : true
-         * timestamp : 1591668736740
+         * timestamp : 1596695673547
          */
 
         private String code;
@@ -387,17 +401,13 @@ public class ReleaseEditModel {
         }
     }
 
-
-
-
     public static void httpReleaseEdit(String id, HttpRequest.HttpCallback httpCallback){
         JSONObject jsonObject = new  JSONObject();
         HttpRequest.httpPutString(Constants.Api.PRODUCT_URL+"/"+id,  jsonObject,httpCallback);
     }
 
-     public static void httpReleaseEditGet(String id, HttpRequest.HttpCallback httpCallback){
-         HashMap<String, String> hashMap = new HashMap<>();
-         HttpRequest.httpGetString(Constants.Api.PRODUCT_URL+"/"+id,  hashMap,httpCallback);
+    public static void httpReleaseEditGet(String id, HttpRequest.HttpCallback httpCallback){
+        HashMap<String, String> hashMap = new HashMap<>();
+        HttpRequest.httpGetString(Constants.Api.PRODUCT_URL+"/"+id,  hashMap,httpCallback);
     }
-
 }

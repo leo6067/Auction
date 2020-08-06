@@ -34,6 +34,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.common.widget.LinearLayoutDivider;
@@ -42,6 +43,7 @@ import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.mine.activity.AuctionUpperActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
 import com.leo.auction.ui.main.mine.adapter.AuctionManagementAdapter;
+import com.leo.auction.ui.main.mine.model.CateProductModel;
 import com.leo.auction.ui.main.mine.model.ProductListModel;
 
 import java.util.HashMap;
@@ -81,6 +83,7 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
 
     private String startPrice = "", endPrice = "", sortField = "", timeStr = "", priceStr = "";
 
+    private String sortType = "0";
 
     BroadCastReceiveUtils mBroadCastReceiveUtils = new BroadCastReceiveUtils() {
         @Override
@@ -114,14 +117,15 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
             @Override
             public void setOnAuctionUpListener(ProductListModel.DataBean item) {
                 Bundle bundle = new Bundle();
-
-                if ("2".equals(item.getSourceType())) {
-                    bundle.putString("value", item.getGoodsId());
-                } else {
+//
+//                if ("2".equals(item.getSourceType())) {
+//                    bundle.putString("value", item.getGoodsId());
+//                } else {
+//                }
                     bundle.putString("value", item.getProductInstanceCode());
-                }
 
                 bundle.putString("type", item.getSourceType());
+                bundle.putString("AuctionType", "1");
                 ActivityManager.JumpActivity(getActivity(), AuctionUpperActivity.class, bundle);
             }
 
@@ -175,7 +179,7 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
-        Constants.Var.PPGL_SORT_TYPE = 0;
+
         timeStr = "createTime";
         priceStr = "currentPrice";
         sortField = timeStr;
@@ -263,13 +267,18 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
         //已截拍 时间排序按 intercept_time
         //已失败 时间排序按 modify_time
         //价格排序 按 currentPrice
-        Constants.Var.PPGL_SORT_TYPE = 0;
+
         HashMap<String, String> mhash = new HashMap<>();
 
-        mhash.put("status", Constants.Var.PPGL_SORT_VALUE + "");
+
+        CateProductModel auctionManager = BaseSharePerence.getInstance().getAuctionManager();
+
+
+        mhash.put("status", auctionManager.getData().get(0).getId()+ "");
         mhash.put("pageNum", mPageNum + "");
         mhash.put("pageSize", Constants.Var.LIST_NUMBER);
-        mhash.put("sort", "1");
+        mhash.put("sort", sortType);  //	      0-升序 1-降序
+
         mhash.put("startPrice", startPrice);
         mhash.put("endPrice", endPrice);
         mhash.put("sortField", sortField);
@@ -311,19 +320,31 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
         switch (view.getId()) {
             case R.id.ll_time:
                 sortField = timeStr;
-                onRefresh(refreshLayout);
                 mTvTime.setTextColor(Color.parseColor("#7c1313"));
                 mTvPrice.setTextColor(Color.parseColor("#525252"));
-                mIvTime.setBackgroundResource(R.drawable.tip_top);
+                if (sortType.equals("0")){  //   0-升序 1-降序
+                    sortType= "1";
+                    mIvTime.setBackgroundResource(R.drawable.tip_top);
+                }else {
+                    sortType= "0";
+                    mIvTime.setBackgroundResource(R.drawable.tip_down);
+                }
                 mIvPrice.setBackgroundResource(R.drawable.tip_tip);
+                onRefresh(refreshLayout);
                 break;
             case R.id.ll_price:
                 sortField = priceStr;
-                onRefresh(refreshLayout);
                 mTvPrice.setTextColor(Color.parseColor("#7c1313"));
                 mTvTime.setTextColor(Color.parseColor("#525252"));
-                mIvPrice.setBackgroundResource(R.drawable.tip_top);
                 mIvTime.setBackgroundResource(R.drawable.tip_tip);
+                if (sortType.equals("0")){  //   0-升序 1-降序
+                    sortType= "1";
+                    mIvPrice.setBackgroundResource(R.drawable.tip_top);
+                }else {
+                    sortType= "0";
+                    mIvPrice.setBackgroundResource(R.drawable.tip_down);
+                }
+                onRefresh(refreshLayout);
                 break;
             case R.id.ll_screent:
                 if ((boolean) mLlScreent.getTag()) {

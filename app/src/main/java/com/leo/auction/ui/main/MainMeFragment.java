@@ -28,9 +28,12 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.login.model.CommonModel;
+import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.home.fragment.MineOrderFragment;
+import com.leo.auction.ui.main.mine.model.CateProductModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,23 +106,20 @@ public class MainMeFragment extends BaseFragment {
     }
 
 
+
+
     @Override
-    public void initData() {
-        super.initData();
-
-        UserModel.httpUpdateUser(getActivity());
-
+    public void onResume() {
+        super.onResume();
+        httpUser();
+        httpTab();// 提前加载拍品管理列表 标题数据
     }
-
 
     @OnClick({R.id.civ_head, R.id.tv_name, R.id.fl_shop, R.id.ll_follow, R.id.ll_fans})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.civ_head:
-                break;
             case R.id.tv_name:
-
-                break;
             case R.id.fl_shop:
                 Bundle bundle = new Bundle();
                 bundle.putString("shopUri", shopUri);
@@ -191,6 +191,7 @@ public class MainMeFragment extends BaseFragment {
         } else {
             mTitleList.add("买入订单");
             mTitleList.add("卖出订单");
+            mMineLevel.setVisibility(View.VISIBLE);
         }
         upUserLevel(userInfo, false);
 
@@ -212,6 +213,8 @@ public class MainMeFragment extends BaseFragment {
                 } else {
                     upUserLevel(userInfo, true);
                 }
+
+
             }
 
             @Override
@@ -255,6 +258,8 @@ public class MainMeFragment extends BaseFragment {
             String[] myLevelPicS = commonJson.getMy_level_pic().get(0).split("auction_level_hd_");
             String LevelUrl = myLevelPicS[0] + "auction_level_hd_" + userInfo.getLevel() + ".png";
 
+            Globals.log("xxxxxx vipUrl" +  vipUrl);
+            Globals.log("xxxxxx LevelUrl" +  LevelUrl);
             GlideUtils.loadImg(userInfo.getHeadImg(), mCivHead);
             GlideUtils.loadImgDefault(vipUrl, mMineVip);
             GlideUtils.loadImgDefault(LevelUrl, mMineLevel);
@@ -264,6 +269,8 @@ public class MainMeFragment extends BaseFragment {
             mTvFansNum.setText(String.valueOf(userInfo.getFansNum()));
             mTvCoinNum.setText(String.valueOf(userInfo.getScore()));
             mFlShop.setVisibility(View.INVISIBLE);
+            mMineLevel.setVisibility(View.VISIBLE);
+
         } else {
             CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
             String[] myLevelVPicS = commonJson.getSeller_level_pic().get(0).split("seller_level_");
@@ -280,6 +287,25 @@ public class MainMeFragment extends BaseFragment {
         }
     }
 
+
+    private void httpTab() {
+        HashMap<String, String> mHash = new HashMap<>();
+
+        HttpRequest.httpGetString(Constants.Api.CATE_PRODUCT_URL, mHash, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+
+//                CateProductModel cateProductModel = JSONObject.parseObject(resultData, CateProductModel.class);
+                BaseSharePerence.getInstance().setAuctionManager(resultData);
+            }
+        });
+
+    }
 
 }
 

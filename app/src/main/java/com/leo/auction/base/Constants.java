@@ -18,7 +18,7 @@ public class Constants {
             WEB_BASE_URL = "https://cd.taojianlou.com/";
         } else {
             BASE_URL = "https://cd.taojianlou.com/ut/";//测试
-            WEB_BASE_URL = "https://cd.taojianlou.com/ut/";
+            WEB_BASE_URL = "https://cd.taojianlou.com/ut1/";
         }
         logGone = releaseVersion;
     }
@@ -59,7 +59,7 @@ public class Constants {
         public static String HOME_SORT_TYPE = "HOME_SORT_TYPE" ;//用于记录是分类id
 
         public static int PPGL_SORT_TYPE = 0 ;//用于记录是拍品管理当前是哪个分类
-        public static int PPGL_SORT_VALUE = 0 ;//用于记录是拍品管理当前是哪个分类接口分类值
+
         public static int MONEY_NO_PWD = 300 ;//设置免密支付金额
         public static String AA = "00A" ;
         public static String BB = "00B" ;
@@ -72,10 +72,10 @@ public class Constants {
         //参数
         public final static int LAYOUT_TYPE_HEAD = 0 ;
         public final static int LAYOUT_TYPE = 1 ;
-        public final static String LIST_NUMBER = "25" ;
-        public final static int LIST_NUMBER_INT = 24 ;
+        public final static String LIST_NUMBER = "5000" ;
+        public final static int LIST_NUMBER_INT = 4999 ;
         public final static String LIST_NUMBER_F = "5" ;
-        public final static int LIST_NUMBER_INT_F= 5 ;
+        public final static int LIST_NUMBER_INT_F= 4 ;
 
         public final static String COMMON_PROTOCOL = "common_Protocol";
         public final static String HAS_ADDRESS = "has_address";
@@ -180,7 +180,7 @@ public class Constants {
         public static String HOMEPAGE_RULE_VIPSERVICE_URL =WEB_BASE_URL+"rule/vipservice.html";// 用户协议
         public static String HOMEPAGE_RULE_PRIVACYPROTECTION_URL =WEB_BASE_URL+"rule/privacyprotection.html";// 隐私保护政策
         public static String HOMEPAGE_SUBSIDY_URL =WEB_BASE_URL+"auction-web/pages/sub/bysubsidy/index?isMargin=4&subsidyToken=";// 百亿补贴地址
-        public static String WEB_MINE_URL =WEB_BASE_URL+"auction-web/pages/personal/personal?isMargin=4&subsidyToken=";// 我的
+        public static String WEB_MINE_URL =WEB_BASE_URL+"auction-web/pages/personal/personal?";// 我的
 
 
         public static String WEB_REPROCT_URL =WEB_BASE_URL+"auction-web/pages/sub/complaint/list?isMargin=4&productInstanceCode=";// 举报
@@ -189,12 +189,15 @@ public class Constants {
         public static String QRCODE_URL =WEB_BASE_URL+"auction-web?tpm_shareAgentId=";// 生成二维码
         public static String SORT_URL =WEB_BASE_URL+"auction-web/pages/category/category?tpm_shareAgentId=";// 分享 分类
 
-
         public static String YZM_URL =" https://w.taojianlou.com/super-store/hd2.html";//
 
+        //viewType  viewType 1-买家 2-买家
+        public static String MINE_DFK =WEB_BASE_URL+"auction-web/pages/order/list?status=1&isMargin=4&viewType=";// 待付款列表
+        public static String MINE_DFH =WEB_BASE_URL+"auction-web/pages/order/list?status=2&isMargin=4&viewType=";// 待发货
+        public static String MINE_DSH =WEB_BASE_URL+"auction-web/pages/order/list?status=4&isMargin=4&viewType=";// 待收货
+        public static String MINE_SH =WEB_BASE_URL+"auction-web/pages/order/list?status=192&isMargin=4&viewType=";// 售后
+        public static String MINE_QB =WEB_BASE_URL+"auction-web/pages/order/list?status=0&isMargin=4&viewType=";// 全部
 
-
-        public static String MINE_DFK =WEB_BASE_URL+"auction-web/pages/order/list?viewType=1&status=1";// 待付款列表
 
 
 
@@ -432,6 +435,13 @@ public class Constants {
         //是否关注店铺
         public static String SHOP_FOCUS_URL = domain + "follow/is-follow";
         public static String FOCUS_URL = domain + "follow";
+
+
+        //超级仓库
+        public static String STOREHOUSE_URL = domain + "product/store";
+
+
+
     }
 
 

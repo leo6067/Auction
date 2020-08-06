@@ -308,11 +308,11 @@ public class BaseModel {
 
 
     //收藏商品
-    public static void httpCollectGood(int productInstanceId, int type, HttpRequest.HttpCallback httpCallback) {
+    public static void httpCollectGood(String productInstanceId, int type, HttpRequest.HttpCallback httpCallback) {
 
         HashMap<String, String> jsonObject = new HashMap<>();
 
-        jsonObject.put("productInstanceId", productInstanceId + "");
+        jsonObject.put("productInstanceId", productInstanceId );
         jsonObject.put("type", type + "");//类型  0-取消 1-收藏
 
         HttpRequest.httpPostForm(Constants.Api.SORT_COLLECT_URL, jsonObject, httpCallback);

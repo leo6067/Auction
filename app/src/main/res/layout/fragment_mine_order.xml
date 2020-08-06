@@ -262,11 +262,12 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dp_30"
         android:paddingEnd="@dimen/dp_30"
-        android:text="规则说明"
+        android:text="超级学堂"
         android:textColor="@color/black" />
 
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/mine_kf"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_80"

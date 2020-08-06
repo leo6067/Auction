@@ -150,16 +150,16 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
             return;
         }
 
-        showWaitDialog();
+
         SortShopModel.httpSort("", mPageNum + "", new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+
                 SortShopModel sortShopModel = JSONObject.parseObject(resultData, SortShopModel.class);
                 if (mPageNum == 1) {
                     mAdapter.setNewData(sortShopModel.getData());

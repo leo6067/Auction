@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.EmptyUtils;
+import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.CustomeRecyclerView;
 import com.aten.compiler.widget.title.TitleBar;
@@ -87,7 +88,7 @@ public class AuctionUpperActivity extends BaseActivity {
     @BindView(R.id.item_recycler_video)
     CustomeRecyclerView rvVideolist;
 
-    private String mGoodId, soureType, timeType, timeNode, timeNodeId = "";
+    private String mGoodId, soureType, timeType, timeNode, auctionType,timeNodeId = "";
     private UpperAdapter mUpperAdapter;
     List<ReleaseEditModel.DataBean.AttributesBean> mAttributesBeans = new ArrayList<>();
 
@@ -113,7 +114,7 @@ public class AuctionUpperActivity extends BaseActivity {
         super.initView();
 
         mItemRecycler.setLayoutManager(new LinearLayoutManager(AuctionUpperActivity.this));
-        mUpperAdapter = new UpperAdapter();
+        mUpperAdapter = new UpperAdapter(); //商品详情
         mItemRecycler.setAdapter(mUpperAdapter);
 
 
@@ -123,8 +124,10 @@ public class AuctionUpperActivity extends BaseActivity {
     public void initData() {
         super.initData();
 
+        mTitleBar.setTitle("发布拍品");
         mGoodId = getIntent().getExtras().getString("value");
         soureType = getIntent().getExtras().getString("type");
+        auctionType = getIntent().getExtras().getString("AuctionType");
 
 
         if ("2".equals(soureType)) {
@@ -136,14 +139,20 @@ public class AuctionUpperActivity extends BaseActivity {
         }
 
 
-        if (Constants.Var.PPGL_SORT_TYPE == 2) {
+        if (auctionType.equals("3")) {
+
+            Globals.log("xxxxxxx Constants.Var.PPGL_SORT_TYPE "  + 0);
+
             if ("2".equals(soureType)) {  //超级仓库的
+                Globals.log("xxxxxxx Constants.Var.PPGL_SORT_TYPE "  + 1);
                 httpGoodDetail(mGoodId);
             } else {  //
+                Globals.log("xxxxxxx Constants.Var.PPGL_SORT_TYPE "  + 2);
                 httpDetail(mGoodId);
             }
             httpNewest();
         } else {  //草稿箱
+            Globals.log("xxxxxxx Constants.Var.PPGL_SORT_TYPE "  + 3);
             httpGetData(mGoodId);
             httpNewestDraft();
         }
@@ -246,7 +255,7 @@ public class AuctionUpperActivity extends BaseActivity {
                 videoStr = mReleaseEditModelData.getVideo();
                 cutPicStr = mReleaseEditModelData.getCutPic();
                 categoryId = mReleaseEditModelData.getCategoryId();
-                comment = mReleaseEditModelData.getComment();
+                comment = mReleaseEditModelData.getContent();
                 title = mReleaseEditModelData.getTitle();
                 distributeType = mReleaseEditModelData.getDistributeType();
                 content = mReleaseEditModelData.getContent();
@@ -373,7 +382,7 @@ public class AuctionUpperActivity extends BaseActivity {
             return;
         }
 
-        showWaitDialog();
+
         BaseModel.httpUpper(mAttributesBeans, categoryId,
                 comment, content, cutPicStr,
                 distributeType, mGoodId, imageList,
@@ -395,7 +404,7 @@ public class AuctionUpperActivity extends BaseActivity {
 
 
     private void showTimeWindow() {
-        showWaitDialog();
+
         AuctionTimeModel.httpTimeModel(new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -503,6 +512,9 @@ public class AuctionUpperActivity extends BaseActivity {
                 }
 
 
+
+
+
                 TimeDialog timeDialog = new TimeDialog(AuctionUpperActivity.this, TimeDialogModelLists, new TimeDialog.InterTimeDialog() {
                     @Override
                     public void itemTimeClick(TimeDialogModel timeDialogModel) {
@@ -513,6 +525,7 @@ public class AuctionUpperActivity extends BaseActivity {
                 });
 
                 timeDialog.getWindow().setGravity(Gravity.BOTTOM);
+
 
                 timeDialog.show();
 
@@ -535,6 +548,9 @@ public class AuctionUpperActivity extends BaseActivity {
                 }
                 break;
             case R.id.item_time:
+                if (!RxTool.isFastClick(RxTool.MIN_CLICK_DELAY_TIME_500)) {
+                    return;
+                }
                 showTimeWindow();
                 break;
 

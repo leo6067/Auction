@@ -169,16 +169,16 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
         hashMap.put("pageNum", "" + mPageNum);
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
-        showWaitDialog();
+
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+
                 HomeListModel homeListModel = JSONObject.parseObject(resultData, HomeListModel.class);
 
                 if (mPageNum == 1) {

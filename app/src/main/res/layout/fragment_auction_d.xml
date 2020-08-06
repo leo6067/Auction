@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_82"
+        android:layout_height="@dimen/dp_88"
         android:background="@android:color/white"
         android:orientation="horizontal">
 
@@ -109,6 +109,8 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
             android:overScrollMode="never" />
 
     </com.aten.compiler.widget.CustRefreshLayout>

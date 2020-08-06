@@ -65,7 +65,7 @@ public class AgentWebActivity extends AppCompatActivity {
         mFragmentManager = this.getSupportFragmentManager();
         mUserJson = BaseSharePerence.getInstance().getUserJson();
         mTitleStr = getIntent().getStringExtra("title");
-        Globals.log("xxxxxxx  mTitleStr"  +mTitleStr);
+
         mUrlStr = getIntent().getStringExtra("url");
         loadWebFragment(mTitleStr);
     }
@@ -73,23 +73,35 @@ public class AgentWebActivity extends AppCompatActivity {
 
     private void loadWebFragment(String mTitleStr) {
         FragmentTransaction ft = mFragmentManager.beginTransaction();
-        switch (mTitleStr) {
-            case "TOP百亿补贴":
-                UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-                mGuideBottomLin.setVisibility(View.VISIBLE);
-                mBundle = new Bundle();
-                mBundle.putString(AgentWebFragment.URL_KEY, mUrlStr);
-                ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
-                break;
+//        switch (mTitleStr) {
+//            case "TOP百亿补贴":
+//                UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+//                mGuideBottomLin.setVisibility(View.VISIBLE);
+//                mBundle = new Bundle();
+//                mBundle.putString(AgentWebFragment.URL_KEY, mUrlStr);
+//                ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
+//                break;
+//
+//            case "投诉":
+//                UserModel.DataBean userJsonB = BaseSharePerence.getInstance().getUserJson();
+//                mBundle = new Bundle();
+//                mBundle.putString(AgentWebFragment.URL_KEY,  mUrlStr);
+//                ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
+//                break;
+//        }
 
-            case "投诉":
-                UserModel.DataBean userJsonB = BaseSharePerence.getInstance().getUserJson();
-                mBundle = new Bundle();
-                mBundle.putString(AgentWebFragment.URL_KEY,  mUrlStr);
-                ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
-                break;
-
+        if (mTitleStr.equals("TOP百亿补贴")) {
+            mGuideBottomLin.setVisibility(View.VISIBLE);
+            mBundle = new Bundle();
+            mBundle.putString(AgentWebFragment.URL_KEY, mUrlStr);
+            ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
+        } else {
+            mBundle = new Bundle();
+            mBundle.putString(AgentWebFragment.URL_KEY, mUrlStr);
+            ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
         }
+
+
         ft.commit();
     }
 

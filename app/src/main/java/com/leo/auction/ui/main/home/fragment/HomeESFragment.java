@@ -204,6 +204,16 @@ public class HomeESFragment extends BaseRecyclerViewFragment {
         return staggeredGridLayoutManager;
     }
 
+
+
+    @Override
+    public void initEvent() {
+        super.initEvent();
+        setSmartHasRefreshOrLoadMore();
+        setLoadMore();
+    }
+
+
     @Override
     public void getData() {
         super.getData();

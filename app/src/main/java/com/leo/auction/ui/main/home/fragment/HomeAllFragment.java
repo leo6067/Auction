@@ -197,14 +197,21 @@ public class HomeAllFragment extends BaseRecyclerViewFragment {
                 });
             }
         });
-
-
     }
+
+
 
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         return staggeredGridLayoutManager;
+    }
+
+    @Override
+    public void initEvent() {
+        super.initEvent();
+        setSmartHasRefreshOrLoadMore();
+        setLoadMore();
     }
 
     @Override

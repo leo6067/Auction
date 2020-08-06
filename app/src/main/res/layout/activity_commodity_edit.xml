@@ -432,7 +432,6 @@
                         android:textStyle="bold" />
 
                     <RadioButton
-
                         android:id="@+id/daofu"
                         android:layout_width="@dimen/dp_150"
                         android:layout_height="wrap_content"

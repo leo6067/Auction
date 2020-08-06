@@ -8,6 +8,7 @@ import com.leo.auction.model.home.VersionJson;
 import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.login.model.LoginModel;
 import com.leo.auction.ui.login.model.LoginVerModel;
+import com.leo.auction.ui.main.mine.model.CateProductModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 
 
@@ -114,8 +115,6 @@ public class BaseSharePerence {
     }
 
 
-
-
     /**
      * 保存用户是否登录
      */
@@ -125,10 +124,8 @@ public class BaseSharePerence {
 
     public boolean getLoginStatus() {
 
-        return  mSharedPreferences.getBoolean("setLoginStatus", false);
+        return mSharedPreferences.getBoolean("setLoginStatus", false);
     }
-
-
 
 
     /**
@@ -146,6 +143,23 @@ public class BaseSharePerence {
             version = userInfoBean.getData();
         }
         return version;
+    }
+
+    /**
+     * 保存拍品管理列表标题数据
+     */
+    public void setAuctionManager(String LoginInfo) {
+        mSharedPreferences.edit().putString("setAuctionManager", LoginInfo).commit();
+    }
+
+    public CateProductModel  getAuctionManager() {
+        CateProductModel dataBean = null;
+        String infoStr = mSharedPreferences.getString("setAuctionManager", "");
+        if (infoStr.length() > 2) {
+            dataBean = JSONObject.parseObject(infoStr, CateProductModel.class);
+
+        }
+        return dataBean;
     }
 
 
