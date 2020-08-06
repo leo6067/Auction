@@ -28,7 +28,7 @@ public class UpperAdapter extends BaseQuickAdapter<ReleaseEditModel.DataBean.Att
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, ReleaseEditModel.DataBean.AttributesBean attributesBean) {
         baseViewHolder.setText(R.id.tv_attri_name, "【" + attributesBean.getTitle() + "】");
-        baseViewHolder.setText(R.id.et_attri_value, "【" + attributesBean.getValue() + "】");
+        baseViewHolder.setText(R.id.et_attri_value,    attributesBean.getValue()  );
 
     }
 }

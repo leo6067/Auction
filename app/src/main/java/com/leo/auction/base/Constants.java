@@ -315,6 +315,10 @@ public class Constants {
         public static String GOODS_DETAIL_ATTR_URL = domain + "product/attribute";//
         public static String GOODS_NEWEST_URL = domain + "product/newest";//
         public static String GOODS_STORE_URL = domain + "product/store-goods";//
+
+
+
+
 //        public static String GOODS_REPROCT_URL = domain + "report";//
 
 

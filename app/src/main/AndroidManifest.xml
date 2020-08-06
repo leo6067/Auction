@@ -57,7 +57,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.mine.activity.AboutActivity"></activity>
+        <activity android:name=".ui.main.mine.activity.GoodDetailActivity"></activity>
+        <activity android:name=".ui.main.mine.activity.AboutActivity" />
         <activity android:name=".ui.order.activity.GoodOrederStatusActivity" />
         <activity android:name=".ui.order.activity.GoodOrderActivity" />
         <activity

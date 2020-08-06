@@ -982,6 +982,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         hashMap.put("shopUri", shopUri);
         hashMap.put("pageNum", "1");
         hashMap.put("pageSize", "6");
+        hashMap.put("excludeInstanceCode",mGoodsCode);
         showWaitDialog();
         HttpRequest.httpGetString(Constants.Api.SHOP_NEWEST_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override

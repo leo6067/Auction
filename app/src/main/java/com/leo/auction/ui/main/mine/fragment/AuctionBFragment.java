@@ -219,7 +219,7 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
 
         CateProductModel auctionManager = BaseSharePerence.getInstance().getAuctionManager();
 
-        mhash.put("status", auctionManager.getData().get(1)+"");
+        mhash.put("status", auctionManager.getData().get(1).getId()+"");
         mhash.put("pageNum", mPageNum + "");
         mhash.put("pageSize", Constants.Var.LIST_NUMBER);
         mhash.put("sort", sortType);

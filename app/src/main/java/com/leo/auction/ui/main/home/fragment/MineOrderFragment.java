@@ -21,6 +21,7 @@ import com.leo.auction.base.BaseAppContext;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.mine.activity.AssetDetailActivity;
 import com.leo.auction.ui.main.mine.activity.AuctionManagementActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
@@ -101,23 +102,10 @@ public class MineOrderFragment extends BaseFragment {
 
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            //可见
-            initData();
-        } else {
-            //不可见
-        }
-    }
-
-
-    @Override
     public void initData() {
         super.initData();
-        if (getActivity()!=null){
-        UserModel.httpUpdateUser(getActivity());
-
+        if (getActivity() != null) {
+            UserModel.httpUpdateUser(getActivity());
         }
 
         isSeller = getArguments().getInt("isSeller", 1);   // 1：买家  2 卖家
@@ -142,7 +130,6 @@ public class MineOrderFragment extends BaseFragment {
 
 
         mUserJson = BaseSharePerence.getInstance().getUserJson();
-
 
 
         try {
@@ -174,9 +161,10 @@ public class MineOrderFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.iv_wait_pay, R.id.all_order_wait_pay, R.id.iv_send_good, R.id.all_order_send_good, R.id.all_order_received_good, R.id.all_after_sale, R.id.all_order, R.id.ll_top01, R.id.mine_zcmx, R.id.mine_cjck, R.id.mine_fbpp, R.id.mine_ppgl, R.id.mine_tgzx, R.id.mine_gzsm, R.id.mine_kf, R.id.mine_setting})
+    @OnClick({R.id.tv_butie,R.id.iv_wait_pay, R.id.all_order_wait_pay, R.id.iv_send_good, R.id.all_order_send_good, R.id.all_order_received_good, R.id.all_after_sale, R.id.all_order, R.id.ll_top01, R.id.mine_zcmx, R.id.mine_cjck, R.id.mine_fbpp, R.id.mine_ppgl, R.id.mine_tgzx, R.id.mine_gzsm, R.id.mine_kf, R.id.mine_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+
             case R.id.iv_wait_pay:
             case R.id.all_order_wait_pay: //全部订单: status 不传,  待付款status=1    待发货: status=2 待收货 : status=4 待评价 : status=8   售后: status = 192 (64-售后 + 128-退款导致关闭 )
 //                OrderActivity.newIntance(getActivity(),1,isSeller,"1");
@@ -214,6 +202,25 @@ public class MineOrderFragment extends BaseFragment {
                 httpUserWeb("全部订单", webUrl);
                 break;
 
+            case R.id.tv_butie:
+
+                UserModel.httpUpdateUser(new HttpRequest.HttpCallback() {
+                    @Override
+                    public void httpError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void httpResponse(String resultData) {
+                        UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                        BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", "TOP百亿补贴");
+                        bundle.putString("url", Constants.WebApi.HOMEPAGE_SUBSIDY_URL + userModel.getData().getNestedToken());
+                        com.leo.auction.base.ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
+                    }
+                });
+                break;
             case R.id.mine_zcmx:
 
                 ActivityManager.JumpActivity(getActivity(), AssetDetailActivity.class);

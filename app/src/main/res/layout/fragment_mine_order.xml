@@ -182,7 +182,41 @@
             />
 
 
+    </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dp_1"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingEnd="@dimen/dp_30"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_80"
+            android:drawableStart="@drawable/mine_zcmx"
+            android:drawablePadding="@dimen/dp_15"
+            android:gravity="center_vertical"
+            android:text="百亿补贴"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/tv_butie"
+            android:drawablePadding="@dimen/dp_15"
+            android:gravity="end"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:drawableEnd="@drawable/mine_next"
+
+            />
 
 
     </LinearLayout>

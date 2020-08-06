@@ -248,7 +248,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
 
         CateProductModel auctionManager = BaseSharePerence.getInstance().getAuctionManager();
 
-        mhash.put("status", auctionManager.getData().get(2) + "");
+//        mhash.put("status", auctionManager.getData().get(2).getId() + "");
         mhash.put("pageNum", mPageNum + "");
         mhash.put("pageSize", Constants.Var.LIST_NUMBER);
         mhash.put("sort", sortType);
@@ -363,6 +363,7 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                 if (baseModel.getResult().isSuccess()) {
                     ToastUtils.showShort("删除成功");
+                    onRefresh(refreshLayout);
                 } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
                 }

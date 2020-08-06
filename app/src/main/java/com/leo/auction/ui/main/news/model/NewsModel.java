@@ -63,6 +63,14 @@ public class NewsModel {
         public void setMessage(String message) {
             this.message = message;
         }
+
+        @Override
+        public String toString() {
+            return "ResultBean{" +
+                    "success=" + success +
+                    ", message='" + message + '\'' +
+                    '}';
+        }
     }
 
     public static class DataBean {
@@ -138,6 +146,19 @@ public class NewsModel {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "noticeId=" + noticeId +
+                    ", title='" + title + '\'' +
+                    ", content='" + content + '\'' +
+                    ", createTime='" + createTime + '\'' +
+                    ", pic='" + pic + '\'' +
+                    ", skipUrl='" + skipUrl + '\'' +
+                    ", status='" + status + '\'' +
+                    '}';
         }
     }
 }

@@ -116,7 +116,7 @@ public class FocusAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseV
             picHeight = Integer.valueOf(imgPathSplit[1]);
         }
 
-        Globals.log("xxxxxx" +  picWidth +   picHeight );
+//        Globals.log("xxxxxx" +  picWidth +   picHeight );
         //1.已知图片宽高得情况
         int width = screenWidth / 2;
 

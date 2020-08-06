@@ -241,20 +241,14 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 
 
         HashMap<String, String> hashMap = new HashMap<>();
-
-
         String mUrl = Constants.Api.HOME_SUBSIDY_URL;
-
-
         hashMap.put("keyword", "");
         hashMap.put("pageNum", "" + mPageNum);
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
-
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-
             }
 
             @Override
@@ -274,7 +268,6 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
                 } else {
                     mAdapter.loadMoreEnd();
                 }
-
             }
         });
 

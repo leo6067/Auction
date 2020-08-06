@@ -310,8 +310,6 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
 
             }
         });
-
-
     }
 
 
@@ -379,6 +377,7 @@ public class AuctionAFragment extends BaseRecyclerViewFragment {
                 BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                 if (baseModel.getResult().isSuccess()) {
                     ToastUtils.showShort("下架成功");
+                    onRefresh(refreshLayout);
                 } else {
                     ToastUtils.showShort(baseModel.getResult().getMessage());
                 }

@@ -123,8 +123,6 @@ public class AuctionManagementActivity extends BaseActivity {
                         Constants.Var.PPGL_SORT_TYPE = 3;
                         break;
                 }
-
-
                 BroadCastReceiveUtils.sendLocalBroadCast(AuctionManagementActivity.this,Constants.Action.ACTION_MANAGEMENT_TYPE);
             }
 
@@ -133,16 +131,10 @@ public class AuctionManagementActivity extends BaseActivity {
 
             }
         });
-
-
-
         Constants.Var.PPGL_SORT_TYPE = 0;
-
-
         baseViewPagerAndTabsAdapter.setData(Arrays.asList(titles));
         vpOrder.setAdapter(baseViewPagerAndTabsAdapter);
         stbOrder.setViewPager(vpOrder);
-
     }
 
 

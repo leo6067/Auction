@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Created by Leo on 2019/4/10.
+ *
+ * 请求的基础类
  */
 
 public class BaseModel {

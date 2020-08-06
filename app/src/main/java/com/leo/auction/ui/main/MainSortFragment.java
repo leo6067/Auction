@@ -121,8 +121,6 @@ public class MainSortFragment extends BaseFragment {
                 String content = "TOP百亿补贴，福利不断，放漏不断！简单易用、免费发拍、二手回血、万物皆可拍！";
                 String shareUrl = Constants.WebApi.SORT_URL +userJson.getUserId();
                 String picUrl = commonJson.getSpread().getSpread_default();
-
-
                 SharedModel sharedModel = new SharedModel(titleStr,content,picUrl,shareUrl,"2" );
                 SharedActvity.newIntance(getActivity(),sharedModel,null,"","");
             }
@@ -174,10 +172,6 @@ public class MainSortFragment extends BaseFragment {
                 // 右侧滑到对应位置
                 ((GridLayoutManager)mHomeSortMin.getLayoutManager())
                         .scrollToPositionWithOffset(indexMap.get(position),0);
-
-
-
-
             }
         });
 

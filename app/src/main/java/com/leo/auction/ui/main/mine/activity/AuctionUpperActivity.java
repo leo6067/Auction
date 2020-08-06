@@ -140,19 +140,13 @@ public class AuctionUpperActivity extends BaseActivity {
 
 
         if (auctionType.equals("3")) {
-
-            Globals.log("xxxxxxx Constants.Var.PPGL_SORT_TYPE "  + 0);
-
             if ("2".equals(soureType)) {  //超级仓库的
-                Globals.log("xxxxxxx Constants.Var.PPGL_SORT_TYPE "  + 1);
                 httpGoodDetail(mGoodId);
             } else {  //
-                Globals.log("xxxxxxx Constants.Var.PPGL_SORT_TYPE "  + 2);
                 httpDetail(mGoodId);
             }
             httpNewest();
         } else {  //草稿箱
-            Globals.log("xxxxxxx Constants.Var.PPGL_SORT_TYPE "  + 3);
             httpGetData(mGoodId);
             httpNewestDraft();
         }
@@ -180,7 +174,7 @@ public class AuctionUpperActivity extends BaseActivity {
                 imageList = goodsDetailModelData.getImages();
                 videoStr = goodsDetailModelData.getVideo();
                 cutPicStr = goodsDetailModelData.getCutPic();
-                initDetail();
+
 
                 List<GoodDetailModel.DataBean.AttributesBean> attributes = goodsDetailModelData.getAttributes();
                 for (int i = 0; i < attributes.size(); i++) {
@@ -191,9 +185,12 @@ public class AuctionUpperActivity extends BaseActivity {
                     attributesBean.setTab(attributes.get(i).getTab());
                     attributesBean.setTitle(attributes.get(i).getTitle());
                     attributesBean.setValue(attributes.get(i).getValue());
+
+                    mAttributesBeans.add(attributesBean);
                 }
                 mUpperAdapter.setNewData(mAttributesBeans);
                 mUpperAdapter.notifyDataSetChanged();
+                initDetail();
             }
         });
     }
@@ -217,7 +214,7 @@ public class AuctionUpperActivity extends BaseActivity {
                 imageList = goodsDetail.getImages();
                 videoStr = goodsDetail.getVideo();
                 cutPicStr = goodsDetail.getCutPic();
-                initDetail();
+
                 List<GoodsDetailModel.DataBean.AttributesBean> attributes = goodsDetail.getAttributes();
                 for (int i = 0; i < attributes.size(); i++) {
                     ReleaseEditModel.DataBean.AttributesBean attributesBean = new ReleaseEditModel.DataBean.AttributesBean();
@@ -228,10 +225,12 @@ public class AuctionUpperActivity extends BaseActivity {
                     attributesBean.setTitle(attributes.get(i).getTitle());
                     attributesBean.setValue(attributes.get(i).getValue());
                     attributesBean.setTags(attributes.get(i).getTags());
+
+                    mAttributesBeans.add(attributesBean);
                 }
                 mUpperAdapter.setNewData(mAttributesBeans);
                 mUpperAdapter.notifyDataSetChanged();
-
+                initDetail();
             }
         });
     }
@@ -260,12 +259,12 @@ public class AuctionUpperActivity extends BaseActivity {
                 distributeType = mReleaseEditModelData.getDistributeType();
                 content = mReleaseEditModelData.getContent();
 
-                initDetail();
+
 
                 mAttributesBeans = mReleaseEditModel.getData().getAttributes();
                 mUpperAdapter.setNewData(mAttributesBeans);
                 mUpperAdapter.notifyDataSetChanged();
-
+                initDetail();
             }
         });
     }
@@ -512,9 +511,6 @@ public class AuctionUpperActivity extends BaseActivity {
                 }
 
 
-
-
-
                 TimeDialog timeDialog = new TimeDialog(AuctionUpperActivity.this, TimeDialogModelLists, new TimeDialog.InterTimeDialog() {
                     @Override
                     public void itemTimeClick(TimeDialogModel timeDialogModel) {
@@ -525,8 +521,6 @@ public class AuctionUpperActivity extends BaseActivity {
                 });
 
                 timeDialog.getWindow().setGravity(Gravity.BOTTOM);
-
-
                 timeDialog.show();
 
             }
@@ -543,8 +537,12 @@ public class AuctionUpperActivity extends BaseActivity {
             case R.id.item_detail:
                 if (mItemRecycler.getVisibility() == View.VISIBLE) {
                     mItemRecycler.setVisibility(View.GONE);
+                    rvImglist.setVisibility(View.GONE);
+                    rvVideolist.setVisibility(View.GONE);
                 } else {
                     mItemRecycler.setVisibility(View.VISIBLE);
+                    rvImglist.setVisibility(View.VISIBLE);
+                    rvVideolist.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.item_time:

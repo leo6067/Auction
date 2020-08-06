@@ -72,7 +72,11 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
         mItemFan.setText("粉丝数  " + dataBean.getProductUser().getFansNum());
 
         TextView mItemNext = baseViewHolder.getView(R.id.item_next);
-        mItemNext.setText("上新" + dataBean.getNewestNum() + "件");
+        if (dataBean.getNewestNum() > 99) {
+            mItemNext.setText("上新99+件");
+        } else {
+            mItemNext.setText("上新" + dataBean.getNewestNum() + "件");
+        }
 
         TextView mItemCancel = baseViewHolder.getView(R.id.item_cancel);
         TextView mItemTop = baseViewHolder.getView(R.id.item_top);
