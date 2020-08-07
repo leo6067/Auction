@@ -148,9 +148,9 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             if (variant.buildType.name == 'release') {
-                outputFileName = "淘捡漏_${variant.versionCode}_${buildTime()}_release.apk"
+                outputFileName = "锤定${variant.versionCode}_${buildTime()}_release.apk"
             } else {
-                outputFileName = "淘捡漏_${variant.versionCode}_${buildTime()}_debug.apk"
+                outputFileName = "锤定${variant.versionCode}_${buildTime()}_debug.apk"
             }
         }
     }

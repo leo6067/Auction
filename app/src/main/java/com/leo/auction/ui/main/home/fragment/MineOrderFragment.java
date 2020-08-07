@@ -152,6 +152,8 @@ public class MineOrderFragment extends BaseFragment {
 
 
         try {
+            mMineBYBT.setText(mUserJson.getSubsidyMoney());
+
             mMineZcmx.setText(mUserJson.getBalance() + "元");
             //买入
             int noPayNum = mUserJson.getBuyerOrderCount().getNoPayNum();
@@ -196,9 +198,7 @@ public class MineOrderFragment extends BaseFragment {
             mMinePpgl.setVisibility(View.VISIBLE);
             mMineMfkd.setVisibility(View.GONE);
         }
-        mMineZcmx.setText(mUserJson.getBalance());
-        mMineBYBT.setText(mUserJson.getSubsidyMoney());
-
+    
 
         if (getActivity() != null) {
             UserModel.httpUpdateUser(getActivity());
@@ -282,10 +282,10 @@ public class MineOrderFragment extends BaseFragment {
                 }
 
 
-                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
-                    return;
-                }
+//                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+//                    showAgreeDialog("6");
+//                    return;
+//                }
 
                 if (!mUserJson.isStoreEnable()) {  //超级仓库发布权限
                     mWarnHash = new HashMap<>();
@@ -299,7 +299,7 @@ public class MineOrderFragment extends BaseFragment {
                         @Override
                         public void onWarningOk() {
 
-                            httpUserWeb("开启权限");
+                            showAgreeDialog("6");
                         }
 
                         @Override
@@ -336,10 +336,10 @@ public class MineOrderFragment extends BaseFragment {
                 }
 
 
-                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
-                    return;
-                }
+//                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+//                    showAgreeDialog("6");
+//                    return;
+//                }
                 ActivityManager.JumpActivity(getActivity(), CommodityReleaseActivity.class);
                 break;
             case R.id.mine_ppgl://拍品管理
@@ -382,10 +382,10 @@ public class MineOrderFragment extends BaseFragment {
                 }
 
 
-                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
-                    return;
-                }
+//                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+//                    showAgreeDialog("6");
+//                    return;
+//                }
 
                 if (!mUserJson.isStoreEnable()) {  //超级仓库发布权限
                     mWarnHash = new HashMap<>();
@@ -398,7 +398,7 @@ public class MineOrderFragment extends BaseFragment {
                     warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                         @Override
                         public void onWarningOk() {
-                            httpUserWeb("开启权限");
+                            showAgreeDialog("6");
                         }
 
                         @Override

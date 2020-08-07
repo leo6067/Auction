@@ -345,18 +345,6 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
     }
 
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            ActivityManager.JumpActivity(SettingActivity.this, MainActivity.class);
-            ActivityManager.mainActivity.recreateActivity();
-            ActivityManager.mainActivity.setCurrent(4);
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
 
 
 }

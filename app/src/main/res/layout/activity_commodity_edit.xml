@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/layout_custom_title_w" />
@@ -18,19 +19,20 @@
         app:zpb_show_mode="rect" />
 
     <RelativeLayout
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_89"
         android:layout_marginBottom="@dimen/dp_4"
         android:background="@android:color/white"
-        android:paddingRight="@dimen/dp_30">
+       >
 
         <TextView
             android:id="@+id/tv_save"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/dp_30"
-            android:paddingRight="@dimen/dp_30"
+
             android:text="修改"
             android:textColor="@android:color/black"
             android:textSize="@dimen/sp_30"
@@ -61,6 +63,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_20"
             android:orientation="vertical">
 
             <TextView
@@ -69,7 +73,7 @@
                 android:layout_marginTop="@dimen/dp_18"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:text="大类"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30"
@@ -81,9 +85,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_2"
                 android:background="@android:color/white"
-                android:paddingLeft="@dimen/dp_20"
+
                 android:paddingTop="@dimen/dp_30"
-                android:paddingRight="@dimen/dp_20" />
+              />
 
             <FrameLayout
                 android:id="@+id/fl_open_close_01"
@@ -109,7 +113,7 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:text="小类"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30"
@@ -149,7 +153,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -189,7 +193,7 @@
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:text="【介绍】"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30" />
@@ -215,7 +219,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:text="商品图片"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30"
@@ -236,7 +240,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:text="商品视频"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30"
@@ -263,7 +267,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/dp_30"
+
                     android:text="截拍时间"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_30"
@@ -290,7 +294,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -326,7 +330,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -362,7 +366,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -397,7 +401,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30"
                 android:background="@color/white"
                 android:orientation="horizontal">
@@ -455,7 +459,7 @@
 
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_30"
+
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView

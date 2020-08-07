@@ -168,17 +168,7 @@ public class PromotionCenterActivivty extends BaseActivity {
         context.startActivity(intent);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            ActivityManager.JumpActivity(PromotionCenterActivivty.this, MainActivity.class);
-            ActivityManager.mainActivity.recreateActivity();
-            ActivityManager.mainActivity.setCurrent(4);
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+
 
 
 }

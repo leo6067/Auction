@@ -147,6 +147,8 @@ public class MineOrderBuyFragment extends BaseFragment {
 
 
         try {
+
+            mMineBYBT.setText(mUserJson.getSubsidyMoney());
             mMineZcmx.setText(mUserJson.getBalance() + "元");
             //买入
             int noPayNum = mUserJson.getBuyerOrderCount().getNoPayNum();
@@ -179,8 +181,7 @@ public class MineOrderBuyFragment extends BaseFragment {
         }
 
 
-        mMineZcmx.setText(mUserJson.getBalance());
-        mMineBYBT.setText(mUserJson.getSubsidyMoney());
+
 
 
 
@@ -266,11 +267,11 @@ public class MineOrderBuyFragment extends BaseFragment {
                     return;
                 }
 
-
-                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
-                    return;
-                }
+//
+//                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+//                    showAgreeDialog("6");
+//                    return;
+//                }
 
                 if (!mUserJson.isStoreEnable()) {  //超级仓库发布权限
                     mWarnHash = new HashMap<>();
@@ -284,7 +285,7 @@ public class MineOrderBuyFragment extends BaseFragment {
                         @Override
                         public void onWarningOk() {
 
-                            httpUserWeb("开启权限");
+                            showAgreeDialog("6");
                         }
 
                         @Override
@@ -321,10 +322,10 @@ public class MineOrderBuyFragment extends BaseFragment {
                 }
 
 
-                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
-                    return;
-                }
+//                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+//                    showAgreeDialog("6");
+//                    return;
+//                }
                 ActivityManager.JumpActivity(getActivity(), CommodityReleaseActivity.class);
                 break;
             case R.id.mine_ppgl://拍品管理
@@ -349,7 +350,7 @@ public class MineOrderBuyFragment extends BaseFragment {
                     mWarnHash = new HashMap<>();
                     mWarnHash.put("title", "提示");
                     mWarnHash.put("content", "您当前没有发布权限,请先完成实名认证。");
-                    mWarnHash.put("ok", "去实名制");
+                    mWarnHash.put("ok", "去认证");
                     mWarnHash.put("okColor", "#7c1313");
                     WarningDialog warningDialog = new WarningDialog(getActivity(), mWarnHash);
                     warningDialog.show();
@@ -367,23 +368,23 @@ public class MineOrderBuyFragment extends BaseFragment {
                 }
 
 
-                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
-                    return;
-                }
+//                if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+//                    showAgreeDialog("6");
+//                    return;
+//                }
 
                 if (!mUserJson.isStoreEnable()) {  //超级仓库发布权限
                     mWarnHash = new HashMap<>();
                     mWarnHash.put("title", "提示");
                     mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
-                    mWarnHash.put("ok", "开启权限");
+                    mWarnHash.put("ok", "去查看");
                     mWarnHash.put("okColor", "#7c1313");
                     WarningDialog warningDialog = new WarningDialog(getActivity(), mWarnHash);
                     warningDialog.show();
                     warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                         @Override
                         public void onWarningOk() {
-                            httpUserWeb("开启权限");
+                            showAgreeDialog("6");
                         }
 
                         @Override

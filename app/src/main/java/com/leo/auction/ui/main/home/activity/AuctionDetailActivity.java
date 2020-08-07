@@ -383,22 +383,8 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         });
 
 
-//        mGoodsRecycler.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-//        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        mGoodsRecycler.setLayoutManager(staggeredGridLayoutManager);
-
-
-//        GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-//        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(CategoryActivity.this,(int) getResources().getDimension(R.dimen.dp_15)));
-//        DisplayMetrics dm = getResources().getDisplayMetrics();
-//        mAdapter = new HomeAdapter(dm.widthPixels );
-
-
-
         mGoodsRecycler.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
-
-
         mHomeAdapter = new HomeXYAdapter(dm.widthPixels );
         mHomeAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) mGoodsRecycler.getItemAnimator()).setSupportsChangeAnimations(false);

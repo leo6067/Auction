@@ -285,15 +285,5 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         testWebview.loadUrl("https://w.taojianlou.com/super-store/hd2.html");
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            ActivityManager.JumpActivity(IdentityActivity.this, MainActivity.class);
-            ActivityManager.mainActivity.recreateActivity();
-            ActivityManager.mainActivity.setCurrent(4);
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+
 }

@@ -43,7 +43,7 @@ public class HomeSearchAdapter extends BaseQuickAdapter<HomeListModel.DataBean, 
     private int screenWidth;
 
     public HomeSearchAdapter(int screenWidth) {
-        super(R.layout.item_home_list_all, null);
+        super(R.layout.item_home_list_all_detail, null);
         this.screenWidth = screenWidth;
     }
 

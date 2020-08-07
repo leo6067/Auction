@@ -20,11 +20,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
-import com.leo.auction.base.BaseSharePerence;
-import com.leo.auction.base.Constants;
-import com.leo.auction.ui.login.LoginActivity;
-import com.leo.auction.ui.main.home.fragment.BusinessFragment;
-import com.leo.auction.ui.main.home.fragment.GoodsFragment;
+
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.main.news.fragment.NoticeFragment;
 import com.leo.auction.ui.main.news.fragment.ServiceFragment;
