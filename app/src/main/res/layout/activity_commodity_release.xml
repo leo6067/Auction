@@ -417,14 +417,29 @@
                     android:textStyle="bold" />
 
 
+
+
+                <RadioButton
+                    android:id="@+id/baoyou"
+                    android:layout_width="@dimen/dp_150"
+                    android:layout_height="wrap_content"
+                    android:text="  包邮"
+                    android:button="@drawable/shoppingcar_checkbox_style"
+                    android:textColor="@android:color/black"
+                    android:checked="true"
+                    android:enabled="false"
+                    android:textSize="@dimen/sp_30"
+                    android:textStyle="bold" />
+
                 <RadioGroup
+                    android:visibility="gone"
                     android:id="@+id/radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:id="@+id/baoyou"
+
                         android:layout_width="@dimen/dp_150"
                         android:layout_height="wrap_content"
                         android:text="  包邮"

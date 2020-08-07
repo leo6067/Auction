@@ -1,12 +1,11 @@
 package com.leo.auction.ui.main.home.fragment;
 
 
-import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,9 +22,9 @@ import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.login.LoginActivity;
+import com.leo.auction.ui.login.AgreementActivity;
+import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.model.SceneModel;
-import com.leo.auction.ui.main.mine.activity.AssetDetailActivity;
 import com.leo.auction.ui.main.mine.activity.AuctionManagementActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
 import com.leo.auction.ui.main.mine.activity.IdentityActivity;
@@ -34,8 +33,6 @@ import com.leo.auction.ui.main.mine.activity.SettingActivity;
 import com.leo.auction.ui.main.mine.activity.SuperHouseActivity;
 import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.model.UserModel;
-import com.leo.auction.ui.order.activity.OrderActivity;
-import com.leo.auction.ui.order.fragment.OrderFragment;
 import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.Globals;
@@ -43,15 +40,14 @@ import com.leo.auction.utils.Globals;
 import java.util.HashMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MineOrderFragment extends BaseFragment {
+public class MineOrderBuyFragment extends BaseFragment {
+
 
     @BindView(R.id.iv_wait_pay)
     ImageView mIvWaitPay;
@@ -104,8 +100,7 @@ public class MineOrderFragment extends BaseFragment {
     private HashMap<String, Object> mWarnHash;
     private DialogUtils dialogUtils;
 
-
-    public MineOrderFragment() {
+    public MineOrderBuyFragment() {
         // Required empty public constructor
     }
 
@@ -163,14 +158,12 @@ public class MineOrderFragment extends BaseFragment {
             rdReceivedGood.setBadgeCount(receiveNum);
             rdAfterSale.setBadgeCount(serviceNum);
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
         try {
-            if (EmptyUtils.isEmpty(mUserJson.getExclusiveFansNum() + "") || mUserJson.getExclusiveFansNum() < 50) {   // 1 买家 2 卖家
+            if (EmptyUtils.isEmpty(mUserJson.getExclusiveFansNum()+"") ||mUserJson.getExclusiveFansNum() < 50) {   // 1 买家 2 卖家
                 mMineCjck.setVisibility(View.GONE);
                 mMineFbpp.setVisibility(View.GONE);
                 mMinePpgl.setVisibility(View.GONE);
@@ -185,19 +178,10 @@ public class MineOrderFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-        if (mUserJson.getExclusiveFansNum() < 50) {   // 1 买家 2 卖家
-            mMineCjck.setVisibility(View.GONE);
-            mMineFbpp.setVisibility(View.GONE);
-            mMinePpgl.setVisibility(View.GONE);
-            mMineMfkd.setVisibility(View.VISIBLE);
-        } else {
-            mMineCjck.setVisibility(View.VISIBLE);
-            mMineFbpp.setVisibility(View.VISIBLE);
-            mMinePpgl.setVisibility(View.VISIBLE);
-            mMineMfkd.setVisibility(View.GONE);
-        }
+
         mMineZcmx.setText(mUserJson.getBalance());
         mMineBYBT.setText(mUserJson.getSubsidyMoney());
+
 
 
         if (getActivity() != null) {
@@ -206,6 +190,7 @@ public class MineOrderFragment extends BaseFragment {
 
 
     }
+
 
     @OnClick({R.id.mine_mfkd, R.id.tv_butie, R.id.iv_wait_pay, R.id.all_order_wait_pay, R.id.iv_send_good, R.id.all_order_send_good, R.id.all_order_received_good, R.id.all_after_sale, R.id.all_order, R.id.ll_top01, R.id.mine_zcmx, R.id.mine_cjck, R.id.mine_fbpp, R.id.mine_ppgl, R.id.mine_tgzx, R.id.mine_gzsm, R.id.mine_kf, R.id.mine_setting})
     public void onViewClicked(View view) {
@@ -417,7 +402,6 @@ public class MineOrderFragment extends BaseFragment {
         }
     }
 
-
     public void httpUserWeb(String title) {
 
 
@@ -470,6 +454,8 @@ public class MineOrderFragment extends BaseFragment {
                 bundle.putString("title", title);
                 bundle.putString("url", httpUrl);
 
+                Globals.log("xxxxxx httpUrl"  +httpUrl);
+
                 ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
             }
         });
@@ -514,7 +500,7 @@ public class MineOrderFragment extends BaseFragment {
 
                     Bundle bundle = new Bundle();
                     bundle.putString("title", "协议");
-                    bundle.putString("url", url);
+                    bundle.putString("url",url);
                     ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
                 }
             }
@@ -522,8 +508,8 @@ public class MineOrderFragment extends BaseFragment {
     }
 
 
-    public static MineOrderFragment newIntance(int isSeller) {  //角度  1-买家角度(默认1)   2-卖家角度
-        MineOrderFragment mineOrderFragment = new MineOrderFragment();
+    public static MineOrderBuyFragment newIntance(int isSeller) {  //角度  1-买家角度(默认1)   2-卖家角度
+        MineOrderBuyFragment mineOrderFragment = new MineOrderBuyFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("isSeller", isSeller);
         mineOrderFragment.setArguments(bundle);

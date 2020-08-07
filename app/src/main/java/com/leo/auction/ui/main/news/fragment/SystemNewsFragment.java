@@ -12,6 +12,7 @@ import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 
@@ -57,6 +58,13 @@ public class SystemNewsFragment extends BaseRecyclerViewFragment {
             }
         });
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+
+        onRefresh(refreshLayout);
+    }
 
 
     @Override
@@ -76,6 +84,11 @@ public class SystemNewsFragment extends BaseRecyclerViewFragment {
         hashMap.put("type", "1");  // 1-系统消息 2-官方公告
         hashMap.put("pageNum", String.valueOf(mPageNum));
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
+        boolean loginStatus = BaseSharePerence.getInstance().getLoginStatus();
+
+        if (!loginStatus){
+            return;
+        }
 
 
 

@@ -43,7 +43,7 @@ public class HomeXYAdapter extends BaseQuickAdapter<HomeListModel.DataBean, Base
     private int screenWidth;
 
     public HomeXYAdapter(int screenWidth) {
-        super(R.layout.item_home_list_all, null);
+        super(R.layout.item_home_list_all_detail, null);
         this.screenWidth = screenWidth;
     }
 

@@ -107,9 +107,9 @@ public class HomeJLFragment extends BaseRecyclerViewFragment {
     protected void initAdapter() {
 
 
-        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(), (int) getResources().getDimension(R.dimen.dp_10)));
+        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_15)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels);
+        mAdapter = new HomeAdapter(dm.widthPixels );
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);

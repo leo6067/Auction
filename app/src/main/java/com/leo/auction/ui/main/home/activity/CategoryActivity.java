@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewActivity;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
+import com.aten.compiler.base.BaseRecyclerView.StaggeredDividerItemDecoration;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
@@ -116,9 +117,9 @@ public class CategoryActivity extends BaseRecyclerViewActivity {
     @Override
     public void initAdapter() {
         super.initAdapter();
-        recyclerView.addItemDecoration(new SpaceItemDecoration((int) getResources().getDimension(R.dimen.dp_20), 2));
+        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(CategoryActivity.this,(int) getResources().getDimension(R.dimen.dp_15)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
+        mAdapter = new HomeAdapter(dm.widthPixels );
         mAdapter.setHeaderAndEmpty(true);
         setSmartHasRefreshOrLoadMore(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);

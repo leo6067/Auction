@@ -1,6 +1,7 @@
 package com.leo.auction.ui.main;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,13 +27,20 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
+import com.leo.auction.ui.login.AgreementActivity;
 import com.leo.auction.ui.login.LoginActivity;
+import com.leo.auction.ui.login.LoginWxActivity;
 import com.leo.auction.ui.login.model.CommonModel;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
+import com.leo.auction.ui.main.home.fragment.MineOrderBuyFragment;
 import com.leo.auction.ui.main.home.fragment.MineOrderFragment;
+import com.leo.auction.ui.main.home.model.SceneModel;
+import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.model.CateProductModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.web.AgentWebActivity;
+import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.Globals;
 
 import java.util.ArrayList;
@@ -48,7 +56,6 @@ import okhttp3.Call;
  * A simple {@link Fragment} subclass.
  */
 public class MainMeFragment extends BaseFragment {
-
 
 
     @BindView(R.id.civ_head)
@@ -85,6 +92,8 @@ public class MainMeFragment extends BaseFragment {
     String[] mTitles = {"买入订单", "卖出订单"};
 
 
+    private int orderType = 0;
+
     ArrayList<BaseFragment> mFragments = new ArrayList<>();
     @BindView(R.id.title_lin)
     LinearLayout mTitleLin;
@@ -93,6 +102,7 @@ public class MainMeFragment extends BaseFragment {
 
     private String shopUri = "";
     private String shopName = "";
+    private DialogUtils dialogUtils;
 
 
     public MainMeFragment() {
@@ -106,7 +116,13 @@ public class MainMeFragment extends BaseFragment {
     }
 
 
-
+    @Override
+    public void initData() {
+        super.initData();
+        dialogUtils = new DialogUtils();
+        httpUser();
+        httpTab();// 提前加载拍品管理列表 标题数据
+    }
 
     @Override
     public void onResume() {
@@ -115,7 +131,7 @@ public class MainMeFragment extends BaseFragment {
         httpTab();// 提前加载拍品管理列表 标题数据
     }
 
-    @OnClick({R.id.civ_head, R.id.tv_name, R.id.fl_shop, R.id.ll_follow, R.id.ll_fans})
+    @OnClick({R.id.tv_coin_num, R.id.civ_head, R.id.tv_name, R.id.fl_shop, R.id.ll_follow, R.id.ll_fans})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.civ_head:
@@ -130,7 +146,18 @@ public class MainMeFragment extends BaseFragment {
                 ActivityManager.mainActivity.setCurrent(2);
                 break;
             case R.id.ll_fans:
+
                 break;
+            case R.id.tv_coin_num:
+                if (orderType == 0) {  //7-卖家等级说明  8-买家等级说明
+                    showAgreeDialog("8");
+                } else {
+                    showAgreeDialog("7");
+                }
+
+                break;
+
+
         }
     }
 
@@ -160,7 +187,12 @@ public class MainMeFragment extends BaseFragment {
 
     private void httpUser() {
         HashMap<String, String> hashMap = new HashMap<>();
-        showWaitDialog();
+
+        boolean loginStatus = BaseSharePerence.getInstance().getLoginStatus();
+
+        if (!loginStatus) {
+            return;
+        }
         HttpRequest.httpGetString(Constants.Api.USER_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -188,17 +220,22 @@ public class MainMeFragment extends BaseFragment {
         if (userInfo.getType() == 1) {   // 1 买家 2 卖家
             mTitleList.add("买入订单");
             mMineLevel.setVisibility(View.GONE);
+        } else if (userInfo.getExclusiveFansNum() < 50) {//粉丝数小于50
+            mTitleList.add("买入订单");
+            mMineLevel.setVisibility(View.GONE);
         } else {
             mTitleList.add("买入订单");
             mTitleList.add("卖出订单");
             mMineLevel.setVisibility(View.VISIBLE);
         }
+
+
         upUserLevel(userInfo, false);
 
-        mFragments.add(MineOrderFragment.newIntance(1));
+        mFragments.add(MineOrderBuyFragment.newIntance(1));
         mFragments.add(MineOrderFragment.newIntance(2));
 
-        Constants.Var.MINE_TYPE = 0;
+
         mOrderPagerAdapter = new OrderPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mOrderPagerAdapter);
         mCommonTab.setViewPager(mViewPager);
@@ -207,8 +244,9 @@ public class MainMeFragment extends BaseFragment {
             @Override
             public void onTabSelect(int position) {
 //                mViewPager.setCurrentItem(position);
-                Constants.Var.MINE_TYPE = position;
+                orderType = 0;
                 if (position == 0) {
+
                     upUserLevel(userInfo, false);
                 } else {
                     upUserLevel(userInfo, true);
@@ -219,7 +257,7 @@ public class MainMeFragment extends BaseFragment {
 
             @Override
             public void onTabReselect(int position) {
-                Constants.Var.MINE_TYPE = position;
+
             }
         });
 
@@ -232,8 +270,8 @@ public class MainMeFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
 //                mCommonTab.setCurrentTab(i);
-                Constants.Var.MINE_TYPE = position;
 
+                orderType = 0;
                 if (position == 0) {
                     upUserLevel(userInfo, false);
                 } else {
@@ -258,8 +296,6 @@ public class MainMeFragment extends BaseFragment {
             String[] myLevelPicS = commonJson.getMy_level_pic().get(0).split("auction_level_hd_");
             String LevelUrl = myLevelPicS[0] + "auction_level_hd_" + userInfo.getLevel() + ".png";
 
-            Globals.log("xxxxxx vipUrl" +  vipUrl);
-            Globals.log("xxxxxx LevelUrl" +  LevelUrl);
             GlideUtils.loadImg(userInfo.getHeadImg(), mCivHead);
             GlideUtils.loadImgDefault(vipUrl, mMineVip);
             GlideUtils.loadImgDefault(LevelUrl, mMineLevel);
@@ -285,12 +321,18 @@ public class MainMeFragment extends BaseFragment {
             mTvFansNum.setText(String.valueOf(userInfo.getFansNum()));
             mTvCoinNum.setText(String.valueOf(userInfo.getSellerScore()));
         }
+
+
     }
 
 
     private void httpTab() {
         HashMap<String, String> mHash = new HashMap<>();
+        boolean loginStatus = BaseSharePerence.getInstance().getLoginStatus();
 
+        if (!loginStatus) {
+            return;
+        }
         HttpRequest.httpGetString(Constants.Api.CATE_PRODUCT_URL, mHash, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -305,6 +347,53 @@ public class MainMeFragment extends BaseFragment {
             }
         });
 
+    }
+
+
+    //出价 隐私 协议 政策
+    private void showAgreeDialog(String type) {
+
+        showWaitDialog();
+        SceneModel.httpGetScene(type, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                SceneModel sceneModel = JSONObject.parseObject(resultData, SceneModel.class);
+                if (sceneModel.getData() == null) {
+                    return;
+                }
+                int redirectType = sceneModel.getData().getRedirectType(); //1-富文本  2-H5页面
+
+                if (redirectType == 1) {
+                    dialogUtils.showRuleProtocolDialog(getActivity(),
+                            sceneModel.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
+                                @Override
+                                public void onClose() {
+                                    dialogUtils.dissRuleProtocolDialog();
+                                }
+                            });
+                } else {
+
+                    String url = sceneModel.getData().getH5Url();
+                    if (sceneModel.getData().getH5Url().contains("?")) {
+                        url += "&isMargin=4";
+                    } else {
+                        url += "?isMargin=4";
+                    }
+
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", "协议");
+                    bundle.putString("url",url);
+                    ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
+                }
+            }
+        });
     }
 
 }

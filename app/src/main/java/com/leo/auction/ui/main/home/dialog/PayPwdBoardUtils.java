@@ -129,7 +129,7 @@ public class PayPwdBoardUtils {
         dialogTitle.setText("确认支付");
         dialogRule.setVisibility(View.GONE);
 
-        dialogTime.setText("为避免订单违约，建议您在" + time +"前支付");
+        dialogTime.setText( time);
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

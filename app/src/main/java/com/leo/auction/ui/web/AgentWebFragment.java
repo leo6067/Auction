@@ -112,7 +112,6 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             target = "http://www.jd.com/";
         }
 
-        Globals.log("xxxxxxxx百亿补贴  02 token" + target);
         return target;
     }
 

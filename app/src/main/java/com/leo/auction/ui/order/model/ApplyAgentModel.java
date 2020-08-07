@@ -1,4 +1,4 @@
-package com.leo.auction.ui.main.home.model;
+package com.leo.auction.ui.order.model;
 
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
@@ -8,19 +8,18 @@ import java.util.HashMap;
 /**
  * ==============================================
  * 项目名称:  钱滚滚
- * 包    名： com.leo.auction.ui.main.home.model
+ * 包    名： com.leo.auction.ui.order.model
  * 作    者： Leo---悠悠球
- * 时    间： 2020/7/24
+ * 时    间： 2020/8/7
  * 描    述：
  * 修    改：
  * ===============================================
  */
-public class SceneModel {
-
+public class ApplyAgentModel {
 
     /**
-     * data : {"h5Url":"www.baidu.com","content":"xxxx","redirectType":1}
-     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1594633580240}
+     * data : {"bssCode":"601","tradeNo":"16316735163hdsd","money":12,"scene":"agent"}
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1593833490633}
      */
 
     private DataBean data;
@@ -44,37 +43,47 @@ public class SceneModel {
 
     public static class DataBean {
         /**
-         * h5Url : www.baidu.com
-         * content : xxxx
-         * redirectType : 1
+         * bssCode : 601
+         * tradeNo : 16316735163hdsd
+         * money : 12
+         * scene : agent
          */
 
-        private String h5Url;
-        private String content;
-        private int redirectType;
+        private String bssCode;
+        private String tradeNo;
+        private int money;
+        private String scene;
 
-        public String getH5Url() {
-            return h5Url;
+        public String getBssCode() {
+            return bssCode;
         }
 
-        public void setH5Url(String h5Url) {
-            this.h5Url = h5Url;
+        public void setBssCode(String bssCode) {
+            this.bssCode = bssCode;
         }
 
-        public String getContent() {
-            return content;
+        public String getTradeNo() {
+            return tradeNo;
         }
 
-        public void setContent(String content) {
-            this.content = content;
+        public void setTradeNo(String tradeNo) {
+            this.tradeNo = tradeNo;
         }
 
-        public int getRedirectType() {
-            return redirectType;
+        public int getMoney() {
+            return money;
         }
 
-        public void setRedirectType(int redirectType) {
-            this.redirectType = redirectType;
+        public void setMoney(int money) {
+            this.money = money;
+        }
+
+        public String getScene() {
+            return scene;
+        }
+
+        public void setScene(String scene) {
+            this.scene = scene;
         }
     }
 
@@ -83,7 +92,7 @@ public class SceneModel {
          * code : 0
          * message : 请求成功
          * success : true
-         * timestamp : 1594633580240
+         * timestamp : 1593833490633
          */
 
         private String code;
@@ -125,16 +134,12 @@ public class SceneModel {
     }
 
 
-
-
-
-    public static void httpGetScene(String scene, HttpRequest.HttpCallback httpCallback){
-
+    public static void httpGetApplyAgent(HttpRequest.HttpCallback httpCallback){
 
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("scene",scene);  //1-锤定交易服务用户协议  2-锤定交易服务协议   3-隐私保护政策 4-出价补贴说明 5-购买补贴说明 6-增加粉丝说明
-        //7-卖家等级说明  8-买家等级说明
 
-        HttpRequest.httpGetString(Constants.Api.SCENE_URL,hashMap,httpCallback);
+        HttpRequest.httpGetString(Constants.Api.APPLYAGENT_URL,hashMap,httpCallback);
+
+
     }
 }

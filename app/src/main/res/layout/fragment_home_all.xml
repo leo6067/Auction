@@ -19,20 +19,16 @@
             android:layout_height="wrap_content" />
 
 
-        <!--        <android.support.v7.widget.RecyclerView-->
-        <!--            android:id="@+id/title_recyclerView"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:background="@color/white"/>-->
+
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_20"
              />
 
     </com.aten.compiler.widget.CustRefreshLayout>

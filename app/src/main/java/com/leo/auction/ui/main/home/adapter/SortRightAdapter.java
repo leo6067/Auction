@@ -82,15 +82,23 @@ public class SortRightAdapter extends BaseMultiItemQuickAdapter<SortLeftModel.Da
                 textView.setVisibility(View.GONE);
                 break;
             case Constants.Var.LAYOUT_TYPE:
-                helper.setText(R.id.textView, item.getName());
                 ImageView imageView = helper.getView(R.id.imageView);
-                GlideUtils.loadImg(mContext,item.getIcon(),imageView);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mRightItemClick.ItemClick(item);
-                    }
-                });
+                TextView nameText = helper.getView(R.id.textView);
+                if (item.getPosition()==-5){
+                    imageView.setVisibility(View.INVISIBLE);
+                    nameText.setText("");
+                }else {
+                    nameText.setText(item.getName());
+                    imageView.setVisibility(View.VISIBLE);
+                    GlideUtils.loadImg(mContext,item.getIcon(),imageView);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mRightItemClick.ItemClick(item);
+                        }
+                    });
+                }
+
                 break;
             default:
                 break;

@@ -360,6 +360,8 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                     intent.putExtra("hasNeedRightView", false);
                     intent.putExtra("hasNeedLeftView", true);
                     startActivity(intent);
+
+
                 }
             }
         });
@@ -517,13 +519,15 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
         distributeType = newestReleaseProduct.getDistributeType();
 
-        if (distributeType.equals("1")) {
+
+        //包邮到付
             mRadioYou.setChecked(true);
-            mRadioFu.setChecked(false);
-        } else {
-            mRadioYou.setChecked(false);
-            mRadioFu.setChecked(true);
-        }
+//        if (distributeType.equals("1")) {
+//            mRadioFu.setChecked(false);
+//        } else {
+//            mRadioYou.setChecked(false);
+//            mRadioFu.setChecked(true);
+//        }
 
         timeType = newestReleaseProduct.getTime().getType();
         timeNodeID = newestReleaseProduct.getTime().getTimeNodeId() + "";

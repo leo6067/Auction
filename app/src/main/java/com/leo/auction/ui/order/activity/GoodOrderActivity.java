@@ -251,9 +251,11 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
 
 
         String timeToString = DateTimeUtils.timeToString(mOrderGoodJsonData.getExpire() + "", "MM月dd日 HH:mm");
+        String timeHint = "为避免订单违约，建议您在" + timeToString +"前支付";
+
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         ArrayList<OrderPayTypeModel> orderPayTypeModels = CommonUsedData.getInstance().getOrderPayTypeData(userJson.getBalance(), paymoney);
-        payInputPwdBoardUtils.showPayTypeDialogTime(GoodOrderActivity.this, paymoney, timeToString,
+        payInputPwdBoardUtils.showPayTypeDialogTime(GoodOrderActivity.this, paymoney, timeHint,
                 orderPayTypeModels, this);
     }
 

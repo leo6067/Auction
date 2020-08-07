@@ -2,6 +2,7 @@ package com.leo.auction.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -47,6 +48,7 @@ import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.home.model.SceneModel;
 import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.Globals;
 import com.tencent.smtt.sdk.CookieSyncManager;
@@ -325,13 +327,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     } else {
                         url += "?isMargin=4";
                     }
-                    Intent intent = new Intent(LoginActivity.this, AgreementActivity.class);
-                    intent.putExtra("title", "协议");
-                    intent.putExtra("url", url);
-                    intent.putExtra("hasNeedTitleBar", true);
-                    intent.putExtra("hasNeedRightView", false);
-                    intent.putExtra("hasNeedLeftView", true);
-                    startActivity(intent);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", "协议");
+                    bundle.putString("url",url);
+                    com.aten.compiler.base.ActivityManager.JumpActivity(LoginActivity.this, AgentWebActivity.class, bundle);
                 }
             }
         });

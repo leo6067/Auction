@@ -74,8 +74,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="@dimen/dp_9"
-        android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_5"
         android:id="@+id/title_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

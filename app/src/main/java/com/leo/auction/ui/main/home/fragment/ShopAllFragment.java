@@ -31,7 +31,7 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
-import com.leo.auction.ui.main.home.adapter.HomeAdapter;
+
 
 import com.leo.auction.ui.main.home.adapter.HomeSearchAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;

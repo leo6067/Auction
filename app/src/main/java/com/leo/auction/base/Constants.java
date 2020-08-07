@@ -55,7 +55,7 @@ public class Constants {
 //        public static int HOME_TYPE = 0 ;//用于记录是homefragment 片段中具体哪个     // 5开始是关注
         public static int SHOP_TYPE = 0 ;//用于记录是商家店铺主页 片段中具体哪个
         public static int FOCUS_TYPE = -1 ;//用于记录是关注Tab 片段中具体哪个  -1表示未登录
-        public static int MINE_TYPE = 0 ;//用于记录是个人中心是 买入 还是卖出订单
+
         public static String HOME_SORT_TYPE = "HOME_SORT_TYPE" ;//用于记录是分类id
 
         public static int PPGL_SORT_TYPE = 0 ;//用于记录是拍品管理当前是哪个分类
@@ -197,6 +197,13 @@ public class Constants {
         public static String MINE_DSH =WEB_BASE_URL+"auction-web/pages/order/list?status=4&isMargin=4&viewType=";// 待收货
         public static String MINE_SH =WEB_BASE_URL+"auction-web/pages/order/list?status=192&isMargin=4&viewType=";// 售后
         public static String MINE_QB =WEB_BASE_URL+"auction-web/pages/order/list?status=0&isMargin=4&viewType=";// 全部
+        public static String MINE_ZCMX=WEB_BASE_URL+"auction-web/pages/sub/balance/index?isMargin=4&subsidyToken=";// 资产明细
+        public static String MINE_CJXT=WEB_BASE_URL+"auction-web/pages/sub/school/school?isMargin=4";// 超级学堂
+
+
+
+        public static String MINE_QXSQ=WEB_BASE_URL+"auction-web/pages/sub/super/apply";// 权限申请
+        public static String MINE_MFKD=WEB_BASE_URL+"auction-web/pages/order/createOrder";// 开店
 
 
 
@@ -443,6 +450,9 @@ public class Constants {
 
         //超级仓库
         public static String STOREHOUSE_URL = domain + "product/store";
+
+        //申请开店
+        public static String APPLYAGENT_URL = domain + "user/apply-agent";
 
 
 

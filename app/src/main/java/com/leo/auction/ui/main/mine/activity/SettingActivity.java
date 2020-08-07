@@ -203,6 +203,7 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
                     @Override
                     public void onWarningOk() {
                         removeAllCookie();
+                        BaseSharePerence.getInstance().setLoginStatus(false);
                         loginOut();
                         Constants.Var.FOCUS_TYPE = -1;  //  关注片段 防止预加载
                         LoginActivity.newIntance(SettingActivity.this, 1);

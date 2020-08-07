@@ -3,6 +3,7 @@ package com.leo.auction.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -64,8 +65,7 @@ public class MainSortFragment extends BaseFragment {
     @BindView(R.id.lin_search)
     RTextView mSearchMin;
 
-    @BindView(R.id.view_view)
-    View mViewView;
+
 
 
     @BindView(R.id.title_more)
@@ -168,10 +168,14 @@ public class MainSortFragment extends BaseFragment {
 
                 mSortAdapter.setSelectedPosition(position);
 
-                MyUtils.moveToMiddle(mHomeSortMax, position);
+//                MyUtils.moveToMiddle(mHomeSortMax, position);
                 // 右侧滑到对应位置
-                ((GridLayoutManager)mHomeSortMin.getLayoutManager())
-                        .scrollToPositionWithOffset(indexMap.get(position),0);
+//                ((GridLayoutManager)mHomeSortMin.getLayoutManager())
+//                        .scrollToPositionWithOffset(indexMap.get(position),0);
+
+                scrollItemToTop((GridLayoutManager)mHomeSortMin.getLayoutManager(),indexMap.get(position));
+
+
             }
         });
 
@@ -193,6 +197,8 @@ public class MainSortFragment extends BaseFragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 //只有当前已经停止了滚动才需要处理
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+
+
                     int firstCompletelyVisibleItemPosition = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
                     int selectPosition = 0;
                     for (int i = 0; i < firstCompletelyVisibleItemPosition; i++) {
@@ -200,8 +206,16 @@ public class MainSortFragment extends BaseFragment {
                             selectPosition++;
                         }
                     }
-                    mSortAdapter.setSelectedPosition(selectPosition);
-//                    setViewView(selectPosition);
+
+
+//                    Globals.log("xxxxxx  selectPosition"  + selectPosition  +  "   " + mSortAdapter.getData().size()  );
+                    if(selectPosition ==mSortAdapter.getData().size() ){
+                        mSortAdapter.setSelectedPosition(mSortAdapter.getData().size()-1);
+                    }else {
+                        mSortAdapter.setSelectedPosition(selectPosition);
+                    }
+
+
 
 
 
@@ -213,46 +227,42 @@ public class MainSortFragment extends BaseFragment {
 //                        mSortAdapter.setSelectedPosition(mSortRightList.get(topPosition).getPosition());
 //                    }
 
-
-
                 }
-
-
 
             }
         });
-
-
     }
 
 
 
 
 
-    void scrollItemToTop(LinearLayoutManager mLayoutManager, int position) {
+    void scrollItemToTop(GridLayoutManager mLayoutManager, int position) {
 
 //        mLayoutManager.scrollToPositionWithOffset(position, 0);
 
         SortLinearSmoothScroller smoothScroller = new SortLinearSmoothScroller(getActivity());
         smoothScroller.setTargetPosition(position);
         mLayoutManager.startSmoothScroll(smoothScroller);
+
     }
+
 
 
     @Override
     public void initData() {
         super.initData();
         Constants.Action.ACTION_ACTION = "2";
-        showWaitDialog();
+
         SortLeftModel.httpSort(new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+
                 SortLeftModel sortLeftModel = JSONObject.parseObject(resultData, SortLeftModel.class);
                 mSortLeftList = sortLeftModel.getData();
                 mSortAdapter.addData(mSortLeftList);
@@ -274,6 +284,21 @@ public class MainSortFragment extends BaseFragment {
                         childrenBeanB.setPosition(-1);
                         mSortRightList.add(childrenBeanB);
                     }
+
+
+                    if (i== mSortLeftList.size()-1){
+                        for (int j = 0; j < 25; j++) {
+                        SortLeftModel.DataBean.ChildrenBean childrenBeanB = new SortLeftModel.DataBean.ChildrenBean();
+                        childrenBeanB.setIcon("");
+                        childrenBeanB.setId("");
+                        childrenBeanB.setName("");
+                        childrenBeanB.setItemType(Constants.Var.LAYOUT_TYPE);
+                        childrenBeanB.setPosition(-5);  //占位置，空白
+                        mSortRightList.add(childrenBeanB);
+                        }
+                    }
+
+
                 }
 
 

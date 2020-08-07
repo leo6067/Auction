@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
+import com.aten.compiler.base.BaseRecyclerView.StaggeredDividerItemDecoration;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.ToastUtils;
@@ -37,6 +38,7 @@ import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
+import com.leo.auction.common.widget.DividerItemDecoration;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.AgreementActivity;
 import com.leo.auction.ui.login.LoginActivity;
@@ -46,6 +48,7 @@ import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.SharedActvity;
 
 import com.leo.auction.ui.main.home.adapter.DetailBidAdapter;
+
 import com.leo.auction.ui.main.home.adapter.HomeAdapter;
 import com.leo.auction.ui.main.home.adapter.HomeXYAdapter;
 import com.leo.auction.ui.main.home.adapter.PicGridNineAdapter;
@@ -387,11 +390,16 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
 
 //        GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+//        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(CategoryActivity.this,(int) getResources().getDimension(R.dimen.dp_15)));
+//        DisplayMetrics dm = getResources().getDisplayMetrics();
+//        mAdapter = new HomeAdapter(dm.widthPixels );
+
+
 
         mGoodsRecycler.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
 
 
-        mHomeAdapter = new HomeXYAdapter(dm.widthPixels - ((int) getResources().getDimension(R.dimen.dp_20)) * 4);
+        mHomeAdapter = new HomeXYAdapter(dm.widthPixels );
         mHomeAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) mGoodsRecycler.getItemAnimator()).setSupportsChangeAnimations(false);
         mHomeAdapter.setHasStableIds(true);
@@ -922,13 +930,10 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                         url += "?isMargin=4";
                     }
 
-                    Intent intent = new Intent(AuctionDetailActivity.this, AgreementActivity.class);
-                    intent.putExtra("title", "协议");
-                    intent.putExtra("url", url);
-                    intent.putExtra("hasNeedTitleBar", true);
-                    intent.putExtra("hasNeedRightView", false);
-                    intent.putExtra("hasNeedLeftView", true);
-                    startActivity(intent);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", "协议");
+                    bundle.putString("url",url);
+                    com.aten.compiler.base.ActivityManager.JumpActivity(AuctionDetailActivity.this, AgentWebActivity.class, bundle);
                 }
             }
         });
@@ -962,7 +967,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
                 BidModel bidModel = JSONObject.parseObject(resultData, BidModel.class);
                 if (bidModel.getData().getBssCode() == 105) {
-                    ToastUtils.showShort("请缴纳保证金");
+
                     mBidModelData = bidModel.getData();
                     HashMap<String, String> mHash = new HashMap<>();
                     EarnestDialog earnestDialog = new EarnestDialog(AuctionDetailActivity.this, mHash, AuctionDetailActivity.this);

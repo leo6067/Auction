@@ -84,6 +84,11 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
                 bundle.putString("shopName", json.getProductUser().getNickname());
                 ActivityManager.JumpActivity(getActivity(), ShopActivity.class, bundle);
             }
+
+            @Override
+            public void soreCancel() {
+                onRefresh(refreshLayout);
+            }
         });
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

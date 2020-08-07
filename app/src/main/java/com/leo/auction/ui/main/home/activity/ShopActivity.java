@@ -197,6 +197,8 @@ public class ShopActivity extends BaseActivity {
         mShopFocus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mUserJson = BaseSharePerence.getInstance().getUserJson();
+
                 if (mUserJson == null) {
 
                     LoginActivity.newIntance(ShopActivity.this, 0);

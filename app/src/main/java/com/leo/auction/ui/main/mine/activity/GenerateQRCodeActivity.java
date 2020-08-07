@@ -127,11 +127,14 @@ public class GenerateQRCodeActivity extends BaseActivity {
     //显示图片
     private void showImg() {
         double rQrWidth = 0, rQrHeight = 0, rQrX = 0, rQrY = 0;
+        double rQrWidthx = 0, rQrHeighxt = 0;
         switch (name) {
             case "推荐粉丝":
             case "推荐商家":
-                rQrWidth = bgWidth * 0.45 ;
-                rQrHeight = rQrWidth*0.9 ;
+                rQrWidth = bgWidth * 0.35 ;
+                rQrHeight = rQrWidth*0.92 ;
+                rQrWidthx = bgWidth * 0.45 ;
+                rQrHeighxt  = rQrWidth*0.9 ;
                 rQrX = (bgWidth - rQrWidth - bgWidth * 0.015) / 2;
                 rQrY = bgHeight * 0.254;
                 break;
@@ -140,7 +143,7 @@ public class GenerateQRCodeActivity extends BaseActivity {
             case "首页二维码3":
             case "代理二维码":
                 rQrWidth = bgWidth * 0.25;
-                rQrHeight = rQrWidth;
+                rQrHeight = rQrWidthx;
                 rQrX = bgWidth * 0.758;
                 rQrY = bgHeight * 0.043;
                 break;

@@ -115,9 +115,9 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
     public void initAdapter() {
 
 
-        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_10)));
+        recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_15)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        mAdapter = new HomeAdapter(dm.widthPixels -(int) getResources().getDimension(R.dimen.dp_10)*3);
+        mAdapter = new HomeAdapter(dm.widthPixels );
         mAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);

@@ -22,7 +22,7 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.MainActivity;
-import com.leo.auction.ui.main.home.adapter.HomeAdapter;
+
 import com.leo.auction.ui.main.home.adapter.HomeXYAdapter;
 import com.leo.auction.ui.main.home.model.HomeListModel;
 import com.leo.auction.utils.DialogUtils;

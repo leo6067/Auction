@@ -51,6 +51,14 @@ public class UserModel {
         this.result = result;
     }
 
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "data=" + data +
+                ", result=" + result +
+                '}';
+    }
+
     public static class DataBean {
         /**
          * address : {"shipAddress":{"address":"北京市北京市东城区ggg","code":"jjjj","id":5,"linkman":"ghhh","phone":"13489973950","type":0},"returnAddress":{"address":"北京市北京市东城区横坑村","code":"000000","id":268,"linkman":"翁忠杰","phone":"13489973950","type":1}}
@@ -128,6 +136,15 @@ public class UserModel {
         private String h5Token;
         private String webToken;
         private String nestedToken;
+        private String subsidyToken;
+
+        public String getSubsidyToken() {
+            return subsidyToken;
+        }
+
+        public void setSubsidyToken(String subsidyToken) {
+            this.subsidyToken = subsidyToken;
+        }
 
         public String getNestedToken() {
             return nestedToken;
@@ -425,6 +442,50 @@ public class UserModel {
             this.webToken = webToken;
         }
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "address=" + address +
+                    ", auctionCoinBalance='" + auctionCoinBalance + '\'' +
+                    ", auctionCoinNum=" + auctionCoinNum +
+                    ", balance='" + balance + '\'' +
+                    ", balanceExempt='" + balanceExempt + '\'' +
+                    ", buyerOrderCount=" + buyerOrderCount +
+                    ", dialogConnect=" + dialogConnect +
+                    ", fansNum=" + fansNum +
+                    ", exclusiveFansNum=" + exclusiveFansNum +
+                    ", limitProductFansNum=" + limitProductFansNum +
+                    ", followNum=" + followNum +
+                    ", headImg='" + headImg + '\'' +
+                    ", hxId='" + hxId + '\'' +
+                    ", id=" + id +
+                    ", idCard='" + idCard + '\'' +
+                    ", instanceNum=" + instanceNum +
+                    ", level=" + level +
+                    ", limitType=" + limitType +
+                    ", nickname='" + nickname + '\'' +
+                    ", payPwd=" + payPwd +
+                    ", phone='" + phone + '\'' +
+                    ", rate=" + rate +
+                    ", score=" + score +
+                    ", sellerLevel=" + sellerLevel +
+                    ", sellerOrderCount=" + sellerOrderCount +
+                    ", sellerScore=" + sellerScore +
+                    ", storeEnable=" + storeEnable +
+                    ", type=" + type +
+                    ", userId='" + userId + '\'' +
+                    ", username='" + username + '\'' +
+                    ", warrant='" + warrant + '\'' +
+                    ", subsidyMoney='" + subsidyMoney + '\'' +
+                    ", appToken='" + appToken + '\'' +
+                    ", mpToken='" + mpToken + '\'' +
+                    ", h5Token='" + h5Token + '\'' +
+                    ", webToken='" + webToken + '\'' +
+                    ", nestedToken='" + nestedToken + '\'' +
+                    ", subsidyToken='" + subsidyToken + '\'' +
+                    '}';
+        }
+
         public static class AddressBean {
             /**
              * shipAddress : {"address":"北京市北京市东城区ggg","code":"jjjj","id":5,"linkman":"ghhh","phone":"13489973950","type":0}
@@ -514,6 +575,18 @@ public class UserModel {
                 public void setType(int type) {
                     this.type = type;
                 }
+
+                @Override
+                public String toString() {
+                    return "ShipAddressBean{" +
+                            "address='" + address + '\'' +
+                            ", code='" + code + '\'' +
+                            ", id=" + id +
+                            ", linkman='" + linkman + '\'' +
+                            ", phone='" + phone + '\'' +
+                            ", type=" + type +
+                            '}';
+                }
             }
 
             public static class ReturnAddressBean {
@@ -580,6 +653,18 @@ public class UserModel {
                 public void setType(int type) {
                     this.type = type;
                 }
+
+                @Override
+                public String toString() {
+                    return "ReturnAddressBean{" +
+                            "address='" + address + '\'' +
+                            ", code='" + code + '\'' +
+                            ", id=" + id +
+                            ", linkman='" + linkman + '\'' +
+                            ", phone='" + phone + '\'' +
+                            ", type=" + type +
+                            '}';
+                }
             }
         }
 
@@ -637,6 +722,17 @@ public class UserModel {
             public void setType(int type) {
                 this.type = type;
             }
+
+            @Override
+            public String toString() {
+                return "BuyerOrderCountBean{" +
+                        "noPayNum=" + noPayNum +
+                        ", receiveNum=" + receiveNum +
+                        ", sendNum=" + sendNum +
+                        ", serviceNum=" + serviceNum +
+                        ", type=" + type +
+                        '}';
+            }
         }
 
         public static class SellerOrderCountBean {
@@ -693,7 +789,20 @@ public class UserModel {
             public void setType(int type) {
                 this.type = type;
             }
+
+            @Override
+            public String toString() {
+                return "SellerOrderCountBean{" +
+                        "noPayNum=" + noPayNum +
+                        ", receiveNum=" + receiveNum +
+                        ", sendNum=" + sendNum +
+                        ", serviceNum=" + serviceNum +
+                        ", type=" + type +
+                        '}';
+            }
         }
+
+
     }
 
     public static class ResultBean {

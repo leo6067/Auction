@@ -147,7 +147,8 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
                             ToastUtils.showShort("取消成功");
-                            remove(baseViewHolder.getAdapterPosition());
+                            mSortOnListener.soreCancel();
+
                         } else {
                             ToastUtils.showShort(baseModel.getResult().getMessage());
                         }
@@ -163,6 +164,8 @@ public class SortShopAdapter extends BaseQuickAdapter<SortShopModel.DataBean, Ba
         void soreOnListener();
 
         void soreItemListener(int layoutPosition);
+
+        void soreCancel( );
 
     }
 }
