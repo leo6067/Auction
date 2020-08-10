@@ -55,23 +55,6 @@ public class PromotionCenterActivivty extends BaseActivity {
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
 
         mRecyclerView.addItemDecoration(new PromotionCenterDividerDecoration(this));
-        mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
-            @Override
-            public void onLeftClick(View v) {
-                ActivityManager.JumpActivity(PromotionCenterActivivty.this, MainActivity.class);
-                ActivityManager.mainActivity.recreateActivity();
-                finish();
-            }
-
-            @Override
-            public void onTitleClick(View v) {
-            }
-
-            @Override
-            public void onRightClick(View v) {
-
-            }
-        });
 
         initAdapter();
     }

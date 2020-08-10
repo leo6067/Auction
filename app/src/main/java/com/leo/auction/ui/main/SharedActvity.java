@@ -169,14 +169,15 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 //        String path = Constants.WEB_BASE_URL+ "auction-web/pages/sub/product/productDetail?productInstanceCode=" + sharedModel.getId()
 //                + "&shareAgentId=" +userJson.getUserId();
 
-        if (sharedDailogUtils != null) {
-            sharedDailogUtils.dissSharedDialog();
-        }
 
         if (sharedModel.getShareGoodsCode().length() > 0) {
             UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "4", sharedModel.getShareGoodsCode(), "1");
         }
 
+        Globals.log("xxxxxxx  sharedModel"  + sharedModel.getShareUrl() );
+        Globals.log("xxxxxxx  sharedModel"  + sharedModel.getShopName() );
+        Globals.log("xxxxxxx  sharedModel"  + sharedModel.getPicPath() );
+        Globals.log("xxxxxxx  sharedModel  23  "  + sharedModel.getContent() );
 
         UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN, umShareListener);
         //分享到朋友圈，---将 SHARE_MEDIA.WEIXIN_CIRCLE    ----------- SHARE_MEDIA.WEIXIN  替换
@@ -187,9 +188,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     //分享朋友圈  4-分享 5-分享新用户 6-分享朋友圈  7-分享QQ
     @Override
     public void onSharedWXCircle() {
-        if (sharedDailogUtils != null) {
-            sharedDailogUtils.dissSharedDialog();
-        }
+
 //        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            UserActionUtils.actionLog(sharedModel.getChannelType(), "6", sharedModel.getShareGoodsCode(),  "1");
 //            showWaitDialog();
@@ -208,9 +207,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     @Override
     public void onSharedWXCircle_qrcode(LinearLayout llContain) {
 
-        if (sharedDailogUtils != null) {
-            sharedDailogUtils.dissSharedDialog();
-        }
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (sharedModel.getShareGoodsCode().length() > 0) {
                 UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
@@ -245,9 +242,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     //下载
     @Override
     public void onDowload(LinearLayout llContain) {
-        if (sharedDailogUtils != null) {
-            sharedDailogUtils.dissSharedDialog();
-        }
+
         showWaitDialog();
         Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
         FileUtils.fileDirExis(BaseGlobal.getQrCodeDir());
@@ -339,9 +334,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
     //分享多张图片到朋友圈(带二维码)
     private void shareMuiltImgToFriendCircle_qrcode(LinearLayout llContain) {
-        if (sharedDailogUtils != null) {
-            sharedDailogUtils.dissSharedDialog();
-        }
+
         Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
 
         final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();
@@ -395,9 +388,6 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (sharedDailogUtils != null) {
-            sharedDailogUtils.dissSharedDialog();
-        }
 
         //监听下载状态
         Aria.download(this).unRegister();

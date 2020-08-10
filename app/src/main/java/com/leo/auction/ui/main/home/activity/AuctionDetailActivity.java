@@ -507,7 +507,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         String sharedText = mMEpContent.getmContent().toString();
 
         SharedModel sharedModel = new SharedModel(shareName, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
-                detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceCode(), userJson.getUserId(),
+                detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId()+"", userJson.getUserId(),
                 Constants.Action.ACTION_ACTION);
 
 //        SharedActvity.newIntance(AuctionDetailActivity.this, sharedModel, sharedText, "0");
@@ -690,7 +690,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                         //是否是补贴商品
 
 
-                        if (!EmptyUtils.isEmpty(mGoodsDetailModel.getData().getSubsidyMoney())) {
+
                             if (mGoodsDetailModel.getData().isSubsidyProduct() && mBidBeanList.get(0).getBidPrice() == 2) {  //金额要大于等于2
                                 bundle.putString("subsidyLimit", mGoodsDetailModel.getData().getSubsidyMoney());
 //                            Globals.log("xxxxxx  mBidBeanList.get(0).getBidPrice()01 " +mBidBeanList.get(0).getBidPrice());
@@ -698,11 +698,9 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                                 bundle.putString("subsidyLimit", mGoodsDetailModel.getData().getSubsidyMoney());
 //                            Globals.log("xxxxxx  mBidBeanList.get(0).getBidPrice()010  " +mBidBeanList.get(0).getBidPrice());
                             } else {
-
+                                bundle.putString("subsidyLimit", "");
                             }
-                        } else {
-                            bundle.putString("subsidyLimit", "");
-                        }
+
 
 
                         ActivityManager.JumpActivity(AuctionDetailActivity.this, GoodOrderActivity.class, bundle);
@@ -855,6 +853,15 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         hashMap.put("rangePrice", rangePrice);
         hashMap.put("bidPrice", bidPrice);
         hashMap.put("userLevel", userLevel);
+
+
+        if ( mGoodsDetailModel.getData().isSubsidyProduct()) {
+            hashMap.put("subsidyMoney",1);
+        }else {
+            hashMap.put("subsidyMoney",0);
+        }
+
+
         mBidDialog = new BidDialog(AuctionDetailActivity.this, hashMap, new BidDialog.InterBidDialog() {
             @Override
             public void onItemOkClick(String price) {
@@ -952,7 +959,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
                 BidModel bidModel = JSONObject.parseObject(resultData, BidModel.class);
                 if (bidModel.getData().getBssCode() == 105) {
-
                     mBidModelData = bidModel.getData();
                     HashMap<String, String> mHash = new HashMap<>();
                     EarnestDialog earnestDialog = new EarnestDialog(AuctionDetailActivity.this, mHash, AuctionDetailActivity.this);
@@ -1031,8 +1037,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                     mUserJson.getBalance(), bidPrice + "");
             mPayPwdBoardUtils.showPayTypeDialog(AuctionDetailActivity.this, String.valueOf(bidPrice), orderPayTypeModels, AuctionDetailActivity.this);
         }
-
-
     }
 
     /*
@@ -1040,8 +1044,6 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
      * 支付*/
     @Override
     public void choosePayType(int pos) {
-
-
         mPayPwdBoardUtils.dismissPayTypeDialog();
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
 

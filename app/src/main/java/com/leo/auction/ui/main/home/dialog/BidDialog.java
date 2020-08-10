@@ -38,6 +38,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
     RTextView mItemThree;
     RTextView mItemOK;
     TextView mDialogPrice;
+    RelativeLayout mDialogBtRealin;
     TextView mItemByPrice;
     TextView mItemBtPrice;
     TextView mItemCdjy;
@@ -58,6 +59,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
     @Override
     public View onCreateView() {
         View view = View.inflate(mContext, R.layout.dialog_bid, null);
+        mDialogBtRealin = view.findViewById(R.id.re_bt);
         mDialogPrice = view.findViewById(R.id.dialog_price);
         mItemOne = view.findViewById(R.id.item_one);
         mItemTwo = view.findViewById(R.id.item_two);
@@ -91,6 +93,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
         int lastPrice = mHashMap.get("lastPrice");
         int rangePrice = mHashMap.get("rangePrice");
         int bidPrice = mHashMap.get("bidPrice");
+        int subsidyMoney = mHashMap.get("subsidyMoney");
 
         int twoPrice = bidPrice + rangePrice;
 
@@ -98,6 +101,7 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
             mItemTwo.setVisibility(View.GONE);
             mItemThree.setVisibility(View.GONE);
         }
+
 
 
         mDialogPrice.setText("￥ " + lastPrice);
@@ -108,13 +112,21 @@ public class BidDialog extends BottomBaseDialog<BidDialog> {
 
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
 
+        if (subsidyMoney==0){
+            mDialogBtRealin.setVisibility(View.GONE);
+        }else {
+            mDialogBtRealin.setVisibility(View.VISIBLE);
+            mItemBtPrice.setText("可用补贴额￥" + EmptyUtils.strEmpty(userJson.getSubsidyMoney()));
+            int byPrice = bidPrice / 2;
+            mItemByPrice.setText("本次出价最多补贴￥" + byPrice);
+        }
 
-        mItemBtPrice.setText("可用补贴额￥" + EmptyUtils.strEmpty(userJson.getSubsidyMoney()));
-
-        int byPrice = bidPrice / 2;
 
 
-        mItemByPrice.setText("本次出价最多补贴￥" + byPrice);
+
+
+
+
 
 
         mItemOne.setOnClickListener(new View.OnClickListener() {

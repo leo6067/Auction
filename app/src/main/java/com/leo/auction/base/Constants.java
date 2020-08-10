@@ -202,8 +202,8 @@ public class Constants {
 
 
 
-        public static String MINE_QXSQ=WEB_BASE_URL+"auction-web/pages/sub/super/apply";// 权限申请
-        public static String MINE_MFKD=WEB_BASE_URL+"auction-web/pages/order/createOrder";// 开店
+        public static String MINE_QXSQ=WEB_BASE_URL+"auction-web/pages/sub/super/apply?isMargin=4";// 权限申请
+
 
 
 

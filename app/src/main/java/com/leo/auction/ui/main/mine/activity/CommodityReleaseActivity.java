@@ -191,23 +191,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     @Override
     public void initData() {
         mTitleBar.setTitle("发布拍品");
-        mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
-            @Override
-            public void onLeftClick(View v) {
-                ActivityManager.JumpActivity(CommodityReleaseActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.recreateActivity();
-                finish();
-            }
-
-            @Override
-            public void onTitleClick(View v) {
-            }
-
-            @Override
-            public void onRightClick(View v) {
-
-            }
-        });
 
 
 

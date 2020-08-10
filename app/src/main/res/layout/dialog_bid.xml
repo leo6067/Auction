@@ -8,6 +8,7 @@
 
 
     <RelativeLayout
+
         android:id="@+id/re_bt"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_125"
@@ -15,6 +16,8 @@
 
 
         <ImageView
+
+            android:id="@+id/subsidy_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"

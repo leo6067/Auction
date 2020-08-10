@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity {
                 }
 
 
-                mViewPager.setCurrentItem(position);
+                mViewPager.setCurrentItem(position,false);
             }
 
             @Override
@@ -201,14 +201,14 @@ public class MainActivity extends BaseActivity {
 
 
         current = getIntent().getIntExtra("currentTab", 0);
-        mViewPager.setCurrentItem(current);
+        mViewPager.setCurrentItem(current,false);
         mCommonBottom.setCurrentTab(current);
         httpVerison();
     }
 
 
     public void setCurrent(int current) {
-        mViewPager.setCurrentItem(current);
+        mViewPager.setCurrentItem(current,false);
         mCommonBottom.setCurrentTab(current);
         mCommonBottom.setVisibility(View.VISIBLE);
     }
@@ -216,9 +216,10 @@ public class MainActivity extends BaseActivity {
 
     //用于web 返回app首页
     public void recreateActivity() {
-        mViewPager.setCurrentItem(current);
+        mViewPager.setCurrentItem(current,false);
         mCommonBottom.setCurrentTab(current);
         mCommonBottom.setVisibility(View.VISIBLE);
+
         recreate();
     }
 
@@ -312,7 +313,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        Globals.log("xxxxxxx onKeyDown" + keyCode);
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 //            if (mMineFragment != null && mMineFragment.mAgentWeb != null && mMineFragment.mAgentWeb.getWebCreator().getWebView().canGoBack()) {
 //                mMineFragment.mAgentWeb.getWebCreator().getWebView().goBack();

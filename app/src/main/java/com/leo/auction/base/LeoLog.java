@@ -84,4 +84,6 @@ public class LeoLog {
     // 状态栏
 //    https://www.jianshu.com/p/2a884e211a62
 
+//    viewPager.setCurrentItem(3,false); 去掉片段切换效果
+
 }

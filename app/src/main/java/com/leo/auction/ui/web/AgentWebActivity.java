@@ -119,7 +119,7 @@ public class AgentWebActivity extends AppCompatActivity implements SetPaypwdUtil
                 ft.add(R.id.container_framelayout, mAgentWebFragment = AgentWebFragment.getInstance(mBundle), AgentWebFragment.class.getName());
                 break;
 
-            case "开通超级仓库":
+            case "开店申请":
                 httpGetApplyAgent();
                 mPayPay.setVisibility(View.VISIBLE);
                 mBundle = new Bundle();

@@ -311,6 +311,8 @@ public class ShopActivity extends BaseActivity {
         mTitleBar.getRightView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                mUserJson =  BaseSharePerence.getInstance().getUserJson();
                 if (mUserJson == null) {
                     LoginActivity.newIntance(ShopActivity.this, 0);
                     return;

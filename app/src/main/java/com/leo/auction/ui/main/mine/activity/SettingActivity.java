@@ -113,25 +113,6 @@ public class SettingActivity extends BaseActivity implements UploadSinglePicUtil
         super.initView();
         mTitleBar.getTitleView().setText("设置");
 
-
-        mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
-            @Override
-            public void onLeftClick(View v) {
-                ActivityManager.JumpActivity(SettingActivity.this, MainActivity.class);
-                ActivityManager.mainActivity.recreateActivity();
-                finish();
-            }
-
-            @Override
-            public void onTitleClick(View v) {
-            }
-
-            @Override
-            public void onRightClick(View v) {
-
-            }
-        });
-
     }
 
 

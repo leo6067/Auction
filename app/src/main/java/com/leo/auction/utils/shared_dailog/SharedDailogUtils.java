@@ -111,37 +111,42 @@ public class SharedDailogUtils {
                     switch (pos) {
                         case 1:
                             iSharedDialog.onCopyLink();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
+//                            dissSharedDialog();
                             break;
                         case 2:
                             iSharedDialog.onSharedWX();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
+//                            dissSharedDialog();
                             break;
                         case 3:
                             iSharedDialog.onSharedWXCircle_qrcode(llContain);
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
+//                            dissSharedDialog();
                             break;
                         case 4:
                             iSharedDialog.onSharedWXCircle();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
                             break;
                         case 5:
                             iSharedDialog.onDowload(llContain);
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
+//                            dissSharedDialog();
                             break;
                         case 6:
                             iSharedDialog.onXYShared();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
+//                            dissSharedDialog();
                             break;
                         case 7:
                             iSharedDialog.onWWDZShared();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
+//                            dissSharedDialog();
                             break;
-
-
                         case 8:
                             iSharedDialog.onQQShared();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
+//                            dissSharedDialog();
                             break;
                     }
                 }
