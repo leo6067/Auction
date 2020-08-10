@@ -200,7 +200,6 @@ public class ShopActivity extends BaseActivity {
                 mUserJson = BaseSharePerence.getInstance().getUserJson();
 
                 if (mUserJson == null) {
-
                     LoginActivity.newIntance(ShopActivity.this, 0);
                     return;
                 }

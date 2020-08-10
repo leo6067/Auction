@@ -20,7 +20,7 @@ public class Constants {
             BASE_URL = "https://cd.taojianlou.com/ut/";//测试
             WEB_BASE_URL = "https://cd.taojianlou.com/ut1/";
         }
-        logGone = releaseVersion;
+//        logGone = releaseVersion;
     }
 
 

@@ -202,8 +202,6 @@ public class AppApplication extends BaseApplication {
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(), cb);
 
-
-
     }
 
 

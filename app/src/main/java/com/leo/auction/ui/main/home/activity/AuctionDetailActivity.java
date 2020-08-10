@@ -594,8 +594,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         String content = "【品名】" + goodsDetailModel.getTitle() + "\n";
         for (GoodsDetailModel.DataBean.AttributesBean attribute : goodsDetailModel.getAttributes()) {
             if (!EmptyUtils.isEmpty(attribute.getValue())
-                    && !"其他".equals(attribute.getValue())
-                    && !"类型".equals(attribute.getTitle())) {
+                   ) {
                 content += "【" + attribute.getTitle() + "】" + attribute.getValue() + "\n";
             }
         }

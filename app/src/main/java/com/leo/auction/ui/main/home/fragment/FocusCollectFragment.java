@@ -137,7 +137,7 @@ public class FocusCollectFragment extends BaseRecyclerViewFragment {
     public void getData() {
         super.getData();
 
-        Globals.log("xxxxxxx visibleToUser getData  01");
+
         String mUrl = "";
 
         HashMap<String, String> hashMap = new HashMap<>();
@@ -150,7 +150,7 @@ public class FocusCollectFragment extends BaseRecyclerViewFragment {
             return;
         }
 
-
+        Globals.log("xxxxxxx visibleToUser getData  01"  +Constants.Var.FOCUS_TYPE);
         int focusType = Constants.Var.FOCUS_TYPE;
         if (focusType > -1) {  //关注--收藏
             mUrl = Constants.Api.SORT_COLLECT_URL;

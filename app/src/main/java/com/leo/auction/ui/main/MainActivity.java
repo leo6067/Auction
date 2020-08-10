@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (mCommonBottom !=null){
+        if (mCommonBottom != null) {
             mCommonBottom.setVisibility(View.VISIBLE);
         }
     }
@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity {
         initImmersionBar();
         ActivityManager.mainActivity = this;
         mViewPager.setAdapter(new TitlePagerAdapter(getSupportFragmentManager()));
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(1);
 
         mFragments.add(new HomeFragment());
         mFragments.add(new MainSortFragment());
@@ -143,7 +143,9 @@ public class MainActivity extends BaseActivity {
 
 
                 if (position == 2) {
-                    Constants.Var.FOCUS_TYPE = 0;
+                    if (Constants.Var.FOCUS_TYPE == -1) {  //防止关注页面预加载
+                        Constants.Var.FOCUS_TYPE = 0;
+                    }
                     BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this, Constants.Action.ACTION_FOCUS_TYPE);
                 }
 
@@ -183,8 +185,9 @@ public class MainActivity extends BaseActivity {
                 }
 
                 if (position == 2) {
-
-                    Constants.Var.FOCUS_TYPE = 0;
+                    if (Constants.Var.FOCUS_TYPE == -1) { // //防止关注页面预加载
+                        Constants.Var.FOCUS_TYPE = 0;
+                    }
                     BroadCastReceiveUtils.sendLocalBroadCast(MainActivity.this, Constants.Action.ACTION_FOCUS_TYPE);
                 }
 

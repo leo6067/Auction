@@ -112,8 +112,8 @@ public class GenerateQRCodeActivity extends BaseActivity {
                 GlideUtils.getImageWidHeig(GenerateQRCodeActivity.this, bgPic, new GlideUtils.IGetImageData() {
                     @Override
                     public void sendData(int width, int height, double radio) {
-                        bgWidth = (int) getResources().getDimension(R.dimen.dp_600);
-                        bgHeight = (int) (getResources().getDimension(R.dimen.dp_600) / radio);
+                        bgWidth = (int) getResources().getDimension(R.dimen.dp_442);
+                        bgHeight = (int) (getResources().getDimension(R.dimen.dp_442)/radio);;
                         relRadio = new BigDecimal(String.valueOf(bgWidth)).divide(new BigDecimal(width), 2, BigDecimal.ROUND_HALF_UP).doubleValue();//记录当前imagerview与原来图片的比例
                         showImg();
                     }
@@ -131,12 +131,10 @@ public class GenerateQRCodeActivity extends BaseActivity {
         switch (name) {
             case "推荐粉丝":
             case "推荐商家":
-                rQrWidth = bgWidth * 0.35 ;
-                rQrHeight = rQrWidth*0.92 ;
-                rQrWidthx = bgWidth * 0.45 ;
-                rQrHeighxt  = rQrWidth*0.9 ;
-                rQrX = (bgWidth - rQrWidth - bgWidth * 0.015) / 2;
-                rQrY = bgHeight * 0.254;
+                rQrWidth = bgWidth* 0.175;
+                rQrHeight = rQrWidth;
+                rQrX= bgWidth*0.758;
+                rQrY= bgHeight * 0.043;
                 break;
             case "首页二维码1":
             case "首页二维码2":

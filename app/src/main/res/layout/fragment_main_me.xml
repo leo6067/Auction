@@ -38,14 +38,17 @@
                 app:background_normal="@color/white"
                 app:corner_radius="@dimen/dp_20">
 
-                <com.aten.compiler.widget.CircleImageView
+
+
+                <com.ruffian.library.widget.RImageView
                     android:id="@+id/civ_head"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
                     android:layout_marginLeft="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_30"
                     android:layout_marginRight="@dimen/dp_20"
-                    android:src="@drawable/ic_mine_head_default" />
+                    app:corner_radius="@dimen/dp_5"/>
+
 
 
                 <TextView
@@ -93,13 +96,13 @@
 
                 <com.ruffian.library.widget.RImageView
                     android:id="@+id/mine_vip"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30"
+                    android:layout_width="@dimen/dp_33"
+                    android:layout_height="@dimen/dp_33"
                     android:layout_below="@+id/tv_name"
                     android:layout_marginStart="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_20"
                     android:layout_toRightOf="@+id/civ_head"
-                    app:corner_radius="@dimen/dp_8"
+                    app:corner_radius="@dimen/dp_5"
 
                    />
 
@@ -252,11 +255,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"
             android:paddingStart="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_7"
             android:background="@color/white"
             app:tl_indicator_color="@color/maroon"
             app:tl_indicator_corner_radius="1.5dp"
             app:tl_indicator_height="3dp"
             app:tl_indicator_width="10dp"
+            app:tl_textsize="@dimen/sp_30"
             app:tl_textBold="SELECT"
             app:tl_textSelectColor="@color/maroon"
             app:tl_textUnselectColor="@color/gray" />
@@ -268,20 +273,6 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="0dp"
             android:layout_weight="1" />
-
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_88">
-
-
-
-
-        </LinearLayout>
-
-
 
 
 

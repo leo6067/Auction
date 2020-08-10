@@ -73,10 +73,7 @@ public class MainFocusFragment extends BaseFragment {
     public void initView(View view) {
         super.initView(view);
 
-
         mSegmentTabLayout.setTabData(mTitlesStr);
-
-
         mFragments.add(new FocusAllFragment());
         mFragments.add(new FocusShopFragment());
         mFragments.add(new FocusCollectFragment());  //收藏
@@ -118,6 +115,8 @@ public class MainFocusFragment extends BaseFragment {
 
             }
         });
+
+        Globals.log("xxxxxx Constants.Var.FOCUS_TYPE" + Constants.Var.FOCUS_TYPE);
 
         mViewPager.setCurrentItem(Constants.Var.FOCUS_TYPE);
 

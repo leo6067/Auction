@@ -205,9 +205,7 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
                 totalDy += dy;
                 if (totalDy <= ScreenUtils.getScreenHeight()) {
                     mIvToTop.setVisibility(View.GONE);
-                    if (mHomeTitleAdapter !=null){
-                        mHomeTitleAdapter.notifyDataSetChanged();
-                    }
+
                 } else {
                     mIvToTop.setVisibility(View.VISIBLE);
                 }

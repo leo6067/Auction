@@ -152,7 +152,7 @@ public class MineOrderFragment extends BaseFragment {
 
 
         try {
-            mMineBYBT.setText(mUserJson.getSubsidyMoney());
+            mMineBYBT.setText(mUserJson.getSubsidyMoney()+"元");
 
             mMineZcmx.setText(mUserJson.getBalance() + "元");
             //买入

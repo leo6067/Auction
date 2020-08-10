@@ -140,7 +140,7 @@ public class FocusAllFragment extends BaseRecyclerViewFragment {
     public void getData() {
         super.getData();
 
-        Globals.log("xxxxxxx visibleToUser getData  01");
+
         String mUrl = "";
 
         HashMap<String, String> hashMap = new HashMap<>();

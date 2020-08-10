@@ -22,14 +22,7 @@ import com.leo.auction.R;
 import java.util.ArrayList;
 
 /**
- * ================================================
- * 项目名称：SuperWarehouse_Android
- * 包    名：com.tjl.super_warehouse.widget
- * 作    者：彭俊鸿
- * 邮    箱：1031028399@qq.com
- * 版    本：1.0
- * 创建日期：2019/11/3 0003
- * 描    述：分享弹框
+ * ===============================================
  * ================================================
  */
 public class SharedDailogUtils {

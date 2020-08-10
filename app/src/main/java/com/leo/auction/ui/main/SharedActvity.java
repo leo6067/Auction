@@ -68,7 +68,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
 
     private List<String> nineImgs = new ArrayList<>();//记录页面九宫图的图片
-    private String copyText = "",videoUrl="";
+    private String copyText = "", videoUrl = "";
 
     private List<String> nineImgs_qrcode;
 
@@ -133,6 +133,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
             }
         });
     }
+
     @Override
     public void dissmiss() {
         new Handler().postDelayed(new Runnable() {
@@ -147,7 +148,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     @Override
     public void onCopyLink() {
 
-        RxClipboardTool.copyText( this,sharedModel.getShareUrl());
+        RxClipboardTool.copyText(this, sharedModel.getShareUrl());
         ToastUtils.showShort("链接复制成功");
     }
 
@@ -172,9 +173,12 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
             sharedDailogUtils.dissSharedDialog();
         }
 
-        UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "4", sharedModel.getShareGoodsCode() , "1");
+        if (sharedModel.getShareGoodsCode().length() > 0) {
+            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "4", sharedModel.getShareGoodsCode(), "1");
+        }
 
-        UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.WEIXIN,umShareListener);
+
+        UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN, umShareListener);
         //分享到朋友圈，---将 SHARE_MEDIA.WEIXIN_CIRCLE    ----------- SHARE_MEDIA.WEIXIN  替换
 //        UmShare.shareLink(this,path,sharedText,sharedModel.getPicPath(), sharedText,SHARE_MEDIA.WEIXIN_CIRCLE,umShareListener);
 
@@ -194,8 +198,10 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 //        } else {
 //            showShortToast("系统版本太低,无法使用该功能");
 //        }
-        UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode() , "1");
-        UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.WEIXIN_CIRCLE,umShareListener);
+        if (sharedModel.getShareGoodsCode().length() > 0) {
+            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
+        }
+        UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN_CIRCLE, umShareListener);
     }
 
     //分享朋友圈(带二维码)
@@ -206,7 +212,10 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
             sharedDailogUtils.dissSharedDialog();
         }
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            UserActionUtils.actionLog(sharedModel.getChannelType(), "6", sharedModel.getShareGoodsCode(),  "1");
+            if (sharedModel.getShareGoodsCode().length() > 0) {
+                UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
+            }
+
             showWaitDialog();
             WXShareMultiImageHelper.clearTmpFile(RxTool.getContext());
             shareMuiltImgToFriendCircle_qrcode(llContain);
@@ -214,8 +223,6 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
             showShortToast("系统版本太低,无法使用该功能");
         }
     }
-
-
 
 
     @Override
@@ -228,13 +235,11 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
     @Override
     public void onQQShared() {
-        UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "7", sharedModel.getShareGoodsCode() , "1");
-        UmShare.shareLink(this,sharedModel.getShareUrl(),sharedModel.getShopName(),sharedModel.getPicPath(), sharedModel.getContent(),SHARE_MEDIA.QQ,umShareListener);
+        if (sharedModel.getShareGoodsCode().length() > 0) {
+            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "7", sharedModel.getShareGoodsCode(), "1");
+        }
+        UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.QQ, umShareListener);
     }
-
-
-
-
 
 
     //下载
@@ -262,8 +267,6 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     }
 
 
-
-
     /**
      * 分享回调
      */
@@ -271,22 +274,25 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         @Override
         public void onStart(SHARE_MEDIA platform) {
         }
+
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Globals.log("plat","platform"+platform);
-            Toast.makeText(SharedActvity.this,"分享成功", Toast.LENGTH_SHORT).show();
+            Globals.log("plat", "platform" + platform);
+            Toast.makeText(SharedActvity.this, "分享成功", Toast.LENGTH_SHORT).show();
 
         }
+
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(SharedActvity.this,"分享失败", Toast.LENGTH_SHORT).show();
-            if(t!=null){
-                Globals.log("throw","throw:"+t.getMessage());
+            Toast.makeText(SharedActvity.this, "分享失败", Toast.LENGTH_SHORT).show();
+            if (t != null) {
+                Globals.log("throw", "throw:" + t.getMessage());
             }
         }
+
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(SharedActvity.this,"分享取消", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SharedActvity.this, "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -340,11 +346,11 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
         final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();
         picBitmaps.put("0", bitmap);
-        if (nineImgs != null &&nineImgs.size() >= 9) {
+        if (nineImgs != null && nineImgs.size() >= 9) {
             nineImgs_qrcode = nineImgs.subList(0, 8);
-        } else  if (nineImgs != null){
+        } else if (nineImgs != null) {
             nineImgs_qrcode = nineImgs;
-        }else {
+        } else {
             return;
         }
 

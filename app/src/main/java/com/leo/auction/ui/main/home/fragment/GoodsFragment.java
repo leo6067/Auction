@@ -4,17 +4,20 @@ package com.leo.auction.ui.main.home.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseRecyclerView.BaseRecyclerViewFragment;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
+import com.aten.compiler.utils.ScreenUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
@@ -28,6 +31,7 @@ import com.leo.auction.ui.main.home.model.HomeListModel;
 import java.util.HashMap;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import okhttp3.Call;
 
 /**
@@ -48,6 +52,11 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
     RadioButton mRadioC;
     @BindView(R.id.radio_group)
     RadioGroup mRadioGroup;
+
+    @BindView(R.id.iv_to_top)
+    ImageView mIvToTop;
+
+    private int totalDy = 0;
 
 
     private String mUrl = "";
@@ -93,24 +102,33 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
                 onRefresh(refreshLayout);
             }
         });
+
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalDy += dy;
+                if (totalDy <= ScreenUtils.getScreenHeight()) {
+                    mIvToTop.setVisibility(View.GONE);
+
+                } else {
+                    mIvToTop.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         onRefresh(refreshLayout);
+        BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_SEARCH, mReceiveUtils);
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            //可见
-            onRefresh(refreshLayout);
-        } else {
-            //不可见
-        }
-    }
+
 
     @Override
     protected void initAdapter() {
@@ -155,16 +173,16 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
         hashMap.put("pageNum", String.valueOf(mPageNum));
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
 
-        showWaitDialog();
+
         HttpRequest.httpGetString(mUrl, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+
                 HomeListModel homeListModel = JSONObject.parseObject(resultData, HomeListModel.class);
                 if (mPageNum == 1) {
                     mAdapter.setNewData(homeListModel.getData());
@@ -182,14 +200,18 @@ public class GoodsFragment extends BaseRecyclerViewFragment {
                     mAdapter.loadMoreEnd();
                 }
 
-
-
-
-
             }
         });
     }
 
+
+
+    @OnClick(R.id.iv_to_top)
+    public void onViewClicked() {
+        //平滑滚动
+        totalDy = 0;
+        recyclerView.scrollToPosition(0);
+    }
 
     @Override
     public void onDestroy() {

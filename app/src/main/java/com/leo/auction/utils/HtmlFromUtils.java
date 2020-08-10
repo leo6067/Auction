@@ -82,15 +82,15 @@ public class HtmlFromUtils {
                                 int w = drawable.getIntrinsicWidth();
                                 int h = drawable.getIntrinsicHeight();
                                 //对图片大小进行等比例放大 此处宽高可自行调整
-                                if (w < h && h > 0) {
-                                    float scale = (400.0f / h);
-                                    w = (int) (scale * w);
-                                    h = (int) (scale * h);
-                                } else if (w > h && w > 0) {
-                                    float scale = (1000.0f / w);
-                                    w = (int) (scale * w);
-                                    h = (int) (scale * h);
-                                }
+//                                if (w < h && h > 0) {
+//                                    float scale = (400.0f / h);
+//                                    w = (int) (scale * w);
+//                                    h = (int) (scale * h);
+//                                } else if (w > h && w > 0) {
+//                                    float scale = (1000.0f / w);
+//                                    w = (int) (scale * w);
+//                                    h = (int) (scale * h);
+//                                }
 
                                 drawable.setBounds(0, 0, w, h);
                             } else if (drawable == null) {
@@ -155,7 +155,7 @@ public class HtmlFromUtils {
             @Override
             public void onClick(View widget) {
                 // 进行图片点击之后的处理
-                Toast.makeText(context, "点击图片的地址" + url, Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "点击图片的地址" + url, Toast.LENGTH_LONG).show();
             }
         }
     }

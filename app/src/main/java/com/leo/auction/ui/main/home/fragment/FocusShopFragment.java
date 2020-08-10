@@ -21,6 +21,7 @@ import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
+import com.leo.auction.common.widget.LinearLayoutDivider;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
@@ -41,6 +42,8 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
 
     @BindView(R.id.iv_to_top)
     ImageView mIvToTop;
+
+
 
     private int totalDy = 0;
 
@@ -70,6 +73,10 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
     @Override
     protected void initAdapter() {
         super.initAdapter();
+
+
+
+        recyclerView.addItemDecoration(new LinearLayoutDivider(getActivity(),1,getActivity().getResources().getColor(R.color.home_line)));
         mAdapter = new SortShopAdapter(new SortShopAdapter.SortOnListener() {
             @Override
             public void soreOnListener() {

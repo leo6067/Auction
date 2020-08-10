@@ -42,6 +42,7 @@ import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.Globals;
+import com.ruffian.library.widget.RImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class MainMeFragment extends BaseFragment {
 
 
     @BindView(R.id.civ_head)
-    CircleImageView mCivHead;
+    RImageView mCivHead;
     @BindView(R.id.mine_vip)
     ImageView mMineVip;
     @BindView(R.id.mine_level)
@@ -103,6 +104,7 @@ public class MainMeFragment extends BaseFragment {
     private String shopUri = "";
     private String shopName = "";
     private DialogUtils dialogUtils;
+    private UserModel.DataBean mUserJson;
 
 
     public MainMeFragment() {
@@ -120,13 +122,13 @@ public class MainMeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         dialogUtils = new DialogUtils();
-        httpUser();
-        httpTab();// 提前加载拍品管理列表 标题数据
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mUserJson = BaseSharePerence.getInstance().getUserJson();
         httpUser();
         httpTab();// 提前加载拍品管理列表 标题数据
     }
@@ -138,11 +140,12 @@ public class MainMeFragment extends BaseFragment {
             case R.id.tv_name:
             case R.id.fl_shop:
                 Bundle bundle = new Bundle();
-                bundle.putString("shopUri", shopUri);
-                bundle.putString("shopName", shopName);
-                ActivityManager.JumpActivity(getActivity(), ShopActivity.class);
+                bundle.putString("shopUri", mUserJson.getUserId());
+                bundle.putString("shopName", mUserJson.getNickname());
+                ActivityManager.JumpActivity(getActivity(), ShopActivity.class,bundle);
                 break;
             case R.id.ll_follow:
+                Constants.Var.FOCUS_TYPE = 1;
                 ActivityManager.mainActivity.setCurrent(2);
                 break;
             case R.id.ll_fans:
@@ -205,9 +208,7 @@ public class MainMeFragment extends BaseFragment {
                 UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
                 upUI(userModel.getData());
                 BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
-
-                shopUri = userModel.getData().getUserId();
-                shopName = userModel.getData().getNickname();
+                mUserJson = BaseSharePerence.getInstance().getUserJson();
 
             }
         });
@@ -251,7 +252,6 @@ public class MainMeFragment extends BaseFragment {
                 } else {
                     upUserLevel(userInfo, true);
                 }
-
 
             }
 
@@ -341,7 +341,6 @@ public class MainMeFragment extends BaseFragment {
 
             @Override
             public void httpResponse(String resultData) {
-
 //                CateProductModel cateProductModel = JSONObject.parseObject(resultData, CateProductModel.class);
                 BaseSharePerence.getInstance().setAuctionManager(resultData);
             }
@@ -369,6 +368,7 @@ public class MainMeFragment extends BaseFragment {
                 }
                 int redirectType = sceneModel.getData().getRedirectType(); //1-富文本  2-H5页面
 
+
                 if (redirectType == 1) {
                     dialogUtils.showRuleProtocolDialog(getActivity(),
                             sceneModel.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
@@ -385,7 +385,7 @@ public class MainMeFragment extends BaseFragment {
                     } else {
                         url += "?isMargin=4";
                     }
-
+                    Globals.log("xxxxxx redirectType url"  +url);
 
                     Bundle bundle = new Bundle();
                     bundle.putString("title", "协议");

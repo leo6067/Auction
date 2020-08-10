@@ -54,9 +54,6 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
         super.initData();
         initAdapter();
         mAdapter.setLoadMoreView(new CostomLoadMoreView());
-        refreshLayout.setEnableRefresh(false);
-        refreshLayout.setEnableLoadMore(false);
-        mAdapter.setEnableLoadMore(false);
 
         recyclerView.setHasFixedSize(true);
         if (getLayoutManager()==null){
@@ -68,6 +65,8 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
         setEmptyView();
         recyclerView.setAdapter(mAdapter);
         setRefreshInfo();
+        setSmartHasRefreshOrLoadMore();
+        setLoadMore();
     }
     //RecyclerView的LayoutManager
     public RecyclerView.LayoutManager getLayoutManager(){
