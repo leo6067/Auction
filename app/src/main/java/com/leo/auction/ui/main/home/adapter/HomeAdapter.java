@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.widget.autoTextView.AutofitTextView;
+import com.aten.compiler.widget.safeKeyBoard.utils.DisplayUtils;
 import com.aten.compiler.widget.transformation.RoundedCornersTransformation;
 import com.blankj.utilcode.util.SpanUtils;
 import com.bumptech.glide.Glide;
@@ -45,11 +46,11 @@ import com.leo.auction.utils.SpannableStringUtils;
  */
 public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseViewHolder> {
 
-    private int screenWidth;
+
 
     public HomeAdapter(int screenWidth) {
         super(R.layout.item_home_list_all, null);
-        this.screenWidth = screenWidth;
+
     }
 
 
@@ -113,8 +114,12 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
             picHeight = Integer.valueOf(imgPathSplit[1]);
         }
 
+
+
+        int screenWidth = DisplayUtils.getScreenWidth(RxTool.getContext());
+
         //1.已知图片宽高得情况
-        int width = screenWidth / 2;
+        int width = screenWidth / 2 -  (int) RxTool.getContext().getResources().getDimension(R.dimen.dp_40);
 
         int height = (int) (width * (picHeight / picWidth));
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();

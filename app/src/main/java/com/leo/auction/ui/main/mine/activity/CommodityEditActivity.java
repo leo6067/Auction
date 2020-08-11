@@ -341,7 +341,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
         if (info.getImages() != null && !info.getImages().isEmpty()) {
             for (String image : info.getImages()) {
-                ReleaseImageModel releaseImageModel = new ReleaseImageModel("2", null, 0, 0, image);
+                ReleaseImageModel releaseImageModel = new ReleaseImageModel("1", null, 0, 0, image);
                 releaseImageModel.setUploadComplete(true);
                 postImglistAdapter.getData().add(postImglistAdapter.getData().size() - 1, releaseImageModel);
             }
@@ -351,7 +351,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
 
         if (info.getVideo() != null && !info.getVideo().isEmpty()) {
-            ReleaseVideoModel releaseVideoModel = new ReleaseVideoModel("2", null, info.getCutPic(), info.getVideo(), "", "");
+            ReleaseVideoModel releaseVideoModel = new ReleaseVideoModel("0", null, info.getCutPic(), info.getVideo(), "", "");
             releaseVideoModel.setUploadCompleteStatus("0");
             postVideolistAdapter.getData().add(postVideolistAdapter.getData().size() - 1, releaseVideoModel);
             postVideolistAdapter.notifyDataSetChanged();

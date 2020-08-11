@@ -163,12 +163,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_product_agent_price"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_8"
             android:layout_toLeftOf="@+id/afl_collection"
             android:lines="1"
+            android:textStyle="bold"
             android:textColor="@color/color_e62723"
-            android:textSize="@dimen/sp_23"
+            android:textSize="@dimen/sp_25"
             tools:text="¥9999999990sdd" />
 
 

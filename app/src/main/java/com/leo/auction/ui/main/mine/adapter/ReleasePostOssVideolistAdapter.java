@@ -48,6 +48,9 @@ public class ReleasePostOssVideolistAdapter extends BaseQuickAdapter<ReleaseVide
         if ("1".equals(item.getTag())){
             GlideUtils.loadImg(R.drawable.ic_add_video_icon,ivPhoto);
             ivDelete.setVisibility(View.GONE);
+        }else if ("2".equals(item.getTag())){
+            GlideUtils.loadImg(item.getImgPath()==null?item.getImgPath2():item.getImgPath(),ivPhoto);
+            ivDelete.setVisibility(View.GONE);
         }else {
             GlideUtils.loadImg(item.getImgPath()==null?item.getImgPath2():item.getImgPath(),ivPhoto);
             ivDelete.setVisibility(View.VISIBLE);
@@ -65,9 +68,15 @@ public class ReleasePostOssVideolistAdapter extends BaseQuickAdapter<ReleaseVide
             @Override
             public void onClick(View v) {
                 if ("1".equals(item.getTag())){
-                    mOnLastImgListener.onClick(v);
+                    if (mOnLastImgListener != null) {
+                        mOnLastImgListener.onClick(v);
+                    }
+
                 }else {
-                    mOnImgsItemListener.onClick(v);
+                    if (mOnImgsItemListener != null) {
+                        mOnImgsItemListener.onClick(v);
+                    }
+
                 }
             }
         });
@@ -78,7 +87,10 @@ public class ReleasePostOssVideolistAdapter extends BaseQuickAdapter<ReleaseVide
         ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnImgsItemDeleteListener.onClick(v);
+                if (mOnImgsItemDeleteListener != null) {
+                    mOnImgsItemDeleteListener.onClick(v);
+                }
+
             }
         });
     }

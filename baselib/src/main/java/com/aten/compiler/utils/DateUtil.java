@@ -86,7 +86,18 @@ public class DateUtil {
         calendar.setTime(date);
         calendar.add(calendar.DATE,1);//把日期往后增加一天.整数往后推,负数往前移动
         date=calendar.getTime(); //这个时间就是日期往后推一天的结果
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        return formatter.format(date);
+    }
+
+    //获取明天时间 事例pattern:"yyyy-MM-dd"
+    public static String getStringDayDate(String pattern,int dayDe) {
+        Date date=new Date();//取时间
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(calendar.DATE,dayDe);//把日期往后增加一天.整数往后推,负数往前移动
+        date=calendar.getTime(); //这个时间就是日期往后推一天的结果
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
         return formatter.format(date);
     }
 

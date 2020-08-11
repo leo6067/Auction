@@ -20,7 +20,7 @@ public class Constants {
             BASE_URL = "https://cd.taojianlou.com/ut/";//测试
             WEB_BASE_URL = "https://cd.taojianlou.com/ut1/";
         }
-//        logGone = releaseVersion;
+        logGone = releaseVersion;
     }
 
 
@@ -72,8 +72,8 @@ public class Constants {
         //参数
         public final static int LAYOUT_TYPE_HEAD = 0 ;
         public final static int LAYOUT_TYPE = 1 ;
-        public final static String LIST_NUMBER = "5000" ;
-        public final static int LIST_NUMBER_INT = 4999 ;
+        public final static String LIST_NUMBER = "3000" ;
+        public final static int LIST_NUMBER_INT = 2999 ;
         public final static String LIST_NUMBER_F = "5" ;
         public final static int LIST_NUMBER_INT_F= 4 ;
 
@@ -453,6 +453,10 @@ public class Constants {
 
         //申请开店
         public static String APPLYAGENT_URL = domain + "user/apply-agent";
+
+
+        //热门
+        public static String HOT_URL = domain + "instance/hot";
 
 
 

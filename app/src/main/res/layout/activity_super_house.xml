@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context=".ui.main.mine.activity.SuperHouseActivity">
 
 
-    <include layout="@layout/layout_custom_title_white" />
+    <include layout="@layout/layout_custom_title_w" />
 
 
     <include layout="@layout/include_line_c" />
@@ -32,8 +34,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_82"
+        android:paddingEnd="@dimen/dp_15"
         android:background="@android:color/white"
         android:orientation="horizontal">
+
+
+
+            <TextView
+                android:id="@+id/ll_default"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/dp_20"
+                android:text="默认"
+                android:textColor="@color/color_ff8e67"
+                android:textSize="@dimen/sp_28" />
+
 
         <LinearLayout
             android:id="@+id/ll_time"
@@ -56,7 +73,7 @@
                 android:id="@+id/iv_time"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_28"
-                android:src="@drawable/tip_top" />
+                />
 
         </LinearLayout>
 
@@ -81,7 +98,7 @@
                 android:id="@+id/iv_price"
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_28"
-                android:src="@drawable/ic_no_select" />
+              />
 
         </LinearLayout>
 

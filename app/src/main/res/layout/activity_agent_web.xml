@@ -24,7 +24,6 @@
 
 
     <com.ruffian.library.widget.RTextView
-
         android:id="@+id/pay_way"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_66"
@@ -33,6 +32,7 @@
         android:gravity="center"
         android:minWidth="@dimen/dp_180"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:background_normal="@color/home_title_bg"
         app:corner_radius="@dimen/dp_8" />
 

@@ -25,7 +25,7 @@ public class ReleasePostOssImglistAdapter extends BaseItemDraggableAdapter<Relea
     private View.OnClickListener mOnLastImgListener;
     private View.OnClickListener mOnImgsItemListener;
     private View.OnClickListener mOnImgsItemDeleteListener;
-    private ArrayList<ImageView> imgViews=new ArrayList<>();
+    private ArrayList<ImageView> imgViews = new ArrayList<>();
 
     public void setmOnLastImgListener(View.OnClickListener mOnLastImgListener) {
         this.mOnLastImgListener = mOnLastImgListener;
@@ -45,45 +45,56 @@ public class ReleasePostOssImglistAdapter extends BaseItemDraggableAdapter<Relea
 
     @Override
     protected void convert(BaseViewHolder helper, final ReleaseImageModel item) {
-        RelativeLayout rlItem= (RelativeLayout) helper.getView(R.id.rl_item);
+        RelativeLayout rlItem = (RelativeLayout) helper.getView(R.id.rl_item);
         ImageView ivPhoto = (ImageView) helper.getView(R.id.iv_photo);
         ImageView ivDelete = (ImageView) helper.getView(R.id.iv_delete);
 
         imgViews.add(ivPhoto);
 
-        if ("1".equals(item.getTag())){
-            GlideUtils.loadImg(R.drawable.ic_general_append_bg,ivPhoto);
+        if ("1".equals(item.getTag())) {
+            GlideUtils.loadImg(R.drawable.ic_general_append_bg, ivPhoto);
             ivDelete.setVisibility(View.GONE);
-        }else {
-            GlideUtils.loadImg(item.getFile()==null?item.getImgPth():item.getFile(),ivPhoto);
+        } else if ("2".equals(item.getTag())) {
+            GlideUtils.loadImg(item.getFile() == null ? item.getImgPth() : item.getFile(), ivPhoto);
+            ivDelete.setVisibility(View.GONE);
+        } else {
+            GlideUtils.loadImg(item.getFile() == null ? item.getImgPth() : item.getFile(), ivPhoto);
             ivDelete.setVisibility(View.VISIBLE);
         }
 
-        if (helper.getAdapterPosition()==9){
-            setVisibility(false,rlItem);
-        }else {
-            setVisibility(true,rlItem);
+
+        if (helper.getAdapterPosition() == 9) {
+            setVisibility(false, rlItem);
+        } else {
+            setVisibility(true, rlItem);
         }
 
-        ivPhoto.setTag(R.id.tag_1,helper.getAdapterPosition());
+        ivPhoto.setTag(R.id.tag_1, helper.getAdapterPosition());
         ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("1".equals(item.getTag())){
-                    mOnLastImgListener.onClick(v);
-                }else {
-                    mOnImgsItemListener.onClick(v);
+                if ("1".equals(item.getTag())) {
+                    if (mOnLastImgListener != null) {
+                        mOnLastImgListener.onClick(v);
+                    }
+                } else {
+                    if (mOnImgsItemListener != null) {
+                        mOnImgsItemListener.onClick(v);
+                    }
+
                 }
             }
         });
 
-        ivDelete.setTag(R.id.tag_1,item);
-        ivDelete.setTag(R.id.tag_2,helper.getAdapterPosition());
-        ivDelete.setTag(R.id.tag_3,ivPhoto);
+        ivDelete.setTag(R.id.tag_1, item);
+        ivDelete.setTag(R.id.tag_2, helper.getAdapterPosition());
+        ivDelete.setTag(R.id.tag_3, ivPhoto);
         ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnImgsItemDeleteListener.onClick(v);
+                if (mOnImgsItemDeleteListener != null) {
+                    mOnImgsItemDeleteListener.onClick(v);
+                }
             }
         });
     }
@@ -107,7 +118,7 @@ public class ReleasePostOssImglistAdapter extends BaseItemDraggableAdapter<Relea
         return imgViews;
     }
 
-    public void clearImgViews(){
+    public void clearImgViews() {
         imgViews.clear();
     }
 }

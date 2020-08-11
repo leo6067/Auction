@@ -28,7 +28,6 @@ public class SuperHouseModel {
     private List<DataBean> data;
 
 
-
     public ResultBean getResult() {
         return result;
     }
@@ -167,24 +166,52 @@ public class SuperHouseModel {
         }
     }
 
-    public static void httpGetSuperHouse(String keyword, String  startPrice , String endPrice,
+    public static void httpGetSuperHouse(String keyword, String startPrice, String endPrice,
                                          String startStock, String endStock, String pageNum, String sort,
                                          String sortField, String categoryId,
-                                         HttpRequest.HttpCallback httpCallback){
+                                         HttpRequest.HttpCallback httpCallback) {
         HashMap<String, String> hashMap = new HashMap<>();
 
-        hashMap.put("keyword",keyword);
-        hashMap.put("startPrice",startPrice);
-        hashMap.put("endPrice",endPrice);
-        hashMap.put("startStock",startStock);
-        hashMap.put("endStock",endStock);
-        hashMap.put("pageNum",pageNum);
-        hashMap.put("pageSize",3+"");
-        hashMap.put("sort",sort);
-        hashMap.put("sortField",sortField);
-        hashMap.put("categoryId",categoryId);
+        if (keyword.length() > 0) {
+            hashMap.put("keyword", keyword);
+        }
 
-        HttpRequest.httpGetString(Constants.Api.STOREHOUSE_URL,hashMap,httpCallback);
+        if (startPrice.length() > 0) {
+            hashMap.put("startPrice", startPrice);
+        }
+        if (endPrice.length()>0){
+            hashMap.put("endPrice", endPrice);
+        }
+
+        if (startStock.length()>0){
+            hashMap.put("startStock", startStock);
+        }
+
+        if (endStock.length()>0){
+            hashMap.put("endStock", endStock);
+        }
+
+
+        if (sort.length()>0){
+            hashMap.put("sort", sort);
+        }
+
+
+        if (sortField.length()>0){
+            hashMap.put("sortField", sortField);
+        }
+
+
+        if (categoryId.length()>0){
+            hashMap.put("categoryId", categoryId);
+        }
+
+
+
+        hashMap.put("pageNum", pageNum);
+        hashMap.put("pageSize", Constants.Var.LIST_NUMBER);
+
+        HttpRequest.httpGetString(Constants.Api.STOREHOUSE_URL, hashMap, httpCallback);
 
 
     }

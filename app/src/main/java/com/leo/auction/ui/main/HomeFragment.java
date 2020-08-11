@@ -20,6 +20,7 @@ import com.leo.auction.ui.main.home.activity.HomeSearchActivity;
 import com.leo.auction.ui.main.home.fragment.HomeAllFragment;
 import com.leo.auction.ui.main.home.fragment.HomeBYFragment;
 import com.leo.auction.ui.main.home.fragment.HomeESFragment;
+import com.leo.auction.ui.main.home.fragment.HomeHotFragment;
 import com.leo.auction.ui.main.home.fragment.HomeJLFragment;
 import com.leo.auction.ui.main.home.fragment.HomeYYPFragment;
 import com.leo.auction.utils.Globals;
@@ -44,7 +45,8 @@ public class HomeFragment extends BaseFragment {
     ViewPager mViewPager;
 
 //    private String[] mTitlesStr = {"百亿补贴", "一元拍", "捡漏", "最新发布", "即将截拍"};
-    private String[] mTitlesStr = {"百亿补贴", "一元拍", "捡漏", "二手", "万物拍"};
+//    private String[] mTitlesStr = {"百亿补贴", "热门","一元拍", "捡漏", "二手", "万物拍"};
+    private String[] mTitlesStr = {"百亿补贴", "热门","一元拍", "捡漏",   "万物拍"};
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
 
@@ -66,9 +68,10 @@ public class HomeFragment extends BaseFragment {
         mSegmentTabLayout.setTabData(mTitlesStr);
 
         mFragments.add(new HomeBYFragment());
+        mFragments.add(new HomeHotFragment());
         mFragments.add(new HomeYYPFragment());
         mFragments.add(new HomeJLFragment());
-        mFragments.add(new HomeESFragment());
+//        mFragments.add(new HomeESFragment());
         mFragments.add(new HomeAllFragment());
 
 

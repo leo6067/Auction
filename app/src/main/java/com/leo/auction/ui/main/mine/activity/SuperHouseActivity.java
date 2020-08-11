@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +27,11 @@ import com.billy.android.swipe.SwipeConsumer;
 import com.billy.android.swipe.consumer.DrawerConsumer;
 import com.billy.android.swipe.listener.SimpleSwipeListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gyf.immersionbar.ImmersionBar;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.Constants;
+import com.leo.auction.common.widget.LinearLayoutDivider;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.model.GoodsDetailModel;
 import com.leo.auction.ui.main.home.model.SortLeftModel;
@@ -50,7 +53,7 @@ import okhttp3.Call;
 
 import static com.umeng.commonsdk.internal.a.i;
 
-public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IReleaseSortChoose, StringInterFace {
+public class SuperHouseActivity extends BaseRecyclerViewActivity implements IReleaseSortChoose, StringInterFace {
 
 
     private static final String TAG = "SuperHouseActivity";
@@ -70,6 +73,9 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
     ImageView mIvPrice;
     @BindView(R.id.ll_price)
     LinearLayout mLlPrice;
+
+    @BindView(R.id.ll_default)
+    TextView mDefaultLin;
     @BindView(R.id.ll_screent)
     LinearLayout mLlScreent;
     @BindView(R.id.recyclerView)
@@ -98,7 +104,7 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
     //stock-库存   agent_price-价格
     private String sortField = "", sortType = "1", keyword = "", startPrice = "", endPrice = "";
 
-    private String categoryId ="",  startNum = "",endNum = "";
+    private String categoryId = "", startNum = "", endNum = "";
     private SwipeConsumer mCurrentDrawerConsumer;
 
     private List<SortLeftModel.DataBean> mSortLeftList;
@@ -106,9 +112,20 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
     private SuperHouseSortAdapter mMaxSortAdapter;
     private SuperHouseSortMinAdapter mMinSortAdapter;
 
-    //是否可以使用沉浸式
+    @Override
     protected boolean isImmersionBarEnabled() {
-        return false;
+        return true;
+    }
+
+    protected void initImmersionBar(View view) {
+        //在BaseActivity里初始化
+        mImmersionBar = ImmersionBar.with(this)
+                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
+                .statusBarColor(R.color.color_f2f2f2)     //状态栏颜色
+                .titleBar(view)
+                .keyboardEnable(true);
+
+        mImmersionBar.init();
     }
 
     @Override
@@ -120,11 +137,18 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
     @Override
     public void initData() {
         super.initData();
-
+        mTitleBar.setTitle("超级仓库");
+        initImmersionBar(mTitleBar);
         mSortLeftList = new ArrayList<>();
         mSortRightList = new ArrayList<>();
         mMaxSortAdapter = new SuperHouseSortAdapter(this);
         mMinSortAdapter = new SuperHouseSortMinAdapter(this);
+
+        mIvPrice.setBackgroundResource(R.drawable.tip_tip);
+        mIvTime.setBackgroundResource(R.drawable.tip_tip);
+        mDefaultLin.setTextColor(Color.parseColor("#7c1313"));
+        mTvPrice.setTextColor(Color.parseColor("#525252"));
+        mTvNum.setTextColor(Color.parseColor("#525252"));
 
         onRefresh(mRefreshLayout);
         initDrawerLayout();
@@ -134,17 +158,22 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
     @Override
     public void initAdapter() {
         super.initAdapter();
+
+        recyclerView.addItemDecoration(new LinearLayoutDivider(SuperHouseActivity.this, 2, getResources().getColor(R.color.color_f2f2f2)));
+
         mAdapter = new SuperHouseAdapter(this);
 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                SuperHouseModel.DataBean superHouseModel = (SuperHouseModel.DataBean)mAdapter.getData().get(i);
+                SuperHouseModel.DataBean superHouseModel = (SuperHouseModel.DataBean) mAdapter.getData().get(i);
                 Bundle bundle = new Bundle();
-                bundle.putString("goodId",superHouseModel.getGoodsId()+"");
-                ActivityManager.JumpActivity(SuperHouseActivity.this, GoodDetailActivity.class,bundle);
+                bundle.putString("goodId", superHouseModel.getGoodsId() + "");
+                ActivityManager.JumpActivity(SuperHouseActivity.this, GoodDetailActivity.class, bundle);
             }
         });
+
+
 
 
     }
@@ -154,6 +183,20 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
     public void initEvent() {
         super.initEvent();
 
+
+        mLiveSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if ((actionId == 0 || actionId == 3) && event != null) {
+                    mPageNum = 1;
+                    //点击搜索要做的操作
+                    onRefresh(refreshLayout);
+                }
+                return false;
+            }
+        });
     }
 
     //初始化侧滑菜单
@@ -209,8 +252,6 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
         });
 
 
-
-
         mRecyclerViewMax.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
         mRecyclerViewMin.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
         mRecyclerViewMax.setAdapter(mMaxSortAdapter);
@@ -250,7 +291,7 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
         keyword = mLiveSearch.getText().toString();
 
 
-        SuperHouseModel.httpGetSuperHouse(keyword, startPrice, endPrice, startNum, endNum, mPageNum+"", sortType, sortField, categoryId,
+        SuperHouseModel.httpGetSuperHouse(keyword, startPrice, endPrice, startNum, endNum, mPageNum + "", sortType, sortField, categoryId,
                 new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
@@ -275,7 +316,7 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
                             mAdapter.loadMoreEnd();
                         }
                     }
-                }) ;
+                });
 
     }
 
@@ -317,19 +358,15 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
     }
 
 
-
     //获取小类的数据
     private void getTwoSortData(int onePosition) {
         List<SortLeftModel.DataBean.ChildrenBean> childrenBeans = mSortLeftList.get(onePosition).getChildren();
-
         mMinSortAdapter.setNewData(childrenBeans);
         mMinSortAdapter.notifyDataSetChanged();
-
     }
 
 
-
-    @OnClick({R.id.ll_time, R.id.ll_price, R.id.ll_screent})
+    @OnClick({R.id.ll_default, R.id.ll_time, R.id.ll_price, R.id.ll_screent})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_time:  //库存
@@ -337,14 +374,15 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
                 sortField = "stock";
                 mTvNum.setTextColor(Color.parseColor("#7c1313"));
                 mTvPrice.setTextColor(Color.parseColor("#525252"));
-                if (sortType.equals("0")){  //   0-升序 1-降序
-                    sortType= "1";
+                mDefaultLin.setTextColor(Color.parseColor("#525252"));
+                if (sortType.equals("0")) {  //   0-升序 1-降序
+                    sortType = "1";
                     mIvTime.setBackgroundResource(R.drawable.tip_top);
-                }else {
-                    sortType= "0";
+                } else {
+                    sortType = "0";
                     mIvTime.setBackgroundResource(R.drawable.tip_down);
                 }
-                mIvPrice.setBackgroundResource(R.drawable.tip_tip);
+
                 onRefresh(refreshLayout);
 
                 break;
@@ -352,12 +390,13 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
                 sortField = "agent_price";
                 mTvPrice.setTextColor(Color.parseColor("#7c1313"));
                 mTvNum.setTextColor(Color.parseColor("#525252"));
-                mIvTime.setBackgroundResource(R.drawable.tip_tip);
-                if (sortType.equals("0")){  //   0-升序 1-降序
-                    sortType= "1";
+                mDefaultLin.setTextColor(Color.parseColor("#525252"));
+
+                if (sortType.equals("0")) {  //   0-升序 1-降序
+                    sortType = "1";
                     mIvPrice.setBackgroundResource(R.drawable.tip_top);
-                }else {
-                    sortType= "0";
+                } else {
+                    sortType = "0";
                     mIvPrice.setBackgroundResource(R.drawable.tip_down);
                 }
                 onRefresh(refreshLayout);
@@ -369,6 +408,28 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
                 } else {
                     mCurrentDrawerConsumer.smoothRightOpen();
                 }
+                break;
+
+            case R.id.ll_default:
+                mIvPrice.setBackgroundResource(R.drawable.tip_tip);
+                mIvTime.setBackgroundResource(R.drawable.tip_tip);
+
+
+                //stock-库存   agent_price-价格
+                sortField = "";
+                sortType = "";
+                keyword = "";
+                startPrice = "";
+                endPrice = "";
+
+                categoryId = "";
+                startNum = "";
+                endNum = "";
+                onRefresh(refreshLayout);
+                mDefaultLin.setTextColor(Color.parseColor("#7c1313"));
+                mTvPrice.setTextColor(Color.parseColor("#525252"));
+                mTvNum.setTextColor(Color.parseColor("#525252"));
+
                 break;
         }
     }
@@ -386,12 +447,12 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity  implements IRe
 
     @Override
     public void bindString(String string) {
-        Globals.log("xxxxxx  dataBean.getGoodsId() 03 " +string);
+        Globals.log("xxxxxx  dataBean.getGoodsId() 03 " + string);
         Bundle bundle = new Bundle();
-        bundle.putString("value",string);
-        bundle.putString("type","2");
-        bundle.putString("AuctionType","3");
+        bundle.putString("value", string);
+        bundle.putString("type", "2");
+        bundle.putString("AuctionType", "3");
 
-        ActivityManager.JumpActivity(SuperHouseActivity.this,AuctionUpperActivity.class,bundle);
+        ActivityManager.JumpActivity(SuperHouseActivity.this, AuctionUpperActivity.class, bundle);
     }
 }

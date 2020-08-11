@@ -13,6 +13,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import com.aten.compiler.base.BaseRecyclerView.StaggeredDividerItemDecoration;
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.ScreenUtils;
 import com.aten.compiler.widget.CustRefreshLayout;
+import com.aten.compiler.widget.safeKeyBoard.utils.DisplayUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
@@ -117,12 +119,12 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 
         recyclerView.addItemDecoration(new StaggeredDividerItemDecoration(getActivity(),(int) getResources().getDimension(R.dimen.dp_15)));
         DisplayMetrics dm = getResources().getDisplayMetrics();
+
+
         mAdapter = new HomeAdapter(dm.widthPixels );
         mAdapter.setHeaderAndEmpty(true);
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+//        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
-
-
 
 
     }

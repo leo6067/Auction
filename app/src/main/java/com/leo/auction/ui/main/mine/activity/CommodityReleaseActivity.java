@@ -192,9 +192,6 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     public void initData() {
         mTitleBar.setTitle("发布拍品");
 
-
-
-
         uploadPicUtils = new CompressUploadPicUtils();
         uploadVideoUtils = new CompressUploadVideoUtils();
         textLightUtils = new TextLightUtils();

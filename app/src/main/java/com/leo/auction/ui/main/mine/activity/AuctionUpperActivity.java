@@ -16,15 +16,18 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
+import com.aten.compiler.utils.DateUtil;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.CustomeRecyclerView;
 import com.aten.compiler.widget.title.TitleBar;
+import com.blankj.utilcode.util.TimeUtils;
 import com.huantansheng.easyphotos.utils.video.ReleaseVideoModel;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.Constants;
+import com.leo.auction.common.widget.LinearLayoutDivider;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.model.GoodsDetailModel;
 import com.leo.auction.ui.main.mine.adapter.ReleaseAttributeAdapter;
@@ -52,7 +55,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class AuctionUpperActivity extends BaseActivity {
+public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicUtils.IChoosePic, CompressUploadVideoUtils.IChooseVideo
 
 
     @BindView(R.id.title_bar)
@@ -62,7 +65,7 @@ public class AuctionUpperActivity extends BaseActivity {
     @BindView(R.id.item_detail)
     TextView mItemDetail;
     @BindView(R.id.item_recycler)
-    RecyclerView mItemRecycler;
+    CustomeRecyclerView mItemRecycler;
     @BindView(R.id.item_time)
     TextView mItemTime;
     @BindView(R.id.item_start)
@@ -88,7 +91,7 @@ public class AuctionUpperActivity extends BaseActivity {
     @BindView(R.id.item_recycler_video)
     CustomeRecyclerView rvVideolist;
 
-    private String mGoodId, soureType, timeType, timeNode, auctionType,timeNodeId = "";
+    private String mGoodId, soureType, timeType, timeNode, auctionType, timeNodeId = "";
     private UpperAdapter mUpperAdapter;
     List<ReleaseEditModel.DataBean.AttributesBean> mAttributesBeans = new ArrayList<>();
 
@@ -113,6 +116,7 @@ public class AuctionUpperActivity extends BaseActivity {
     public void initView() {
         super.initView();
 
+        mItemRecycler.addItemDecoration(new LinearLayoutDivider(AuctionUpperActivity.this, 2, getResources().getColor(R.color.color_f2f2f2)));
         mItemRecycler.setLayoutManager(new LinearLayoutManager(AuctionUpperActivity.this));
         mUpperAdapter = new UpperAdapter(); //商品详情
         mItemRecycler.setAdapter(mUpperAdapter);
@@ -174,9 +178,24 @@ public class AuctionUpperActivity extends BaseActivity {
                 imageList = goodsDetailModelData.getImages();
                 videoStr = goodsDetailModelData.getVideo();
                 cutPicStr = goodsDetailModelData.getCutPic();
-
-
+                title = goodsDetailModelData.getTitle();
+                mAttributesBeans.clear();
                 List<GoodDetailModel.DataBean.AttributesBean> attributes = goodsDetailModelData.getAttributes();
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanA = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanA.setTitle("品名");
+                attributesBeanA.setValue(title);
+                mAttributesBeans.add(attributesBeanA);
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanB = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanB.setTitle("大类");
+                attributesBeanB.setValue(goodsDetailModelData.getParentCategoryName());
+                mAttributesBeans.add(attributesBeanB);
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanC = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanC.setTitle("小类");
+                attributesBeanC.setValue(goodsDetailModelData.getCategoryName());
+                mAttributesBeans.add(attributesBeanC);
+
                 for (int i = 0; i < attributes.size(); i++) {
                     ReleaseEditModel.DataBean.AttributesBean attributesBean = new ReleaseEditModel.DataBean.AttributesBean();
                     attributesBean.setId(attributes.get(i).getId());
@@ -185,9 +204,19 @@ public class AuctionUpperActivity extends BaseActivity {
                     attributesBean.setTab(attributes.get(i).getTab());
                     attributesBean.setTitle(attributes.get(i).getTitle());
                     attributesBean.setValue(attributes.get(i).getValue());
-
                     mAttributesBeans.add(attributesBean);
                 }
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanD = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanD.setTitle("描述");
+                attributesBeanD.setValue("");
+                mAttributesBeans.add(attributesBeanD);
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanE = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanE.setTitle("描述内容");
+                attributesBeanE.setValue(goodsDetailModelData.getContent());
+                mAttributesBeans.add(attributesBeanE);
+
                 mUpperAdapter.setNewData(mAttributesBeans);
                 mUpperAdapter.notifyDataSetChanged();
                 initDetail();
@@ -214,8 +243,23 @@ public class AuctionUpperActivity extends BaseActivity {
                 imageList = goodsDetail.getImages();
                 videoStr = goodsDetail.getVideo();
                 cutPicStr = goodsDetail.getCutPic();
-
+                title = goodsDetail.getTitle();
+                mAttributesBeans.clear();
                 List<GoodsDetailModel.DataBean.AttributesBean> attributes = goodsDetail.getAttributes();
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanA = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanA.setTitle("品名");
+                attributesBeanA.setValue(title);
+                mAttributesBeans.add(attributesBeanA);
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanB = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanB.setTitle("大类");
+                attributesBeanB.setValue(goodsDetail.getParentCategoryName());
+                mAttributesBeans.add(attributesBeanB);
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanC = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanC.setTitle("小类");
+                attributesBeanC.setValue(goodsDetail.getCategoryName());
+                mAttributesBeans.add(attributesBeanC);
                 for (int i = 0; i < attributes.size(); i++) {
                     ReleaseEditModel.DataBean.AttributesBean attributesBean = new ReleaseEditModel.DataBean.AttributesBean();
                     attributesBean.setId(attributes.get(i).getId());
@@ -225,9 +269,21 @@ public class AuctionUpperActivity extends BaseActivity {
                     attributesBean.setTitle(attributes.get(i).getTitle());
                     attributesBean.setValue(attributes.get(i).getValue());
                     attributesBean.setTags(attributes.get(i).getTags());
-
                     mAttributesBeans.add(attributesBean);
                 }
+
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanD = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanD.setTitle("描述");
+                attributesBeanD.setValue("");
+                mAttributesBeans.add(attributesBeanD);
+
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanE = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanE.setTitle("描述内容");
+                attributesBeanE.setValue(goodsDetail.getContent());
+                mAttributesBeans.add(attributesBeanE);
+
                 mUpperAdapter.setNewData(mAttributesBeans);
                 mUpperAdapter.notifyDataSetChanged();
                 initDetail();
@@ -259,12 +315,49 @@ public class AuctionUpperActivity extends BaseActivity {
                 distributeType = mReleaseEditModelData.getDistributeType();
                 content = mReleaseEditModelData.getContent();
 
+                mAttributesBeans.clear();
+                List<ReleaseEditModel.DataBean.AttributesBean> attributes = mReleaseEditModelData.getAttributes();
 
 
-                mAttributesBeans = mReleaseEditModel.getData().getAttributes();
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanA = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanA.setTitle("品名");
+                attributesBeanA.setValue(title);
+                mAttributesBeans.add(attributesBeanA);
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanB = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanB.setTitle("大类");
+                attributesBeanB.setValue(mReleaseEditModelData.getParentCategoryName());
+                mAttributesBeans.add(attributesBeanB);
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanC = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanC.setTitle("小类");
+                attributesBeanC.setValue(mReleaseEditModelData.getCategoryName());
+                mAttributesBeans.add(attributesBeanC);
+
+                for (int i = 0; i < attributes.size(); i++) {
+                    ReleaseEditModel.DataBean.AttributesBean attributesBean = new ReleaseEditModel.DataBean.AttributesBean();
+                    attributesBean.setId(attributes.get(i).getId());
+                    attributesBean.setLength(attributes.get(i).getLength());
+                    attributesBean.setOption(attributes.get(i).getOption());
+                    attributesBean.setTab(attributes.get(i).getTab());
+                    attributesBean.setTitle(attributes.get(i).getTitle());
+                    attributesBean.setValue(attributes.get(i).getValue());
+                    mAttributesBeans.add(attributesBean);
+                }
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanD = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanD.setTitle("描述");
+                attributesBeanD.setValue("");
+                mAttributesBeans.add(attributesBeanD);
+
+                ReleaseEditModel.DataBean.AttributesBean attributesBeanE = new ReleaseEditModel.DataBean.AttributesBean();
+                attributesBeanE.setTitle("描述内容");
+                attributesBeanE.setValue(mReleaseEditModelData.getContent());
+                mAttributesBeans.add(attributesBeanE);
+
                 mUpperAdapter.setNewData(mAttributesBeans);
                 mUpperAdapter.notifyDataSetChanged();
                 initDetail();
+
             }
         });
     }
@@ -307,21 +400,20 @@ public class AuctionUpperActivity extends BaseActivity {
         mTimeDialogModel = mNewestModel.getData().getTime();
 
 
-
         if (mTimeDialogModel.getType().equals("quick")) {
             mItemTime.setHint("快速截拍 " + mTimeDialogModel.getShowText());
         }
 
         if (mTimeDialogModel.getType().equals("today")) {
-            mItemTime.setHint("今天 " + mTimeDialogModel.getShowText());
+            mItemTime.setHint(DateUtil.getStringDate("MM月dd日") + "  " + mTimeDialogModel.getShowText());
         }
 
         if (mTimeDialogModel.getType().equals("tomorrow")) {
-            mItemTime.setHint("明天 " + mTimeDialogModel.getShowText());
+            mItemTime.setHint(DateUtil.getStringTomorrowDate("MM月dd日") + "  " + mTimeDialogModel.getShowText());
         }
 
         if (mTimeDialogModel.getType().equals("after_tomorrow")) {
-            mItemTime.setHint("后天 " + mTimeDialogModel.getShowText());
+            mItemTime.setHint(DateUtil.getStringDayDate("MM月dd日", 2) + "  " + mTimeDialogModel.getShowText());
         }
 
         try {
@@ -337,6 +429,8 @@ public class AuctionUpperActivity extends BaseActivity {
         } else {
             mItemRadioFu.setChecked(true);
         }
+
+
     }
 
     private void initDetail() {
@@ -364,8 +458,8 @@ public class AuctionUpperActivity extends BaseActivity {
 
         if (cutPicStr.length() > 0 && videoStr.length() > 0) {
             ReleaseVideoModel releaseVideoModel = new ReleaseVideoModel("2", null, cutPicStr, videoStr, "", "");
-            releaseVideoModel.setUploadCompleteStatus("3");
-            postVideolistAdapter.getData().add(releaseVideoModel);
+
+            postVideolistAdapter.getData().add( releaseVideoModel);
             postVideolistAdapter.notifyDataSetChanged();
         }
 
