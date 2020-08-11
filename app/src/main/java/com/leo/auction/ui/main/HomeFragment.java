@@ -77,7 +77,7 @@ public class HomeFragment extends BaseFragment {
 
         TitlePagerAdapter titlePagerAdapter = new TitlePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(titlePagerAdapter);
-//        mViewPager.setOffscreenPageLimit(0);
+        mViewPager.setOffscreenPageLimit(5);
         mSegmentTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {

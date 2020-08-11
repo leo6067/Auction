@@ -117,10 +117,11 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
     }
 
     @Override
-    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+    public void onRefresh(@NonNull RefreshLayout RefreshLayout) {
         mPageNum=1;
         getData();
         if (refreshLayout !=null){
+            Log.e("xxxxxx","refresh 00");
             refreshLayout.finishRefresh(800);
         }
     }
@@ -132,7 +133,8 @@ public class BaseRecyclerViewFragment extends BaseFragment implements OnRefreshL
         if (refreshLayout !=null){
             refreshLayout.finishLoadMore(800);
         }
-        LogUtils.e("refresh  00 ");
+
+
     }
 
     //关闭刷新的view

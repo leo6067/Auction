@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -93,11 +94,6 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        enableLazyLoad();
-    }
-    @Override
     public int getLayoutId() {
         return R.layout.fragment_home_all;
     }
@@ -106,7 +102,7 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
     @Override
     public void initData() {
         super.initData();
-        initHeadView();
+
         onRefresh(refreshLayout);
         BroadCastReceiveUtils.registerLocalReceiver(getActivity(), Constants.Action.ACTION_HOME_TYPE, mBroadCastReceiveUtils);
         Constants.Action.ACTION_ACTION = "1";
@@ -123,9 +119,34 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 
         mAdapter = new HomeAdapter(dm.widthPixels );
         mAdapter.setHeaderAndEmpty(true);
-//        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         mAdapter.setHasStableIds(true);
+        initHeadView();
 
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                HomeListModel.DataBean json = (HomeListModel.DataBean) mAdapter.getData().get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("goodsCode", json.getProductInstanceCode());
+                ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class, bundle);
+            }
+        });
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalDy += dy;
+                if (totalDy <= ScreenUtils.getScreenHeight()) {
+                    mIvToTop.setVisibility(View.GONE);
+
+                } else {
+                    mIvToTop.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
     }
 
@@ -189,43 +210,6 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
         setSmartHasRefreshOrLoadMore();
         setLoadMore();
 
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                HomeListModel.DataBean json = (HomeListModel.DataBean) mAdapter.getData().get(position);
-                Bundle bundle = new Bundle();
-                bundle.putString("goodsCode", json.getProductInstanceCode());
-                ActivityManager.JumpActivity(getActivity(), AuctionDetailActivity.class, bundle);
-            }
-        });
-
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalDy += dy;
-                if (totalDy <= ScreenUtils.getScreenHeight()) {
-                    mIvToTop.setVisibility(View.GONE);
-
-                } else {
-                    mIvToTop.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-
-        mRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                Globals.log("xxxxx百亿补贴 SSS  onLoadMore"   +mPageNum );
-            }
-
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                Globals.log("xxxxx百亿补贴 SSS onRefresh"   +mPageNum );
-            }
-        });
 
 
     }
@@ -238,7 +222,10 @@ public class HomeBYFragment extends BaseRecyclerViewFragment {
 
     @Override
     public void getData() {
-
+        if (refreshLayout !=null){
+           Globals.log("xxxxxx","refresh 00");
+            refreshLayout.finishRefresh(800);
+        }
 
         HashMap<String, String> hashMap = new HashMap<>();
         String mUrl = Constants.Api.HOME_SUBSIDY_URL;

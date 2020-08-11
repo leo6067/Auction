@@ -44,6 +44,7 @@ public class Constants {
         public static String QQAPPKEY = "f06eae4b68d8f8ddde0f2fb3616cbc25";
         public static String WEIXINAPPID = "wx083c4267d81c8961"; //7.10 新版
         public static String WEIXINAPPKEY = "2dc8dd30dd5d0db67e09af2e55dea168";
+        public static String WEIXINA_SMALL = "gh_0489fd1cc754";
 
     }
 

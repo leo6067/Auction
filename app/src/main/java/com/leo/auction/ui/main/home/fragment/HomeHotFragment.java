@@ -45,7 +45,7 @@ public class HomeHotFragment extends BaseRecyclerViewFragment {
 
     @Override
     public void initAdapter() {
-        recyclerView.addItemDecoration(new LinearLayoutDivider(getActivity(),10,getActivity().getResources().getColor(R.color.color_f2f2f2)));
+        recyclerView.addItemDecoration(new LinearLayoutDivider(getActivity(),20,getActivity().getResources().getColor(R.color.color_f2f2f2)));
         mAdapter = new HomeHotAdapter();
         mAdapter.setHasStableIds(true);
 
