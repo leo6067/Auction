@@ -142,7 +142,7 @@ public class MainMeFragment extends BaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("shopUri", mUserJson.getUserId());
                 bundle.putString("shopName", mUserJson.getNickname());
-                ActivityManager.JumpActivity(getActivity(), ShopActivity.class,bundle);
+                ActivityManager.JumpActivity(getActivity(), ShopActivity.class, bundle);
                 break;
             case R.id.ll_follow:
                 Constants.Var.FOCUS_TYPE = 1;
@@ -231,7 +231,7 @@ public class MainMeFragment extends BaseFragment {
         }
 
 
-        upUserLevel(userInfo, false);
+
 
         mFragments.add(MineOrderBuyFragment.newIntance(1));
         mFragments.add(MineOrderFragment.newIntance(2));
@@ -284,7 +284,23 @@ public class MainMeFragment extends BaseFragment {
 
             }
         });
-        mViewPager.setCurrentItem(0);
+
+
+        if (mTitleList.size() > 1) {
+            mViewPager.setCurrentItem(BaseSharePerence.getInstance().getMeFragment());
+            mCommonTab.setCurrentTab(BaseSharePerence.getInstance().getMeFragment());
+            if (BaseSharePerence.getInstance().getMeFragment()==0){
+                upUserLevel(userInfo, false);
+            }else {
+                upUserLevel(userInfo, true);
+            }
+
+        } else {
+            mViewPager.setCurrentItem(0);
+            mCommonTab.setCurrentTab(0);
+            upUserLevel(userInfo, false);
+        }
+
     }
 
     public void upUserLevel(UserModel.DataBean userInfo, boolean isSeller) {
@@ -307,6 +323,8 @@ public class MainMeFragment extends BaseFragment {
             mFlShop.setVisibility(View.INVISIBLE);
             mMineLevel.setVisibility(View.VISIBLE);
 
+            BaseSharePerence.getInstance().setMeFragment(0);
+            Globals.log("xxxxxx  mTitleList 04 " +BaseSharePerence.getInstance().getMeFragment());
         } else {
             CommonModel.DataBean commonJson = BaseSharePerence.getInstance().getCommonJson();
             String[] myLevelVPicS = commonJson.getSeller_level_pic().get(0).split("seller_level_");
@@ -320,6 +338,9 @@ public class MainMeFragment extends BaseFragment {
             mTvFollowNum.setText(String.valueOf(userInfo.getFollowNum()));
             mTvFansNum.setText(String.valueOf(userInfo.getFansNum()));
             mTvCoinNum.setText(String.valueOf(userInfo.getSellerScore()));
+            BaseSharePerence.getInstance().setMeFragment(1);
+
+            Globals.log("xxxxxx  mTitleList 03  " +BaseSharePerence.getInstance().getMeFragment());
         }
 
 
@@ -385,11 +406,9 @@ public class MainMeFragment extends BaseFragment {
                     } else {
                         url += "?isMargin=4";
                     }
-                    Globals.log("xxxxxx redirectType url"  +url);
-
                     Bundle bundle = new Bundle();
                     bundle.putString("title", "协议");
-                    bundle.putString("url",url);
+                    bundle.putString("url", url);
                     ActivityManager.JumpActivity(getActivity(), AgentWebActivity.class, bundle);
                 }
             }

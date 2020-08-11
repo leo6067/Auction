@@ -163,6 +163,23 @@ public class BaseSharePerence {
     }
 
 
+
+
+    /**
+     * 保存用户在我的界面片段切换记录--买入或者卖出
+     */
+    public void setMeFragment(int loginStatus) {
+        mSharedPreferences.edit().putInt("setMeFragment", loginStatus).commit();
+    }
+
+    public int getMeFragment() {
+
+        return mSharedPreferences.getInt("setMeFragment", 0);
+    }
+
+
+
+
     /**
      * @param
      * @param key      要取的数据的键
