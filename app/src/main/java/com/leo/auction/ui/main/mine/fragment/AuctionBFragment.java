@@ -153,6 +153,8 @@ public class AuctionBFragment extends BaseRecyclerViewFragment {
         priceStr = "currentPrice";
         sortField = timeStr;
         onRefresh(refreshLayout);
+        mIvTime.setBackgroundResource(R.drawable.tip_down);
+        mIvPrice.setBackgroundResource(R.drawable.tip_tip);
     }
 
 

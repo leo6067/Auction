@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_ground"
+    android:orientation="vertical"
+    tools:context=".ui.main.mine.activity.FansActivtity">
+
+
+    <include layout="@layout/layout_custom_title_white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/home_title_bg"
+                android:id="@+id/fan_left"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="粉丝" />
+
+
+            <TextView
+                android:id="@+id/fan_left_tv"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="2dp"
+                android:background="@color/home_title_bg"
+                android:gravity="center" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fan_right"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="粉丝" />
+
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/fan_right_tv"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="2dp"
+                android:background="@color/home_title_bg" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <com.aten.compiler.widget.search.SearchTextView
+        android:id="@+id/search_edit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginStart="@dimen/dp_25"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginEnd="@dimen/dp_25"
+        android:background="@color/white" />
+
+
+    <com.aten.compiler.widget.CustRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_9">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <com.aten.compiler.widget.CustomeRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </com.aten.compiler.widget.CustRefreshLayout>
+
+
+</LinearLayout>

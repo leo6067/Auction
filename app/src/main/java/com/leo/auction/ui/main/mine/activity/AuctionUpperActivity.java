@@ -82,16 +82,24 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
     RadioGroup mItemRadioGroup;
     @BindView(R.id.lin_ps)
     LinearLayout mLinPs;
+    @BindView(R.id.recyclerView_lin)
+    LinearLayout mLinRecycler;
 
     @BindView(R.id.lin_tui)
     LinearLayout mLinTui;
+    @BindView(R.id.good_video)
+    TextView mGoodVideo;
 
     @BindView(R.id.item_recycler_image)
     CustomeRecyclerView rvImglist;
     @BindView(R.id.item_recycler_video)
     CustomeRecyclerView rvVideolist;
 
-    private String mGoodId, soureType, timeType, timeNode, auctionType, timeNodeId = "";
+    private String mGoodId, soureType, timeType, timeNode, auctionType;
+
+
+    private int  timeNodeId ;
+
     private UpperAdapter mUpperAdapter;
     List<ReleaseEditModel.DataBean.AttributesBean> mAttributesBeans = new ArrayList<>();
 
@@ -105,7 +113,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
     private NewestModel.DataBean.TimeBean mTimeDialogModel;
 
     String categoryId, comment, content, title;
-    int distributeType;
+    int distributeType = 1;
 
     @Override
     public void setContentViewLayout() {
@@ -179,6 +187,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 videoStr = goodsDetailModelData.getVideo();
                 cutPicStr = goodsDetailModelData.getCutPic();
                 title = goodsDetailModelData.getTitle();
+                categoryId = goodsDetailModelData.getCategoryId() + "";
+                content = goodsDetailModelData.getContent();
                 mAttributesBeans.clear();
                 List<GoodDetailModel.DataBean.AttributesBean> attributes = goodsDetailModelData.getAttributes();
 
@@ -244,6 +254,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 videoStr = goodsDetail.getVideo();
                 cutPicStr = goodsDetail.getCutPic();
                 title = goodsDetail.getTitle();
+                categoryId = goodsDetail.getCategoryId() + "";
+                content = goodsDetail.getContent();
                 mAttributesBeans.clear();
                 List<GoodsDetailModel.DataBean.AttributesBean> attributes = goodsDetail.getAttributes();
 
@@ -310,10 +322,9 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 videoStr = mReleaseEditModelData.getVideo();
                 cutPicStr = mReleaseEditModelData.getCutPic();
                 categoryId = mReleaseEditModelData.getCategoryId();
-                comment = mReleaseEditModelData.getContent();
-                title = mReleaseEditModelData.getTitle();
-                distributeType = mReleaseEditModelData.getDistributeType();
                 content = mReleaseEditModelData.getContent();
+                title = mReleaseEditModelData.getTitle();
+
 
                 mAttributesBeans.clear();
                 List<ReleaseEditModel.DataBean.AttributesBean> attributes = mReleaseEditModelData.getAttributes();
@@ -416,6 +427,11 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             mItemTime.setHint(DateUtil.getStringDayDate("MM月dd日", 2) + "  " + mTimeDialogModel.getShowText());
         }
 
+        timeNode = mTimeDialogModel.getTimeNode() + "";
+        timeNodeId = mTimeDialogModel.getTimeNodeId();
+        timeType = mTimeDialogModel.getType() + "";
+
+
         try {
             mItemStart.setText(mNewestModel.getData().getStartPrice() + "");
             mItemRange.setText(mNewestModel.getData().getMarkupRange() + "");
@@ -456,10 +472,12 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             postImglistAdapter.notifyDataSetChanged();
         }
 
-        if (cutPicStr.length() > 0 && videoStr.length() > 0) {
+        if (EmptyUtils.isEmpty(videoStr)) {
+            mGoodVideo.setVisibility(View.GONE);
+        } else {
+            mGoodVideo.setVisibility(View.VISIBLE);
             ReleaseVideoModel releaseVideoModel = new ReleaseVideoModel("2", null, cutPicStr, videoStr, "", "");
-
-            postVideolistAdapter.getData().add( releaseVideoModel);
+            postVideolistAdapter.getData().add(releaseVideoModel);
             postVideolistAdapter.notifyDataSetChanged();
         }
 
@@ -490,7 +508,14 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
 
                     @Override
                     public void httpResponse(String resultData) {
-                        hideWaitDialog();
+                        BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                        if (baseModel.getResult().isSuccess()) {
+                            showShortToast("发布成功");
+                            goFinish();
+                        } else {
+                            showShortToast("发布失败");
+                        }
+
                     }
                 });
     }
@@ -529,12 +554,12 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     timeNodesBeanXXX.setTimeNodeId(data.getQuick().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("quick");
-                    if (data.getQuick().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()) {
+                    timeNodesBeanXXX.setTypeName(data.getQuick().getTypeName());
+                    if (data.getQuick().getTimeNodes().get(i).getTimeNodeId() == timeNodeId) {
                         timeNodesBeanXXX.setSelect(true);
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
                 }
-
 
                 //今天
                 TimeDialogModel todayBean = new TimeDialogModel();
@@ -552,7 +577,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     timeNodesBeanXXX.setTimeNodeId(data.getToday().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("today");
-                    if (data.getToday().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()) {
+                    timeNodesBeanXXX.setTypeName(data.getToday().getTypeName());
+                    if (data.getToday().getTimeNodes().get(i).getTimeNodeId()== timeNodeId) {
                         timeNodesBeanXXX.setSelect(true);
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
@@ -575,7 +601,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     timeNodesBeanXXX.setTimeNodeId(data.getTomorrow().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("tomorrow");
-                    if (data.getTomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()) {
+                    timeNodesBeanXXX.setTypeName(data.getTomorrow().getTypeName());
+                    if (data.getTomorrow().getTimeNodes().get(i).getTimeNodeId()== timeNodeId) {
                         timeNodesBeanXXX.setSelect(true);
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
@@ -598,7 +625,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     timeNodesBeanXXX.setTimeNodeId(data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId());
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("after_tomorrow");
-                    if (data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId() == mTimeDialogModel.getTimeNodeId()) {
+                    timeNodesBeanXXX.setTypeName(data.getAfter_tomorrow().getTypeName());
+                    if (data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId()== timeNodeId) {
                         timeNodesBeanXXX.setSelect(true);
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
@@ -610,7 +638,9 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     public void itemTimeClick(TimeDialogModel timeDialogModel) {
                         timeType = timeDialogModel.getTimeType();
                         timeNode = timeDialogModel.getTimeNode() + "";
-                        timeNodeId = timeDialogModel.getTimeNodeId() + "";
+                        timeNodeId = timeDialogModel.getTimeNodeId();
+
+                        mItemTime.setText(timeDialogModel.getTypeName() + timeDialogModel.getShowText());
                     }
                 });
 
@@ -629,14 +659,12 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 httpUpper();
                 break;
             case R.id.item_detail:
-                if (mItemRecycler.getVisibility() == View.VISIBLE) {
-                    mItemRecycler.setVisibility(View.GONE);
-                    rvImglist.setVisibility(View.GONE);
-                    rvVideolist.setVisibility(View.GONE);
+                if (mLinRecycler.getVisibility() == View.VISIBLE) {
+
+                    mLinRecycler.setVisibility(View.GONE);
                 } else {
-                    mItemRecycler.setVisibility(View.VISIBLE);
-                    rvImglist.setVisibility(View.VISIBLE);
-                    rvVideolist.setVisibility(View.VISIBLE);
+
+                    mLinRecycler.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.item_time:

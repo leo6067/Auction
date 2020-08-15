@@ -146,7 +146,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                 .ready()//设置 WebSettings。
                 .go(getUrl()); //WebView载入该url地址的页面并显示。
 
-        AgentWebConfig.debug();
+
         initView(view);
         // AgentWeb 没有把WebView的功能全面覆盖 ，所以某些设置 AgentWeb 没有提供 ， 请从WebView方面入手设置。
         mAgentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
@@ -170,12 +170,14 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         mMoreImageView = (ImageView) view.findViewById(R.id.iv_more);
         mMoreImageView.setOnClickListener(mOnClickListener);
         pageNavigator(View.GONE);
+
     }
 
 
     private void pageNavigator(int tag) {
         mBackImageView.setVisibility(tag);
         mLineView.setVisibility(tag);
+        mBackImageView.setVisibility(View.GONE);  //暂时去掉返回
     }
 
 
@@ -268,6 +270,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             //  super.onProgressChanged(view, newProgress);
             if (newProgress == 100) {
                 Globals.log(TAG, "onProgressChanged:" + newProgress + "  view:" + view);
+
+
                 mAgentWeb.getIndicatorController().setProgress(newProgress);
             }
         }
@@ -280,6 +284,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
                     title = title.substring(0, 10).concat("...");
                 }
             }
+
+            Globals.log(TAG, "onProgressChanged: 01 " + title);
             mTitleTextView.setText(title);
             //当上一次有标题表示不是第一次进来，且 上一次标题不等于这一次，表示不是用界面可以返回，且不是首页
             if (newTitleString.length() > 0 && !newTitleString.equals(title) && !webView.getUrl().equals(getUrl())) {
@@ -332,7 +338,8 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            Globals.log(TAG, "mUrl:" + url + " onPageStarted  target:" + getUrl());
+            Globals.log(TAG, "onProgressChanged: 02 " + getUrl());
+//            Globals.log(TAG, "mUrl:" + url + " onPageStarted  target:" + getUrl());
             timer.put(url, System.currentTimeMillis());
             if (url.equals(getUrl())) {
                 pageNavigator(View.GONE);
@@ -347,6 +354,7 @@ public class AgentWebFragment extends Fragment implements FragmentKeyDown {
             if (timer.get(url) != null) {
                 long overTime = System.currentTimeMillis();
                 Long startTime = timer.get(url);
+                Globals.log(TAG, "onProgressChanged: 03" + getUrl());
                 Globals.log(TAG, "  page mUrl:" + url + "  used time:" + (overTime - startTime));
             }
 

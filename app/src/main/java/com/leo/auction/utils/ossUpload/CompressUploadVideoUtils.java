@@ -117,7 +117,7 @@ public class CompressUploadVideoUtils {
             }
         });
 
-        VideoCompress.compressVideoLow(paths.get(0), BaseGlobal.getVideoCompressedDir(), "", new VideoCompress.CompressListener() {
+        VideoCompress.compressVideoHigh(paths.get(0), BaseGlobal.getVideoCompressedDir(), "", new VideoCompress.CompressListener() {
             @Override
             public void onStart() {
             }

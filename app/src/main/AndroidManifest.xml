@@ -57,7 +57,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.mine.activity.GoodDetailActivity"></activity>
+        <activity android:name=".ui.web.AgentWebAppActivity"></activity>
+        <activity android:name=".ui.main.mine.activity.QRCodePersonActivity" />
+        <activity android:name=".ui.main.mine.activity.QRCodeActivity" />
+        <activity android:name=".ui.main.mine.activity.FoerverCodeActivity" />
+        <activity android:name=".ui.main.mine.activity.FansActivtity" />
+        <activity android:name=".ui.main.mine.activity.GoodDetailActivity" />
         <activity android:name=".ui.main.mine.activity.AboutActivity" />
         <activity android:name=".ui.order.activity.GoodOrederStatusActivity" />
         <activity android:name=".ui.order.activity.GoodOrderActivity" />
@@ -93,7 +98,8 @@
         <activity android:name=".ui.main.mine.activity.ResetPwdActivity" />
         <activity android:name=".ui.main.mine.activity.PaySafeActivity" />
         <activity android:name=".ui.main.mine.activity.BalanceActivity" />
-        <activity android:name=".ui.main.mine.activity.CommodityEditActivity" />
+        <activity android:name=".ui.main.mine.activity.CommodityEditActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".ui.main.mine.activity.AuctionManagementActivity" />
         <activity android:name=".ui.main.mine.activity.AssetDetailActivity" />
         <activity android:name=".ui.main.mine.activity.UpdateAddressActivity" />
@@ -105,7 +111,8 @@
             android:name=".ui.main.mine.activity.SettingActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.main.mine.activity.VideoPlayerActivity" />
-        <activity android:name=".ui.main.mine.activity.CommodityReleaseActivity" />
+        <activity android:name=".ui.main.mine.activity.CommodityReleaseActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".ui.main.home.activity.ShopActivity" />
         <activity
             android:name=".ui.main.home.activity.HomeSearchActivity"

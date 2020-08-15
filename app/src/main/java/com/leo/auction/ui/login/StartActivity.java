@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +22,8 @@ import com.leo.auction.ui.login.model.LoginModel;
 
 import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.web.AgentWebActivity;
+import com.leo.auction.ui.web.AgentWebAppActivity;
 import com.leo.auction.utils.Globals;
 
 import java.util.HashMap;
@@ -39,22 +42,27 @@ public class StartActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-        ActivityManager.addActivity(this);
-        httpCommon();
+//        ActivityManager.addActivity(this);
+
         rePremissions();
+
+
+        ActivityManager.JumpActivity(StartActivity.this, AgentWebAppActivity.class);
+        finish();
     }
 
     void rePremissions() {
-        ActivityManager.JumpActivity(StartActivity.this, MainActivity.class, null);
+//        httpCommon();
+//        ActivityManager.JumpActivity(StartActivity.this, MainActivity.class, null);
         PermissionHelper permissionHelper = new PermissionHelper();
         permissionHelper.requestPermission(StartActivity.this, new PermissionHelper.onPermissionListener() {
             @Override
             public void onSuccess() {
-                backLogin();
+//                backLogin();
             }
             @Override
             public void onFail() {
-                backLogin();
+//                backLogin();
             }
 //        }, Permission.READ_PHONE_STATE, Permission.WRITE_EXTERNAL_STORAGE,Permission.RECORD_AUDIO);
         },  com.yanzhenjie.permission.Permission.WRITE_EXTERNAL_STORAGE );  //注释掉打电话
@@ -91,36 +99,36 @@ public class StartActivity extends BaseActivity {
 
 
 
-    //登录
-    private void backLogin() {
-        LoginModel.DataBean userJson = BaseSharePerence.getInstance().getLoginJson();
-        if (userJson!=null){
-            showWaitDialog();
-            HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put("token",userJson.getToken());
-            HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_DEFAULT_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
-                @Override
-                public void httpError(Call call, Exception e) {
-                    hideWaitDialog();
-                }
-
-                @Override
-                public void httpResponse(String resultData) {
-                    hideWaitDialog();
-                    LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
-                    if (loginModel.getResult().isSuccess()){
-                        BaseSharePerence.getInstance().setLoginJson(resultData);
-                        UserModel.httpUpdateUser(StartActivity.this);
-                        MainActivity.newIntance(StartActivity.this, 0);
-                        finish();
-                    }
-                }
-            });
-        }else {
-            MainActivity.newIntance(StartActivity.this, 0);
-            finish();
-        }
-    }
+//    //登录
+//    private void backLogin() {
+//        LoginModel.DataBean userJson = BaseSharePerence.getInstance().getLoginJson();
+//        if (userJson!=null){
+//            showWaitDialog();
+//            HashMap<String, String> hashMap = new HashMap<>();
+//            hashMap.put("token",userJson.getToken());
+//            HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_DEFAULT_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
+//                @Override
+//                public void httpError(Call call, Exception e) {
+//                    hideWaitDialog();
+//                }
+//
+//                @Override
+//                public void httpResponse(String resultData) {
+//                    hideWaitDialog();
+//                    LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
+//                    if (loginModel.getResult().isSuccess()){
+//                        BaseSharePerence.getInstance().setLoginJson(resultData);
+//                        UserModel.httpUpdateUser(StartActivity.this);
+//                        MainActivity.newIntance(StartActivity.this, 0);
+//                        finish();
+//                    }
+//                }
+//            });
+//        }else {
+//            MainActivity.newIntance(StartActivity.this, 0);
+//            finish();
+//        }
+//    }
 
 
 

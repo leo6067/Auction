@@ -179,6 +179,8 @@ public class AuctionDFragment extends BaseRecyclerViewFragment  {
         priceStr = "markup_range";//时间-modify_time    价格-  markup_range
         sortField = timeStr;
         onRefresh(refreshLayout);
+        mIvTime.setBackgroundResource(R.drawable.tip_down);
+        mIvPrice.setBackgroundResource(R.drawable.tip_tip);
     }
 
 

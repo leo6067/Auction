@@ -2,11 +2,13 @@ package com.leo.auction.ui.main.mine.adapter;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.allen.library.SuperButton;
 import com.aten.compiler.utils.EmptyUtils;
+import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.widget.glide.GlideUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,7 +33,17 @@ public class StoreQRCodeAdapter extends BaseQuickAdapter<StoreQRCodeModel, BaseV
         TextView tvQrCodeType=helper.getView(R.id.tv_qr_code_type);
         SuperButton sbtnGenerate=helper.getView(R.id.sbtn_generate);
 
-        GlideUtils.loadImg(item.getFourImgs(),ivQrCodeBg);
+        GlideUtils.loadImgDefault(item.getFourImgs(),ivQrCodeBg);
+
+
+        if (item.getQrCodeType().equals("单独二维码")){
+            ViewGroup.LayoutParams layoutParams = ivQrCodeBg.getLayoutParams();
+            layoutParams.height =(int) RxTool.getContext().getResources().getDimension(R.dimen.dp_180);
+
+            ivQrCodeBg.setLayoutParams(layoutParams);
+        }
+
+
         tvQrCodeType.setText(EmptyUtils.strEmpty(item.getQrCodeType()));
 
         sbtnGenerate.setTag(R.id.tag_1,helper.getAdapterPosition());

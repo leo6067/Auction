@@ -40,7 +40,7 @@ import okhttp3.RequestBody;
  */
 public class HttpRequest {
     public static void httpPostString( String url, JSONObject jsonObject, HttpRequest.HttpCallback httpCallback) {
-        jsonObject.put("client", "4");
+        jsonObject.put("client", "64");
         LogUtils.e("dataParams:"+jsonObject.toJSONString());
         OkHttpUtils
                 .postString()
@@ -59,18 +59,18 @@ public class HttpRequest {
                     public void onResponse(String result, int id) {
                         Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
                         ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
-                        if ("5004".equals(jsonObject.getResult().getCode())) {//异端登录
-                            //刷新首页
-                            LoginActivity.newIntance(RxTool.getContext(),1);
-                            ToastUtils.showShort(jsonObject.getResult().getMessage());
-                            return;
-                        }
-
-                        if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                            //刷新首页
-                            LoginActivity.newIntance(RxTool.getContext(),0);
-                            return;
-                        }
+//                        if ("5004".equals(jsonObject.getResult().getCode())) {//异端登录
+//                            //刷新首页
+//                            LoginActivity.newIntance(RxTool.getContext(),1);
+//                            ToastUtils.showShort(jsonObject.getResult().getMessage());
+//                            return;
+//                        }
+//
+//                        if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                            //刷新首页
+//                            LoginActivity.newIntance(RxTool.getContext(),0);
+//                            return;
+//                        }
                         try {
                             httpCallback.httpResponse(result);
                         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class HttpRequest {
 
     public static void httpPostString( String url, JSONObject jsonObject, CustomerJsonCallBack httpCallback) {
 
-        jsonObject.put("client", "4");
+        jsonObject.put("client", "64");
         LogUtils.e("dataParams:"+jsonObject.toJSONString());
         OkHttpUtils
                 .postString()
@@ -104,18 +104,18 @@ public class HttpRequest {
                     public void onResponse(String result, int id) {
                         Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
                         ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
-                        if ( "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                            //刷新首页
-                            LoginActivity.newIntance(RxTool.getContext(),1);
-                            ToastUtils.showShort(jsonObject.getResult().getMessage());
-                            return;
-                        }
-
-                        if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                            //刷新首页
-                            LoginActivity.newIntance(RxTool.getContext(),0);
-                            return;
-                        }
+//                        if ( "5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                            //刷新首页
+//                            LoginActivity.newIntance(RxTool.getContext(),1);
+//                            ToastUtils.showShort(jsonObject.getResult().getMessage());
+//                            return;
+//                        }
+//
+//                        if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                            //刷新首页
+//                            LoginActivity.newIntance(RxTool.getContext(),0);
+//                            return;
+//                        }
                         try {
                             httpCallback.onRequestSuccess(result);
                         } catch (Exception e) {
@@ -133,7 +133,7 @@ public class HttpRequest {
 
     //容器参数
     public static void httpGetString(final String url, final HashMap<String, String> data, final HttpCallback httpCallback) {
-        data.put("client", "4");
+        data.put("client", "64");
 
         if (url.length() == 0) {
             ToastUtils.showShort("请求路径有误！");
@@ -162,18 +162,18 @@ public class HttpRequest {
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils "+url + "" + result);
                 ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
-                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),1);
-                    ToastUtils.showShort(jsonObject.getResult().getMessage());
-                    return;
-                }
-
-                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),0);
-                    return;
-                }
+//                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),1);
+//                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+//                    return;
+//                }
+//
+//                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),0);
+//                    return;
+//                }
                 try {
                     httpCallback.httpResponse(result);
                 } catch (Exception e) {
@@ -188,7 +188,7 @@ public class HttpRequest {
 
 
     public static void httpPostString(final String url, final HashMap<String, String> data, final HttpCallback httpCallback) {
-        data.put("client", "4");
+        data.put("client", "64");
         if (url.length() == 0) {
             ToastUtils.showShort("请求路径有误！");
             return;
@@ -209,18 +209,18 @@ public class HttpRequest {
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
                 ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
-                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),1);
-                    ToastUtils.showShort(jsonObject.getResult().getMessage());
-                    return;
-                }
-
-                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),0);
-                    return;
-                }
+//                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),1);
+//                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+//                    return;
+//                }
+//
+//                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),0);
+//                    return;
+//                }
                 try {
                     httpCallback.httpResponse(result);
                 } catch (Exception e) {
@@ -233,7 +233,7 @@ public class HttpRequest {
 
 
     public static void httpPutString(final String url, final JSONObject jsonObject  , final HttpCallback httpCallback) {
-        jsonObject.put("client", "4");
+        jsonObject.put("client", "64");
 
         if (url.length() == 0) {
             ToastUtils.showShort("请求路径有误！");
@@ -257,19 +257,19 @@ public class HttpRequest {
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
                 ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
-                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),1);
-                    ToastUtils.showShort(jsonObject.getResult().getMessage());
-                    return;
-                }
-
-
-                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),0);
-                    return;
-                }
+//                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),1);
+//                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+//                    return;
+//                }
+//
+//
+//                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),0);
+//                    return;
+//                }
 
                 try {
                     httpCallback.httpResponse(result);
@@ -283,7 +283,7 @@ public class HttpRequest {
 
 
     public static void httpDeleteString(final String url, final HashMap<String, String> data, final HttpCallback httpCallback) {
-        data.put("client", "4");
+        data.put("client", "64");
         if (url.length() == 0) {
             ToastUtils.showShort("请求路径有误！");
             return;
@@ -307,18 +307,18 @@ public class HttpRequest {
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils  url" + url + "  result=   " + result);
                 ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
-                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),1);
-                    ToastUtils.showShort(jsonObject.getResult().getMessage());
-                    return;
-                }
-
-                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),0);
-                    return;
-                }
+//                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),1);
+//                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+//                    return;
+//                }
+//
+//                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),0);
+//                    return;
+//                }
 
                 try {
                     httpCallback.httpResponse(result);
@@ -335,7 +335,7 @@ public class HttpRequest {
 
 
     public static void httpPostForm(final String url, final HashMap<String, String> data, final HttpCallback httpCallback) {
-        data.put("client", "4");
+        data.put("client", "64");
         if (url.length() == 0) {
             ToastUtils.showShort("请求路径有误！");
             return;
@@ -403,18 +403,18 @@ public class HttpRequest {
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils  url" + url + " " + result);
                 ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
-                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),1);
-                    ToastUtils.showShort(jsonObject.getResult().getMessage());
-                    return;
-                }
-
-                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-                    //刷新首页
-                    LoginActivity.newIntance(RxTool.getContext(),0);
-                    return;
-                }
+//                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),1);
+//                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+//                    return;
+//                }
+//
+//                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+//                    //刷新首页
+//                    LoginActivity.newIntance(RxTool.getContext(),0);
+//                    return;
+//                }
 
                 try {
                     httpCallback.httpResponse(result);

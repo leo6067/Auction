@@ -51,7 +51,7 @@ import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.Globals;
-import com.tencent.smtt.sdk.CookieSyncManager;
+
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;

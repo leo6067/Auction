@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_300"
+    android:layout_marginBottom="@dimen/dp_66"
+    android:background="@drawable/ic_qr_code_top_bg_b">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_145"
+        android:layout_marginLeft="@dimen/dp_105"
+        android:layout_marginRight="@dimen/dp_85"
+        android:lineSpacingExtra="@dimen/dp_10"
+        android:text="选择二维码样式生成推广二维码，新用户首次通过您的二维码进 入成为您的专属粉丝。\n专属粉丝：推荐专属粉丝越多店铺权重越高。"
+        android:textSize="@dimen/sp_20"
+        android:textColor="@android:color/white"
+        android:includeFontPadding="false"/>
+
+</RelativeLayout>

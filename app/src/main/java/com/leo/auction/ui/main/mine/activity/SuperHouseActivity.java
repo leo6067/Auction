@@ -339,7 +339,7 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity implements IRel
                 SortLeftModel.DataBean dataBean = new SortLeftModel.DataBean();
                 dataBean.setName("全部");
                 dataBean.setId("全部");
-
+                dataBean.setSelected(true);
 
                 ArrayList<SortLeftModel.DataBean.ChildrenBean> childrenBeanArrayList = new ArrayList<>();
                 SortLeftModel.DataBean.ChildrenBean childrenBean = new SortLeftModel.DataBean.ChildrenBean();
@@ -384,7 +384,7 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity implements IRel
                 }
 
                 onRefresh(refreshLayout);
-
+                mIvPrice.setBackgroundResource(R.drawable.tip_tip);
                 break;
             case R.id.ll_price:
                 sortField = "agent_price";
@@ -400,7 +400,7 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity implements IRel
                     mIvPrice.setBackgroundResource(R.drawable.tip_down);
                 }
                 onRefresh(refreshLayout);
-
+                mIvTime.setBackgroundResource(R.drawable.tip_tip);
                 break;
             case R.id.ll_screent:
                 if ((boolean) mLlScreent.getTag()) {
@@ -447,7 +447,7 @@ public class SuperHouseActivity extends BaseRecyclerViewActivity implements IRel
 
     @Override
     public void bindString(String string) {
-        Globals.log("xxxxxx  dataBean.getGoodsId() 03 " + string);
+
         Bundle bundle = new Bundle();
         bundle.putString("value", string);
         bundle.putString("type", "2");

@@ -92,7 +92,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: __local_aars__:E.\work\Auction_APP\baselib\libs\AMap_Location_V4.3.0_20181016.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:E.\work\Auction_APP\baselib\libs\netty-all-4.1.16.Final.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:E.\work\Auction_APP\baselib\libs\tbs_sdk_thirdapp_v3.6.0.1352.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:E.\work\Auction_APP\baselib\libs\umeng-analytics-8.1.4.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:E.\work\Auction_APP\baselib\libs\umeng-common-2.1.8.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:E.\work\Auction_APP\baselib\libs\utdid4all-1.1.5.3_proguard.jar:unspecified@jar" level="project" />

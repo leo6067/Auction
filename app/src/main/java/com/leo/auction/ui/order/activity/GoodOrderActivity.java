@@ -357,7 +357,7 @@ public class GoodOrderActivity extends BaseActivity implements SetPaypwdUtils.IC
                 //实例化微信支付策略
                 WXPay wxPay = WXPay.getInstance();
                 //构造微信订单实体。一般都是由服务端直接返回。
-                WXPayBean wxPayBean = new WXPayBean(Constants.Nouns.WEIXINAPPID, data.getMchId(), data.getPrepayId(), data.getPackages(),
+                WXPayBean wxPayBean = new WXPayBean(Constants.Nouns.WEIXINAPPID, data.getMchId(), data.getPrepayId(), data.getPackageX(),
                         data.getNonceStr(), data.getTimeStamp(), data.getPaySign());
 
                 //策略场景类调起支付方法开始支付，以及接收回调。

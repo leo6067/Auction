@@ -1,13 +1,5 @@
 package com.leo.auction.ui.login.model;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.leo.auction.base.Constants;
-import com.leo.auction.net.CustomerJsonCallBack;
-import com.leo.auction.net.HttpRequest;
-
-import java.util.HashMap;
-
 /**
  * ================================================
  * 项目名称：SuperWarehouse_Android
@@ -23,13 +15,12 @@ public class LoginModel {
 
 
     /**
-     * data : {"token":"6b66da91a8db3f47608dad2893b487ff","user":{"address":{"shipAddress":{"address":"福建省莆田市仙游县榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"福建省莆田市仙游县六月","code":"000000","id":273,"linkman":"六月","phone":"17750656067","type":1}},"auctionCoinBalance":"0","auctionCoinNum":0,"balance":"0","balanceExempt":"","dialogConnect":false,"fansNum":6,"followNum":0,"headImg":"https://file.taojianlou.com/ut/product/151E0BC510964962BCB5ECEDD03E5A59.jpg","hxId":"e64cbf24999560e9ce88726005cac2e5","id":1998,"idCard":"3****************8","level":0,"limitType":0,"nickname":"伟龙珠","payPwd":false,"phone":"17750656067","rate":0,"score":0,"sellerLevel":0,"sellerScore":0,"storeEnable":true,"type":2,"userId":"2004271657rdLApc","username":"leo","warrant":"0"}}
-     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1592399660978}
+     * data : {"token":"45169a62a734256318fcf52bb3e4e1a9","user":{"address":{"shipAddress":{"address":"北京市北京市东城区榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"吉林省长春市南关区2632362212","code":"000000","id":357,"linkman":"6667","phone":"17750657777","type":1}},"appToken":"90d32ca7ac15052426289621fefea620","auctionCoinBalance":"0.00","auctionCoinNum":0,"auctionFansNum":2,"balance":"185.00","balanceExempt":"","buyerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":5,"serviceNum":0,"type":1},"dialogConnect":true,"exclusiveFansNum":6,"fansNum":8,"followNum":3,"h5Token":"1960f56a378cb9ba0a83a226a28b72a5","headImg":"https://file.taojianlou.com/Android/user/img20200803/1596434438608.png?image=250,250","hxId":"e64cbf24999560e9ce88726005cac2e5","id":1998,"idCard":"3****************8","instanceNum":0,"level":0,"limitProductFansNum":50,"limitType":0,"mpToken":"9cbec1b0c60c699415d1e843966f011b","nestedToken":"b084a212d4779662d848dcabf5ed8b91","nickname":"支付宝小店","online":false,"payPwd":true,"phone":"17750656067","rate":0,"score":0,"sellerLevel":0,"sellerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":2},"sellerScore":0,"storeEnable":true,"subsidyMoney":"83","toolToken":"4d2a6588055c639e930a5cfda6c206fb","type":2,"userId":"2004271657rdLApc","username":"谢伟杰","warrant":"0.00","webToken":"3339b6114e84be24832e1d8369498ebd"}}
+     * result : {"code":"0","message":"请求成功","success":true,"timestamp":1597483061545}
      */
 
     private DataBean data;
     private ResultBean result;
-
 
     public DataBean getData() {
         return data;
@@ -49,8 +40,8 @@ public class LoginModel {
 
     public static class DataBean {
         /**
-         * token : 6b66da91a8db3f47608dad2893b487ff
-         * user : {"address":{"shipAddress":{"address":"福建省莆田市仙游县榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"福建省莆田市仙游县六月","code":"000000","id":273,"linkman":"六月","phone":"17750656067","type":1}},"auctionCoinBalance":"0","auctionCoinNum":0,"balance":"0","balanceExempt":"","dialogConnect":false,"fansNum":6,"followNum":0,"headImg":"https://file.taojianlou.com/ut/product/151E0BC510964962BCB5ECEDD03E5A59.jpg","hxId":"e64cbf24999560e9ce88726005cac2e5","id":1998,"idCard":"3****************8","level":0,"limitType":0,"nickname":"伟龙珠","payPwd":false,"phone":"17750656067","rate":0,"score":0,"sellerLevel":0,"sellerScore":0,"storeEnable":true,"type":2,"userId":"2004271657rdLApc","username":"leo","warrant":"0"}
+         * token : 45169a62a734256318fcf52bb3e4e1a9
+         * user : {"address":{"shipAddress":{"address":"北京市北京市东城区榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"吉林省长春市南关区2632362212","code":"000000","id":357,"linkman":"6667","phone":"17750657777","type":1}},"appToken":"90d32ca7ac15052426289621fefea620","auctionCoinBalance":"0.00","auctionCoinNum":0,"auctionFansNum":2,"balance":"185.00","balanceExempt":"","buyerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":5,"serviceNum":0,"type":1},"dialogConnect":true,"exclusiveFansNum":6,"fansNum":8,"followNum":3,"h5Token":"1960f56a378cb9ba0a83a226a28b72a5","headImg":"https://file.taojianlou.com/Android/user/img20200803/1596434438608.png?image=250,250","hxId":"e64cbf24999560e9ce88726005cac2e5","id":1998,"idCard":"3****************8","instanceNum":0,"level":0,"limitProductFansNum":50,"limitType":0,"mpToken":"9cbec1b0c60c699415d1e843966f011b","nestedToken":"b084a212d4779662d848dcabf5ed8b91","nickname":"支付宝小店","online":false,"payPwd":true,"phone":"17750656067","rate":0,"score":0,"sellerLevel":0,"sellerOrderCount":{"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":2},"sellerScore":0,"storeEnable":true,"subsidyMoney":"83","toolToken":"4d2a6588055c639e930a5cfda6c206fb","type":2,"userId":"2004271657rdLApc","username":"谢伟杰","warrant":"0.00","webToken":"3339b6114e84be24832e1d8369498ebd"}
          */
 
         private String token;
@@ -74,60 +65,88 @@ public class LoginModel {
 
         public static class UserBean {
             /**
-             * address : {"shipAddress":{"address":"福建省莆田市仙游县榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"福建省莆田市仙游县六月","code":"000000","id":273,"linkman":"六月","phone":"17750656067","type":1}}
-             * auctionCoinBalance : 0
+             * address : {"shipAddress":{"address":"北京市北京市东城区榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0},"returnAddress":{"address":"吉林省长春市南关区2632362212","code":"000000","id":357,"linkman":"6667","phone":"17750657777","type":1}}
+             * appToken : 90d32ca7ac15052426289621fefea620
+             * auctionCoinBalance : 0.00
              * auctionCoinNum : 0
-             * balance : 0
+             * auctionFansNum : 2
+             * balance : 185.00
              * balanceExempt :
-             * dialogConnect : false
-             * fansNum : 6
-             * followNum : 0
-             * headImg : https://file.taojianlou.com/ut/product/151E0BC510964962BCB5ECEDD03E5A59.jpg
+             * buyerOrderCount : {"noPayNum":0,"receiveNum":0,"sendNum":5,"serviceNum":0,"type":1}
+             * dialogConnect : true
+             * exclusiveFansNum : 6
+             * fansNum : 8
+             * followNum : 3
+             * h5Token : 1960f56a378cb9ba0a83a226a28b72a5
+             * headImg : https://file.taojianlou.com/Android/user/img20200803/1596434438608.png?image=250,250
              * hxId : e64cbf24999560e9ce88726005cac2e5
              * id : 1998
              * idCard : 3****************8
+             * instanceNum : 0
              * level : 0
+             * limitProductFansNum : 50
              * limitType : 0
-             * nickname : 伟龙珠
-             * payPwd : false
+             * mpToken : 9cbec1b0c60c699415d1e843966f011b
+             * nestedToken : b084a212d4779662d848dcabf5ed8b91
+             * nickname : 支付宝小店
+             * online : false
+             * payPwd : true
              * phone : 17750656067
              * rate : 0.0
              * score : 0
              * sellerLevel : 0
+             * sellerOrderCount : {"noPayNum":0,"receiveNum":0,"sendNum":0,"serviceNum":0,"type":2}
              * sellerScore : 0
              * storeEnable : true
+             * subsidyMoney : 83
+             * toolToken : 4d2a6588055c639e930a5cfda6c206fb
              * type : 2
              * userId : 2004271657rdLApc
-             * username : leo
-             * warrant : 0
+             * username : 谢伟杰
+             * warrant : 0.00
+             * webToken : 3339b6114e84be24832e1d8369498ebd
              */
 
             private AddressBean address;
+            private String appToken;
             private String auctionCoinBalance;
             private int auctionCoinNum;
+            private int auctionFansNum;
             private String balance;
             private String balanceExempt;
+            private BuyerOrderCountBean buyerOrderCount;
             private boolean dialogConnect;
+            private int exclusiveFansNum;
             private int fansNum;
             private int followNum;
+            private String h5Token;
             private String headImg;
             private String hxId;
             private int id;
             private String idCard;
+            private int instanceNum;
             private int level;
+            private int limitProductFansNum;
             private int limitType;
+            private String mpToken;
+            private String nestedToken;
             private String nickname;
+            private boolean online;
             private boolean payPwd;
             private String phone;
             private double rate;
             private int score;
             private int sellerLevel;
+            private SellerOrderCountBean sellerOrderCount;
             private int sellerScore;
             private boolean storeEnable;
+            private String subsidyMoney;
+            private String toolToken;
             private int type;
             private String userId;
             private String username;
             private String warrant;
+            private String webToken;
 
             public AddressBean getAddress() {
                 return address;
@@ -135,6 +154,14 @@ public class LoginModel {
 
             public void setAddress(AddressBean address) {
                 this.address = address;
+            }
+
+            public String getAppToken() {
+                return appToken;
+            }
+
+            public void setAppToken(String appToken) {
+                this.appToken = appToken;
             }
 
             public String getAuctionCoinBalance() {
@@ -153,6 +180,14 @@ public class LoginModel {
                 this.auctionCoinNum = auctionCoinNum;
             }
 
+            public int getAuctionFansNum() {
+                return auctionFansNum;
+            }
+
+            public void setAuctionFansNum(int auctionFansNum) {
+                this.auctionFansNum = auctionFansNum;
+            }
+
             public String getBalance() {
                 return balance;
             }
@@ -169,12 +204,28 @@ public class LoginModel {
                 this.balanceExempt = balanceExempt;
             }
 
+            public BuyerOrderCountBean getBuyerOrderCount() {
+                return buyerOrderCount;
+            }
+
+            public void setBuyerOrderCount(BuyerOrderCountBean buyerOrderCount) {
+                this.buyerOrderCount = buyerOrderCount;
+            }
+
             public boolean isDialogConnect() {
                 return dialogConnect;
             }
 
             public void setDialogConnect(boolean dialogConnect) {
                 this.dialogConnect = dialogConnect;
+            }
+
+            public int getExclusiveFansNum() {
+                return exclusiveFansNum;
+            }
+
+            public void setExclusiveFansNum(int exclusiveFansNum) {
+                this.exclusiveFansNum = exclusiveFansNum;
             }
 
             public int getFansNum() {
@@ -191,6 +242,14 @@ public class LoginModel {
 
             public void setFollowNum(int followNum) {
                 this.followNum = followNum;
+            }
+
+            public String getH5Token() {
+                return h5Token;
+            }
+
+            public void setH5Token(String h5Token) {
+                this.h5Token = h5Token;
             }
 
             public String getHeadImg() {
@@ -225,12 +284,28 @@ public class LoginModel {
                 this.idCard = idCard;
             }
 
+            public int getInstanceNum() {
+                return instanceNum;
+            }
+
+            public void setInstanceNum(int instanceNum) {
+                this.instanceNum = instanceNum;
+            }
+
             public int getLevel() {
                 return level;
             }
 
             public void setLevel(int level) {
                 this.level = level;
+            }
+
+            public int getLimitProductFansNum() {
+                return limitProductFansNum;
+            }
+
+            public void setLimitProductFansNum(int limitProductFansNum) {
+                this.limitProductFansNum = limitProductFansNum;
             }
 
             public int getLimitType() {
@@ -241,12 +316,36 @@ public class LoginModel {
                 this.limitType = limitType;
             }
 
+            public String getMpToken() {
+                return mpToken;
+            }
+
+            public void setMpToken(String mpToken) {
+                this.mpToken = mpToken;
+            }
+
+            public String getNestedToken() {
+                return nestedToken;
+            }
+
+            public void setNestedToken(String nestedToken) {
+                this.nestedToken = nestedToken;
+            }
+
             public String getNickname() {
                 return nickname;
             }
 
             public void setNickname(String nickname) {
                 this.nickname = nickname;
+            }
+
+            public boolean isOnline() {
+                return online;
+            }
+
+            public void setOnline(boolean online) {
+                this.online = online;
             }
 
             public boolean isPayPwd() {
@@ -289,6 +388,14 @@ public class LoginModel {
                 this.sellerLevel = sellerLevel;
             }
 
+            public SellerOrderCountBean getSellerOrderCount() {
+                return sellerOrderCount;
+            }
+
+            public void setSellerOrderCount(SellerOrderCountBean sellerOrderCount) {
+                this.sellerOrderCount = sellerOrderCount;
+            }
+
             public int getSellerScore() {
                 return sellerScore;
             }
@@ -303,6 +410,22 @@ public class LoginModel {
 
             public void setStoreEnable(boolean storeEnable) {
                 this.storeEnable = storeEnable;
+            }
+
+            public String getSubsidyMoney() {
+                return subsidyMoney;
+            }
+
+            public void setSubsidyMoney(String subsidyMoney) {
+                this.subsidyMoney = subsidyMoney;
+            }
+
+            public String getToolToken() {
+                return toolToken;
+            }
+
+            public void setToolToken(String toolToken) {
+                this.toolToken = toolToken;
             }
 
             public int getType() {
@@ -337,10 +460,18 @@ public class LoginModel {
                 this.warrant = warrant;
             }
 
+            public String getWebToken() {
+                return webToken;
+            }
+
+            public void setWebToken(String webToken) {
+                this.webToken = webToken;
+            }
+
             public static class AddressBean {
                 /**
-                 * shipAddress : {"address":"福建省莆田市仙游县榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0}
-                 * returnAddress : {"address":"福建省莆田市仙游县六月","code":"000000","id":273,"linkman":"六月","phone":"17750656067","type":1}
+                 * shipAddress : {"address":"北京市北京市东城区榜头镇天易世博","code":"000000","id":271,"linkman":"谢伟杰","phone":"17750656067","type":0}
+                 * returnAddress : {"address":"吉林省长春市南关区2632362212","code":"000000","id":357,"linkman":"6667","phone":"17750657777","type":1}
                  */
 
                 private ShipAddressBean shipAddress;
@@ -364,7 +495,7 @@ public class LoginModel {
 
                 public static class ShipAddressBean {
                     /**
-                     * address : 福建省莆田市仙游县榜头镇天易世博
+                     * address : 北京市北京市东城区榜头镇天易世博
                      * code : 000000
                      * id : 271
                      * linkman : 谢伟杰
@@ -430,11 +561,11 @@ public class LoginModel {
 
                 public static class ReturnAddressBean {
                     /**
-                     * address : 福建省莆田市仙游县六月
+                     * address : 吉林省长春市南关区2632362212
                      * code : 000000
-                     * id : 273
-                     * linkman : 六月
-                     * phone : 17750656067
+                     * id : 357
+                     * linkman : 6667
+                     * phone : 17750657777
                      * type : 1
                      */
 
@@ -494,6 +625,118 @@ public class LoginModel {
                     }
                 }
             }
+
+            public static class BuyerOrderCountBean {
+                /**
+                 * noPayNum : 0
+                 * receiveNum : 0
+                 * sendNum : 5
+                 * serviceNum : 0
+                 * type : 1
+                 */
+
+                private int noPayNum;
+                private int receiveNum;
+                private int sendNum;
+                private int serviceNum;
+                private int type;
+
+                public int getNoPayNum() {
+                    return noPayNum;
+                }
+
+                public void setNoPayNum(int noPayNum) {
+                    this.noPayNum = noPayNum;
+                }
+
+                public int getReceiveNum() {
+                    return receiveNum;
+                }
+
+                public void setReceiveNum(int receiveNum) {
+                    this.receiveNum = receiveNum;
+                }
+
+                public int getSendNum() {
+                    return sendNum;
+                }
+
+                public void setSendNum(int sendNum) {
+                    this.sendNum = sendNum;
+                }
+
+                public int getServiceNum() {
+                    return serviceNum;
+                }
+
+                public void setServiceNum(int serviceNum) {
+                    this.serviceNum = serviceNum;
+                }
+
+                public int getType() {
+                    return type;
+                }
+
+                public void setType(int type) {
+                    this.type = type;
+                }
+            }
+
+            public static class SellerOrderCountBean {
+                /**
+                 * noPayNum : 0
+                 * receiveNum : 0
+                 * sendNum : 0
+                 * serviceNum : 0
+                 * type : 2
+                 */
+
+                private int noPayNum;
+                private int receiveNum;
+                private int sendNum;
+                private int serviceNum;
+                private int type;
+
+                public int getNoPayNum() {
+                    return noPayNum;
+                }
+
+                public void setNoPayNum(int noPayNum) {
+                    this.noPayNum = noPayNum;
+                }
+
+                public int getReceiveNum() {
+                    return receiveNum;
+                }
+
+                public void setReceiveNum(int receiveNum) {
+                    this.receiveNum = receiveNum;
+                }
+
+                public int getSendNum() {
+                    return sendNum;
+                }
+
+                public void setSendNum(int sendNum) {
+                    this.sendNum = sendNum;
+                }
+
+                public int getServiceNum() {
+                    return serviceNum;
+                }
+
+                public void setServiceNum(int serviceNum) {
+                    this.serviceNum = serviceNum;
+                }
+
+                public int getType() {
+                    return type;
+                }
+
+                public void setType(int type) {
+                    this.type = type;
+                }
+            }
         }
     }
 
@@ -502,7 +745,7 @@ public class LoginModel {
          * code : 0
          * message : 请求成功
          * success : true
-         * timestamp : 1592399660978
+         * timestamp : 1597483061545
          */
 
         private String code;

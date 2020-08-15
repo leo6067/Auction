@@ -36,6 +36,8 @@ import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.home.fragment.MineOrderBuyFragment;
 import com.leo.auction.ui.main.home.fragment.MineOrderFragment;
 import com.leo.auction.ui.main.home.model.SceneModel;
+import com.leo.auction.ui.main.mine.activity.FansActivtity;
+import com.leo.auction.ui.main.mine.activity.SettingActivity;
 import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.model.CateProductModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
@@ -136,19 +138,24 @@ public class MainMeFragment extends BaseFragment {
     @OnClick({R.id.tv_coin_num, R.id.civ_head, R.id.tv_name, R.id.fl_shop, R.id.ll_follow, R.id.ll_fans})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.civ_head:
-            case R.id.tv_name:
+
             case R.id.fl_shop:
                 Bundle bundle = new Bundle();
                 bundle.putString("shopUri", mUserJson.getUserId());
                 bundle.putString("shopName", mUserJson.getNickname());
                 ActivityManager.JumpActivity(getActivity(), ShopActivity.class, bundle);
                 break;
+            case R.id.civ_head:
+            case R.id.tv_name:
+                ActivityManager.JumpActivity(getActivity(), SettingActivity.class);
+                break;
             case R.id.ll_follow:
                 Constants.Var.FOCUS_TYPE = 1;
                 ActivityManager.mainActivity.setCurrent(2);
                 break;
             case R.id.ll_fans:
+
+                ActivityManager.JumpActivity(getActivity(), FansActivtity.class);
 
                 break;
             case R.id.tv_coin_num:
@@ -245,7 +252,7 @@ public class MainMeFragment extends BaseFragment {
             @Override
             public void onTabSelect(int position) {
 //                mViewPager.setCurrentItem(position);
-                orderType = 0;
+                orderType = position;
                 if (position == 0) {
 
                     upUserLevel(userInfo, false);
@@ -271,7 +278,7 @@ public class MainMeFragment extends BaseFragment {
             public void onPageSelected(int position) {
 //                mCommonTab.setCurrentTab(i);
 
-                orderType = 0;
+                orderType = position;
                 if (position == 0) {
                     upUserLevel(userInfo, false);
                 } else {
@@ -373,16 +380,16 @@ public class MainMeFragment extends BaseFragment {
     //出价 隐私 协议 政策
     private void showAgreeDialog(String type) {
 
-        showWaitDialog();
+
         SceneModel.httpGetScene(type, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
-                hideWaitDialog();
+
             }
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+
                 SceneModel sceneModel = JSONObject.parseObject(resultData, SceneModel.class);
                 if (sceneModel.getData() == null) {
                     return;

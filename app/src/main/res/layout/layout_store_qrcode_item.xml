@@ -4,16 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
+
+    android:gravity="bottom|center_horizontal"
     android:orientation="vertical">
 
-    <com.aten.compiler.widget.RatioImageView
+    <ImageView
         android:id="@+id/iv_qr_code_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_350"
+        android:scaleType="centerCrop"
         tools:src="@color/color_ff8e67"
-        app:ratio="0.707"
-        app:forceEnable="false"/>
+
+     />
 
     <TextView
         android:id="@+id/tv_qr_code_type"

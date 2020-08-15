@@ -76,7 +76,7 @@ public class FocusShopFragment extends BaseRecyclerViewFragment {
 
 
 
-        recyclerView.addItemDecoration(new LinearLayoutDivider(getActivity(),1,getActivity().getResources().getColor(R.color.home_line)));
+        recyclerView.addItemDecoration(new LinearLayoutDivider(getActivity(),3,getActivity().getResources().getColor(R.color.home_line)));
         mAdapter = new SortShopAdapter(new SortShopAdapter.SortOnListener() {
             @Override
             public void soreOnListener() {

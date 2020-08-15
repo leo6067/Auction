@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,7 +46,7 @@ import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.ossUpload.DecryOssDataModel;
 import com.leo.auction.utils.ossUpload.UploadSinglePicUtils;
-import com.tencent.smtt.sdk.CookieSyncManager;
+
 
 import java.util.HashMap;
 

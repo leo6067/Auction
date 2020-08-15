@@ -74,7 +74,7 @@ public class MineOrderFragment extends BaseFragment {
     @BindView(R.id.tv_butie)
     TextView mMineBYBT;
     @BindView(R.id.mine_cjck)
-    TextView mMineCjck;
+    LinearLayout mMineCjck;
     @BindView(R.id.mine_fbpp)
     TextView mMineFbpp;
     @BindView(R.id.mine_ppgl)
@@ -132,20 +132,20 @@ public class MineOrderFragment extends BaseFragment {
         //创建红点View(待付款)
         YCRedDotView rdWaitPay = new YCRedDotView(BaseAppContext.getInstance());
         rdWaitPay.setTargetView(mIvWaitPay);
-        rdWaitPay.setBadgeMargin(12, 0, 0, 0);
+        rdWaitPay.setBadgeMargin(-50, 0, 0, 0);
         //创建红点View(待发货)
         YCRedDotView rdSendGood = new YCRedDotView(BaseAppContext.getInstance());
         rdSendGood.setTargetView(mIvSendGood);
-        rdSendGood.setBadgeMargin(12, 0, 0, 0);
+        rdSendGood.setBadgeMargin(-50, 0, 0, 0);
         //创建红点View(待收货)
         YCRedDotView rdReceivedGood = new YCRedDotView(BaseAppContext.getInstance());
         rdReceivedGood.setTargetView(mIvDsh);
-        rdReceivedGood.setBadgeMargin(12, 0, 0, 0);
+        rdReceivedGood.setBadgeMargin(-50, 0, 0, 0);
 
         //创建红点View(售后)
         YCRedDotView rdAfterSale = new YCRedDotView(BaseAppContext.getInstance());
         rdAfterSale.setTargetView(mIvServer);
-        rdAfterSale.setBadgeMargin(12, 0, 0, 0);
+        rdAfterSale.setBadgeMargin(-50, 0, 0, 0);
 
 
         mUserJson = BaseSharePerence.getInstance().getUserJson();
@@ -156,15 +156,23 @@ public class MineOrderFragment extends BaseFragment {
 
             mMineZcmx.setText(mUserJson.getBalance() + "元");
             //买入
-            int noPayNum = mUserJson.getBuyerOrderCount().getNoPayNum();
-            int sendNum = mUserJson.getBuyerOrderCount().getSendNum();
-            int receiveNum = mUserJson.getBuyerOrderCount().getReceiveNum();
-            int serviceNum = mUserJson.getBuyerOrderCount().getServiceNum();
-            rdWaitPay.setBadgeCount(noPayNum);
-            rdSendGood.setBadgeCount(sendNum);
-            rdReceivedGood.setBadgeCount(receiveNum);
-            rdAfterSale.setBadgeCount(serviceNum);
+            int noPayNum = mUserJson.getSellerOrderCount().getNoPayNum();
+            int sendNum = mUserJson.getSellerOrderCount().getSendNum();
+            int receiveNum = mUserJson.getSellerOrderCount().getReceiveNum();
+            int serviceNum = mUserJson.getSellerOrderCount().getServiceNum();
 
+            rdWaitPay.setBadgeCount(noPayNum);
+            rdWaitPay.setSingleLine(true);
+            rdWaitPay.setLines(1);
+            rdSendGood.setBadgeCount(sendNum);
+            rdSendGood.setSingleLine(true);
+            rdSendGood.setLines(1);
+            rdReceivedGood.setBadgeCount(receiveNum);
+            rdReceivedGood.setSingleLine(true);
+            rdReceivedGood.setLines(1);
+            rdAfterSale.setBadgeCount(serviceNum);
+            rdAfterSale.setSingleLine(true);
+            rdAfterSale.setLines(1);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -187,17 +195,7 @@ public class MineOrderFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-        if (mUserJson.getExclusiveFansNum() < 50) {   // 1 买家 2 卖家
-            mMineCjck.setVisibility(View.GONE);
-            mMineFbpp.setVisibility(View.GONE);
-            mMinePpgl.setVisibility(View.GONE);
-            mMineMfkd.setVisibility(View.VISIBLE);
-        } else {
-            mMineCjck.setVisibility(View.VISIBLE);
-            mMineFbpp.setVisibility(View.VISIBLE);
-            mMinePpgl.setVisibility(View.VISIBLE);
-            mMineMfkd.setVisibility(View.GONE);
-        }
+
     
 
         if (getActivity() != null) {
@@ -282,30 +280,34 @@ public class MineOrderFragment extends BaseFragment {
                 }
 
 //
+
+
                 if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
+
+                    mWarnHash = new HashMap<>();
+                    mWarnHash.put("title", "提示");
+                    mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
+                    mWarnHash.put("ok", "去查看");
+                    mWarnHash.put("okColor", "#7c1313");
+                    WarningDialog warningDialog = new WarningDialog(getActivity(), mWarnHash);
+                    warningDialog.show();
+                    warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+                        @Override
+                        public void onWarningOk() {
+
+                            showAgreeDialog("6");
+                        }
+
+                        @Override
+                        public void onWaringCancel() {
+                        }
+                    });
+
                     return;
                 }
 
                 if (!mUserJson.isStoreEnable()) {  //超级仓库发布权限
-//                    mWarnHash = new HashMap<>();
-//                    mWarnHash.put("title", "提示");
-//                    mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
-//                    mWarnHash.put("ok", "去查看");
-//                    mWarnHash.put("okColor", "#7c1313");
-//                    WarningDialog warningDialog = new WarningDialog(getActivity(), mWarnHash);
-//                    warningDialog.show();
-//                    warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
-//                        @Override
-//                        public void onWarningOk() {
-//
-//                            showAgreeDialog("6");
-//                        }
-//
-//                        @Override
-//                        public void onWaringCancel() {
-//                        }
-//                    });
+
                     httpUserWeb("开店申请");
                     return;
                 }
@@ -336,7 +338,24 @@ public class MineOrderFragment extends BaseFragment {
                     return;
                 }
                 if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
+                    mWarnHash = new HashMap<>();
+                    mWarnHash.put("title", "提示");
+                    mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
+                    mWarnHash.put("ok", "去查看");
+                    mWarnHash.put("okColor", "#7c1313");
+                    WarningDialog warningDialog = new WarningDialog(getActivity(), mWarnHash);
+                    warningDialog.show();
+                    warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+                        @Override
+                        public void onWarningOk() {
+                            showAgreeDialog("6");
+                        }
+
+                        @Override
+                        public void onWaringCancel() {
+                        }
+                    });
+
                     return;
                 }
 
@@ -387,7 +406,24 @@ public class MineOrderFragment extends BaseFragment {
 
 
                 if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-                    showAgreeDialog("6");
+                    mWarnHash = new HashMap<>();
+                    mWarnHash.put("title", "提示");
+                    mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
+                    mWarnHash.put("ok", "去查看");
+                    mWarnHash.put("okColor", "#7c1313");
+                    WarningDialog warningDialog = new WarningDialog(getActivity(), mWarnHash);
+                    warningDialog.show();
+                    warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+                        @Override
+                        public void onWarningOk() {
+                            showAgreeDialog("6");
+                        }
+
+                        @Override
+                        public void onWaringCancel() {
+                        }
+                    });
+
                     return;
                 }
 
@@ -436,7 +472,7 @@ public class MineOrderFragment extends BaseFragment {
                         httpUrl = Constants.WebApi.MINE_QB + isSeller + "&subsidyToken=" + mUserJson.getNestedToken() + "&userId=" + mUserJson.getUserId();
                         break;
                     case "资产明细":
-                        httpUrl = Constants.WebApi.MINE_ZCMX + mUserJson.getSubsidyToken() + "&userId=" + mUserJson.getUserId();
+                        httpUrl = Constants.WebApi.MINE_ZCMX + mUserJson.getNestedToken() + "&userId=" + mUserJson.getUserId();
 
                         break;
                     case "开店申请": //权限

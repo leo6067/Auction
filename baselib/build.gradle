@@ -183,7 +183,7 @@ dependencies {
 
     //BasePopup support支持库
     api 'com.github.razerdp:BasePopup-compat-support:2.2.1'
-    implementation files('libs/tbs_sdk_thirdapp_v3.6.0.1352.jar')
+
 
 
 

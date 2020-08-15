@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.EmptyUtils;
+import com.aten.compiler.utils.ToastUtils;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
@@ -97,14 +99,18 @@ public class ForgetPwdActivity extends BaseActivity {
             @Override
             public void onRequestError(BaseModel returnData, String msg) {
                 hideWaitDialog();
-                showShortToast(msg);
+
             }
 
             @Override
             public void onRequestSuccess(BaseModel returnData) {
                 hideWaitDialog();
-                showShortToast("支付密码修改成功");
-                goFinish();
+                if (returnData.getResult().isSuccess()) {
+                    showShortToast("支付密码修改成功");
+                    goFinish();
+                } else {
+                    showShortToast("支付密码修改失败");
+                }
             }
         });
     }

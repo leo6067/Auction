@@ -38,7 +38,6 @@ public class PromotionCenterAdapter extends BaseQuickAdapter<PromotionCenterMode
         }
 
 
-        Globals.log("xxxxxx 推广二维码 020 " +EmptyUtils.strEmpty(item.getTitle()));
         tvTitle.setText(EmptyUtils.strEmpty(item.getTitle()));
 
 //        helper.itemView.setTag(item.getTitle());

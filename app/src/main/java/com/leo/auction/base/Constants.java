@@ -9,6 +9,7 @@ public class Constants {
     public static boolean logGone = false;
     public static String BASE_URL = "";
     public static String WEB_BASE_URL = "";
+    public static String WEB_APP_URL = "";
 
 
     //正式版 true , 地址切换
@@ -16,11 +17,13 @@ public class Constants {
         if (releaseVersion) {
             BASE_URL = "https://cd.taojianlou.com/";
             WEB_BASE_URL = "https://cd.taojianlou.com/";
+            WEB_APP_URL = "https://cd.taojianlou.com/auction-web/?iscdandroid=1";
         } else {
             BASE_URL = "https://cd.taojianlou.com/ut/";//测试
             WEB_BASE_URL = "https://cd.taojianlou.com/ut1/";
+            WEB_APP_URL = "https://cd.taojianlou.com/ut1/auction-web/?iscdandroid=1";
         }
-        logGone = releaseVersion;
+//        logGone = releaseVersion;
     }
 
 
@@ -44,7 +47,7 @@ public class Constants {
         public static String QQAPPKEY = "f06eae4b68d8f8ddde0f2fb3616cbc25";
         public static String WEIXINAPPID = "wx083c4267d81c8961"; //7.10 新版
         public static String WEIXINAPPKEY = "2dc8dd30dd5d0db67e09af2e55dea168";
-        public static String WEIXINA_SMALL = "gh_0489fd1cc754";
+        public static String WEIXINA_SMALL = "gh_0489fd1cc754";  //小程序
 
     }
 
@@ -177,6 +180,12 @@ public class Constants {
 
     //web请求api
     public static class WebApi {
+
+
+
+
+
+
         public static String HOMEPAGE_RULE_AGREEMENT_URL =WEB_BASE_URL+"rule/agreement.html";// 规则说明
         public static String HOMEPAGE_RULE_VIPSERVICE_URL =WEB_BASE_URL+"rule/vipservice.html";// 用户协议
         public static String HOMEPAGE_RULE_PRIVACYPROTECTION_URL =WEB_BASE_URL+"rule/privacyprotection.html";// 隐私保护政策
@@ -228,41 +237,40 @@ public class Constants {
         public static String ADDRESS_SMART_URL = "https://w.taojianlou.com/express/address-search";//
 
 
-
         //短信验证
-        public static String SMS_URL = domain+"platform/sms";
+        public static String SMS_URL = domain + "platform/sms";
 
 
         //文件
-        public static String FILE_DEL = domain+"upload/del-file";
+        public static String FILE_DEL = domain + "upload/del-file";
 
         //版本更新
-        public static String VERSION_URL = domain+"platform/version";
+        public static String VERSION_URL = domain + "platform/version";
 
 
         //用户行为
-        public static String ACTION_USER = domain+"action/user";
+        public static String ACTION_USER = domain + "action/user";
 
         //退出登录
-        public static String LOGINOUT_URL = domain+"user/logout";
+        public static String LOGINOUT_URL = domain + "user/logout";
 
 
         //协议
-        public static String SCENE_URL = domain+"strategy/scene";
+        public static String SCENE_URL = domain + "strategy/scene";
 
 
         //生成分享二维码
-        public static String QCODE_URL = domain+"spread/qrcode";
+        public static String QCODE_URL = domain + "spread/qrcode";
 
         //oss
         public static String OSS_FOLDER = "Android";
-        public static String OSS_COMMON_URL = domain+"platform/oss";
-        public static String OSS_FOLDER_IMG_GOODS = OSS_FOLDER+"/goods/img";
-        public static String OSS_FOLDER_IMG_USER = OSS_FOLDER+"/user/img";
-        public static String OSS_FOLDER_VIDEO = OSS_FOLDER+"/video";
-        public static String OSS_FOLDER_IM_AUDIO_USER = OSS_FOLDER+"/im/audio";
-        public static String OSS_FOLDER_IM_VIDEO_USER = OSS_FOLDER+"/im/video";
-        public static String OSS_FOLDER_WATERMASK_USER = OSS_FOLDER+"/watermask";
+        public static String OSS_COMMON_URL = domain + "platform/oss";
+        public static String OSS_FOLDER_IMG_GOODS = OSS_FOLDER + "/goods/img";
+        public static String OSS_FOLDER_IMG_USER = OSS_FOLDER + "/user/img";
+        public static String OSS_FOLDER_VIDEO = OSS_FOLDER + "/video";
+        public static String OSS_FOLDER_IM_AUDIO_USER = OSS_FOLDER + "/im/audio";
+        public static String OSS_FOLDER_IM_VIDEO_USER = OSS_FOLDER + "/im/video";
+        public static String OSS_FOLDER_WATERMASK_USER = OSS_FOLDER + "/watermask";
 
         //登录注册
         public static String HOMEPAGE_SEND_SMS_URL = BASE_URL + "client/" + "sms/send";//发送验证码
@@ -270,7 +278,6 @@ public class Constants {
         public static String HOMEPAGE_USER_DEFAULT_LOGIN_URL = domain + "user/default-login";//用户静默登录
         public static String HOMEPAGE_USER_WX_LOGIN_URL = domain + "user/wx-login";//  微信授权登录
         public static String USER_URL = domain + "user/info";//
-
 
 
         //首页全部
@@ -288,15 +295,12 @@ public class Constants {
         public static String HOME_SEARCH_INT_URL = domain + "instance/search-about-intercept";//
 
 
-
         //关注
         public static String SORT_FOLLOW_URL = domain + "follow/product";//
         public static String SORT_FOLLOW_SHOP_URL = domain + "follow/shop";//
         public static String SORT_COLLECT_URL = domain + "collect";//
         public static String SORT_PARTAKE_URL = domain + "follow/partake";//
         public static String SORT_FOOT_PARTAKE_URL = domain + "follow/footmark";//
-
-
 
 
         //商家列表
@@ -308,13 +312,11 @@ public class Constants {
         public static String SHOP_HOT_URL = domain + "shop/hot";//  热门
 
 
-
         //分类
         public static String SORT_SORT_URL = domain + "category/list";//
         public static String SORT_MULTIPLE_URL = domain + "category/multiple";//
         public static String SORT_NEWST_URL = domain + "category/newest";//
         public static String SORT_INTERCEPT_URL = domain + "category/about-intercept";//
-
 
 
         //上拍商品详情
@@ -325,28 +327,17 @@ public class Constants {
         public static String GOODS_STORE_URL = domain + "product/store-goods";//
 
 
-
-
 //        public static String GOODS_REPROCT_URL = domain + "report";//
-
-
-
-
-
-
 
 
         //消息
         public static String NEWS_SYS_URL = domain + "notice";//
 
 
-
         //地址
         public static String ADDRESS_URL = domain + "address";//修改
         public static String ADDRESS_INFO_URL = domain + "address/info";//
         public static String ADDRESS_DISTRICT_URL = domain + "address/district-children";//
-
-
 
 
         //余额
@@ -359,18 +350,13 @@ public class Constants {
         public static String BALANCE_LOG_URL = domain + "balance/log";//
 
 
-
         //密码
         public static String PAY_PWD_URL = domain + "user/pay-pwd";//
         public static String RESET_PWD_URL = domain + "user/reset-pay-pwd";//
 
 
-
-
         //实名认证
         public static String REAL_NAME_URL = domain + "user/real-name";//
-
-
 
 
         //拍卖管理
@@ -386,11 +372,8 @@ public class Constants {
         public static String INSTANCE_NEWEST_URL = domain + "instance/instance-newest";//
 
 
-
         //支付
         public static String PAY_ORDER_URL = domain + "pay/unified-order";//
-
-
 
 
         //订单
@@ -398,8 +381,6 @@ public class Constants {
 
         //猜你喜欢
         public static String ORDER_LIKE_URL = domain + "order/you-like";//
-
-
 
 
         //提交评价  //获取评价详情
@@ -418,7 +399,7 @@ public class Constants {
         public static String ORDER_CONFIRM_TAKE_URL = domain + "order/confirm-take";
         //延迟收货
         public static String ORDER_DELAY_CONFIRM_TAKE_URL = domain + "order/delay-confirm-take";
-       //当面交易
+        //当面交易
         public static String ORDER_FACE_TRADE_URL = domain + "order/face-trade";
         //延迟付款
         public static String ORDER_DELAY_PAY_URL = domain + "order/delay-pay";
@@ -431,7 +412,6 @@ public class Constants {
         public static String REFUND_CANCEL_URL = domain + "refund/cancel";
 
 
-
         //百亿补贴
         public static String SUBSIDY_URL = domain + "subsidy";
         public static String SUBSIDY_LIST_URL = domain + "subsidy/suspension-list";
@@ -440,8 +420,6 @@ public class Constants {
 
         //生产推荐二维码
         public static String SPREAD_QRCODE_URL = domain + "spread/qrcode";
-
-
 
 
         //是否关注店铺
@@ -458,6 +436,14 @@ public class Constants {
 
         //热门
         public static String HOT_URL = domain + "instance/hot";
+
+
+        //粉丝
+        public static String FANCOUNT_URL = domain + "user/fans-count";
+        public static String FANS_URL = domain + "user/fans";
+
+
+        public static String FANS_IS_URL = domain + "follow/is-follow";
 
 
 

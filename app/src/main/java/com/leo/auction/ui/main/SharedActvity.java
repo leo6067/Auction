@@ -114,7 +114,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         sharedDailogUtils.showSharedDialog(this, sharedModel, this);
     }
 
-    //获取分享二维码
+    //获取分享二维码   -----------------------------
     private void getQrCode() {
 
 
@@ -197,9 +197,9 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 //        } else {
 //            showShortToast("系统版本太低,无法使用该功能");
 //        }
-        if (sharedModel.getShareGoodsCode().length() > 0) {
-            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
-        }
+//        if (sharedModel.getShareGoodsCode().length() > 0) {
+//            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
+//        }
         UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN_CIRCLE, umShareListener);
     }
 
@@ -209,12 +209,15 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (sharedModel.getShareGoodsCode().length() > 0) {
-                UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
-            }
+//            if (sharedModel.getShareGoodsCode().length() > 0) {
+//                UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
+//            }
+            Globals.log("xxxxxx onSharedWXCircle_qrcode 01 "  );
+
 
             showWaitDialog();
             WXShareMultiImageHelper.clearTmpFile(RxTool.getContext());
+//            shareMuiltImgToFriendCircle();
             shareMuiltImgToFriendCircle_qrcode(llContain);
         } else {
             showShortToast("系统版本太低,无法使用该功能");
@@ -232,9 +235,9 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
     @Override
     public void onQQShared() {
-        if (sharedModel.getShareGoodsCode().length() > 0) {
-            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "7", sharedModel.getShareGoodsCode(), "1");
-        }
+//        if (sharedModel.getShareGoodsCode().length() > 0) {
+//            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "7", sharedModel.getShareGoodsCode(), "1");
+//        }
         UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.QQ, umShareListener);
     }
 
@@ -336,6 +339,8 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     private void shareMuiltImgToFriendCircle_qrcode(LinearLayout llContain) {
 
         Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+Globals.log("xxxxx shareMuiltImgToFriendCircle_qrcode" +nineImgs.size() );
+
 
         final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();
         picBitmaps.put("0", bitmap);

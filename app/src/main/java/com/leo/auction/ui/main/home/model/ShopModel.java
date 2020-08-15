@@ -56,6 +56,16 @@ public class ShopModel {
         private String rate;
         private String warrant;
         private String fansNum;
+        private String nickname;
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
         private boolean companyAuth;
 
         public int getUserAccountId() {

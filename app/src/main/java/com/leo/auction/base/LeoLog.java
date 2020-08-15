@@ -86,4 +86,60 @@ public class LeoLog {
 
 //    viewPager.setCurrentItem(3,false); 去掉片段切换效果
 
+
+
+    //
+//        @JavascriptInterface
+//        public String testHttp() {
+//            final CountDownLatch latch = new CountDownLatch(1);
+//            final String[] returnStr = new String[1];
+//            VersionModel.httpGetVersion(new HttpRequest.HttpCallback() {
+//                @Override
+//                public void httpError(Call call, Exception e) {
+//                    latch.countDown();
+//                }
+//
+//                @Override
+//                public void httpResponse(String resultData) {
+//                    returnStr[0] = "网络请求结束01";
+//                    latch.countDown();
+//
+//                }
+//            });
+//            try {
+//                latch.await();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            Globals.log("XXXXXXXX 网络请求结束01" + returnStr[0]);
+//            return returnStr[0];
+//        }
+
+
+    //微信登录
+//        @JavascriptInterface
+//        public String loginWX() {
+////            wxLogin();
+//            final String[] returnStr = new String[1];
+//            returnStr[0] = "";
+//            VersionModel.httpGetVersion(new HttpRequest.HttpCallback() {
+//                @Override
+//                public void httpError(Call call, Exception e) {
+//                    latch.countDown();
+//                }
+//
+//                @Override
+//                public void httpResponse(String resultData) {
+//                    returnStr[0] = "网络请求结束01";
+//                    latch.countDown();
+//                }
+//            });
+//
+//            while (returnStr[0].length() == 0) {
+//            }
+//            Globals.log("XXXXXXXX 网络请求结束02" + returnStr[0]);
+//            return returnStr[0];
+//        }
+
+
 }

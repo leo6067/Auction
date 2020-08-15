@@ -408,6 +408,7 @@
     <color name="baoyou">#CAA0A0</color>
     <color name="baoyou_lin">#F5F5F5</color>
     <color name="detail_text">#AEAEAE</color>
+    <color name="back_ground">#F1F5F4</color>
 
 
 </resources>

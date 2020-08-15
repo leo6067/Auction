@@ -70,4 +70,21 @@ public class AndroidInterface {
             }
         });
     }
+
+    @JavascriptInterface
+    public void appLoginSuccess() {
+        deliver.post(new Runnable() {
+            @Override
+            public void run() {
+//                Globals.log("invitationAction  LogPrinting" + data);
+//                JSShareJson jsShareJson = JSONObject.parseObject(data, JSShareJson.class);
+//                SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl());
+//                SharedActvity.newIntance(context, sharedModel);
+            }
+        });
+    }
+
+
+
+
 }

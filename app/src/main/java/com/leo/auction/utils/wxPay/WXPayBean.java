@@ -107,4 +107,16 @@ public class WXPayBean implements IPayInfo {
         this.prepayId = prepayId;
     }
 
+    @Override
+    public String toString() {
+        return "WXPayBean{" +
+                "appid='" + appid + '\'' +
+                ", partnerid='" + partnerid + '\'' +
+                ", prepayId='" + prepayId + '\'' +
+                ", packageValue='" + packageValue + '\'' +
+                ", nonceStr='" + nonceStr + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", sign='" + sign + '\'' +
+                '}';
+    }
 }

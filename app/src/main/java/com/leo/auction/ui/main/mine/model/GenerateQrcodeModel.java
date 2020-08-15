@@ -1,5 +1,6 @@
 package com.leo.auction.ui.main.mine.model;
 
+import com.alibaba.fastjson.JSONObject;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
 
@@ -27,7 +28,6 @@ public class GenerateQrcodeModel {
 
     private String data;
     private ResultBean result;
-
 
 
     public String getData() {
@@ -93,17 +93,32 @@ public class GenerateQrcodeModel {
         }
     }
 
-    public static void sendGenerateQrcodeRequest(String type, String page, boolean refresh,
+    public static void sendGenerateQrcodeRequest(String type, String page,
                                                  HttpRequest.HttpCallback callback) {
 
 
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("type",type);
-        hashMap.put("page",page);  // 1-推荐粉丝  2-推荐商家  3-拍品详情    4-超级仓库商品详情
-
-
-        hashMap.put("refresh",refresh+"");
+        hashMap.put("type", type);// 1-推荐粉丝  2-推荐商家  3-拍品详情    4-超级仓库商品详情 5 永久二维码
+        hashMap.put("page", page);
         HttpRequest.httpGetString(Constants.Api.SPREAD_QRCODE_URL, hashMap, callback);
     }
+
+
+    public static void httpGetQrcodeRequest(String type, String shopUri, String userId,
+                                            HttpRequest.HttpCallback callback) {
+
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("type", type);// 1-推荐粉丝  2-推荐商家  3-拍品详情    4-超级仓库商品详情 5 永久二维码
+
+        JSONObject page = new JSONObject();
+        page.put("shopUri", shopUri);
+        page.put("userId", userId);
+
+        hashMap.put("page", page.toString());
+
+        HttpRequest.httpGetString(Constants.Api.SPREAD_QRCODE_URL, hashMap, callback);
+    }
+
 
 }

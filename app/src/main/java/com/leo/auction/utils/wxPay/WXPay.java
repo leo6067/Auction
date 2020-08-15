@@ -16,6 +16,7 @@ import android.text.TextUtils;
 
 import com.aten.compiler.utils.easyPay.base.IPayStrategy;
 import com.aten.compiler.utils.easyPay.callback.IPayCallback;
+import com.leo.auction.utils.Globals;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -89,6 +90,15 @@ public class WXPay implements IPayStrategy<WXPayBean> {
         req.nonceStr = payInfoImpli.getNonceStr();
         req.timeStamp = payInfoImpli.getTimestamp();
         req.sign = payInfoImpli.getSign();
+
+
+        Globals.log("xxxxx wxPay code req appId"  + req.appId);
+        Globals.log("xxxxx wxPay code req partnerId"  + req.partnerId);
+        Globals.log("xxxxx wxPay code req prepayId"  + req.prepayId);
+        Globals.log("xxxxx wxPay code req packageValue"  + req.packageValue);
+        Globals.log("xxxxx wxPay code req nonceStr"  + req.nonceStr);
+        Globals.log("xxxxx wxPay code req timeStamp"  + req.timeStamp);
+        Globals.log("xxxxx wxPay code req sign"  + req.sign);
 
         mWXApi.sendReq(req);
     }

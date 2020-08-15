@@ -234,13 +234,14 @@ public class BaseModel {
     public static void httpUpper(List<ReleaseEditModel.DataBean.AttributesBean> attributes, String categoryId, String comment, String content,
                                  String cutPic, int distributeType, String goodsId, List<String> images,
                                  String markupRange, String sourceType, String startPrice, String timeNode,
-                                 String timeNodeId, String type, String title, String video,
+                                 int timeNodeId, String type, String title, String video,
                                  HttpRequest.HttpCallback httpCallback) {
 
         JSONObject time = new JSONObject();
 
         time.put("timeNode", timeNode);
         time.put("timeNodeId", timeNodeId);
+        time.put("type", type);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("actionType", 2);
@@ -268,7 +269,7 @@ public class BaseModel {
         jsonObject.put("sourceType", sourceType);
         jsonObject.put("startPrice", startPrice);
         jsonObject.put("time", time);
-        jsonObject.put("type", type);
+
         jsonObject.put("title", title);
 
 

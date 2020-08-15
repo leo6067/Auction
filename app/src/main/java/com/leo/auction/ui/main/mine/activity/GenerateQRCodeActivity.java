@@ -92,7 +92,7 @@ public class GenerateQRCodeActivity extends BaseActivity {
             type = "2";
         }
         page = Constants.WebApi.QRCODE_URL + userInfoModel.getUserId();
-        GenerateQrcodeModel.sendGenerateQrcodeRequest(type, page, false, new HttpRequest.HttpCallback() {
+        GenerateQrcodeModel.sendGenerateQrcodeRequest(type, page,  new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
 

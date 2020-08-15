@@ -67,7 +67,8 @@ public class HomeHotAdapter extends BaseQuickAdapter<HotModel.DataBean, BaseView
         GlideUtils.loadImg(item.getHeadImg(),mItemHead);
         GlideUtils.loadImg(item.getProductList().get(0).getFirstPic(),mItemImg);
 
-        mItemPrice.setText(SpannableStringUtils.getBuilder("￥").append(item.getProductList().get(0).getCurrentPrice()+"  ").setProportion((float)1.3)
+        mItemPrice.setText(SpannableStringUtils.getBuilder("￥")
+                .append(item.getProductList().get(0).getCurrentPrice()+"  ").setProportion((float)1.5)
         .create());
 
 //        mItemPrice.setText(+item.getProductList().get(0).getCurrentPrice()+" ");

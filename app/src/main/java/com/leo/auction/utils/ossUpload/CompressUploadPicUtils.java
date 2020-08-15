@@ -18,6 +18,7 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.leo.auction.R;
 import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
+import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.qrCode.CodeUtils;
 
 
@@ -246,7 +247,10 @@ public class CompressUploadPicUtils {
             @Override
             public void upLoadSuccess(final String picUrl, String tag) {
                 //oss上传成功 将上传成功的图片存入数据中
+
                 releaseImageModel.setImgPth(domain + "/" + picUrl + "?image=" + (releaseImageModel.width==0?100:releaseImageModel.width) + "," + (releaseImageModel.height==0?100:releaseImageModel.height));
+
+
                 //将上传状态修改未已上传
                 releaseImageModel.setUploadComplete(true);
 

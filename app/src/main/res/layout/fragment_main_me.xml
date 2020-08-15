@@ -32,9 +32,11 @@
 
             <com.ruffian.library.widget.RRelativeLayout
                 android:layout_width="@dimen/dp_661"
-                android:layout_height="@dimen/dp_285"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp_35"
+                android:layout_marginTop="@dimen/dp_65"
+                android:layout_marginBottom="@dimen/dp_20"
                 app:background_normal="@color/white"
                 app:corner_radius="@dimen/dp_20">
 
@@ -149,7 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_balance"
-                    android:layout_marginTop="@dimen/dp_30"
+                    android:layout_marginTop="@dimen/dp_50"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -255,7 +257,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"
             android:paddingStart="@dimen/dp_30"
-            android:layout_marginTop="@dimen/dp_7"
+
             android:background="@color/white"
             app:tl_indicator_color="@color/maroon"
             app:tl_indicator_corner_radius="1.5dp"

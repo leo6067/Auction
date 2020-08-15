@@ -66,8 +66,10 @@ public class PromotionCenterActivivty extends BaseActivity {
         mAdapter = new PromotionCenterAdapter();
 
         ArrayList<PromotionCenterModel> promotionCenterModels = new ArrayList<>();
+//        PromotionCenterModel promotionCenterModel01 = new PromotionCenterModel(
+//                R.drawable.ic_store_qr_code_icon, "推广二维码");
         PromotionCenterModel promotionCenterModel01 = new PromotionCenterModel(
-                R.drawable.ic_store_qr_code_icon, "推广二维码");
+                R.drawable.forever_code, "永久二维码");
         PromotionCenterModel promotionCenterModel02 = new PromotionCenterModel(
                 -1, "");
         PromotionCenterModel promotionCenterModel03 = new PromotionCenterModel(
@@ -92,8 +94,10 @@ public class PromotionCenterActivivty extends BaseActivity {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+
+
                 if (position == 0) {
-                    StoreQRCodeActivity.newIntance(PromotionCenterActivivty.this);
+                    FoerverCodeActivity.newIntance(PromotionCenterActivivty.this);
                 }
             }
         });
@@ -101,13 +105,11 @@ public class PromotionCenterActivivty extends BaseActivity {
     }
 
 
-
-
     @Override
     public void initEvent() {
         super.initEvent();
 
-        ((PromotionCenterAdapter) mAdapter).setOnItemListener(mOnItemListener);
+//        ((PromotionCenterAdapter) mAdapter).setOnItemListener(mOnItemListener);
 
 
 //        mAdapter.loadMoreComplete();
@@ -119,39 +121,40 @@ public class PromotionCenterActivivty extends BaseActivity {
     }
 
 
-    //item点击时间
-    private View.OnClickListener mOnItemListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch ((String) view.getTag()) {
-
-                case "推广二维码":
-
-                    Globals.log("xxxxxx 推广二维码 01 ");
-                    StoreQRCodeActivity.newIntance(PromotionCenterActivivty.this);
-                    break;
-//                case "抽奖":
-//                    PrizeListActivity.newIntance(PromotionCenterActivivty.this);
+//    //item点击时间
+//    private View.OnClickListener mOnItemListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            switch ((String) view.getTag()) {
+//
+//                case "推广二维码":
+//                    StoreQRCodeActivity.newIntance(PromotionCenterActivivty.this);
 //                    break;
-//                case "超级购":
-//                    SuperPurchaseActivity.newIntance(PromotionCenterActivivty.this);
+//
+//                case "永久二维码":
+//                    Globals.log("xxxxxx 永久二维码 01 ");
+//                    FoerverCodeActivity.newIntance(PromotionCenterActivivty.this);
 //                    break;
-//                case "精选好货":
-//                    ChooseBestGoodsActivity.newIntance(PromotionCenterActivivty.this);
-//                    break;
-//                case "直播供货":
-//                    LiveLoanActivity.newIntance(PromotionCenterActivivty.this,0);
-//                    break;
-            }
-        }
-    };
+////                case "抽奖":
+////                    PrizeListActivity.newIntance(PromotionCenterActivivty.this);
+////                    break;
+////                case "超级购":
+////                    SuperPurchaseActivity.newIntance(PromotionCenterActivivty.this);
+////                    break;
+////                case "精选好货":
+////                    ChooseBestGoodsActivity.newIntance(PromotionCenterActivivty.this);
+////                    break;
+////                case "直播供货":
+////                    LiveLoanActivity.newIntance(PromotionCenterActivivty.this,0);
+////                    break;
+//            }
+//        }
+//    };
 
     public static void newIntance(Context context) {
         Intent intent = new Intent(context, PromotionCenterActivivty.class);
         context.startActivity(intent);
     }
-
-
 
 
 }

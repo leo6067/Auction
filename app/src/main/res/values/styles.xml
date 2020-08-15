@@ -23,7 +23,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@drawable/start_bg</item>
+
     </style>
 
     <!--启动页防止白屏或者黑屏 给Preview Window设置背景图片-->

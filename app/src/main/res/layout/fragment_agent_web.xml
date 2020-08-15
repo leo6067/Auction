@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <include
+        android:visibility="gone"
         android:id="@+id/toolbar"
         layout="@layout/agentweb_toorbar_main"></include>
 

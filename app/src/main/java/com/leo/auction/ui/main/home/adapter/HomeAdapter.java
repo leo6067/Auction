@@ -91,8 +91,8 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
 
         tvProductTitle.setText(EmptyUtils.strEmpty(item.getTitle()));
         tvProductPrice.setText(SpannableStringUtils.getBuilder("￥")
-                .setForegroundColor(Color.parseColor("#7c1313")).setXProportion((float) 1.0)
-                .append(item.getCurrentPrice()).setXProportion((float) 1.3).setForegroundColor(Color.parseColor("#7c1313"))
+                .setForegroundColor(Color.parseColor("#7c1313")).setProportion((float) 1.0)
+                .append(item.getCurrentPrice()).setProportion((float) 1.9).setForegroundColor(Color.parseColor("#7c1313"))
                 .append("已出价").setForegroundColor(Color.parseColor("#708090"))
                 .append(item.getBidNum()).setForegroundColor(Color.parseColor("#7c1313"))
                 .append("次").setForegroundColor(Color.parseColor("#708090"))
@@ -119,7 +119,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeListModel.DataBean, BaseVi
         int screenWidth = DisplayUtils.getScreenWidth(RxTool.getContext());
 
         //1.已知图片宽高得情况
-        int width = screenWidth / 2 -  (int) RxTool.getContext().getResources().getDimension(R.dimen.dp_40);
+        int width = screenWidth / 2;
 
         int height = (int) (width * (picHeight / picWidth));
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv.getLayoutParams();

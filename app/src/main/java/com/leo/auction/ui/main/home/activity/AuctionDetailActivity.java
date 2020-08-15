@@ -7,17 +7,17 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseActivity;
-import com.aten.compiler.base.BaseRecyclerView.SpaceItemDecoration;
-import com.aten.compiler.base.BaseRecyclerView.StaggeredDividerItemDecoration;
+
 import com.aten.compiler.utils.BroadCastReceiveUtils;
 import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.ToastUtils;
@@ -67,6 +67,7 @@ import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
 import com.leo.auction.ui.main.mine.activity.VideoPlayerActivity;
 import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.model.GoodDetailModel;
+import com.leo.auction.ui.main.mine.model.IsFollowModel;
 import com.leo.auction.ui.main.mine.model.ProductDetailHeadModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.order.activity.GoodOrderActivity;
@@ -89,6 +90,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -116,6 +119,9 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     TextView mTabMine;
     @BindView(R.id.detail_online)
     TextView mDetailOnline;
+
+    @BindView(R.id.detail_focus)
+    TextView mDetailFocus;
 
 
     @BindView(R.id.detail_more)
@@ -385,7 +391,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
         DisplayMetrics dm = getResources().getDisplayMetrics();
         mGoodsRecycler.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
-        mHomeAdapter = new HomeXYAdapter(dm.widthPixels );
+        mHomeAdapter = new HomeXYAdapter(dm.widthPixels);
         mHomeAdapter.setHeaderAndEmpty(true);
         ((SimpleItemAnimator) mGoodsRecycler.getItemAnimator()).setSupportsChangeAnimations(false);
         mHomeAdapter.setHasStableIds(true);
@@ -442,6 +448,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 mGoodsDetailModel = JSONObject.parseObject(resultData, GoodsDetailModel.class);
                 upUIdata(mGoodsDetailModel.getData());
                 httpGoodsList(mGoodsDetailModel.getData().getProductUser().getUserId());
+                httpFollow();
                 if (mUserJson != null) {
                     UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "1", mGoodsDetailModel.getData().getProductInstanceId() + "", "1");
                 }
@@ -450,9 +457,70 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     }
 
 
+    private void httpFollow() {
+
+        UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
+        if (userJson == null) {
+            return;
+        }
+        if (shopUri.length() ==0){
+            return;
+        }
+
+        IsFollowModel.httpGetIsFoller(shopUri,new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+
+                IsFollowModel isFollowModel = JSONObject.parseObject(resultData, IsFollowModel.class);
+
+                boolean data = isFollowModel.isData();
+                if (data) {
+                    mDetailFocus.setVisibility(View.GONE);
+                }else {
+                    mDetailFocus.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+
+
+    public void httpFocus() {
+
+
+        BaseModel.httpPostFocus(mGoodsDetailModel.getData().getProductUser().getId()+"", "1", new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
+                if (baseModel.getResult().isSuccess()) {
+//                    ToastUtils.showShort("关注成功");
+                    mDetailFocus.setVisibility(View.GONE);
+                } else {
+                    ToastUtils.showShort(baseModel.getResult().getMessage());
+                }
+            }
+        });
+
+
+    }
+
+
+
+
     //下架
     private void httpDownAuction(String productInstanceCode) {
-        showWaitDialog();
+//        showWaitDialog();
         BaseModel.httpDownAuction(productInstanceCode, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -507,7 +575,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         String sharedText = mMEpContent.getmContent().toString();
 
         SharedModel sharedModel = new SharedModel(shareName, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
-                detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId()+"", userJson.getUserId(),
+                detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
                 Constants.Action.ACTION_ACTION);
 
 //        SharedActvity.newIntance(AuctionDetailActivity.this, sharedModel, sharedText, "0");
@@ -594,7 +662,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         String content = "【品名】" + goodsDetailModel.getTitle() + "\n";
         for (GoodsDetailModel.DataBean.AttributesBean attribute : goodsDetailModel.getAttributes()) {
             if (!EmptyUtils.isEmpty(attribute.getValue())
-                   ) {
+            ) {
                 content += "【" + attribute.getTitle() + "】" + attribute.getValue() + "\n";
             }
         }
@@ -690,17 +758,15 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                         //是否是补贴商品
 
 
-
-                            if (mGoodsDetailModel.getData().isSubsidyProduct() && mBidBeanList.get(0).getBidPrice() == 2) {  //金额要大于等于2
-                                bundle.putString("subsidyLimit", mGoodsDetailModel.getData().getSubsidyMoney());
+                        if (mGoodsDetailModel.getData().isSubsidyProduct() && mBidBeanList.get(0).getBidPrice() == 2) {  //金额要大于等于2
+                            bundle.putString("subsidyLimit", mGoodsDetailModel.getData().getSubsidyMoney());
 //                            Globals.log("xxxxxx  mBidBeanList.get(0).getBidPrice()01 " +mBidBeanList.get(0).getBidPrice());
-                            } else if (mGoodsDetailModel.getData().isSubsidyProduct() && mBidBeanList.get(0).getBidPrice() > 2) {  //金额要大于等于2
-                                bundle.putString("subsidyLimit", mGoodsDetailModel.getData().getSubsidyMoney());
+                        } else if (mGoodsDetailModel.getData().isSubsidyProduct() && mBidBeanList.get(0).getBidPrice() > 2) {  //金额要大于等于2
+                            bundle.putString("subsidyLimit", mGoodsDetailModel.getData().getSubsidyMoney());
 //                            Globals.log("xxxxxx  mBidBeanList.get(0).getBidPrice()010  " +mBidBeanList.get(0).getBidPrice());
-                            } else {
-                                bundle.putString("subsidyLimit", "");
-                            }
-
+                        } else {
+                            bundle.putString("subsidyLimit", "");
+                        }
 
 
                         ActivityManager.JumpActivity(AuctionDetailActivity.this, GoodOrderActivity.class, bundle);
@@ -800,7 +866,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         hashMap.put("pageNum", String.valueOf(bidPage));
 
         hashMap.put("pageSize", Constants.Var.LIST_NUMBER_F);
-        showWaitDialog();
+//        showWaitDialog();
 
         HttpRequest.httpGetString(Constants.Api.GOODS_DETAIL_BID_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
@@ -855,10 +921,10 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         hashMap.put("userLevel", userLevel);
 
 
-        if ( mGoodsDetailModel.getData().isSubsidyProduct()) {
-            hashMap.put("subsidyMoney",1);
-        }else {
-            hashMap.put("subsidyMoney",0);
+        if (mGoodsDetailModel.getData().isSubsidyProduct()) {
+            hashMap.put("subsidyMoney", 1);
+        } else {
+            hashMap.put("subsidyMoney", 0);
         }
 
 
@@ -924,7 +990,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
                     Bundle bundle = new Bundle();
                     bundle.putString("title", "协议");
-                    bundle.putString("url",url);
+                    bundle.putString("url", url);
                     com.aten.compiler.base.ActivityManager.JumpActivity(AuctionDetailActivity.this, AgentWebActivity.class, bundle);
                 }
             }
@@ -938,7 +1004,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         hashMap.put("productInstanceCode", mGoodsCode);
         hashMap.put("bidPrice", price);
         hashMap.put("currentPrice", lastPrice + "");
-        showWaitDialog();
+//        showWaitDialog();
         HttpRequest.httpPostString(Constants.Api.GOODS_DETAIL_BID_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -947,7 +1013,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
 
             @Override
             public void httpResponse(String resultData) {
-                hideWaitDialog();
+//                hideWaitDialog();
                 JSONObject jsonObject = JSONObject.parseObject(resultData);
                 String result = jsonObject.getString("result");
                 JSONObject json = JSONObject.parseObject(result);
@@ -964,7 +1030,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                     EarnestDialog earnestDialog = new EarnestDialog(AuctionDetailActivity.this, mHash, AuctionDetailActivity.this);
                     earnestDialog.show();
                 } else {
-                    ToastUtils.showShort("出价成功");
+//                    ToastUtils.showShort("出价成功");
                     UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "3", mGoodsCode, "1");
                 }
                 httpDetail();
@@ -978,8 +1044,8 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
         hashMap.put("shopUri", shopUri);
         hashMap.put("pageNum", "1");
         hashMap.put("pageSize", "6");
-        hashMap.put("excludeInstanceCode",mGoodsCode);
-        showWaitDialog();
+        hashMap.put("excludeInstanceCode", mGoodsCode);
+//        showWaitDialog();
         HttpRequest.httpGetString(Constants.Api.SHOP_NEWEST_URL, hashMap, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -1068,11 +1134,11 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             } else {
                 //余额不够支付
                 showShortToast("余额不足");
-                showWaitDialog();
+//                showWaitDialog();
                 wxPay();
             }
         } else if (pos == 1) {
-            showWaitDialog();
+//            showWaitDialog();
             wxPay();
         }
     }
@@ -1135,11 +1201,28 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             public void httpResponse(String resultData) {
                 PayModel returnData = JSONObject.parseObject(resultData, PayModel.class);
                 PayModel.DataBean.WxBean data = returnData.getData().getWx();
+                PayModel.DataBean WxBean   = returnData.getData() ;
+
+
+                JSONObject jsonObject = JSONObject.parseObject(resultData);
+                String dataStr = jsonObject.getString("data");
+                JSONObject dataJson = JSONObject.parseObject(dataStr);
+                String wxStr = dataJson.getString("wx");
+                 JSONObject wxJson = JSONObject.parseObject(wxStr);
+                String packageStr = wxJson.getString("package");
+
+
                 //实例化微信支付策略
                 WXPay wxPay = WXPay.getInstance();
                 //构造微信订单实体。一般都是由服务端直接返回。
-                WXPayBean wxPayBean = new WXPayBean(Constants.Nouns.WEIXINAPPID, data.getMchId(), data.getPrepayId(), data.getPackages(),
+                WXPayBean wxPayBean = new WXPayBean(Constants.Nouns.WEIXINAPPID, data.getMchId(), data.getPrepayId(),packageStr,
                         data.getNonceStr(), data.getTimeStamp(), data.getPaySign());
+
+
+                Globals.log("xxxxx wxPay code wxPayBean"  +wxPayBean.toString());
+
+
+
                 isGoWxPay = true;
                 //策略场景类调起支付方法开始支付，以及接收回调。
                 //策略场景类调起支付方法开始支付，以及接收回调。
@@ -1153,6 +1236,8 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                     @Override
                     public void failed(int code, String message) {
                         isGoWxPay = false;
+
+                        Globals.log("xxxxx wxPay code failed"  +code  + message);
                         showShortToast("支付失败");
                     }
 
@@ -1165,6 +1250,23 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
             }
         });
     }
+
+
+
+    public static List<String> getFieldListFromJsonStr(String jsonStr, String fieldName) {
+        List<String> fieldValues = new ArrayList<>();
+        String regex = "(?<=(\"" + fieldName + "\":\")).*?(?=(\"))";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(jsonStr);
+        while (matcher.find()) {
+            if (!EmptyUtils.isEmpty(matcher.group().trim())) {
+                fieldValues.add(matcher.group().trim());
+            }
+        }
+        return fieldValues;
+    }
+
+
 
     //支付成功后的操作
     private void setPaySuccess() {
@@ -1183,7 +1285,7 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
     }
 
 
-    @OnClick({R.id.detail_head, R.id.detail_name, R.id.tab_home, R.id.tab_focus, R.id.tab_jd, R.id.tab_news, R.id.tab_mine})
+    @OnClick({R.id.detail_focus,R.id.detail_head, R.id.detail_name, R.id.tab_home, R.id.tab_focus, R.id.tab_jd, R.id.tab_news, R.id.tab_mine})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tab_home:
@@ -1222,6 +1324,11 @@ public class AuctionDetailActivity extends BaseActivity implements PicGridNineAd
                 ActivityManager.JumpActivity(AuctionDetailActivity.this, MainActivity.class);
 //                MainActivity.newIntance(AuctionDetailActivity.this, 4);
                 ActivityManager.mainActivity.setCurrent(4);
+                break;
+
+
+            case R.id.detail_focus:
+                httpFocus();
                 break;
         }
     }
