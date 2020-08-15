@@ -341,7 +341,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 
         if (info.getImages() != null && !info.getImages().isEmpty()) {
             for (String image : info.getImages()) {
-                ReleaseImageModel releaseImageModel = new ReleaseImageModel("1", null, 0, 0, image);
+                ReleaseImageModel releaseImageModel = new ReleaseImageModel("0", null, 0, 0, image);
                 releaseImageModel.setUploadComplete(true);
                 postImglistAdapter.getData().add(postImglistAdapter.getData().size() - 1, releaseImageModel);
             }

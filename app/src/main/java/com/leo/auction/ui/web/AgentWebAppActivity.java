@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.easyPay.EasyPay;
 import com.aten.compiler.utils.easyPay.callback.IPayCallback;
+import com.aten.compiler.utils.permission.PermissionHelper;
 import com.blankj.utilcode.util.AppUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.just.agentweb.AgentWeb;
@@ -93,7 +94,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     protected AgentWeb mAgentWeb;
     private LinearLayout mLinearLayout;
-    private PayPwdBoardUtils mPayPwdBoardUtils;
 
 
 
@@ -122,6 +122,27 @@ public class AgentWebAppActivity extends AppCompatActivity {
         mImmersionBar.init();
     }
 
+    protected void GrayImmersionBar() {
+        //在BaseActivity里初始化
+        ImmersionBar mImmersionBar = ImmersionBar.with(this)
+
+                .statusBarColor(R.color.mine_text)
+                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
+                .keyboardEnable(true);
+
+        mImmersionBar.init();
+    }
+
+    protected void WhiteImmersionBar() {
+        //在BaseActivity里初始化
+        ImmersionBar mImmersionBar = ImmersionBar.with(this)
+
+                .statusBarColor(R.color.white)
+                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
+                .keyboardEnable(true);
+
+        mImmersionBar.init();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,32 +152,35 @@ public class AgentWebAppActivity extends AppCompatActivity {
         buildAgentWeb();
         httpVerison();
         initData();
+        RedImmersionBar();  //初始化，首页
+
+        rePremissions();
+    }
+
+
+
+    void rePremissions() {
+//        httpCommon();
+//        ActivityManager.JumpActivity(StartActivity.this, MainActivity.class, null);
+        PermissionHelper permissionHelper = new PermissionHelper();
+        permissionHelper.requestPermission(AgentWebAppActivity.this, new PermissionHelper.onPermissionListener() {
+            @Override
+            public void onSuccess() {
+//                backLogin();
+            }
+            @Override
+            public void onFail() {
+//                backLogin();
+            }
+//        }, Permission.READ_PHONE_STATE, Permission.WRITE_EXTERNAL_STORAGE,Permission.RECORD_AUDIO);
+        },  com.yanzhenjie.permission.Permission.WRITE_EXTERNAL_STORAGE );  //注释掉打电话
+//        com.yanzhenjie.permission.Permission.CAMERA,
     }
 
 
     private void initData() {
-        mPayPwdBoardUtils = new PayPwdBoardUtils();
+
     }
-
-
-    public void setCookie(String cookie) {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        final Request original = chain.request();
-
-                        final Request authorized = original.newBuilder()
-                                .addHeader("cookie", cookie)
-                                .build();
-                        return chain.proceed(authorized);
-                    }
-                })
-                .build();
-    }
-
-
-
 
 
     protected void buildAgentWeb() {
@@ -201,6 +225,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             //do you  work
 //            Globals.log("Info" + "BaseWebActivity onPageStarted" + view.getTitle() + url);
+
+            Globals.log(" mWebViewClient BaseWebActivity onPageStarted" + view.getTitle() + view.getUrl());
         }
 
         @Override
@@ -211,11 +237,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 Long startTime = timer.get(url);
             }
 //            Globals.log(" 01 Info  " + "BaseWebActivity onPageStarted" + view.getTitle() + url);
-
-            CookieManager cookieManager = CookieManager.getInstance();
-            String CookieStr = cookieManager.getCookie(url);
-            setCookie(CookieStr);
-            Globals.log("CookieStr  1111 " + CookieStr);
 
         }
 
@@ -228,35 +249,35 @@ public class AgentWebAppActivity extends AppCompatActivity {
             super.onProgressChanged(view, newProgress);
             Bundle bundle = new Bundle();
 
-            Globals.log(" 01 Info  " + "BaseWebActivity onPageStarted" + view.getTitle() + view.getUrl());
+            Globals.log(" mWebChromeClient BaseWebActivity onPageStarted" + view.getTitle() + view.getUrl());
             if (newProgress == 100) {
-                if (view.getUrl().equals(Constants.WEB_BASE_URL +  "auction-web/pages/sub/product/save")) {  //发布拍品
+                if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/save")) {  //发布拍品
                     ActivityManager.JumpActivity(AgentWebAppActivity.this, CommodityReleaseActivity.class);
                     mAgentWeb.back();
                 } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/saveOrUpdate?productId=")) { //拍品编辑
                     //截取之后的字符
-                    String productId = view.getUrl().substring(view.getUrl().indexOf("?productId=")+11);
-                    Globals.log("xxxxxx productId" + productId);
+                    String productId = view.getUrl().substring(view.getUrl().indexOf("?productId=") + 11);
                     bundle.clear();
                     bundle.putString("value", productId);
                     ActivityManager.JumpActivity(AgentWebAppActivity.this, CommodityEditActivity.class, bundle);
                     mAgentWeb.back();
-                } else if (view.getUrl().contains(Constants.WEB_BASE_URL +"auction-web/pages/personal/personal")) { //我的
+                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/personal/personal")) { //我的
                     RedImmersionBar();
-                }else if (view.getUrl().equals(Constants.WEB_BASE_URL +"auction-web/?iscdandroid=1")) { //首页
+                } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/?iscdandroid=1")) { //首页
                     RedImmersionBar();
-                }else if (view.getUrl().equals(Constants.WEB_BASE_URL +"auction-web/")) { //首页
+                } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/")) { //首页
                     RedImmersionBar();
-                }else if (view.getUrl().contains(Constants.WEB_BASE_URL +"auction-web/pages/personal/personal")) { //我的
+                } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/pages/follow/follow")) { //关注
                     RedImmersionBar();
+                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/mercahnt/index?shopUri=")) { //店铺首页
+                    RedImmersionBar();
+                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/productDetail?productInstanceCode=")) { //拍品详情
+                    GrayImmersionBar();
+                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/bysubsidy/index")) { //百亿补贴
+                    GrayImmersionBar();
+                } else {
+                    WhiteImmersionBar();
                 }
-
-
-                CookieManager cookieManager = CookieManager.getInstance();
-                String CookieStr = cookieManager.getCookie(view.getUrl());
-                setCookie(CookieStr);
-                Globals.log("2222  1111 " + CookieStr);
-
             }
 
         }
@@ -328,7 +349,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
     }
 
 
-
     //版本更新
     public void httpVerison() {
         VersionModel.httpGetVersion(new HttpRequest.HttpCallback() {
@@ -382,7 +402,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 hashMap.put("openId", map.get("openid"));
                 hashMap.put("nickname", map.get("name"));
                 hashMap.put("headImg", map.get("iconurl"));
-                HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_WX_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
+                HttpRequest.httpPostStringWeb(Constants.Api.HOMEPAGE_USER_WX_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
                     @Override
                     public void httpError(Call call, Exception e) {
 
@@ -390,16 +410,14 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
                     @Override
                     public void httpResponse(String resultData) {
-
                         Globals.log("xxxxxx httpResponse UMShareAPI" + resultData);
-
                         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
                         BaseSharePerence.getInstance().setLoginStatus(true);
                         BaseSharePerence.getInstance().setLoginJson(resultData);
 
                         String encode = resultData;
+//                        backLoginWeb(loginModel.getData().getUser().getNestedToken(),resultData);
                         mAgentWeb.getJsAccessEntrace().quickCallJs("appLoginSuccess", "" + encode + "");
-//                        mAgentWeb.getJsAccessEntrace().quickCallJs("appLoginSuccess", "\""+resultData +"\"");
                         backLogin(loginModel.getData().getUser().getNestedToken());
                     }
                 });
@@ -466,31 +484,54 @@ public class AgentWebAppActivity extends AppCompatActivity {
     }
 
 
-    //登录
+    //web静默登录
+
+    private void backLoginWeb(String nesteToken, String encode) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("token", nesteToken);
+        HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_DEFAULT_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+//                    BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
+//                    httpuser
+                mAgentWeb.getJsAccessEntrace().quickCallJs("appLoginSuccess", "" + encode + "");
+                Globals.log("xxxxxx backLogin" + resultData);
+                UserModel.httpUpdateUser(AgentWebAppActivity.this);
+            }
+        });
+
+
+    }
+
+
+    //登录---手机
     private void backLogin(String nesteToken) {
-            HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put("token", nesteToken);
-            HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_DEFAULT_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
-                @Override
-                public void httpError(Call call, Exception e) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("token", nesteToken);
+        HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_DEFAULT_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+            }
 
-                }
-
-                @Override
-                public void httpResponse(String resultData) {
+            @Override
+            public void httpResponse(String resultData) {
 //                    BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
 //                    httpuser
 
-                    Globals.log("xxxxxx backLogin"  +resultData );
-                    UserModel.httpUpdateUser(AgentWebAppActivity.this);
+                Globals.log("xxxxxx backLogin" + resultData);
+                UserModel.httpUpdateUser(AgentWebAppActivity.this);
 
-                }
-            });
+            }
+        });
 
     }
 
     //手机登录
-    private void phoneLogin(String resultData){
+    private void phoneLogin(String resultData) {
         BaseSharePerence.getInstance().setLoginStatus(true);
 //                    UserModel.httpUpdateUser(AgentWebAppActivity.this);
         Globals.log("xxxxxx loginPhone" + resultData);
@@ -499,10 +540,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
     }
 
 
-
-
     //店铺分享
-    private void shareShop(String resultData){
+    private void shareShop(String resultData) {
 
         WebShopModel dataBean = JSONObject.parseObject(resultData, WebShopModel.class);
         ArrayList<String> imgStr = new ArrayList<>();
@@ -525,7 +564,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
 
     //商品详情分享
-    private void shareGood(String resultData){
+    private void shareGood(String resultData) {
         Globals.log("xxxxxxx auctionDetailShare" + resultData);
         String shareName = "";
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
@@ -569,8 +608,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     /**
      * 超级仓库分享
-     * */
-    private void shareHouse(String resultData){
+     */
+    private void shareHouse(String resultData) {
         Globals.log("xxxxxxx auctionDetailShare" + resultData);
         String shareName = "";
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
@@ -612,13 +651,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
     /**
      * js交互
      */
@@ -642,9 +674,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-
 
 
         @JavascriptInterface
@@ -697,7 +726,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
         }
 
 
-
         //百亿邀请签到 ---分享
         @JavascriptInterface
         public void invitationAction(String data) {
@@ -715,7 +743,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
         //商品详情分享
         @JavascriptInterface
-        public void auctionDetailShare(String resultData) {
+        public void auctionDetailShare(String resultData,String code) {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
@@ -723,7 +751,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 }
             });
         }
-
 
 
         /*
@@ -740,9 +767,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
         }
 
 
-
         /*
-         * 店铺分享
+         * 超级仓库分享
          * */
         @JavascriptInterface
         public void houseShare(String resultData) {
