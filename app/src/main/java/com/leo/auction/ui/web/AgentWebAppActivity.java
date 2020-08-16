@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +25,10 @@ import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.easyPay.EasyPay;
 import com.aten.compiler.utils.easyPay.callback.IPayCallback;
 import com.aten.compiler.utils.permission.PermissionHelper;
+import com.aten.compiler.widget.glide.GlideApp;
 import com.blankj.utilcode.util.AppUtils;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.gyf.immersionbar.ImmersionBar;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
@@ -52,15 +57,19 @@ import com.leo.auction.ui.main.home.model.WebShopModel;
 import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.order.model.HouseShareModel;
 import com.leo.auction.ui.order.model.OrderPayTypeModel;
 import com.leo.auction.ui.order.model.WebGoodDetailModel;
 import com.leo.auction.ui.version.VersionDialog;
 import com.leo.auction.ui.version.VersionDownDialog;
 import com.leo.auction.ui.version.VersionModel;
 import com.leo.auction.utils.Globals;
+import com.leo.auction.utils.shared.UmShare;
 import com.leo.auction.utils.shared_dailog.SharedModel;
 import com.leo.auction.utils.wxPay.WXPay;
 import com.leo.auction.utils.wxPay.WXPayBean;
+import com.sch.share.Options;
+import com.sch.share.WXShareMultiImageHelper;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -75,8 +84,10 @@ import java.net.Proxy;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -126,7 +137,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
         //在BaseActivity里初始化
         ImmersionBar mImmersionBar = ImmersionBar.with(this)
 
-                .statusBarColor(R.color.mine_text)
+                .statusBarColor(R.color.collect_cancel)
                 .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
                 .keyboardEnable(true);
 
@@ -236,7 +247,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 long overTime = System.currentTimeMillis();
                 Long startTime = timer.get(url);
             }
-//            Globals.log(" 01 Info  " + "BaseWebActivity onPageStarted" + view.getTitle() + url);
+            Globals.log(" 01 Info  " + "BaseWebActivity onPageStarted" + view.getTitle() + url);
 
         }
 
@@ -551,12 +562,16 @@ public class AgentWebAppActivity extends AppCompatActivity {
         ArrayList<String> shareShopTitlelList = CommonUsedData.getInstance().getShareShopTitlelList();
         Random ra = new Random();
         int anInt = ra.nextInt(shareShopTitlelList.size());
+
+        String shopName = dataBean.getNickname();
+        String goodName = "";
+
         String shareTitle = "【锤定】" + dataBean.getNickname() + shareShopTitlelList.get(anInt);
         String path = Constants.WebApi.SHARE_SHOP_URL + dataBean.getShopUri()
                 + "&tpm_shareAgentId=" + mUserJson.getUserId();
-        SharedModel sharedModel = new SharedModel(shareTitle, shareTitle, dataBean.getHeadImg(),
+        SharedModel sharedModel = new SharedModel(shopName,goodName,shareTitle, shareTitle, dataBean.getHeadImg(),
                 "0.00", dataBean.getHeadImg(), type, path, dataBean.getShopUri(), mUserJson.getUserId(),
-                Constants.Action.ACTION_ACTION);
+               "2");
         SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel, imgStr, shareTitle, "");
 
 
@@ -566,7 +581,9 @@ public class AgentWebAppActivity extends AppCompatActivity {
     //商品详情分享
     private void shareGood(String resultData) {
         Globals.log("xxxxxxx auctionDetailShare" + resultData);
-        String shareName = "";
+        String shopName = "";
+        String goodName = "";
+        String shareTitle = "";
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         WebGoodDetailModel detailModelData = JSONObject.parseObject(resultData, WebGoodDetailModel.class);
         String path = Constants.WebApi.SHARE_PRODUCT_URL + detailModelData.getProductInstanceCode()
@@ -577,15 +594,18 @@ public class AgentWebAppActivity extends AppCompatActivity {
         Random ra = new Random();
         int anInt = ra.nextInt(shareShopTitlelList.size());
         if (detailModelData.getProductUser().getUserId().equals(userJson.getUserId())) {
-            shareName = "【" + detailModelData.getProductUser().getNickname() + "】" + shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
+            shareTitle = "【" + detailModelData.getProductUser().getNickname() + "】" + shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
         } else {
-            shareName = shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
+            shareTitle = shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
         }
+          shopName = detailModelData.getProductUser().getNickname();
+          goodName = detailModelData.getTitle();
+
 
         String sharedText = detailModelData.getContent();
-        SharedModel sharedModel = new SharedModel(shareName, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
+        SharedModel sharedModel = new SharedModel(shopName,goodName,shareTitle, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
                 detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
-                Constants.Action.ACTION_ACTION);
+              "0");
         ArrayList<String> nineImgList = new ArrayList<>();
 
         //1判断是否有视频
@@ -607,48 +627,82 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
 
     /**
+     * 百亿补贴分享
+     */
+    private void shareBY(String resultData){
+        JSShareJson jsShareJson = JSONObject.parseObject(resultData, JSShareJson.class);
+        SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(), "2", "");
+        SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel);
+    }
+
+    /**
      * 超级仓库分享
      */
     private void shareHouse(String resultData) {
         Globals.log("xxxxxxx auctionDetailShare" + resultData);
-        String shareName = "";
+        String shareContent = "";
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
-        WebGoodDetailModel detailModelData = JSONObject.parseObject(resultData, WebGoodDetailModel.class);
-        String path = Constants.WebApi.SHARE_PRODUCT_URL + detailModelData.getProductInstanceCode()
-                + "&shareAgentId=" + userJson.getNestedToken();
-        String type = "3";//1-推荐粉丝  2-推荐商家  3-拍品详情 4-超级仓库商品详情
-        ArrayList<String> shareShopTitlelList = CommonUsedData.getInstance().getShareTitlelList();
+        HouseShareModel detailModelData = JSONObject.parseObject(resultData, HouseShareModel.class);
+//        String path = Constants.WebApi.SHARE_PRODUCT_URL + detailModelData.getProductInstanceCode()
+//                + "&shareAgentId=" + userJson.getNestedToken();
+//        String type = "3";//1-推荐粉丝  2-推荐商家  3-拍品详情 4-超级仓库商品详情
 
-        Random ra = new Random();
-        int anInt = ra.nextInt(shareShopTitlelList.size());
-        if (detailModelData.getProductUser().getUserId().equals(userJson.getUserId())) {
-            shareName = "【" + detailModelData.getProductUser().getNickname() + "】" + shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
-        } else {
-            shareName = shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
+
+        List<HouseShareModel.AttributesBean> attributes = detailModelData.getAttributes();
+        for (int i = 0; i <attributes.size() ; i++) {
+            shareContent += "【"+attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
+
         }
 
-        String sharedText = detailModelData.getContent();
-        SharedModel sharedModel = new SharedModel(shareName, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
-                detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
-                Constants.Action.ACTION_ACTION);
-        ArrayList<String> nineImgList = new ArrayList<>();
+        shareMuiltImgToFriendCircle(shareContent,detailModelData.getImages());
 
-        //1判断是否有视频
-        if (detailModelData.getImages().size() >= 9) {
-            for (String s : detailModelData.getImages().subList(0, 8)) {
-                nineImgList.add(s);
-            }
-        } else {
-            nineImgList = detailModelData.getImages();
-        }
 
-        /**
-         *
-         * 接口获取二维码失败，导致分享失败
-         * **/
-        Globals.log("xxxxxxx auctionDetailShare nineImgList" + nineImgList.toString());
-        SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel, nineImgList, sharedText + path, "");
     }
+
+
+
+    //分享多张图片到朋友圈
+    private void shareMuiltImgToFriendCircle(String shareContent, List<String> nineImgs) {
+        final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();
+        for (int i = 0; i < nineImgs.size(); i++) {
+            String picdata = nineImgs.get(i);
+            if (picdata.contains("?")) {
+                picdata += "&x-oss-process=image/resize,s_640";
+            } else {
+                picdata += "?x-oss-process=image/resize,s_640";
+            }
+            final int finalI = i;
+
+            GlideApp.with(AgentWebAppActivity.this).asBitmap().load(picdata).into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    picBitmaps.put(String.valueOf(finalI), resource);
+                    if (picBitmaps.size() == nineImgs.size()) {
+                        ArrayList<Bitmap> picDatas = new ArrayList<>();
+                        for (String key : picBitmaps.keySet()) {
+                            picDatas.add(picBitmaps.get(key));
+                        }
+                        picBitmaps.clear();
+
+                        Options options = new Options();
+                        options.setText(shareContent);
+                        options.setAutoFill(true);
+                        options.setAutoPost(false);
+                        options.setNeedShowLoading(true);
+                        options.setOnPrepareOpenWXListener(new Options.OnPrepareOpenWXListener() {
+                            @Override
+                            public void onPrepareOpenWX() {
+                                options.setNeedShowLoading(false);
+                            }
+                        });
+
+                        WXShareMultiImageHelper.shareToTimeline(AgentWebAppActivity.this, (Bitmap[]) picDatas.toArray(new Bitmap[picDatas.size()]), options);
+                    }
+                }
+            });
+        }
+    }
+
 
 
     /**
@@ -728,14 +782,13 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
         //百亿邀请签到 ---分享
         @JavascriptInterface
-        public void invitationAction(String data) {
+        public void invitationAction(String resultData) {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
-                    Globals.log("invitationAction" + data);
-                    JSShareJson jsShareJson = JSONObject.parseObject(data, JSShareJson.class);
-                    SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(), "2", "");
-                    SharedActvity.newIntance(context, sharedModel);
+                    Globals.log("invitationAction" + resultData);
+
+                    shareBY(resultData);
                 }
             });
         }
@@ -747,6 +800,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
+                    Globals.log("xxxxx商品详情分享" +resultData  +code);
+
                     shareGood(resultData);
                 }
             });
@@ -775,6 +830,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
+                    Globals.log("xxxxx超级仓库分享" +resultData   );
                     shareHouse(resultData);
                 }
             });

@@ -6,7 +6,9 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_custom_title_w" />
+    <include
+        android:visibility="gone"
+        layout="@layout/layout_custom_title_w" />
 
     <include layout="@layout/include_line_a" />
 

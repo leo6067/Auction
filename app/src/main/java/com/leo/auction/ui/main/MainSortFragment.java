@@ -285,20 +285,6 @@ public class MainSortFragment extends BaseFragment {
                         mSortRightList.add(childrenBeanB);
                     }
 
-
-                    if (i== mSortLeftList.size()-1){
-                        for (int j = 0; j < 25; j++) {
-                        SortLeftModel.DataBean.ChildrenBean childrenBeanB = new SortLeftModel.DataBean.ChildrenBean();
-                        childrenBeanB.setIcon("");
-                        childrenBeanB.setId("");
-                        childrenBeanB.setName("");
-                        childrenBeanB.setItemType(Constants.Var.LAYOUT_TYPE);
-                        childrenBeanB.setPosition(-5);  //占位置，空白
-                        mSortRightList.add(childrenBeanB);
-                        }
-                    }
-
-
                 }
 
 

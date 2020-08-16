@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-android:visibility="invisible"
+
         android:id="@+id/ll_contain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,6 +51,7 @@ android:visibility="invisible"
                 tools:text="【一毛钱免费送】黑檀木手串12mm17颗 大大1哒哒哒" />
 
             <LinearLayout
+                android:visibility="invisible"
                 android:id="@+id/ll_money"
                 android:layout_below="@+id/tv_product_title"
                 android:layout_width="wrap_content"
@@ -108,7 +109,7 @@ android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:text="长按识别二维码"
+                    android:text="长 按 二 维 码\n把宝贝带回家"
                     android:textColor="@color/color_1a1a1a"
                     android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
@@ -161,7 +162,7 @@ android:visibility="invisible"
                         android:textStyle="bold"
                         app:minTextSize="@dimen/sp_14"
                         android:includeFontPadding="false"
-                        android:text="为您推荐一款精选好货~" />
+                        android:text="精选拍品为你推荐~" />
 
                 </LinearLayout>
 

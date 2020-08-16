@@ -174,10 +174,10 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
             UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "4", sharedModel.getShareGoodsCode(), "1");
         }
 
-        Globals.log("xxxxxxx  sharedModel"  + sharedModel.getShareUrl() );
-        Globals.log("xxxxxxx  sharedModel"  + sharedModel.getShopName() );
-        Globals.log("xxxxxxx  sharedModel"  + sharedModel.getPicPath() );
-        Globals.log("xxxxxxx  sharedModel  23  "  + sharedModel.getContent() );
+        Globals.log("xxxxxxx  sharedModel" + sharedModel.getShareUrl());
+        Globals.log("xxxxxxx  sharedModel" + sharedModel.getShopName());
+        Globals.log("xxxxxxx  sharedModel" + sharedModel.getPicPath());
+        Globals.log("xxxxxxx  sharedModel  23  " + sharedModel.getContent());
 
         UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN, umShareListener);
         //分享到朋友圈，---将 SHARE_MEDIA.WEIXIN_CIRCLE    ----------- SHARE_MEDIA.WEIXIN  替换
@@ -212,7 +212,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 //            if (sharedModel.getShareGoodsCode().length() > 0) {
 //                UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
 //            }
-            Globals.log("xxxxxx onSharedWXCircle_qrcode 01 "  );
+            Globals.log("xxxxxx onSharedWXCircle_qrcode 01 ");
 
 
             showWaitDialog();
@@ -339,7 +339,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     private void shareMuiltImgToFriendCircle_qrcode(LinearLayout llContain) {
 
         Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
-Globals.log("xxxxx shareMuiltImgToFriendCircle_qrcode" +nineImgs.size() );
+        Globals.log("xxxxx shareMuiltImgToFriendCircle_qrcode" + nineImgs.size());
 
 
         final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();

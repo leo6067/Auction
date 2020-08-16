@@ -43,6 +43,7 @@ public class SharedDailogUtils {
         TextView tvCancle = view.findViewById(R.id.tv_cancle);
         TextView tvMoney= view.findViewById(R.id.tv_money);
         TextView tvTag= view.findViewById(R.id.tv_tag);
+        LinearLayout moneyLin= view.findViewById(R.id.ll_money);
 
         GlideUtils.loadImg(sharedModel.getPicPath(), ivStaredPic);
         tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
@@ -59,7 +60,7 @@ public class SharedDailogUtils {
         CrlBtnModel crlBtnModel02 = new CrlBtnModel(2, R.drawable.ic_shared_weixin, "微信");
         CrlBtnModel crlBtnModel03 = new CrlBtnModel(3, R.drawable.ic_wx_circle, "朋友圈图文");
         CrlBtnModel crlBtnModel04 = new CrlBtnModel(4, R.drawable.ic_wx_circle, "朋友圈");
-//        CrlBtnModel crlBtnModel05 = new CrlBtnModel(5, R.drawable.ic_shared_save, "保存图片");
+        CrlBtnModel crlBtnModel05 = new CrlBtnModel(5, R.drawable.ic_shared_save, "保存图片");
 //        CrlBtnModel crlBtnModel06 = new CrlBtnModel(6, R.drawable.ic_xianyu_icon, "闲鱼");
 //        CrlBtnModel crlBtnModel07 = new CrlBtnModel(7, R.drawable.ic_wwdz_icon, "玩物得志");
         CrlBtnModel crlBtnModel08 = new CrlBtnModel(8, R.drawable.share_qq, "QQ");
@@ -68,13 +69,41 @@ public class SharedDailogUtils {
 
 
 
-        if(sharedModel.getChannelType().equals("2")){//分类
+        if(sharedModel.getChannelType().equals("2")){//百亿分享
             crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
             crlBtnModels.add(crlBtnModel01);
             crlBtnModels.add(crlBtnModel02);
             crlBtnModels.add(crlBtnModel04);
             crlBtnModels.add(crlBtnModel08);
             tvTag.setVisibility(View.GONE);
+            llContain.setVisibility(View.INVISIBLE);
+        }else if (sharedModel.getChannelType().equals("0")){  // 商品详情
+            crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
+            crlBtnModels.add(crlBtnModel01);
+            crlBtnModels.add(crlBtnModel02);
+            crlBtnModels.add(crlBtnModel03);
+            crlBtnModels.add(crlBtnModel04);
+            crlBtnModels.add(crlBtnModel05);
+            crlBtnModels.add(crlBtnModel08);
+            tvTag.setVisibility(View.GONE);
+            tvMoney.setText(sharedModel.getPrice());
+            moneyLin.setVisibility(View.VISIBLE);
+            tvMoney.setVisibility(View.VISIBLE);
+            tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getGoodName()));
+            tvShopName.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
+        }else if (sharedModel.getChannelType().equals("1")){  // 店铺分享
+            crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
+            crlBtnModels.add(crlBtnModel01);
+            crlBtnModels.add(crlBtnModel02);
+            crlBtnModels.add(crlBtnModel03);
+            crlBtnModels.add(crlBtnModel04);
+            crlBtnModels.add(crlBtnModel05);
+            crlBtnModels.add(crlBtnModel08);
+            tvTag.setVisibility(View.GONE);
+            moneyLin.setVisibility(View.GONE);
+            tvMoney.setVisibility(View.GONE);
+            tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getGoodName()));
+            tvShopName.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
         }else{
             crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
             crlBtnModels.add(crlBtnModel01);
@@ -83,6 +112,7 @@ public class SharedDailogUtils {
             crlBtnModels.add(crlBtnModel04);
             crlBtnModels.add(crlBtnModel08);
             tvTag.setVisibility(View.GONE);
+            llContain.setVisibility(View.INVISIBLE);
         }
 
 
