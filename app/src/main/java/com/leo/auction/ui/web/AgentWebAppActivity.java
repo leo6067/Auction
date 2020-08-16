@@ -3,14 +3,19 @@ package com.leo.auction.ui.web;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -21,13 +26,18 @@ import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.aten.compiler.base.BaseGlobal;
+import com.aten.compiler.utils.FileUtils;
+import com.aten.compiler.utils.ImageUtils;
 import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.easyPay.EasyPay;
 import com.aten.compiler.utils.easyPay.callback.IPayCallback;
 import com.aten.compiler.utils.permission.PermissionHelper;
 import com.aten.compiler.widget.glide.GlideApp;
 import com.blankj.utilcode.util.AppUtils;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.gyf.immersionbar.ImmersionBar;
 import com.just.agentweb.AgentWeb;
@@ -56,13 +66,17 @@ import com.leo.auction.ui.main.home.model.ShopModel;
 import com.leo.auction.ui.main.home.model.WebShopModel;
 import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
+import com.leo.auction.ui.main.mine.activity.GoodDetailActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.order.model.HouseOrderCodeModel;
+import com.leo.auction.ui.order.model.HouseOrderModel;
 import com.leo.auction.ui.order.model.HouseShareModel;
 import com.leo.auction.ui.order.model.OrderPayTypeModel;
 import com.leo.auction.ui.order.model.WebGoodDetailModel;
 import com.leo.auction.ui.version.VersionDialog;
 import com.leo.auction.ui.version.VersionDownDialog;
 import com.leo.auction.ui.version.VersionModel;
+import com.leo.auction.utils.GlideUtils;
 import com.leo.auction.utils.Globals;
 import com.leo.auction.utils.shared.UmShare;
 import com.leo.auction.utils.shared_dailog.SharedModel;
@@ -70,6 +84,9 @@ import com.leo.auction.utils.wxPay.WXPay;
 import com.leo.auction.utils.wxPay.WXPayBean;
 import com.sch.share.Options;
 import com.sch.share.WXShareMultiImageHelper;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -78,9 +95,13 @@ import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.MemoryCookieStore;
 import com.zhy.http.okhttp.https.HttpsUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,6 +115,11 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -106,6 +132,9 @@ public class AgentWebAppActivity extends AppCompatActivity {
     protected AgentWeb mAgentWeb;
     private LinearLayout mLinearLayout;
 
+
+    private int barType = 0; // 0 红色 1 灰色  2 白色
+    private int barLogin = 0;
 
 
     //backPager 0:代表返回上一页 1：代表回到首页
@@ -169,7 +198,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
     }
 
 
-
     void rePremissions() {
 //        httpCommon();
 //        ActivityManager.JumpActivity(StartActivity.this, MainActivity.class, null);
@@ -179,12 +207,13 @@ public class AgentWebAppActivity extends AppCompatActivity {
             public void onSuccess() {
 //                backLogin();
             }
+
             @Override
             public void onFail() {
 //                backLogin();
             }
 //        }, Permission.READ_PHONE_STATE, Permission.WRITE_EXTERNAL_STORAGE,Permission.RECORD_AUDIO);
-        },  com.yanzhenjie.permission.Permission.WRITE_EXTERNAL_STORAGE );  //注释掉打电话
+        }, com.yanzhenjie.permission.Permission.WRITE_EXTERNAL_STORAGE);  //注释掉打电话
 //        com.yanzhenjie.permission.Permission.CAMERA,
     }
 
@@ -274,20 +303,40 @@ public class AgentWebAppActivity extends AppCompatActivity {
                     mAgentWeb.back();
                 } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/personal/personal")) { //我的
                     RedImmersionBar();
+                    barType = 0;
                 } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/?iscdandroid=1")) { //首页
+                    if (barLogin ==1){
+                        barLogin = 0;
+                        WhiteImmersionBar();
+                        barType = 0;
+                        return;
+                    }
                     RedImmersionBar();
+                    barType = 0;
                 } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/")) { //首页
+                    if (barLogin ==1){
+                        barLogin = 0;
+                        WhiteImmersionBar();
+                        barType = 0;
+                        return;
+                    }
                     RedImmersionBar();
+                    barType = 0;
                 } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/pages/follow/follow")) { //关注
                     RedImmersionBar();
+                    barType = 0;
                 } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/mercahnt/index?shopUri=")) { //店铺首页
                     RedImmersionBar();
+                    barType = 0;
                 } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/productDetail?productInstanceCode=")) { //拍品详情
                     GrayImmersionBar();
+                    barType = 1;
                 } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/bysubsidy/index")) { //百亿补贴
                     GrayImmersionBar();
+                    barType = 1;
                 } else {
                     WhiteImmersionBar();
+                    barType = 2;
                 }
             }
 
@@ -569,9 +618,9 @@ public class AgentWebAppActivity extends AppCompatActivity {
         String shareTitle = "【锤定】" + dataBean.getNickname() + shareShopTitlelList.get(anInt);
         String path = Constants.WebApi.SHARE_SHOP_URL + dataBean.getShopUri()
                 + "&tpm_shareAgentId=" + mUserJson.getUserId();
-        SharedModel sharedModel = new SharedModel(shopName,goodName,shareTitle, shareTitle, dataBean.getHeadImg(),
+        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, shareTitle, dataBean.getHeadImg(),
                 "0.00", dataBean.getHeadImg(), type, path, dataBean.getShopUri(), mUserJson.getUserId(),
-               "2");
+                "2");
         SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel, imgStr, shareTitle, "");
 
 
@@ -598,14 +647,14 @@ public class AgentWebAppActivity extends AppCompatActivity {
         } else {
             shareTitle = shareShopTitlelList.get(anInt) + "【" + detailModelData.getTitle() + "】";
         }
-          shopName = detailModelData.getProductUser().getNickname();
-          goodName = detailModelData.getTitle();
+        shopName = detailModelData.getProductUser().getNickname();
+        goodName = detailModelData.getTitle();
 
 
         String sharedText = detailModelData.getContent();
-        SharedModel sharedModel = new SharedModel(shopName,goodName,shareTitle, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
+        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
                 detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
-              "0");
+                "0");
         ArrayList<String> nineImgList = new ArrayList<>();
 
         //1判断是否有视频
@@ -629,7 +678,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
     /**
      * 百亿补贴分享
      */
-    private void shareBY(String resultData){
+    private void shareBY(String resultData) {
         JSShareJson jsShareJson = JSONObject.parseObject(resultData, JSShareJson.class);
         SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(), "2", "");
         SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel);
@@ -646,19 +695,13 @@ public class AgentWebAppActivity extends AppCompatActivity {
 //        String path = Constants.WebApi.SHARE_PRODUCT_URL + detailModelData.getProductInstanceCode()
 //                + "&shareAgentId=" + userJson.getNestedToken();
 //        String type = "3";//1-推荐粉丝  2-推荐商家  3-拍品详情 4-超级仓库商品详情
-
-
         List<HouseShareModel.AttributesBean> attributes = detailModelData.getAttributes();
-        for (int i = 0; i <attributes.size() ; i++) {
-            shareContent += "【"+attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
+        for (int i = 0; i < attributes.size(); i++) {
+            shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
 
         }
-
-        shareMuiltImgToFriendCircle(shareContent,detailModelData.getImages());
-
-
+        shareMuiltImgToFriendCircle(shareContent, detailModelData.getImages());
     }
-
 
 
     //分享多张图片到朋友圈
@@ -703,6 +746,143 @@ public class AgentWebAppActivity extends AppCompatActivity {
         }
     }
 
+
+
+    /*
+     * 一键下单 --跳转小程序
+     * */
+
+    private void houseCreateOrder(String resultData) {
+
+        String appId = Constants.Nouns.WEIXINAPPID; // 填应用AppId
+        IWXAPI api = WXAPIFactory.createWXAPI(AgentWebAppActivity.this, appId);
+
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = Constants.Nouns.WEIXINA_SMALL; // 填小程序原始id
+        req.path = "pages/products/productdetail/productdetail?id=" + resultData;                  ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+//        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
+        Globals.log("xxxxxxxx" + req.path);
+        api.sendReq(req);
+    }
+
+
+    /*
+     * 一键代发 --跳转小程序
+     * */
+
+    private void houseOrderSend(String resultData) {
+
+
+        HouseOrderCodeModel.ProductParent productParent = new HouseOrderCodeModel.ProductParent();
+
+
+        ArrayList<HouseOrderCodeModel.Product> productParents = new ArrayList<>();
+
+        HouseOrderModel houseOrderCodeModel = JSONObject.parseObject(resultData, HouseOrderModel.class);
+
+
+        HouseOrderCodeModel.Product productModel = new HouseOrderCodeModel.Product();
+        HouseOrderCodeModel.Product.MerchantInfoBean merchantInfoBean = new HouseOrderCodeModel.Product.MerchantInfoBean();
+        merchantInfoBean.setHeadimg(houseOrderCodeModel.getGoods().getSupplier().getHeadImg());
+        merchantInfoBean.setNickname(houseOrderCodeModel.getGoods().getSupplier().getNickname());
+        merchantInfoBean.setShopUri(houseOrderCodeModel.getGoods().getSupplier().getShopUri());
+        merchantInfoBean.setSupplierId(houseOrderCodeModel.getGoods().getSupplier().getSupplierId());
+        productModel.setMerchantInfo(merchantInfoBean);
+
+
+        ArrayList<HouseOrderCodeModel.Product.ListBean> listBeans = new ArrayList<>();
+        HouseOrderCodeModel.Product.ListBean listBean = new HouseOrderCodeModel.Product.ListBean();
+        listBean.setGoodsId(houseOrderCodeModel.getGoods().getGoodsId());
+        if (houseOrderCodeModel.getGoods().getImages().get(0).contains("?")) {
+            listBean.setIsyu(true);
+        } else {
+            listBean.setIsyu(false);
+        }
+
+        listBean.setImg(houseOrderCodeModel.getGoods().getImages().get(0));
+        listBean.setPaynumber("1");
+        listBean.setTitle(houseOrderCodeModel.getGoods().getTitle());
+        listBean.setTotalPrice(houseOrderCodeModel.getGoods().getRealAgentPrice());
+        listBean.setRealAgentPrice(houseOrderCodeModel.getGoods().getRealAgentPrice());
+        listBean.setRealPrice(houseOrderCodeModel.getGoods().getPrice());
+        listBean.setPrice(houseOrderCodeModel.getGoods().getRealAgentPrice());
+        listBean.setStock(houseOrderCodeModel.getGoods().getStock());
+        listBeans.add(listBean);
+        productModel.setList(listBeans);
+        productParents.add(productModel);
+        productParent.setList(productParents);
+
+
+        HouseOrderCodeModel.Addressshouhuo addressVoBean = new HouseOrderCodeModel.Addressshouhuo();
+        addressVoBean.setAddr1Name(houseOrderCodeModel.getAddressVo().getAddr1Name());
+        addressVoBean.setAddr2Name(houseOrderCodeModel.getAddressVo().getAddr2Name());
+        addressVoBean.setAddr3Name(houseOrderCodeModel.getAddressVo().getAddr3Name());
+        addressVoBean.setAddress(houseOrderCodeModel.getAddressVo().getAddress());
+        addressVoBean.setCode(houseOrderCodeModel.getAddressVo().getCode());
+        addressVoBean.setLinkman(houseOrderCodeModel.getAddressVo().getLinkman());
+        addressVoBean.setPhone(houseOrderCodeModel.getAddressVo().getPhone());
+
+        HouseOrderCodeModel.ZhidInfo zhidInfo = new HouseOrderCodeModel.ZhidInfo();
+        zhidInfo.setName(houseOrderCodeModel.getSender());
+        zhidInfo.setPhone(houseOrderCodeModel.getSendPhone());
+
+
+        String productModelStr = JSON.toJSONString(productParent.getList());
+        String addressVoBeanStr = JSON.toJSONString(addressVoBean);
+        String zhidInfoStr = JSON.toJSONString(zhidInfo);
+
+
+        Globals.log("xxxxx productModelStr" + productModelStr);
+
+        String productStr = "";
+        String addressStr =  "";
+        String zhiStr =  "";
+
+        try {
+              productStr = URLEncoder.encode(productModelStr, "UTF-8");
+              addressStr = URLEncoder.encode(addressVoBeanStr, "UTF-8");
+               zhiStr = URLEncoder.encode(zhidInfoStr, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+        String appId = Constants.Nouns.WEIXINAPPID; // 填应用AppId
+        IWXAPI api = WXAPIFactory.createWXAPI(AgentWebAppActivity.this, appId);
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = Constants.Nouns.WEIXINA_SMALL; // 填小程序原始id
+        req.path = "pages/orders/closeorderpage/closeorderpage?product=" + productStr
+                + "&addressshouhuo="+addressStr + "&zhidInfo="+zhiStr +"&orderToken="+houseOrderCodeModel.getOrderToken();                  ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+//        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
+        Globals.log("xxxxxxxx" + req.path);
+        api.sendReq(req);
+    }
+
+
+    /*
+     * 个人保存下载二维码
+     * */
+    private void downBitmap(String url) {
+
+        Bitmap bitmap = GlideUtils.returnBitMap(url);
+
+        FileUtils.fileDirExis(BaseGlobal.getQrCodeDir());
+        String imagPath = BaseGlobal.getQrCodeDir() + System.currentTimeMillis() + ".jpg";
+        ImageUtils.save(bitmap, imagPath, Bitmap.CompressFormat.JPEG, true);
+        // 最后通知图库更新
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imagPath)));
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.showShort("保存成功");
+            }
+        });
+
+    }
 
 
     /**
@@ -796,11 +976,11 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
         //商品详情分享
         @JavascriptInterface
-        public void auctionDetailShare(String resultData,String code) {
+        public void auctionDetailShare(String resultData, String code) {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
-                    Globals.log("xxxxx商品详情分享" +resultData  +code);
+                    Globals.log("xxxxx商品详情分享" + resultData + code);
 
                     shareGood(resultData);
                 }
@@ -830,10 +1010,134 @@ public class AgentWebAppActivity extends AppCompatActivity {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
-                    Globals.log("xxxxx超级仓库分享" +resultData   );
+                    Globals.log("xxxxx超级仓库分享" + resultData);
                     shareHouse(resultData);
                 }
             });
+        }
+
+
+        /*
+         * 一键下单
+         * */
+        @JavascriptInterface
+        public void houseOrder(String resultData) {
+            deliver.post(new Runnable() {
+                @Override
+                public void run() {
+                    Globals.log("xxxxx一键下单" + resultData);
+                    houseCreateOrder(resultData);
+                }
+            });
+        }
+
+
+        /*
+         * 一键代发
+         * */
+        @JavascriptInterface
+        public void insteadOrderSend(String resultData) {
+            deliver.post(new Runnable() {
+                @Override
+                public void run() {
+                    Globals.log("xxxxxx一键代发" + resultData);
+                    houseOrderSend(resultData);
+                }
+            });
+        }
+
+
+        /*
+         * 保存二维码--推荐商家粉丝
+         * */
+        @JavascriptInterface
+        public void saveCode(String resultData) {
+            deliver.post(new Runnable() {
+                @Override
+                public void run() {
+                    Globals.log("xxxxxx保存二维码--推荐商家粉丝" + resultData);
+                    String imgString = resultData.substring(resultData.indexOf(",") + 1);
+                    Bitmap bitmap = stringtoBitmap(imgString);
+                    FileUtils.fileDirExis(BaseGlobal.getQrCodeDir());
+                    String imagPath = BaseGlobal.getQrCodeDir() + System.currentTimeMillis() + ".jpg";
+                    ImageUtils.save(bitmap, imagPath, Bitmap.CompressFormat.JPEG, true);
+                    // 最后通知图库更新
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imagPath)));
+                    ToastUtils.showShort("保存成功");
+
+                }
+            });
+        }
+
+
+        public Bitmap stringtoBitmap(String string) {
+            //将字符串转换成Bitmap类型
+            Bitmap bitmap = null;
+            try {
+                byte[] bitmapArray;
+                bitmapArray = Base64.decode(string, Base64.DEFAULT);
+                bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+
+        /*
+         * 保存二维码--个人链接
+         * */
+        @JavascriptInterface
+        public void savePersonCode(String resultData) {
+            new Thread() {
+                @Override
+                public void run() {
+                    //需要在子线程中处理的逻辑
+                    downBitmap(resultData);
+                }
+            }.start();
+
+        }
+
+
+
+
+        /*
+         * 打开登录界面
+         * */
+        @JavascriptInterface
+        public void showLoginDialog() {
+
+            Globals.log("xxxxxx打开登录界面"   );
+            deliver.post(new Runnable() {
+                @Override
+                public void run() {
+                    WhiteImmersionBar();
+                    barLogin = 1;
+                }
+            });
+
+        }
+
+        /*
+         * 关闭登录界面
+         * */
+        @JavascriptInterface
+        public void closeLoginDialog() {
+            Globals.log("xxxxxx关闭登录界面"   );
+            deliver.post(new Runnable() {
+                @Override
+                public void run() {
+                    if(barType == 0){
+                        RedImmersionBar();
+                    }else if (barType == 1){
+                        GrayImmersionBar();
+                    }else {
+                        WhiteImmersionBar();
+                    }
+                }
+            });
+
         }
 
     }

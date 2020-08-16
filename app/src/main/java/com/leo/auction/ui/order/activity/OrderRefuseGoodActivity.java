@@ -29,7 +29,7 @@
 //import com.leo.auction.ui.login.model.OssTokenModel;
 //import com.leo.auction.ui.main.home.activity.ImageShowActivity;
 //import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
-//import com.leo.auction.ui.order.adapter.PostOssImglistAdapter;
+//
 //import com.leo.auction.ui.order.model.CancleOrderModel;
 //import com.leo.auction.ui.order.model.OrderGoodJson;
 //import com.leo.auction.ui.order.model.OrderListModel;

@@ -61,7 +61,7 @@ public class AppApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Constants.init(false);//是否正式版
+        Constants.init(true);//是否正式版
         BaseAppContext.init(this);    //获得app全局上下文
         ZXingLibrary.initDisplayOpinion(this); //初始化二维码
         Utils.init(this); //blankj:utilcode 工具类初始化
@@ -71,7 +71,6 @@ public class AppApplication extends BaseApplication {
         initUMeng();
         initRetrofit();
         initLitePal();
-//        initX5WebView();
     }
 
 

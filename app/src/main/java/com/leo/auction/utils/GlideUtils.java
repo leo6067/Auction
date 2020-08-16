@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -30,7 +31,12 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.leo.auction.R;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.util.UUID;
 
@@ -156,6 +162,37 @@ public class GlideUtils {
 
         return drawable;
     }
+
+
+
+    /**
+     * 将URL转化成bitmap形式
+     *
+     *
+     * 必须在子线程中
+     * @param url
+     * @return bitmap type
+     */
+    public final static Bitmap returnBitMap(String url) {
+        URL myFileUrl;
+        Bitmap bitmap = null;
+        try {
+            myFileUrl = new URL(url);
+            HttpURLConnection conn;
+            conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+
 
 
     //加载图片

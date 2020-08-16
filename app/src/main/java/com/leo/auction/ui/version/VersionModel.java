@@ -141,7 +141,7 @@ public class VersionModel {
         HashMap<String, String> hashMap = new HashMap<>();
 
 
-        HttpRequest.httpGetString(Constants.Api.VERSION_URL,hashMap,httpCall);
+        HttpRequest.httpGetStringWeb(Constants.Api.VERSION_URL,hashMap,httpCall);
 
 
 
