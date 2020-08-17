@@ -8,7 +8,7 @@
 
     <include
 
-        android:visibility="gone"
+
         layout="@layout/layout_custom_title_w" />
 
     <com.aten.compiler.widget.ZzHorizontalProgressBar

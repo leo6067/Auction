@@ -409,6 +409,7 @@
     <color name="baoyou_lin">#F5F5F5</color>
     <color name="detail_text">#AEAEAE</color>
     <color name="back_ground">#F1F5F4</color>
+    <color name="gray_title">#FFF7F7F7</color>
 
 
 </resources>

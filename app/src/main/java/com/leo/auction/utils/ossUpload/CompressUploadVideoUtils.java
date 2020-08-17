@@ -32,6 +32,10 @@ import java.util.ArrayList;
  * 描    述：上传视频一条龙
  * <p>
  * 串行上传视频 即视频压缩完 上传完 后才会继续第二个视频的操作
+ *
+ *
+ *
+ * 视频压缩
  * ================================================
  */
 public class CompressUploadVideoUtils {
@@ -117,7 +121,9 @@ public class CompressUploadVideoUtils {
             }
         });
 
-        VideoCompress.compressVideoHigh(paths.get(0), BaseGlobal.getVideoCompressedDir(), "", new VideoCompress.CompressListener() {
+
+//        视频压缩
+        VideoCompress.compressVideoLow(paths.get(0), BaseGlobal.getVideoCompressedDir(), "", new VideoCompress.CompressListener() {
             @Override
             public void onStart() {
             }

@@ -4,25 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.KeyEvent;
-import android.view.ViewGroup;
-import android.webkit.CookieManager;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -35,9 +36,7 @@ import com.aten.compiler.utils.easyPay.callback.IPayCallback;
 import com.aten.compiler.utils.permission.PermissionHelper;
 import com.aten.compiler.widget.glide.GlideApp;
 import com.blankj.utilcode.util.AppUtils;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.gyf.immersionbar.ImmersionBar;
 import com.just.agentweb.AgentWeb;
@@ -50,35 +49,22 @@ import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.CommonUsedData;
 import com.leo.auction.base.Constants;
 import com.leo.auction.net.HttpRequest;
-import com.leo.auction.ui.login.LoginActivity;
-import com.leo.auction.ui.login.LoginWxActivity;
-import com.leo.auction.ui.login.StartActivity;
 import com.leo.auction.ui.login.model.LoginModel;
-import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.SharedActvity;
-import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
-import com.leo.auction.ui.main.home.activity.ShopActivity;
-import com.leo.auction.ui.main.home.dialog.PayPwdBoardUtils;
-import com.leo.auction.ui.main.home.model.GoodsDetailModel;
 import com.leo.auction.ui.main.home.model.PayModel;
-import com.leo.auction.ui.main.home.model.PicGridNineModel;
-import com.leo.auction.ui.main.home.model.ShopModel;
 import com.leo.auction.ui.main.home.model.WebShopModel;
 import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
-import com.leo.auction.ui.main.mine.activity.GoodDetailActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.order.model.HouseOrderCodeModel;
 import com.leo.auction.ui.order.model.HouseOrderModel;
 import com.leo.auction.ui.order.model.HouseShareModel;
-import com.leo.auction.ui.order.model.OrderPayTypeModel;
 import com.leo.auction.ui.order.model.WebGoodDetailModel;
 import com.leo.auction.ui.version.VersionDialog;
 import com.leo.auction.ui.version.VersionDownDialog;
 import com.leo.auction.ui.version.VersionModel;
 import com.leo.auction.utils.GlideUtils;
 import com.leo.auction.utils.Globals;
-import com.leo.auction.utils.shared.UmShare;
 import com.leo.auction.utils.shared_dailog.SharedModel;
 import com.leo.auction.utils.wxPay.WXPay;
 import com.leo.auction.utils.wxPay.WXPayBean;
@@ -90,18 +76,9 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.cookie.CookieJarImpl;
-import com.zhy.http.okhttp.cookie.store.MemoryCookieStore;
-import com.zhy.http.okhttp.https.HttpsUtils;
+import com.yanzhenjie.permission.Permission;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.Proxy;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,28 +86,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
-
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.schedulers.Schedulers;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class AgentWebAppActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     private double exitTime;
 
     protected AgentWeb mAgentWeb;
     private LinearLayout mLinearLayout;
+
+    private ImageView mBackImageView;
+    private View mLineView;
+    private ImageView mFinishImageView;
+    private TextView mTitleTextView;
 
 
     private int barType = 0; // 0 红色 1 灰色  2 白色
@@ -166,8 +139,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
         //在BaseActivity里初始化
         ImmersionBar mImmersionBar = ImmersionBar.with(this)
 
-                .statusBarColor(R.color.collect_cancel)
-                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
+                .statusBarColor(R.color.gray_title)
+//                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
                 .keyboardEnable(true);
 
         mImmersionBar.init();
@@ -176,9 +149,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
     protected void WhiteImmersionBar() {
         //在BaseActivity里初始化
         ImmersionBar mImmersionBar = ImmersionBar.with(this)
-
                 .statusBarColor(R.color.white)
-                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
+//                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
                 .keyboardEnable(true);
 
         mImmersionBar.init();
@@ -188,10 +160,11 @@ public class AgentWebAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent_web_app);
+        ButterKnife.bind(this);
         mLinearLayout = (LinearLayout) this.findViewById(R.id.container);
         buildAgentWeb();
         httpVerison();
-        initData();
+        initView();
         RedImmersionBar();  //初始化，首页
 
         rePremissions();
@@ -213,13 +186,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
 //                backLogin();
             }
 //        }, Permission.READ_PHONE_STATE, Permission.WRITE_EXTERNAL_STORAGE,Permission.RECORD_AUDIO);
-        }, com.yanzhenjie.permission.Permission.WRITE_EXTERNAL_STORAGE);  //注释掉打电话
+        }, Permission.WRITE_EXTERNAL_STORAGE);  //注释掉打电话
 //        com.yanzhenjie.permission.Permission.CAMERA,
-    }
-
-
-    private void initData() {
-
     }
 
 
@@ -247,8 +215,23 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     }
 
+    protected void initView() {
 
-    private com.just.agentweb.WebViewClient mWebViewClient = new WebViewClient() {
+        mBackImageView = (ImageView) findViewById(R.id.iv_back);
+        mLineView = findViewById(R.id.view_line);
+        mFinishImageView = (ImageView) findViewById(R.id.iv_finish);
+        mTitleTextView = (TextView) findViewById(R.id.toolbar_title);
+        mBackImageView.setOnClickListener(mOnClickListener);
+        mFinishImageView.setOnClickListener(mOnClickListener);
+
+        mFinishImageView.setVisibility(View.GONE);
+
+//        pageNavigator(View.GONE);
+
+    }
+
+
+    private WebViewClient mWebViewClient = new WebViewClient() {
 
 
         private HashMap<String, Long> timer = new HashMap<>();
@@ -266,7 +249,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
             //do you  work
 //            Globals.log("Info" + "BaseWebActivity onPageStarted" + view.getTitle() + url);
 
-            Globals.log(" mWebViewClient BaseWebActivity onPageStarted" + view.getTitle() + view.getUrl());
+//            Globals.log(" mWebViewClient BaseWebActivity onPageStarted" + view.getTitle() + view.getUrl());
         }
 
         @Override
@@ -276,68 +259,22 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 long overTime = System.currentTimeMillis();
                 Long startTime = timer.get(url);
             }
-            Globals.log(" 01 Info  " + "BaseWebActivity onPageStarted" + view.getTitle() + url);
+//            Globals.log(" 01 Info  " + "BaseWebActivity onPageStarted" + view.getTitle() + url);
 
         }
 
     };
-    private com.just.agentweb.WebChromeClient mWebChromeClient = new WebChromeClient() {
+    private WebChromeClient mWebChromeClient = new WebChromeClient() {
 
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            Bundle bundle = new Bundle();
+
 
             Globals.log(" mWebChromeClient BaseWebActivity onPageStarted" + view.getTitle() + view.getUrl());
             if (newProgress == 100) {
-                if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/save")) {  //发布拍品
-                    ActivityManager.JumpActivity(AgentWebAppActivity.this, CommodityReleaseActivity.class);
-                    mAgentWeb.back();
-                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/saveOrUpdate?productId=")) { //拍品编辑
-                    //截取之后的字符
-                    String productId = view.getUrl().substring(view.getUrl().indexOf("?productId=") + 11);
-                    bundle.clear();
-                    bundle.putString("value", productId);
-                    ActivityManager.JumpActivity(AgentWebAppActivity.this, CommodityEditActivity.class, bundle);
-                    mAgentWeb.back();
-                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/personal/personal")) { //我的
-                    RedImmersionBar();
-                    barType = 0;
-                } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/?iscdandroid=1")) { //首页
-                    if (barLogin ==1){
-                        barLogin = 0;
-                        WhiteImmersionBar();
-                        barType = 0;
-                        return;
-                    }
-                    RedImmersionBar();
-                    barType = 0;
-                } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/")) { //首页
-                    if (barLogin ==1){
-                        barLogin = 0;
-                        WhiteImmersionBar();
-                        barType = 0;
-                        return;
-                    }
-                    RedImmersionBar();
-                    barType = 0;
-                } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/pages/follow/follow")) { //关注
-                    RedImmersionBar();
-                    barType = 0;
-                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/mercahnt/index?shopUri=")) { //店铺首页
-                    RedImmersionBar();
-                    barType = 0;
-                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/productDetail?productInstanceCode=")) { //拍品详情
-                    GrayImmersionBar();
-                    barType = 1;
-                } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/bysubsidy/index")) { //百亿补贴
-                    GrayImmersionBar();
-                    barType = 1;
-                } else {
-                    WhiteImmersionBar();
-                    barType = 2;
-                }
+
             }
 
         }
@@ -348,7 +285,84 @@ public class AgentWebAppActivity extends AppCompatActivity {
 //            if (mTitleTextView != null) {
 //                mTitleTextView.setText(title);
 //            }
+            Bundle bundle = new Bundle();
+            mToolbar.setVisibility(View.VISIBLE);
+            mTitleTextView.setText(view.getTitle());
 
+            if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/save")) {  //发布拍品
+                ActivityManager.JumpActivity(AgentWebAppActivity.this, CommodityReleaseActivity.class);
+                mAgentWeb.back();
+            } else if (view.getUrl().contains(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/saveOrUpdate?productId=")) { //拍品编辑
+                //截取之后的字符
+                String productId = view.getUrl().substring(view.getUrl().indexOf("?productId=") + 11);
+                bundle.clear();
+                bundle.putString("value", productId);
+                ActivityManager.JumpActivity(AgentWebAppActivity.this, CommodityEditActivity.class, bundle);
+                mAgentWeb.back();
+            } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/?iscdandroid=1")) { //首页
+                if (barLogin == 1) {
+                    barLogin = 0;
+                    WhiteImmersionBar();
+                    barType = 0;
+                    return;
+                }
+
+            } else if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/")) { //首页
+                if (barLogin == 1) {
+                    barLogin = 0;
+                    WhiteImmersionBar();
+                    barType = 0;
+                }
+
+            } else if (view.getUrl().contains("pages/sub/seach")) {
+                mToolbar.setVisibility(View.GONE);
+            }
+
+            switch (title) {
+                case "首页":
+                case "关注":
+                case "我的":
+                case "店铺首页":
+                    RedImmersionBar();
+                    barType = 0;
+                    break;
+                case "拍品详情":
+                case "TOP百亿补贴":
+                    mToolbar.setBackgroundColor(getResources().getColor(R.color.gray_title));
+                    GrayImmersionBar();
+                    barType = 1;
+                    break;
+                default:
+                    WhiteImmersionBar();
+                    barType = 2;
+            }
+
+
+            switch (title) {
+                case "首页":
+                case "关注":
+                case "消息":
+                case "分类":
+                case "我的":
+                case "店铺首页":
+                case "搜索":
+                case "锤定":
+                    mToolbar.setVisibility(View.GONE);
+                    break;
+                default:
+                    mToolbar.setVisibility(View.VISIBLE);
+
+
+            }
+
+            if (view.getUrl().contains("pages/sub/seach")) {
+                mToolbar.setVisibility(View.GONE);
+                WhiteImmersionBar();
+                barType = 2;
+            }
+
+
+            Globals.log(" mWebChromeClient BaseWebActivity onReceivedTitle" + view.getTitle() + view.getUrl());
         }
     };
 
@@ -367,6 +381,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         mAgentWeb.getWebLifeCycle().onResume();
+
+        Globals.log("xxxxx onResume");
         super.onResume();
     }
 
@@ -384,6 +400,30 @@ public class AgentWebAppActivity extends AppCompatActivity {
         //mAgentWeb.destroy();
         mAgentWeb.getWebLifeCycle().onDestroy();
     }
+
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.iv_back:
+                    // true表示AgentWeb处理了该事件
+                    mAgentWeb.back();
+//                    if (!mAgentWeb.back()) {
+//                        AgentWebFragment.this.getActivity().finish();
+//                    }
+                    break;
+                case R.id.iv_finish:
+//                    AgentWebFragment.this.getActivity().finish();
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+    };
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -689,17 +729,23 @@ public class AgentWebAppActivity extends AppCompatActivity {
      */
     private void shareHouse(String resultData) {
         Globals.log("xxxxxxx auctionDetailShare" + resultData);
-        String shareContent = "";
+
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         HouseShareModel detailModelData = JSONObject.parseObject(resultData, HouseShareModel.class);
 //        String path = Constants.WebApi.SHARE_PRODUCT_URL + detailModelData.getProductInstanceCode()
 //                + "&shareAgentId=" + userJson.getNestedToken();
 //        String type = "3";//1-推荐粉丝  2-推荐商家  3-拍品详情 4-超级仓库商品详情
+
+        String shareContent = "【品名】  " + detailModelData.getTitle() + "\n";
+
+        shareContent += "【" + "大类" + "】  " + detailModelData.getParentCategoryName() + "\n";
+        shareContent += "【" + "小类" + "】  " + detailModelData.getCategoryName() + "\n";
+
         List<HouseShareModel.AttributesBean> attributes = detailModelData.getAttributes();
         for (int i = 0; i < attributes.size(); i++) {
             shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
-
         }
+        shareContent += "【" + "描述" + "】  " + detailModelData.getContent() + "\n";
         shareMuiltImgToFriendCircle(shareContent, detailModelData.getImages());
     }
 
@@ -760,7 +806,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
         WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
         req.userName = Constants.Nouns.WEIXINA_SMALL; // 填小程序原始id
         req.path = "pages/products/productdetail/productdetail?id=" + resultData;                  ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
-            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
 //        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
         Globals.log("xxxxxxxx" + req.path);
         api.sendReq(req);
@@ -836,13 +882,13 @@ public class AgentWebAppActivity extends AppCompatActivity {
         Globals.log("xxxxx productModelStr" + productModelStr);
 
         String productStr = "";
-        String addressStr =  "";
-        String zhiStr =  "";
+        String addressStr = "";
+        String zhiStr = "";
 
         try {
-              productStr = URLEncoder.encode(productModelStr, "UTF-8");
-              addressStr = URLEncoder.encode(addressVoBeanStr, "UTF-8");
-               zhiStr = URLEncoder.encode(zhidInfoStr, "UTF-8");
+            productStr = URLEncoder.encode(productModelStr, "UTF-8");
+            addressStr = URLEncoder.encode(addressVoBeanStr, "UTF-8");
+            zhiStr = URLEncoder.encode(zhidInfoStr, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -853,7 +899,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
         WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
         req.userName = Constants.Nouns.WEIXINA_SMALL; // 填小程序原始id
         req.path = "pages/orders/closeorderpage/closeorderpage?product=" + productStr
-                + "&addressshouhuo="+addressStr + "&zhidInfo="+zhiStr +"&orderToken="+houseOrderCodeModel.getOrderToken();                  ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+                + "&addressshouhuo=" + addressStr + "&zhidInfo=" + zhiStr + "&orderToken=" + houseOrderCodeModel.getOrderToken();                  ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
         req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
 //        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW;// 可选打开 开发版，体验版和正式版
         Globals.log("xxxxxxxx" + req.path);
@@ -882,6 +928,10 @@ public class AgentWebAppActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @OnClick(R.id.toolbar)
+    public void onViewClicked() {
     }
 
 
@@ -1003,7 +1053,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
 
         /*
-         * 超级仓库分享
+         * 超级仓库分享---一键转发
          * */
         @JavascriptInterface
         public void houseShare(String resultData) {
@@ -1100,15 +1150,13 @@ public class AgentWebAppActivity extends AppCompatActivity {
         }
 
 
-
-
         /*
          * 打开登录界面
          * */
         @JavascriptInterface
         public void showLoginDialog() {
 
-            Globals.log("xxxxxx打开登录界面"   );
+            Globals.log("xxxxxx打开登录界面");
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
@@ -1124,15 +1172,15 @@ public class AgentWebAppActivity extends AppCompatActivity {
          * */
         @JavascriptInterface
         public void closeLoginDialog() {
-            Globals.log("xxxxxx关闭登录界面"   );
+            Globals.log("xxxxxx关闭登录界面" + barType);
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
-                    if(barType == 0){
+                    if (barType == 0) {
                         RedImmersionBar();
-                    }else if (barType == 1){
+                    } else if (barType == 1) {
                         GrayImmersionBar();
-                    }else {
+                    } else {
                         WhiteImmersionBar();
                     }
                 }

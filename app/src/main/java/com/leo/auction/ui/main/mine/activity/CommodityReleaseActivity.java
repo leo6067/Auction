@@ -41,6 +41,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
+import com.gyf.immersionbar.ImmersionBar;
 import com.huantansheng.easyphotos.utils.video.ReleaseVideoModel;
 import com.leo.auction.R;
 import com.leo.auction.base.ActivityManager;
@@ -186,12 +187,21 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
     public void setContentViewLayout() {
         setContentView(R.layout.activity_commodity_release);
     }
+    protected void GrayImmersionBar() {
+        //在BaseActivity里初始化
+        ImmersionBar mImmersionBar = ImmersionBar.with(this)
 
+                .statusBarColor( R.color.gray_title)
+                .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
+                .keyboardEnable(true);
+
+        mImmersionBar.init();
+    }
 
     @Override
     public void initData() {
         mTitleBar.setTitle("发布拍品");
-
+        GrayImmersionBar();
         uploadPicUtils = new CompressUploadPicUtils();
         uploadVideoUtils = new CompressUploadVideoUtils();
         textLightUtils = new TextLightUtils();

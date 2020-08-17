@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <include
-        android:visibility="gone"
+
         layout="@layout/layout_custom_title_w" />
 
     <include layout="@layout/include_line_a" />

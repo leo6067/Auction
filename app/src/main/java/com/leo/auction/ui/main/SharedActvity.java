@@ -179,7 +179,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         Globals.log("xxxxxxx  sharedModel" + sharedModel.getPicPath());
         Globals.log("xxxxxxx  sharedModel  23  " + sharedModel.getContent());
 
-        UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN, umShareListener);
+        UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShareTitle(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN, umShareListener);
         //分享到朋友圈，---将 SHARE_MEDIA.WEIXIN_CIRCLE    ----------- SHARE_MEDIA.WEIXIN  替换
 //        UmShare.shareLink(this,path,sharedText,sharedModel.getPicPath(), sharedText,SHARE_MEDIA.WEIXIN_CIRCLE,umShareListener);
 

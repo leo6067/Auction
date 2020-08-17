@@ -10,4 +10,11 @@
 
     tools:context=".ui.web.AgentWebAppActivity">
 
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/toolbar"
+        layout="@layout/agentweb_toorbar_main"></include>
+
+
 </LinearLayout>
