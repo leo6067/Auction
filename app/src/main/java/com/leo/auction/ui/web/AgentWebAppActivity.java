@@ -665,7 +665,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         WebGoodDetailModel detailModelData = JSONObject.parseObject(resultData, WebGoodDetailModel.class);
         String path = Constants.WebApi.SHARE_PRODUCT_URL + detailModelData.getProductInstanceCode()
-                + "&shareAgentId=" + userJson.getNestedToken();
+                + "&shareAgentId=" + userJson.getUserId();
         String type = "3";//1-推荐粉丝  2-推荐商家  3-拍品详情 4-超级仓库商品详情
         ArrayList<String> shareShopTitlelList = CommonUsedData.getInstance().getShareTitlelList();
 
@@ -681,7 +681,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
 
         String sharedText = detailModelData.getContent();
-        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getImages() == null ? "" : detailModelData.getImages().get(0),
+        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getProductUser().getHeadImg(),
                 detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
                 "0");
         ArrayList<String> nineImgList = new ArrayList<>();

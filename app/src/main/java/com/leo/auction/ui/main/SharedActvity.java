@@ -200,7 +200,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 //        if (sharedModel.getShareGoodsCode().length() > 0) {
 //            UserActionUtils.actionLog(Constants.Action.ACTION_ACTION, "6", sharedModel.getShareGoodsCode(), "1");
 //        }
-        UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShopName(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN_CIRCLE, umShareListener);
+        UmShare.shareLink(this, sharedModel.getShareUrl(), sharedModel.getShareTitle(), sharedModel.getPicPath(), sharedModel.getContent(), SHARE_MEDIA.WEIXIN_CIRCLE, umShareListener);
     }
 
     //分享朋友圈(带二维码)
