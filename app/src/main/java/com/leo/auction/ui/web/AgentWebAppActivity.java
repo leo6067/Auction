@@ -2,6 +2,7 @@ package com.leo.auction.ui.web;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -166,7 +167,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
         httpVerison();
         initView();
         RedImmersionBar();  //初始化，首页
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         rePremissions();
     }
 
@@ -270,13 +271,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-
-
-            Globals.log(" mWebChromeClient BaseWebActivity onPageStarted" + view.getTitle() + view.getUrl());
-            if (newProgress == 100) {
-
-            }
-
         }
 
         @Override
@@ -333,6 +327,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
                     barType = 1;
                     break;
                 default:
+                    mToolbar.setBackgroundColor(getResources().getColor(R.color.white));
                     WhiteImmersionBar();
                     barType = 2;
             }
@@ -351,8 +346,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
                     break;
                 default:
                     mToolbar.setVisibility(View.VISIBLE);
-
-
             }
 
             if (view.getUrl().contains("pages/sub/seach")) {
@@ -368,6 +361,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     public String getUrl() {
         return Constants.WEB_APP_URL;
+//        return "http://192.168.0.205:8080/";
     }
 
 
@@ -381,14 +375,12 @@ public class AgentWebAppActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         mAgentWeb.getWebLifeCycle().onResume();
-
         Globals.log("xxxxx onResume");
         super.onResume();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Globals.log("Info" + "onResult:" + requestCode + " onResult:" + resultCode);
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -409,14 +401,10 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 case R.id.iv_back:
                     // true表示AgentWeb处理了该事件
                     mAgentWeb.back();
-//                    if (!mAgentWeb.back()) {
-//                        AgentWebFragment.this.getActivity().finish();
-//                    }
                     break;
                 case R.id.iv_finish:
 //                    AgentWebFragment.this.getActivity().finish();
                     break;
-
                 default:
                     break;
 
@@ -427,7 +415,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (mAgentWeb.handleKeyEvent(keyCode, event)) {
             return true;
         }
@@ -652,16 +639,18 @@ public class AgentWebAppActivity extends AppCompatActivity {
         Random ra = new Random();
         int anInt = ra.nextInt(shareShopTitlelList.size());
 
-        String shopName = dataBean.getNickname();
+        String shopName =  "【锤定】" + dataBean.getNickname();
         String goodName = "";
 
-        String shareTitle = "【锤定】" + dataBean.getNickname() + shareShopTitlelList.get(anInt);
+        String shareContent = shareShopTitlelList.get(anInt);
         String path = Constants.WebApi.SHARE_SHOP_URL + dataBean.getShopUri()
                 + "&tpm_shareAgentId=" + mUserJson.getUserId();
-        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, shareTitle, dataBean.getHeadImg(),
+
+
+        SharedModel sharedModel = new SharedModel(shopName, goodName, shopName, shareContent, dataBean.getHeadImg(),
                 "0.00", dataBean.getHeadImg(), type, path, dataBean.getShopUri(), mUserJson.getUserId(),
                 "2");
-        SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel, imgStr, shareTitle, "");
+        SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel, imgStr, shareContent, "");
 
 
     }
