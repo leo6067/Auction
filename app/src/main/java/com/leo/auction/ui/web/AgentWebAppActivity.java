@@ -681,6 +681,21 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
 
         String sharedText = detailModelData.getContent();
+
+
+        String shareContent = "【品名】  " + detailModelData.getTitle() + "\n";
+
+        shareContent += "【" + "大类" + "】  " + detailModelData.getParentCategoryName() + "\n";
+        shareContent += "【" + "小类" + "】  " + detailModelData.getCategoryName() + "\n";
+
+        List<WebGoodDetailModel.AttributesBean> attributes = detailModelData.getAttributes();
+        for (int i = 0; i < attributes.size(); i++) {
+            shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
+        }
+        shareContent += "【" + "描述" + "】  " + detailModelData.getContent() + "\n";
+
+
+
         SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getProductUser().getHeadImg(),
                 detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
                 "0");
@@ -700,7 +715,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
          * 接口获取二维码失败，导致分享失败
          * **/
         Globals.log("xxxxxxx auctionDetailShare nineImgList" + nineImgList.toString());
-        SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel, nineImgList, sharedText + path, "");
+        SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel, nineImgList, shareContent + path, "");
     }
 
 
@@ -773,7 +788,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
                                 options.setNeedShowLoading(false);
                             }
                         });
-
                         WXShareMultiImageHelper.shareToTimeline(AgentWebAppActivity.this, (Bitmap[]) picDatas.toArray(new Bitmap[picDatas.size()]), options);
                     }
                 }
@@ -808,10 +822,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     private void houseOrderSend(String resultData) {
 
-
         HouseOrderCodeModel.ProductParent productParent = new HouseOrderCodeModel.ProductParent();
-
-
         ArrayList<HouseOrderCodeModel.Product> productParents = new ArrayList<>();
 
         HouseOrderModel houseOrderCodeModel = JSONObject.parseObject(resultData, HouseOrderModel.class);
@@ -847,6 +858,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
         productModel.setList(listBeans);
         productParents.add(productModel);
         productParent.setList(productParents);
+
 
 
         HouseOrderCodeModel.Addressshouhuo addressVoBean = new HouseOrderCodeModel.Addressshouhuo();
