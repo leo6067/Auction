@@ -58,6 +58,8 @@
 
     </RelativeLayout>
 
+    <include layout="@layout/include_line_a" />
+
     <com.aten.compiler.widget.ReboundNetScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -66,27 +68,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginEnd="@dimen/dp_20"
-         >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-
                 android:text="大类"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30"
                 android:textStyle="bold" />
 
+
+            <include layout="@layout/include_line_a" />
+
             <com.aten.compiler.widget.CustomeRecyclerView
                 android:id="@+id/crl_one_sort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_9"
                 android:background="@android:color/white"
                 android:paddingLeft="@dimen/dp_20"
                 android:paddingTop="@dimen/dp_30"
@@ -96,9 +99,9 @@
                 android:id="@+id/fl_open_close_01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_19"
                 android:background="@android:color/white"
-                android:paddingTop="@dimen/dp_17"
-                android:paddingBottom="@dimen/dp_11">
+                android:paddingTop="@dimen/dp_17">
 
                 <ImageView
                     android:id="@+id/iv_open_close_01"
@@ -109,18 +112,22 @@
 
             </FrameLayout>
 
-            <TextView
 
+            <include layout="@layout/include_line_c" />
+
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
                 android:layout_marginTop="@dimen/dp_5"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-
                 android:text="小类"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30"
                 android:textStyle="bold" />
+
+            <include layout="@layout/include_line_a" />
 
             <com.aten.compiler.widget.CustomeRecyclerView
                 android:id="@+id/crl_two_sort"
@@ -136,9 +143,9 @@
                 android:id="@+id/fl_open_close_02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_19"
                 android:background="@android:color/white"
-                android:paddingTop="@dimen/dp_17"
-                android:paddingBottom="@dimen/dp_11">
+                android:paddingTop="@dimen/dp_17">
 
                 <ImageView
                     android:id="@+id/iv_open_close_02"
@@ -149,14 +156,14 @@
 
             </FrameLayout>
 
-            <FrameLayout
+            <include layout="@layout/include_line_c" />
 
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -184,11 +191,15 @@
 
             </FrameLayout>
 
+            <include layout="@layout/include_line_a" />
+
             <LinearLayout
                 android:id="@+id/ll_attribute_contain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
+
+            <include layout="@layout/include_line_a" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -196,10 +207,10 @@
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-
                 android:text="【介绍】"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30" />
+
 
             <EditText
                 android:id="@+id/et_content"
@@ -214,17 +225,18 @@
                 android:textColorHint="@color/color_b4b4b4"
                 android:textSize="@dimen/sp_24" />
 
+            <include layout="@layout/include_line_c" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-
                 android:text="商品图片"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30"
                 android:textStyle="bold" />
+
 
             <com.aten.compiler.widget.CustomeRecyclerView
                 android:id="@+id/rv_imglist"
@@ -235,13 +247,13 @@
 
             </com.aten.compiler.widget.CustomeRecyclerView>
 
+            <include layout="@layout/include_line_c" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:gravity="center_vertical"
-
                 android:text="商品视频"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/sp_30"
@@ -256,11 +268,11 @@
 
             </com.aten.compiler.widget.CustomeRecyclerView>
 
+            <include layout="@layout/include_line_c" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_10"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -268,7 +280,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:text="截拍时间"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_30"
@@ -280,22 +291,21 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_88"
-                    android:hint="设置截拍时间"
                     android:layout_weight="1"
                     android:drawableEnd="@drawable/ic_enter_03"
+                    android:hint="设置截拍时间"
                     android:paddingEnd="@dimen/dp_30" />
 
 
             </LinearLayout>
 
+            <include layout="@layout/include_line_c" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -315,23 +325,24 @@
                     android:layout_marginLeft="@dimen/dp_215"
                     android:background="@null"
                     android:ellipsize="end"
-                    android:text="0"
                     android:hint="请设置拍品起拍价"
                     android:inputType="numberDecimal"
                     android:singleLine="true"
+                    android:text="0"
                     android:textColor="@color/color_1a1a1a"
                     android:textColorHint="@color/color_b4b4b4"
                     android:textSize="@dimen/sp_24" />
 
             </FrameLayout>
 
+            <include layout="@layout/include_line_c" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_10"
+
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -360,11 +371,12 @@
 
             </FrameLayout>
 
+            <include layout="@layout/include_line_c" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_10"
+
                 android:background="@android:color/white"
                 android:orientation="horizontal"
 
@@ -396,15 +408,14 @@
 
             </FrameLayout>
 
+            <include layout="@layout/include_line_c" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_height="@dimen/dp_89"
                 android:background="@color/white"
-                android:orientation="horizontal"
-
-                >
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -419,35 +430,33 @@
                     android:textStyle="bold" />
 
 
-
-
                 <RadioButton
                     android:id="@+id/baoyou"
                     android:layout_width="@dimen/dp_150"
                     android:layout_height="wrap_content"
-                    android:text="  包邮"
                     android:button="@drawable/shoppingcar_checkbox_style"
-                    android:textColor="@android:color/black"
                     android:checked="true"
                     android:enabled="false"
+                    android:text="  包邮"
+                    android:textColor="@android:color/black"
                     android:textSize="@dimen/sp_30"
                     android:textStyle="bold" />
 
                 <RadioGroup
-                    android:visibility="gone"
                     android:id="@+id/radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <RadioButton
 
                         android:layout_width="@dimen/dp_150"
                         android:layout_height="wrap_content"
-                        android:text="  包邮"
                         android:button="@drawable/shoppingcar_checkbox_style"
-                        android:textColor="@android:color/black"
                         android:checked="true"
+                        android:text="  包邮"
+                        android:textColor="@android:color/black"
                         android:textSize="@dimen/sp_30"
                         android:textStyle="bold" />
 
@@ -455,8 +464,8 @@
                         android:id="@+id/daofu"
                         android:layout_width="@dimen/dp_150"
                         android:layout_height="wrap_content"
-                        android:text=" 到付"
                         android:button="@drawable/shoppingcar_checkbox_style"
+                        android:text=" 到付"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/sp_30"
                         android:textStyle="bold" />
@@ -467,14 +476,14 @@
 
             </LinearLayout>
 
+            <include layout="@layout/include_line_c" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginTop="@dimen/dp_10"
+
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-
                 android:paddingRight="@dimen/dp_30">
 
                 <TextView
@@ -499,6 +508,7 @@
 
             </FrameLayout>
 
+            <include layout="@layout/include_line_c" />
 
             <LinearLayout
                 android:id="@+id/arl_agree"
@@ -513,8 +523,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:checked="true"
-                    android:button="@drawable/shoppingcar_checkbox_style" />
+                    android:button="@drawable/shoppingcar_checkbox_style"
+                    android:checked="true" />
 
                 <TextView
                     android:id="@+id/tv_agree"

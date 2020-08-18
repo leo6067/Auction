@@ -428,7 +428,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 ToastUtils.showShort("锤定：再次点击退出");
                 exitTime = System.currentTimeMillis();
             } else {
-                ActivityManager.exitAPP();
+                System.exit(0);
             }
             return true;
         }
@@ -639,7 +639,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
         Random ra = new Random();
         int anInt = ra.nextInt(shareShopTitlelList.size());
 
-        String shopName =  "【锤定】" + dataBean.getNickname();
+        String shopName = "【锤定】" + dataBean.getNickname();
         String goodName = "";
 
         String shareContent = shareShopTitlelList.get(anInt);
@@ -685,15 +685,18 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
         String shareContent = "【品名】  " + detailModelData.getTitle() + "\n";
 
-        shareContent += "【" + "大类" + "】  " + detailModelData.getParentCategoryName() + "\n";
-        shareContent += "【" + "小类" + "】  " + detailModelData.getCategoryName() + "\n";
+//        shareContent += "【" + "大类" + "】  " + detailModelData.getParentCategoryName() + "\n";
+//        shareContent += "【" + "小类" + "】  " + detailModelData.getCategoryName() + "\n";
 
         List<WebGoodDetailModel.AttributesBean> attributes = detailModelData.getAttributes();
         for (int i = 0; i < attributes.size(); i++) {
-            shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
+            if (attributes.get(i).getTitle().equals("类型") && attributes.get(i).getValue().equals("其他")) {
+                shareContent += "";
+            } else {
+                shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
+            }
         }
         shareContent += "【" + "描述" + "】  " + detailModelData.getContent() + "\n";
-
 
 
         SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getProductUser().getHeadImg(),
@@ -742,12 +745,17 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
         String shareContent = "【品名】  " + detailModelData.getTitle() + "\n";
 
-        shareContent += "【" + "大类" + "】  " + detailModelData.getParentCategoryName() + "\n";
-        shareContent += "【" + "小类" + "】  " + detailModelData.getCategoryName() + "\n";
+//        shareContent += "【" + "大类" + "】  " + detailModelData.getParentCategoryName() + "\n";
+//        shareContent += "【" + "小类" + "】  " + detailModelData.getCategoryName() + "\n";
 
         List<HouseShareModel.AttributesBean> attributes = detailModelData.getAttributes();
         for (int i = 0; i < attributes.size(); i++) {
-            shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
+//            shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
+            if (attributes.get(i).getTitle().equals("类型") && attributes.get(i).getValue().equals("其他")) {
+                shareContent += "";
+            } else {
+                shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
+            }
         }
         shareContent += "【" + "描述" + "】  " + detailModelData.getContent() + "\n";
         shareMuiltImgToFriendCircle(shareContent, detailModelData.getImages());
@@ -858,7 +866,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
         productModel.setList(listBeans);
         productParents.add(productModel);
         productParent.setList(productParents);
-
 
 
         HouseOrderCodeModel.Addressshouhuo addressVoBean = new HouseOrderCodeModel.Addressshouhuo();
