@@ -43,7 +43,9 @@ import com.leo.auction.utils.shared.SharedCallBack;
 import com.leo.auction.utils.shared.SharedMessageUtils;
 import com.leo.auction.utils.shared.UMengUtils;
 import com.leo.auction.utils.shared.UmShare;
+import com.leo.auction.utils.shared_dailog.ShareDialogInter;
 import com.leo.auction.utils.shared_dailog.SharedDailogUtils;
+import com.leo.auction.utils.shared_dailog.SharedDailogUtilsB;
 import com.leo.auction.utils.shared_dailog.SharedModel;
 import com.sch.share.Options;
 import com.sch.share.WXShareMultiImageHelper;
@@ -59,11 +61,12 @@ import java.util.TreeMap;
 
 import okhttp3.Call;
 
-public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISharedDialog {
+public class SharedActvity extends BaseActivity implements ShareDialogInter {
 
 
     private SharedModel sharedModel;
     private SharedDailogUtils sharedDailogUtils;
+    private SharedDailogUtilsB sharedDailogUtilsB;
     private SharedMessageUtils sharedMessageUtils;
 
 
@@ -107,17 +110,17 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         //监听下载状态
         Aria.download(this).register();
         sharedDailogUtils = new SharedDailogUtils();
+        sharedDailogUtilsB = new SharedDailogUtilsB();
         sharedMessageUtils = new SharedMessageUtils();
         super.initData();
         getQrCode();
 
         sharedDailogUtils.showSharedDialog(this, sharedModel, this);
+
     }
 
     //获取分享二维码   -----------------------------
     private void getQrCode() {
-
-
         QcodeModel.httpGetQcode(sharedModel.getType(), sharedModel.getShareUrl(), false, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
@@ -126,9 +129,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
             @Override
             public void httpResponse(String resultData) {
-
                 ResultModel resultModel = JSON.parseObject(resultData, ResultModel.class);
-
                 sharedDailogUtils.setQrCode(resultModel.getData());
             }
         });
@@ -185,7 +186,7 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
 
     }
 
-    //分享朋友圈  4-分享 5-分享新用户 6-分享朋友圈  7-分享QQ
+    //分享朋友圈  4-分享 5-分享新用户 6-分享朋友圈  7-分享QQ  --链接
     @Override
     public void onSharedWXCircle() {
 
@@ -257,6 +258,132 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
         showShortToast("保存成功");
     }
 
+
+
+
+//    void onSharedWXCircleCode(LinearLayout llContain);//带二维码图片 一张二维码图
+//    void onSharedQQCode(LinearLayout llContain);//带二维码图片 一张二维码图
+//    void onSharedWXCode(LinearLayout llContain);//带二维码图片 一张二维码图
+
+
+    @Override
+    public void onSharedWXCircleCode(LinearLayout llContain) {
+
+        Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+        UmShare.shareImage(SharedActvity.this,bitmap, SHARE_MEDIA.WEIXIN_CIRCLE, umShareListener);
+    }
+
+    @Override
+    public void onSharedWXCode(LinearLayout llContain) {
+        Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+        UmShare.shareImage(SharedActvity.this,bitmap, SHARE_MEDIA.WEIXIN, umShareListener);
+    }
+
+    @Override
+    public void onSharedQQCode(LinearLayout llContain) {
+        Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+        UmShare.shareImage(SharedActvity.this,bitmap, SHARE_MEDIA.QQ, umShareListener);
+    }
+
+
+
+    @Override
+    public void onShowShareDialog() {
+
+
+        QcodeModel.httpGetQcode(sharedModel.getType(), sharedModel.getShareUrl(), false, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                ResultModel resultModel = JSON.parseObject(resultData, ResultModel.class);
+                sharedDailogUtilsB.setQrCode(resultModel.getData());
+            }
+        });
+        sharedDailogUtilsB.showSharedDialogB(SharedActvity.this, sharedModel, new ShareDialogInter() {
+            @Override
+            public void dissmiss() {
+                sharedDailogUtils.dissSharedDialog();
+            }
+
+            @Override
+            public void onCopyLink() {
+
+            }
+
+            @Override
+            public void onSharedWX() {
+
+            }
+
+            @Override
+            public void onSharedWXCircle() {
+
+            }
+
+            @Override
+            public void onSharedWXCircle_qrcode(LinearLayout llContain) {
+
+            }
+
+            @Override
+            public void onSharedWXCircleCode(LinearLayout llContain) {
+
+                Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+                UmShare.shareImage(SharedActvity.this,bitmap, SHARE_MEDIA.WEIXIN_CIRCLE, umShareListener);
+            }
+
+            @Override
+            public void onSharedQQCode(LinearLayout llContain) {
+
+                Globals.log("XXXXX onSharedQQCode" );
+                Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+                UmShare.shareImage(SharedActvity.this,bitmap, SHARE_MEDIA.QQ, umShareListener);
+            }
+
+            @Override
+            public void onSharedWXCode(LinearLayout llContain) {
+                Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+                UmShare.shareImage(SharedActvity.this,bitmap, SHARE_MEDIA.WEIXIN, umShareListener);
+            }
+
+            @Override
+            public void onDowload(LinearLayout llContain) {
+                showWaitDialog();
+                Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+                FileUtils.fileDirExis(BaseGlobal.getQrCodeDir());
+                String imagPath = BaseGlobal.getQrCodeDir() + System.currentTimeMillis() + ".jpg";
+                ImageUtils.save(bitmap, imagPath, Bitmap.CompressFormat.JPEG, true);
+                // 最后通知图库更新
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imagPath)));
+                hideWaitDialog();
+                showShortToast("保存成功");
+            }
+
+            @Override
+            public void onXYShared() {
+
+            }
+
+            @Override
+            public void onWWDZShared() {
+
+            }
+
+            @Override
+            public void onQQShared() {
+
+            }
+
+            @Override
+            public void onShowShareDialog() {
+
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -338,12 +465,14 @@ public class SharedActvity extends BaseActivity implements SharedDailogUtils.ISh
     //分享多张图片到朋友圈(带二维码)
     private void shareMuiltImgToFriendCircle_qrcode(LinearLayout llContain) {
 
-        Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
-        Globals.log("xxxxx shareMuiltImgToFriendCircle_qrcode" + nineImgs.size());
 
-
+        //去掉二维码
+//        Bitmap bitmap = ImageUtils.view2Bitmap(llContain);
+//        Globals.log("xxxxx shareMuiltImgToFriendCircle_qrcode" + nineImgs.size());
+//
+//
         final TreeMap<String, Bitmap> picBitmaps = new TreeMap<>();
-        picBitmaps.put("0", bitmap);
+//        picBitmaps.put("0", bitmap);
         if (nineImgs != null && nineImgs.size() >= 9) {
             nineImgs_qrcode = nineImgs.subList(0, 8);
         } else if (nineImgs != null) {

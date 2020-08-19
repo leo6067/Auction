@@ -658,7 +658,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     //商品详情分享
     private void shareGood(String resultData) {
-        Globals.log("xxxxxxx auctionDetailShare" + resultData);
         String shopName = "";
         String goodName = "";
         String shareTitle = "";
@@ -692,14 +691,16 @@ public class AgentWebAppActivity extends AppCompatActivity {
         for (int i = 0; i < attributes.size(); i++) {
             if (attributes.get(i).getTitle().equals("类型") && attributes.get(i).getValue().equals("其他")) {
                 shareContent += "";
-            } else {
+            } else if(attributes.get(i).getValue().equals("")){
+                shareContent += "";
+            }else {
                 shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
             }
         }
         shareContent += "【" + "描述" + "】  " + detailModelData.getContent() + "\n";
 
 
-        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getProductUser().getHeadImg(),
+        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getImages().get(0),
                 detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
                 "0");
         ArrayList<String> nineImgList = new ArrayList<>();
@@ -727,7 +728,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
      */
     private void shareBY(String resultData) {
         JSShareJson jsShareJson = JSONObject.parseObject(resultData, JSShareJson.class);
-        SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(), "2", "");
+        SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getTitle(),jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(), "2", "");
         SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel);
     }
 
@@ -753,7 +754,9 @@ public class AgentWebAppActivity extends AppCompatActivity {
 //            shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
             if (attributes.get(i).getTitle().equals("类型") && attributes.get(i).getValue().equals("其他")) {
                 shareContent += "";
-            } else {
+            } else if(attributes.get(i).getValue().equals("")){
+                shareContent += "";
+            }else {
                 shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
             }
         }

@@ -49,9 +49,9 @@ public class AndroidInterface {
             @Override
             public void run() {
                 Globals.log("invitationAction" + data);
-                JSShareJson jsShareJson = JSONObject.parseObject(data, JSShareJson.class);
-                SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(),"2","");
-                SharedActvity.newIntance(context, sharedModel);
+//                JSShareJson jsShareJson = JSONObject.parseObject(data, JSShareJson.class);
+//                SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(),"2","");
+//                SharedActvity.newIntance(context, sharedModel);
             }
         });
     }

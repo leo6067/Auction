@@ -48,6 +48,7 @@ import com.leo.auction.base.ActivityManager;
 import com.leo.auction.base.BaseModel;
 import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
+import com.leo.auction.common.widget.LinearLayoutDivider;
 import com.leo.auction.net.CustomerJsonCallBack;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.login.AgreementActivity;
@@ -653,6 +654,8 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
             final TextView tvMore = view.findViewById(R.id.tv_more);
             final CustomeRecyclerView crlAttriListMore = view.findViewById(R.id.crl_attri_list_more);
 
+
+
             tvAttriName.setText("【" + attribute.getTitle() + "】");
             //判断展示输入框 还是属性值列表
             if (attribute.getTags() != null && !attribute.getTags().isEmpty()) {
@@ -684,6 +687,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
                 //设置属性值列表
                 crlAttriList.setHasFixedSize(true);
+
                 crlAttriList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
                 releaseAttributeAdapter.setChooseListener(new ReleaseAttributeAdapter.IAttribute() {
                     @Override
@@ -700,6 +704,7 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
 
                 //设置属性值列表（更多）
                 crlAttriListMore.setHasFixedSize(true);
+
                 crlAttriListMore.setLayoutManager(new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false));
                 releaseSortAttributeMoreAdapter.setChooseListener(new ReleaseSortAttributeMoreAdapter.ISortAttributeMore() {
                     @Override

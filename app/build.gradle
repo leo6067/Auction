@@ -104,7 +104,7 @@ android {
     buildTypes {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false" // 不显示Log
-            versionNameSuffix "release"
+//            versionNameSuffix "release"
             minifyEnabled true // 是否进行混淆
             shrinkResources true // 移除无用的resource文件
             zipAlignEnabled true //Zipalign优化
@@ -115,7 +115,7 @@ android {
 
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true" // 显示Log
-            versionNameSuffix "debug"
+//            versionNameSuffix "debug"
             minifyEnabled false    // 是否进行混淆
             zipAlignEnabled true
             shrinkResources false
@@ -149,9 +149,9 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             if (variant.buildType.name == 'release') {
-                outputFileName = "锤定${variant.versionCode}_${buildTime()}_release.apk"
+                outputFileName = "锤定${variant.versionCode}_${buildTime()}.apk"
             } else {
-                outputFileName = "锤定${variant.versionCode}_${buildTime()}_debug.apk"
+                outputFileName = "锤定${variant.versionCode}_${buildTime()}.apk"
             }
         }
     }

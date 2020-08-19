@@ -51,7 +51,7 @@
                 tools:text="【一毛钱免费送】黑檀木手串12mm17颗 大大1哒哒哒" />
 
             <LinearLayout
-                android:visibility="invisible"
+
                 android:id="@+id/ll_money"
                 android:layout_below="@+id/tv_product_title"
                 android:layout_width="wrap_content"

@@ -174,13 +174,14 @@ public class SharedModel implements Parcelable {
 
 
     // type 2 分类
-    public SharedModel(String shopName, String content, String picPath,String shareUrl,String  channelType,String shareGoodsCode) {
+    public SharedModel(String shopName, String shareTitle,String content, String picPath,String shareUrl,String  channelType,String shareGoodsCode) {
         this.shopName = shopName;
         this.content = content;
         this.picPath = picPath;
         this.shareUrl = shareUrl;
         this.channelType = channelType;
         this.shareGoodsCode = shareGoodsCode;
+        this.shareTitle = shareTitle;
     }
 
 

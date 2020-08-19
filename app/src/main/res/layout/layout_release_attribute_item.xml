@@ -66,6 +66,9 @@
 
     </RelativeLayout>
 
+
+    <include layout="@layout/include_line_a"/>
+
     <com.aten.compiler.widget.CustomeRecyclerView
         android:id="@+id/crl_attri_list_more"
         android:layout_width="match_parent"
