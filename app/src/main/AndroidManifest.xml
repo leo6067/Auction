@@ -57,7 +57,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.ShareBActivity"></activity>
+
         <activity android:name=".ui.web.AgentWebAppActivity" />
         <activity android:name=".ui.main.mine.activity.QRCodePersonActivity" />
         <activity android:name=".ui.main.mine.activity.QRCodeActivity" />
@@ -82,7 +82,7 @@
         <activity android:name=".ui.main.mine.activity.PromotionCenterActivivty" />
         <activity android:name=".ui.order.activity.OrderCompleteEvaluationActivity" />
         <activity android:name=".ui.order.activity.OrderEvaluationActivity" />
-        <activity android:name=".ui.order.activity.OrderRefuseGoodActivity" />
+
         <activity android:name=".ui.order.activity.OrderRefuseActivity" />
         <activity android:name=".ui.order.activity.OrederLogisticsActivity" />
         <activity android:name=".ui.order.activity.OrderConfirmActivity" />
@@ -90,7 +90,15 @@
         <activity android:name=".ui.order.activity.OrderActivity" />
         <activity android:name=".ui.main.mine.banlance.BalanceDetailActivity" />
         <activity android:name=".ui.main.mine.banlance.WithdrawalActivity" />
-        <activity android:name=".ui.main.mine.activity.AuctionUpperActivity" />
+
+
+        <activity android:name=".ui.main.mine.activity.AuctionUpperActivity">
+            <intent-filter>
+                <action android:name="AuctionUpper" />
+            </intent-filter>
+        </activity>
+
+
         <activity android:name=".ui.main.mine.activity.PutawayActivity" />
         <activity android:name=".ui.main.mine.activity.SuperHouseActivity" />
         <activity android:name=".ui.main.mine.activity.SetPayPwdActivity" />
@@ -131,6 +139,7 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.login.StartActivity"
+            android:exported="true"
             android:theme="@style/Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

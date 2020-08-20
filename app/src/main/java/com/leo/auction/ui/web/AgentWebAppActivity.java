@@ -700,9 +700,11 @@ public class AgentWebAppActivity extends AppCompatActivity {
         shareContent += "【" + "描述" + "】  " + detailModelData.getContent() + "\n";
 
 
-        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getImages().get(0),
+        String productInstanceId =detailModelData.getProductInstanceId()+"";
+
+                SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getImages().get(0),
                 detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
-                "0");
+                "0",productInstanceId);
         ArrayList<String> nineImgList = new ArrayList<>();
 
         //1判断是否有视频

@@ -142,6 +142,10 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         auctionType = getIntent().getExtras().getString("AuctionType");
 
 
+
+        Globals.log("xxxxxx  onAutionApp 01 " +mGoodId  );
+        Globals.log("xxxxxx  onAutionApp 01 soureType" +soureType  );
+
         if ("2".equals(soureType)) {
             mLinPs.setVisibility(View.GONE);
             mLinTui.setVisibility(View.GONE);

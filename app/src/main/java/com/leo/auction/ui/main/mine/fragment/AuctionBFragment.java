@@ -36,8 +36,7 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
-import com.leo.auction.ui.main.mine.activity.AuctionUpperActivity;
-import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
+
 import com.leo.auction.ui.main.mine.adapter.AuctionManagementAdapter;
 import com.leo.auction.ui.main.mine.model.CateProductModel;
 import com.leo.auction.ui.main.mine.model.ProductListModel;

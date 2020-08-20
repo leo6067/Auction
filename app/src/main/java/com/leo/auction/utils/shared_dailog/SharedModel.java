@@ -22,6 +22,8 @@ public class SharedModel implements Parcelable {
     private String shopName;
     private String goodName;
     private String shareTitle;
+    private String productInstanceId;
+
 
     private String shopHeadImg;
 
@@ -58,6 +60,15 @@ public class SharedModel implements Parcelable {
     }
     public String getPicPath() {
         return picPath;
+    }
+
+
+    public String getProductInstanceId() {
+        return productInstanceId;
+    }
+
+    public void setProductInstanceId(String productInstanceId) {
+        this.productInstanceId = productInstanceId;
     }
 
     public void setPicPath(String picPath) {
@@ -149,11 +160,12 @@ public class SharedModel implements Parcelable {
         this.shareGoodsCode = shareGoodsCode;
         this.shareUserId = shareUserId;
         this.channelType = channelType;
+
     }
 
 
 
-    //商品详情分享 0
+    //店铺分享 0
     public SharedModel(String shopName,String goodName,String shareTitle, String content, String picPath, String price, String shopHeadImg,
                        String type, String shareUrl, String shareGoodsCode,
                        String shareUserId, String channelType ) {
@@ -169,6 +181,26 @@ public class SharedModel implements Parcelable {
         this.channelType = channelType;
         this.goodName = goodName;
         this.shareTitle = shareTitle;
+    }
+
+
+    //商品详情分享 0
+    public SharedModel(String shopName,String goodName,String shareTitle, String content, String picPath, String price, String shopHeadImg,
+                       String type, String shareUrl, String shareGoodsCode,
+                       String shareUserId, String channelType,String productInstanceId ) {
+        this.picPath = picPath;
+        this.content = content;
+        this.price = price;
+        this.shopName = shopName;
+        this.shopHeadImg = shopHeadImg;
+        this.type = type;
+        this.shareUrl = shareUrl;
+        this.shareGoodsCode = shareGoodsCode;
+        this.shareUserId = shareUserId;
+        this.channelType = channelType;
+        this.goodName = goodName;
+        this.shareTitle = shareTitle;
+        this.productInstanceId = productInstanceId;
     }
 
 
@@ -202,6 +234,7 @@ public class SharedModel implements Parcelable {
         channelType = in.readString();
         goodName = in.readString();
         shareTitle = in.readString();
+        productInstanceId = in.readString();
     }
 
     public static final Creator<SharedModel> CREATOR = new Creator<SharedModel>() {
@@ -235,5 +268,25 @@ public class SharedModel implements Parcelable {
         dest.writeString(channelType);
         dest.writeString(goodName);
         dest.writeString(shareTitle);
+        dest.writeString(productInstanceId);
+    }
+
+    @Override
+    public String toString() {
+        return "SharedModel{" +
+                "picPath='" + picPath + '\'' +
+                ", content='" + content + '\'' +
+                ", price='" + price + '\'' +
+                ", shopName='" + shopName + '\'' +
+                ", goodName='" + goodName + '\'' +
+                ", shareTitle='" + shareTitle + '\'' +
+                ", shopHeadImg='" + shopHeadImg + '\'' +
+                ", type='" + type + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", shareGoodsCode='" + shareGoodsCode + '\'' +
+                ", shareUserId='" + shareUserId + '\'' +
+                ", channelType='" + channelType + '\'' +
+                ", productInstanceId='" + productInstanceId + '\'' +
+                '}';
     }
 }

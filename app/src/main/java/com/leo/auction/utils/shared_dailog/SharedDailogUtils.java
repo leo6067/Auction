@@ -34,30 +34,16 @@ import okhttp3.Call;
  */
 public class SharedDailogUtils {
     private BottomDialog_Anim customerBottomDialog;
-    private ImageView ivQrCode;
-    private LinearLayout llContain;
+
 
     //显示分享弹框 type:0则是普通页面分享 不带朋友圈分享  1：是商品详情 带朋友圈分享  2抽奖详情
     public void showSharedDialog(Context context, SharedModel sharedModel, ShareDialogInter iSharedDialog) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_shared_dailog, null);
-        llContain = view.findViewById(R.id.ll_contain);
-        ImageView ivStaredPic = view.findViewById(R.id.iv_stared_pic);
-        TextView tvProductTitle = view.findViewById(R.id.tv_product_title);
-        ivQrCode = view.findViewById(R.id.iv_qr_code);
-        CircleImageView civHead = view.findViewById(R.id.civ_head);
-        AutofitTextView tvShopName = view.findViewById(R.id.tv_shop_name);
+
         CustomeRecyclerView crlBtn = view.findViewById(R.id.crl_btn);
         TextView tvCancle = view.findViewById(R.id.tv_cancle);
-        TextView tvMoney = view.findViewById(R.id.tv_money);
-        TextView tvTag = view.findViewById(R.id.tv_tag);
-        LinearLayout moneyLin = view.findViewById(R.id.ll_money);
 
-        GlideUtils.loadImg(sharedModel.getPicPath(), ivStaredPic);
-        tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
-        GlideUtils.loadImg(sharedModel.getShopHeadImg(), civHead);
-        tvShopName.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
-        tvMoney.setVisibility(View.GONE);
-//        tvMoney.setText(DecimalFormatUtils.getInstance().keepPlaces("#0.00",Double.valueOf(sharedModel.getPrice())));
+
         //设置recycleview的一些配置
         crlBtn.setHasFixedSize(true);
 
@@ -71,7 +57,7 @@ public class SharedDailogUtils {
 //        CrlBtnModel crlBtnModel06 = new CrlBtnModel(6, R.drawable.ic_xianyu_icon, "闲鱼");
 //        CrlBtnModel crlBtnModel07 = new CrlBtnModel(7, R.drawable.ic_wwdz_icon, "玩物得志");
         CrlBtnModel crlBtnModel08 = new CrlBtnModel(8, R.drawable.share_qq, "QQ");
-        CrlBtnModel crlBtnModel09 = new CrlBtnModel(9, R.drawable.ic_shared_save, "二维码图片");
+        CrlBtnModel crlBtnModel09 = new CrlBtnModel(9, R.drawable.ic_share_code_save, "二维码");
 
 
         if (sharedModel.getChannelType().equals("2")) {//百亿分享  //// 店铺分享
@@ -80,8 +66,7 @@ public class SharedDailogUtils {
             crlBtnModels.add(crlBtnModel02);
             crlBtnModels.add(crlBtnModel04);
             crlBtnModels.add(crlBtnModel08);
-            tvTag.setVisibility(View.GONE);
-            llContain.setVisibility(View.INVISIBLE);
+
         } else if (sharedModel.getChannelType().equals("0")) {  // 商品详情
             crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
             crlBtnModels.add(crlBtnModel01);
@@ -90,26 +75,16 @@ public class SharedDailogUtils {
             crlBtnModels.add(crlBtnModel04);
             crlBtnModels.add(crlBtnModel08);
             crlBtnModels.add(crlBtnModel09);
-            llContain.setVisibility(View.INVISIBLE);
-            tvTag.setVisibility(View.GONE);
-            tvMoney.setText(sharedModel.getPrice());
-            moneyLin.setVisibility(View.VISIBLE);
-            tvMoney.setVisibility(View.VISIBLE);
-            tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getGoodName()));
-            tvShopName.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
-        } else if (sharedModel.getChannelType().equals("1")) {
+
+        }  else if (sharedModel.getChannelType().equals("1")) {
             crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
             crlBtnModels.add(crlBtnModel01);
             crlBtnModels.add(crlBtnModel02);
             crlBtnModels.add(crlBtnModel03);
             crlBtnModels.add(crlBtnModel04);
-            crlBtnModels.add(crlBtnModel05);
+//            crlBtnModels.add(crlBtnModel05);
             crlBtnModels.add(crlBtnModel08);
-            tvTag.setVisibility(View.GONE);
-            moneyLin.setVisibility(View.GONE);
-            tvMoney.setVisibility(View.GONE);
-            tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getGoodName()));
-            tvShopName.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
+
         } else {
             crlBtn.setLayoutManager(new GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false));
             crlBtnModels.add(crlBtnModel01);
@@ -117,8 +92,7 @@ public class SharedDailogUtils {
             crlBtnModels.add(crlBtnModel03);
             crlBtnModels.add(crlBtnModel04);
             crlBtnModels.add(crlBtnModel08);
-            tvTag.setVisibility(View.GONE);
-            llContain.setVisibility(View.INVISIBLE);
+
         }
 
 
@@ -162,31 +136,32 @@ public class SharedDailogUtils {
                             break;
                         case 2:
                             iSharedDialog.onSharedWX();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
 //                            dissSharedDialog();
                             break;
                         case 3:
-                            iSharedDialog.onSharedWXCircle_qrcode(llContain);
-                            iSharedDialog.dissmiss();
+
+                            iSharedDialog.onSharedWXCircleNine();
+//                            iSharedDialog.dissmiss();
 //                            dissSharedDialog();
                             break;
                         case 4:
                             iSharedDialog.onSharedWXCircle();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
                             break;
                         case 5:
-                            iSharedDialog.onDowload(llContain);
+//                            iSharedDialog.onDowload(llContain);
                             iSharedDialog.dissmiss();
 //                            dissSharedDialog();
                             break;
                         case 6:
                             iSharedDialog.onXYShared();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
 //                            dissSharedDialog();
                             break;
                         case 7:
                             iSharedDialog.onWWDZShared();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
 //                            dissSharedDialog();
                             break;
                         case 8:
@@ -210,11 +185,6 @@ public class SharedDailogUtils {
 
 
 
-
-    //设置二维码图片
-    public void setQrCode(String qrCodePath) {
-        GlideUtils.loadImg(qrCodePath, ivQrCode);
-    }
 
     public void dissSharedDialog() {
         if (customerBottomDialog != null && customerBottomDialog.isShowing()) {

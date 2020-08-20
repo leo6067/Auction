@@ -30,7 +30,7 @@ public class SharedDailogUtilsB {
 
     //显示分享弹框 type:0则是普通页面分享 不带朋友圈分享  1：是商品详情 带朋友圈分享  2抽奖详情
     public void showSharedDialogB(Context context, SharedModel sharedModel,final ShareDialogInter iSharedDialog) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_shared_dailog, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_shared_dailog_b, null);
         llContain = view.findViewById(R.id.ll_contain);
         ImageView ivStaredPic = view.findViewById(R.id.iv_stared_pic);
         TextView tvProductTitle = view.findViewById(R.id.tv_product_title);
@@ -44,7 +44,7 @@ public class SharedDailogUtilsB {
         LinearLayout moneyLin= view.findViewById(R.id.ll_money);
         tvMoney.setText(sharedModel.getPrice());
         GlideUtils.loadImg(sharedModel.getPicPath(), ivStaredPic);
-        tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
+        tvProductTitle.setText(EmptyUtils.strEmpty(sharedModel.getGoodName()));
         GlideUtils.loadImg(sharedModel.getShopHeadImg(), civHead);
         tvShopName.setText(EmptyUtils.strEmpty(sharedModel.getShopName()));
 
@@ -57,7 +57,7 @@ public class SharedDailogUtilsB {
 
         CrlBtnModel crlBtnModel01 = new CrlBtnModel(5, R.drawable.ic_shared_save, "下载");
 
-        CrlBtnModel crlBtnModel02 = new CrlBtnModel(2, R.drawable.ic_shared_weixin, "朋友好友");
+        CrlBtnModel crlBtnModel02 = new CrlBtnModel(2, R.drawable.ic_shared_weixin, "微信好友");
         CrlBtnModel crlBtnModel03= new CrlBtnModel(3, R.drawable.ic_wx_circle, "朋友圈");
 
         CrlBtnModel crlBtnModel04 = new CrlBtnModel(8, R.drawable.share_qq, "QQ");
@@ -130,12 +130,12 @@ public class SharedDailogUtilsB {
                             break;
                         case 6:
                             iSharedDialog.onXYShared();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
 //                            dissSharedDialog();
                             break;
                         case 7:
                             iSharedDialog.onWWDZShared();
-                            iSharedDialog.dissmiss();
+//                            iSharedDialog.dissmiss();
 //                            dissSharedDialog();
                             break;
                         case 8:

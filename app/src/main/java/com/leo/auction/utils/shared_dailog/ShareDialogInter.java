@@ -24,6 +24,8 @@ public interface ShareDialogInter {
 
     void onSharedWXCircle_qrcode(LinearLayout llContain);//带二维码图片 九张图
 
+    void onSharedWXCircleNine();//不带二维码图片 九张图
+
 
     void onSharedWXCircleCode(LinearLayout llContain);//带二维码图片 一张二维码图
 

@@ -121,4 +121,21 @@ public class GenerateQrcodeModel {
     }
 
 
+    public static void httpGetQrcodeRequest(String type, String shopUri, String userId,String sourceId,
+                                            HttpRequest.HttpCallback callback) {
+
+
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("type", type);// 1-推荐粉丝  2-推荐商家  3-拍品详情    4-超级仓库商品详情 5 永久二维码
+
+        JSONObject page = new JSONObject();
+        page.put("shopUri", shopUri);
+        page.put("userId", userId);
+
+        hashMap.put("page", page.toString());
+        hashMap.put("sourceId", sourceId);
+
+        HttpRequest.httpGetString(Constants.Api.SPREAD_QRCODE_URL, hashMap, callback);
+    }
+
 }
