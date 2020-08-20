@@ -1277,7 +1277,6 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                            finish();
                         } else {
                             ToastUtils.showShort(baseModel.getResult().getMessage());
-
                         }
                     }
                 }

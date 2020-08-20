@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.aten.compiler.base.ActivityManager;
 import com.aten.compiler.base.BaseActivity;
 import com.aten.compiler.utils.DateUtil;
 import com.aten.compiler.utils.EmptyUtils;
@@ -26,15 +27,19 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.huantansheng.easyphotos.utils.video.ReleaseVideoModel;
 import com.leo.auction.R;
 import com.leo.auction.base.BaseModel;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
+import com.leo.auction.common.dialog.WarningDialog;
 import com.leo.auction.common.widget.LinearLayoutDivider;
 import com.leo.auction.net.HttpRequest;
 import com.leo.auction.ui.main.home.model.GoodsDetailModel;
+import com.leo.auction.ui.main.home.model.SceneModel;
 import com.leo.auction.ui.main.mine.adapter.ReleaseAttributeAdapter;
 import com.leo.auction.ui.main.mine.adapter.ReleasePostOssImglistAdapter;
 import com.leo.auction.ui.main.mine.adapter.ReleasePostOssVideolistAdapter;
 import com.leo.auction.ui.main.mine.adapter.ReleaseSortAttributeMoreAdapter;
 import com.leo.auction.ui.main.mine.adapter.UpperAdapter;
+import com.leo.auction.ui.main.mine.dialog.RuleProtocolDialog;
 import com.leo.auction.ui.main.mine.dialog.TimeDialog;
 import com.leo.auction.ui.main.mine.model.AuctionTimeModel;
 import com.leo.auction.ui.main.mine.model.GoodDetailModel;
@@ -43,6 +48,10 @@ import com.leo.auction.ui.main.mine.model.NewestModel;
 import com.leo.auction.ui.main.mine.model.ReleaseEditModel;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.ui.main.mine.model.TimeDialogModel;
+import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.web.AgentWebActivity;
+import com.leo.auction.ui.web.AgentWebAppActivity;
+import com.leo.auction.utils.DialogUtils;
 import com.leo.auction.utils.Globals;
 import com.ruffian.library.widget.RTextView;
 
@@ -114,6 +123,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
 
     String categoryId, comment, content, title;
     int distributeType = 1;
+    private DialogUtils dialogUtils;
 
     @Override
     public void setContentViewLayout() {
@@ -142,9 +152,69 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         auctionType = getIntent().getExtras().getString("AuctionType");
 
 
+        UserModel.DataBean mUserJson = BaseSharePerence.getInstance().getUserJson();
 
-        Globals.log("xxxxxx  onAutionApp 01 " +mGoodId  );
-        Globals.log("xxxxxx  onAutionApp 01 soureType" +soureType  );
+
+        if (mUserJson == null){
+            ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebAppActivity.class);
+            return;
+        }
+
+        HashMap<String, Object> mWarnHash = new HashMap<>();
+
+        if (EmptyUtils.isEmpty(mUserJson.getUsername())) {
+            mWarnHash = new HashMap<>();
+            mWarnHash.put("title", "提示");
+            mWarnHash.put("content", "您当前没有发布权限,请先完成实名认证。");
+            mWarnHash.put("ok", "去认证");
+            mWarnHash.put("okColor", "#7c1313");
+            WarningDialog warningDialog = new WarningDialog(AuctionUpperActivity.this, mWarnHash);
+            warningDialog.show();
+            warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+                @Override
+                public void onWarningOk() {
+                    ActivityManager.JumpActivity(AuctionUpperActivity.this, IdentityActivity.class);
+
+                }
+
+                @Override
+                public void onWaringCancel() {
+                    finish();
+
+                }
+            });
+            return;
+        }
+
+
+        if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+            mWarnHash = new HashMap<>();
+            mWarnHash.put("title", "提示");
+            mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
+            mWarnHash.put("ok", "去查看");
+            mWarnHash.put("okColor", "#7c1313");
+            WarningDialog warningDialog = new WarningDialog(AuctionUpperActivity.this, mWarnHash);
+            warningDialog.show();
+            warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+                @Override
+                public void onWarningOk() {
+                    showAgreeDialog("6");
+                }
+
+                @Override
+                public void onWaringCancel() {
+                    finish();
+                }
+            });
+            return;
+        }
+
+
+
+
+
+
+
 
         if ("2".equals(soureType)) {
             mLinPs.setVisibility(View.GONE);
@@ -166,7 +236,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             httpGetData(mGoodId);
             httpNewestDraft();
         }
-
+        dialogUtils = new DialogUtils();
 
     }
 
@@ -497,6 +567,12 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             return;
         }
 
+        if (timeType.length() == 0) {
+            ToastUtils.showShort("请选择截拍时间");
+            return;
+        }
+
+
 
         BaseModel.httpUpper(mAttributesBeans, categoryId,
                 comment, content, cutPicStr,
@@ -514,16 +590,61 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     public void httpResponse(String resultData) {
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
-                            showShortToast("发布成功");
+                            showShortToast("拍品发布成功");
                             goFinish();
                         } else {
-                            showShortToast("发布失败");
+                            showShortToast(baseModel.getResult().getMessage());
                         }
 
                     }
                 });
     }
 
+    //出价 隐私 协议 政策
+    private void showAgreeDialog(String type) {
+
+        showWaitDialog();
+        SceneModel.httpGetScene(type, new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+                hideWaitDialog();
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+                hideWaitDialog();
+                SceneModel sceneModel = JSONObject.parseObject(resultData, SceneModel.class);
+                if (sceneModel.getData() == null) {
+                    return;
+                }
+                int redirectType = sceneModel.getData().getRedirectType(); //1-富文本  2-H5页面
+
+                if (redirectType == 1) {
+                    dialogUtils.showRuleProtocolDialog(AuctionUpperActivity.this,
+                            sceneModel.getData().getContent(), new RuleProtocolDialog.IButtonListener() {
+                                @Override
+                                public void onClose() {
+                                    dialogUtils.dissRuleProtocolDialog();
+                                }
+                            });
+                } else {
+
+                    String url = sceneModel.getData().getH5Url();
+                    if (sceneModel.getData().getH5Url().contains("?")) {
+                        url += "&isMargin=4";
+                    } else {
+                        url += "?isMargin=4";
+                    }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", "协议");
+                    bundle.putString("url",url);
+                    ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebActivity.class, bundle);
+                    finish();
+                }
+            }
+        });
+    }
 
     private void showTimeWindow() {
 

@@ -1189,7 +1189,11 @@ public class CommodityReleaseActivity extends BaseActivity implements IReleaseSo
                         hideWaitDialog();
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
-                            ToastUtils.showShort("发布拍品成功");
+                            if ( isPublish .equals("1")){
+                                ToastUtils.showShort("拍品保存成功");
+                            }else {
+                                ToastUtils.showShort("发布拍品成功");
+                            }
                             cleanRelease();
                         } else {
                             ToastUtils.showShort(baseModel.getResult().getMessage());

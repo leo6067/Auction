@@ -1011,6 +1011,20 @@ public class AgentWebAppActivity extends AppCompatActivity {
         }
 
 
+        //退出登录
+        @JavascriptInterface
+        public void loginOut() {
+            deliver.post(new Runnable() {
+                @Override
+                public void run() {
+                    BaseSharePerence.getInstance().setUserJson("");
+                    BaseSharePerence.getInstance().setLoginJson("");
+                    BaseSharePerence.getInstance().setLoginStatus(false);
+                }
+            });
+        }
+
+
         //微信支付
         @JavascriptInterface
         public void detailWxPay(String resultData) {
