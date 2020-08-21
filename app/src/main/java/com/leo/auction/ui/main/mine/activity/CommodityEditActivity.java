@@ -847,8 +847,12 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
             int position = (int) v.getTag(R.id.tag_1);
             ImageView[] imgViews = (ImageView[]) postImglistAdapter.getImgViews().toArray(new ImageView[postImglistAdapter.getImgViews().size()]);
             String[] imgListsData = new String[postImglistAdapter.getData().size() - 1];
-            for (int i = 0; i < postImglistAdapter.getData().size() - 1; i++) {
-                imgListsData[i] = postImglistAdapter.getData().get(i).getFile().getAbsolutePath();
+            try {
+                for (int i = 0; i < postImglistAdapter.getData().size() - 1; i++) {
+                    imgListsData[i] = postImglistAdapter.getData().get(i).getImgPth();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             ImageShowActivity.startImageActivity(CommodityEditActivity.this, imgViews, imgListsData, position);
         }

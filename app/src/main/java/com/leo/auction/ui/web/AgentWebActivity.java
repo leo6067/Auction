@@ -222,15 +222,17 @@ public class AgentWebActivity extends AppCompatActivity implements SetPaypwdUtil
             public void httpResponse(String resultData) {
 
                 ApplyAgentModel applyAgentModel = JSON.parseObject(resultData, ApplyAgentModel.class);
-                if (EmptyUtils.isEmpty(applyAgentModel.getData().getMoney() + "")) {
-                    mPayPay.setText("已开通服务");
-                    isShop = true;
-                } else {
+
+                if (resultData.contains("money")){
                     isShop = false;
                     mPayPay.setText("支付" + applyAgentModel.getData().getMoney() + "元技术服务开通费");
                     paymoney = applyAgentModel.getData().getMoney();
                     tradeNo = applyAgentModel.getData().getTradeNo();
+                }else {
+                    mPayPay.setText("已开通服务");
+                    isShop = true;
                 }
+
             }
         });
 

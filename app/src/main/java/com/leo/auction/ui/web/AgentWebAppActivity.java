@@ -280,8 +280,15 @@ public class AgentWebAppActivity extends AppCompatActivity {
 //                mTitleTextView.setText(title);
 //            }
             Bundle bundle = new Bundle();
-            mToolbar.setVisibility(View.VISIBLE);
-            mTitleTextView.setText(view.getTitle());
+
+
+            if (view.getTitle().contains("http")) {
+                mToolbar.setVisibility(View.GONE);
+            } else {
+                mToolbar.setVisibility(View.VISIBLE);
+                mTitleTextView.setText(view.getTitle());
+            }
+
 
             if (view.getUrl().equals(Constants.WEB_BASE_URL + "auction-web/pages/sub/product/save")) {  //发布拍品
                 ActivityManager.JumpActivity(AgentWebAppActivity.this, CommodityReleaseActivity.class);
@@ -691,20 +698,20 @@ public class AgentWebAppActivity extends AppCompatActivity {
         for (int i = 0; i < attributes.size(); i++) {
             if (attributes.get(i).getTitle().equals("类型") && attributes.get(i).getValue().equals("其他")) {
                 shareContent += "";
-            } else if(attributes.get(i).getValue().equals("")){
+            } else if (attributes.get(i).getValue().equals("")) {
                 shareContent += "";
-            }else {
+            } else {
                 shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
             }
         }
         shareContent += "【" + "描述" + "】  " + detailModelData.getContent() + "\n";
 
 
-        String productInstanceId =detailModelData.getProductInstanceId()+"";
+        String productInstanceId = detailModelData.getProductInstanceId() + "";
 
-                SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getImages().get(0),
+        SharedModel sharedModel = new SharedModel(shopName, goodName, shareTitle, sharedText, detailModelData.getImages().get(0),
                 detailModelData.getCurrentPrice() + "", detailModelData.getProductUser().getHeadImg(), type, path, detailModelData.getProductInstanceId() + "", userJson.getUserId(),
-                "0",productInstanceId);
+                "0", productInstanceId);
         ArrayList<String> nineImgList = new ArrayList<>();
 
         //1判断是否有视频
@@ -730,7 +737,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
      */
     private void shareBY(String resultData) {
         JSShareJson jsShareJson = JSONObject.parseObject(resultData, JSShareJson.class);
-        SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getTitle(),jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(), "2", "");
+        SharedModel sharedModel = new SharedModel(jsShareJson.getTitle(), jsShareJson.getTitle(), jsShareJson.getDesc(), jsShareJson.getImg(), jsShareJson.getUrl(), "2", "");
         SharedActvity.newIntance(AgentWebAppActivity.this, sharedModel);
     }
 
@@ -756,9 +763,9 @@ public class AgentWebAppActivity extends AppCompatActivity {
 //            shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
             if (attributes.get(i).getTitle().equals("类型") && attributes.get(i).getValue().equals("其他")) {
                 shareContent += "";
-            } else if(attributes.get(i).getValue().equals("")){
+            } else if (attributes.get(i).getValue().equals("")) {
                 shareContent += "";
-            }else {
+            } else {
                 shareContent += "【" + attributes.get(i).getTitle() + "】  " + attributes.get(i).getValue() + "\n";
             }
         }
@@ -1017,6 +1024,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
+                    Globals.log("invitationAction  loginOut  " );
                     BaseSharePerence.getInstance().setUserJson("");
                     BaseSharePerence.getInstance().setLoginJson("");
                     BaseSharePerence.getInstance().setLoginStatus(false);

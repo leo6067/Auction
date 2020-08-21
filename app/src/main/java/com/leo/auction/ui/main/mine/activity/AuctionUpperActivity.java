@@ -1,6 +1,7 @@
 package com.leo.auction.ui.main.mine.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,10 +105,10 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
     @BindView(R.id.item_recycler_video)
     CustomeRecyclerView rvVideolist;
 
-    private String mGoodId, soureType, timeType, timeNode, auctionType;
+    private String mGoodId, soureType, timeType, timeNode, auctionType = "";
 
 
-    private int  timeNodeId ;
+    private int timeNodeId;
 
     private UpperAdapter mUpperAdapter;
     List<ReleaseEditModel.DataBean.AttributesBean> mAttributesBeans = new ArrayList<>();
@@ -152,10 +153,11 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         auctionType = getIntent().getExtras().getString("AuctionType");
 
 
+        UserModel.httpUpdateUser(AuctionUpperActivity.this);
         UserModel.DataBean mUserJson = BaseSharePerence.getInstance().getUserJson();
 
 
-        if (mUserJson == null){
+        if (mUserJson == null) {
             ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebAppActivity.class);
             return;
         }
@@ -168,9 +170,9 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             mWarnHash.put("content", "您当前没有发布权限,请先完成实名认证。");
             mWarnHash.put("ok", "去认证");
             mWarnHash.put("okColor", "#7c1313");
-            WarningDialog warningDialog = new WarningDialog(AuctionUpperActivity.this, mWarnHash);
-            warningDialog.show();
-            warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+            WarningDialog warningDialogAA = new WarningDialog(AuctionUpperActivity.this, mWarnHash);
+            warningDialogAA.show();
+            warningDialogAA.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                 @Override
                 public void onWarningOk() {
                     ActivityManager.JumpActivity(AuctionUpperActivity.this, IdentityActivity.class);
@@ -208,12 +210,6 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             });
             return;
         }
-
-
-
-
-
-
 
 
         if ("2".equals(soureType)) {
@@ -573,7 +569,6 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         }
 
 
-
         BaseModel.httpUpper(mAttributesBeans, categoryId,
                 comment, content, cutPicStr,
                 distributeType, mGoodId, imageList,
@@ -591,7 +586,14 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
                             showShortToast("拍品发布成功");
-                            goFinish();
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    goFinish();
+                                }
+                            }, 2000);
+
                         } else {
                             showShortToast(baseModel.getResult().getMessage());
                         }
@@ -637,8 +639,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     }
 
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", "协议");
-                    bundle.putString("url",url);
+                    bundle.putString("title", "开店申请");
+                    bundle.putString("url", url);
                     ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebActivity.class, bundle);
                     finish();
                 }
@@ -703,7 +705,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("today");
                     timeNodesBeanXXX.setTypeName(data.getToday().getTypeName());
-                    if (data.getToday().getTimeNodes().get(i).getTimeNodeId()== timeNodeId) {
+                    if (data.getToday().getTimeNodes().get(i).getTimeNodeId() == timeNodeId) {
                         timeNodesBeanXXX.setSelect(true);
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
@@ -727,7 +729,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("tomorrow");
                     timeNodesBeanXXX.setTypeName(data.getTomorrow().getTypeName());
-                    if (data.getTomorrow().getTimeNodes().get(i).getTimeNodeId()== timeNodeId) {
+                    if (data.getTomorrow().getTimeNodes().get(i).getTimeNodeId() == timeNodeId) {
                         timeNodesBeanXXX.setSelect(true);
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);
@@ -751,7 +753,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     timeNodesBeanXXX.setItemType(Constants.Var.LAYOUT_TYPE);
                     timeNodesBeanXXX.setTimeType("after_tomorrow");
                     timeNodesBeanXXX.setTypeName(data.getAfter_tomorrow().getTypeName());
-                    if (data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId()== timeNodeId) {
+                    if (data.getAfter_tomorrow().getTimeNodes().get(i).getTimeNodeId() == timeNodeId) {
                         timeNodesBeanXXX.setSelect(true);
                     }
                     TimeDialogModelLists.add(timeNodesBeanXXX);

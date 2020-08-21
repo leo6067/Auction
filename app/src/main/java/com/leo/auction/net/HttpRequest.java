@@ -13,6 +13,7 @@ import com.aten.compiler.utils.ToastUtils;
 import com.leo.auction.base.Constants;
 import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
+import com.leo.auction.ui.web.AgentWebAppActivity;
 import com.leo.auction.utils.Globals;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -162,18 +163,18 @@ public class HttpRequest {
             public void onResponse(String result, int id) {
                 Globals.log("log XHttpUtils "+url + "" + result);
                 ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
-//                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-//                    //刷新首页
-//                    LoginActivity.newIntance(RxTool.getContext(),1);
-//                    ToastUtils.showShort(jsonObject.getResult().getMessage());
-//                    return;
-//                }
-//
-//                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
-//                    //刷新首页
-//                    LoginActivity.newIntance(RxTool.getContext(),0);
-//                    return;
-//                }
+                if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+                    //刷新首页
+                    AgentWebAppActivity.newIntance(RxTool.getContext(),1);
+                    ToastUtils.showShort(jsonObject.getResult().getMessage());
+                    return;
+                }
+
+                if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
+                    //刷新首页
+                    AgentWebAppActivity.newIntance(RxTool.getContext(),1);
+                    return;
+                }
                 try {
                     httpCallback.httpResponse(result);
                 } catch (Exception e) {

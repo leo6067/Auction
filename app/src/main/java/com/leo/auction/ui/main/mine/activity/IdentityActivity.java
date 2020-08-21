@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     @BindView(R.id.webview)
     WebView testWebview;
     @BindView(R.id.webview_view)
-    TextView mWebviewView;
+    View mWebviewView;
     @BindView(R.id.commit_tv)
     RTextView mCommitTv;
     @BindView(R.id.auth_lin)
@@ -71,7 +72,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     @BindView(R.id.yzm_lin)
     LinearLayout mYzmLin;
     @BindView(R.id.web_rlin)
-    RelativeLayout mWebRlin;
+    FrameLayout mWebRlin;
 
     @BindView(R.id.cv_verif_code)
     CountdownView cvVerifCode;
@@ -95,7 +96,6 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
 
         @Override
         public void afterTextChanged(Editable editable) {
-
             if (editable.toString().length() != 11) {
                 mWebviewView.setVisibility(View.VISIBLE);
             } else {
@@ -110,7 +110,6 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
         mTitleBar.setTitle("实名认证");
         UserModel.DataBean userJson = BaseSharePerence.getInstance().getUserJson();
         if (userJson == null || EmptyUtils.isEmpty(userJson.getIdCard())) {
-
             if (EmptyUtils.isEmpty(userJson.getPhone())) {   //手机号为空
                 mAuthLin.setVisibility(View.VISIBLE);
                 mStatusLin.setVisibility(View.GONE);
@@ -140,7 +139,7 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     @Override
     public void initEvent() {
         super.initEvent();
-        mNameEdit.addTextChangedListener(textWatcher);
+        mPhoneEdit.addTextChangedListener(textWatcher);
         cvVerifCode.setOnCountdownEndListener(this);
     }
 
@@ -197,13 +196,13 @@ public class IdentityActivity extends BaseActivity implements CountdownView.OnCo
     public void getVerifCode(LoginVerModel loginVerModel) {
 
 
-        if (mNameEdit.getText().toString().trim().length() < 11) {
+        if (mPhoneEdit.getText().toString().trim().length() < 11) {
             ToastUtils.showShort("请输入正确的手机号码");
             return;
         }
 
         showWaitDialog();
-        SmsCodeModel.sendSmsCodeRequest("6", mNameEdit.getText().toString().trim(), loginVerModel, new HttpRequest.HttpCallback() {
+        SmsCodeModel.sendSmsCodeRequest("6", mPhoneEdit.getText().toString().trim(), loginVerModel, new HttpRequest.HttpCallback() {
             @Override
             public void httpError(Call call, Exception e) {
                 hideWaitDialog();
