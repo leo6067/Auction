@@ -29,6 +29,7 @@ import com.leo.auction.ui.main.MainActivity;
 import com.leo.auction.ui.main.home.activity.AuctionDetailActivity;
 import com.leo.auction.ui.main.home.activity.ShopActivity;
 import com.leo.auction.ui.main.home.dialog.PayPwdBoardUtils;
+import com.leo.auction.ui.main.home.model.PayAgentWebModel;
 import com.leo.auction.ui.main.home.model.PayModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.order.activity.GoodOrderActivity;
@@ -289,35 +290,53 @@ public class AgentWebActivity extends AppCompatActivity implements SetPaypwdUtil
 
             @Override
             public void httpResponse(String resultData) {
-                PayModel returnData = JSONObject.parseObject(resultData, PayModel.class);
-                PayModel.DataBean.WxBean data = returnData.getData().getWx();
+                PayAgentWebModel parseObject = JSONObject.parseObject(resultData, PayAgentWebModel.class);
+                PayAgentWebModel.DataBean.WxBean data = parseObject.getData().getWx();
+
+
                 //实例化微信支付策略
                 WXPay wxPay = WXPay.getInstance();
-                //构造微信订单实体。一般都是由服务端直接返回。
-                WXPayBean wxPayBean = new WXPayBean(Constants.Nouns.WEIXINAPPID, data.getMchId(), data.getPrepayId(), data.getPackageX(),
-                        data.getNonceStr(), data.getTimeStamp(), data.getPaySign());
 
-                //策略场景类调起支付方法开始支付，以及接收回调。
-                //策略场景类调起支付方法开始支付，以及接收回调。
-                EasyPay.pay(wxPay, AgentWebActivity.this, wxPayBean, new IPayCallback() {
-                    @Override
-                    public void success() {
 
-                        finish();
-                    }
 
-                    @Override
-                    public void failed(int code, String message) {
+                JSONObject jsonObject = JSONObject.parseObject(resultData);
+                String dataStr = jsonObject.getString("data");
+                JSONObject dataJson = JSONObject.parseObject(dataStr);
+                String wxStr = dataJson.getString("wx");
+                JSONObject wxJson = JSONObject.parseObject(wxStr);
+                String packageStr = wxJson.getString("package");
 
-                        ToastUtils.showShort("支付失败");
-                    }
-
-                    @Override
-                    public void cancel() {
-
-                        ToastUtils.showShort("支付取消");
-                    }
-                });
+//
+//                //构造微信订单实体。一般都是由服务端直接返回。
+////                WXPayBean wxPayBean = new WXPayBean(Constants.Nouns.WEIXINAPPID, data.getMchId(), data.getPrepayId(), packageStr,
+////                        data.getNonceStr(), data.getTimeStamp(), data.getPaySign());
+//
+//                WXPayBean wxPayBean = new WXPayBean(data.getAppid(), data.getMchId(), data.getPrepayId(), packageStr,
+//                        data.getNonceStr(), data.getTimeStamp(), data.getSign());
+//
+//                Globals.log("xxxxx wxPay failed 01 " + packageStr);
+//                Globals.log("xxxxx wxPay failed 010 " + wxPayBean.toString());
+//
+//                //策略场景类调起支付方法开始支付，以及接收回调。
+//                //策略场景类调起支付方法开始支付，以及接收回调。
+//                EasyPay.pay(wxPay, AgentWebActivity.this, wxPayBean, new IPayCallback() {
+//                    @Override
+//                    public void success() {
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void failed(int code, String message) {
+//                        Globals.log("xxxxx wxPay failed" +message  +code);
+//
+//                        ToastUtils.showShort("支付失败");
+//                    }
+//
+//                    @Override
+//                    public void cancel() {
+//                        ToastUtils.showShort("支付取消");
+//                    }
+//                });
             }
         });
     }

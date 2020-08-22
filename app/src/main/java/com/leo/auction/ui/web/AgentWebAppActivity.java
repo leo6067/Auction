@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aten.compiler.base.BaseGlobal;
+import com.aten.compiler.utils.EmptyUtils;
 import com.aten.compiler.utils.FileUtils;
 import com.aten.compiler.utils.ImageUtils;
 import com.aten.compiler.utils.ToastUtils;
@@ -109,6 +110,11 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     private int barType = 0; // 0 红色 1 灰色  2 白色
     private int barLogin = 0;
+    private int backPager = -1;
+
+
+    String httpUrl = Constants.WEB_APP_URL;
+
 
 
     //backPager 0:代表返回上一页 1：代表回到首页
@@ -123,6 +129,24 @@ public class AgentWebAppActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
+
+
+    //backPager 0:代表返回上一页 1：代表回到首页
+    public static void newIntance(Context context, int backPager,String httpUrl) {
+//        CookieSyncManager.createInstance(context);
+//        CookieManager cookieManager = CookieManager.getInstance();
+//        cookieManager.removeAllCookie();
+//        CookieSyncManager.getInstance().sync();
+        BaseSharePerence.getInstance().setLoginStatus(false);
+        Intent intent = new Intent(context, AgentWebAppActivity.class);
+        intent.putExtra("backPager", backPager);
+        intent.putExtra("httpUrl", httpUrl);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+
+
 
 
     protected void RedImmersionBar() {
@@ -163,6 +187,23 @@ public class AgentWebAppActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agent_web_app);
         ButterKnife.bind(this);
         mLinearLayout = (LinearLayout) this.findViewById(R.id.container);
+        httpUrl = Constants.WEB_APP_URL;
+
+        try {
+            Bundle bundle = getIntent().getExtras();
+            backPager = bundle.getInt("backPager");
+            String url = bundle.getString("httpUrl");
+
+            if (!EmptyUtils.isEmpty(url)){
+                httpUrl =url;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Globals.log("XXXXX" + backPager  + httpUrl );
+
         buildAgentWeb();
         httpVerison();
         initView();
@@ -206,7 +247,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 .interceptUnkownUrl() //拦截找不到相关页面的Scheme
                 .createAgentWeb()
                 .ready()
-                .go(getUrl());
+                .go(httpUrl);
         if (mAgentWeb != null) {
             //注入对象
             mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new AndroidInterface(AgentWebAppActivity.this));
@@ -422,6 +463,13 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+
+        if (backPager==0){
+            finish();
+            return true;
+        }
+
         if (mAgentWeb.handleKeyEvent(keyCode, event)) {
             return true;
         }
@@ -1024,7 +1072,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
             deliver.post(new Runnable() {
                 @Override
                 public void run() {
-                    Globals.log("invitationAction  loginOut  " );
+                    Globals.log("invitationAction  loginOut  ");
                     BaseSharePerence.getInstance().setUserJson("");
                     BaseSharePerence.getInstance().setLoginJson("");
                     BaseSharePerence.getInstance().setLoginStatus(false);

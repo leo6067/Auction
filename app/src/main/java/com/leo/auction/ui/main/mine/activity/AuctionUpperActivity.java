@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -158,7 +159,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
 
 
         if (mUserJson == null) {
-            ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebAppActivity.class);
+            AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0);
+            finish();
             return;
         }
 
@@ -189,7 +191,31 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         }
 
 
-        if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+//        if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
+//            mWarnHash = new HashMap<>();
+//            mWarnHash.put("title", "提示");
+//            mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
+//            mWarnHash.put("ok", "去查看");
+//            mWarnHash.put("okColor", "#7c1313");
+//            WarningDialog warningDialog = new WarningDialog(AuctionUpperActivity.this, mWarnHash);
+//            warningDialog.show();
+//            warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+//                @Override
+//                public void onWarningOk() {
+//                    showAgreeDialog("6");
+//                }
+//
+//                @Override
+//                public void onWaringCancel() {
+//                    finish();
+//                }
+//            });
+//            return;
+//        }
+
+
+
+        if (mUserJson.isStoreEnable()) {   //超级仓库权限
             mWarnHash = new HashMap<>();
             mWarnHash.put("title", "提示");
             mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
@@ -200,7 +226,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                 @Override
                 public void onWarningOk() {
-                    showAgreeDialog("6");
+                    AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.MINE_SUPER);
                 }
 
                 @Override
@@ -639,9 +665,11 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     }
 
                     Bundle bundle = new Bundle();
-                    bundle.putString("title", "开店申请");
-                    bundle.putString("url", url);
-                    ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebActivity.class, bundle);
+
+                    bundle.putString("httpUrl", url);
+                    bundle.putInt("backPager",-1);
+
+                    ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebAppActivity.class, bundle);
                     finish();
                 }
             }
@@ -803,5 +831,16 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
 
         }
     }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }

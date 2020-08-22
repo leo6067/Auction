@@ -216,7 +216,7 @@ public class Constants {
 
 
 
-
+        public static String MINE_SUPER=WEB_BASE_URL+"auction-web/pages/sub/super/apply?iscdandroid=1";// 开通超级仓库权限
 
 
 
