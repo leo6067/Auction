@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,6 +54,7 @@ import com.leo.auction.ui.login.model.LoginModel;
 import com.leo.auction.ui.main.SharedActvity;
 import com.leo.auction.ui.main.home.model.PayModel;
 import com.leo.auction.ui.main.home.model.WebShopModel;
+import com.leo.auction.ui.main.mine.activity.AuctionUpperActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityEditActivity;
 import com.leo.auction.ui.main.mine.activity.CommodityReleaseActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
@@ -116,7 +116,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
     String httpUrl = Constants.WEB_APP_URL;
 
 
-
     //backPager 0:代表返回上一页 1：代表回到首页
     public static void newIntance(Context context, int backPager) {
 //        CookieSyncManager.createInstance(context);
@@ -132,7 +131,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
 
     //backPager 0:代表返回上一页 1：代表回到首页
-    public static void newIntance(Context context, int backPager,String httpUrl) {
+    public static void newIntance(Context context, int backPager, String httpUrl) {
 //        CookieSyncManager.createInstance(context);
 //        CookieManager cookieManager = CookieManager.getInstance();
 //        cookieManager.removeAllCookie();
@@ -144,9 +143,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
-
-
-
 
 
     protected void RedImmersionBar() {
@@ -194,15 +190,15 @@ public class AgentWebAppActivity extends AppCompatActivity {
             backPager = bundle.getInt("backPager");
             String url = bundle.getString("httpUrl");
 
-            if (!EmptyUtils.isEmpty(url)){
-                httpUrl =url;
+            if (!EmptyUtils.isEmpty(url)) {
+                httpUrl = url;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Globals.log("XXXXX" + backPager  + httpUrl );
+        Globals.log("XXXXX" + backPager + httpUrl);
 
         buildAgentWeb();
         httpVerison();
@@ -424,6 +420,21 @@ public class AgentWebAppActivity extends AppCompatActivity {
     protected void onResume() {
         mAgentWeb.getWebLifeCycle().onResume();
         Globals.log("xxxxx onResume");
+
+
+        UserModel.httpUpdateUser(new HttpRequest.HttpCallback() {
+            @Override
+            public void httpError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void httpResponse(String resultData) {
+
+            }
+        });
+
+
         super.onResume();
     }
 
@@ -465,7 +476,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 
-        if (backPager==0){
+        if (backPager == 0) {
             finish();
             return true;
         }
@@ -667,6 +678,42 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 Globals.log("xxxxxx backLogin" + resultData);
                 UserModel.httpUpdateUser(AgentWebAppActivity.this);
 
+                UserModel.httpUpdateUser(new HttpRequest.HttpCallback() {
+                    @Override
+                    public void httpError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void httpResponse(String resultData) {
+
+
+                        String string = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION, "");
+                        String mGoodId = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_VALUE, "");
+                        String soureType = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_TYPE, "");
+                        String auctionType = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_AUCTIONTYPE, "");
+
+                        if (string.equals("AuctionUpperActivity")) {
+                            BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "");
+//                    Intent intent = new Intent();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("value", mGoodId);
+                            bundle.putString("type", soureType);
+                            bundle.putString("AuctionType", auctionType);
+//                    intent.putExtras(bundle);
+                            Globals.log("xxxxxx backLogin 000111");
+
+//                    intent.setClass(AgentWebAppActivity.this, AuctionUpperActivityB.class);
+//                    startActivity(intent);
+                            ActivityManager.JumpActivity(AgentWebAppActivity.this, AuctionUpperActivity.class, bundle);
+//
+                        }
+
+
+                    }
+                });
+
+
             }
         });
 
@@ -679,6 +726,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
         Globals.log("xxxxxx loginPhone" + resultData);
         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
         backLogin(loginModel.getData().getUser().getNestedToken());
+
+
     }
 
 

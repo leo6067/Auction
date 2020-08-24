@@ -145,6 +145,12 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        UserModel.httpUpdateUser(AuctionUpperActivity.this);
+    }
+
+    @Override
     public void initData() {
         super.initData();
 
@@ -154,16 +160,22 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         auctionType = getIntent().getExtras().getString("AuctionType");
 
 
+        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_VALUE,mGoodId);
+        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_TYPE,soureType);
+        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_AUCTIONTYPE,auctionType);
+
+
         UserModel.httpUpdateUser(AuctionUpperActivity.this);
         UserModel.DataBean mUserJson = BaseSharePerence.getInstance().getUserJson();
-
+        Globals.log("xxxxxx backLogin 000111" );
 
         if (mUserJson == null) {
             AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0);
+            BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
             finish();
             return;
         }
-
+        Globals.log("xxxxxx backLogin 000111 22" );
         HashMap<String, Object> mWarnHash = new HashMap<>();
 
         if (EmptyUtils.isEmpty(mUserJson.getUsername())) {
@@ -191,31 +203,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         }
 
 
-//        if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
-//            mWarnHash = new HashMap<>();
-//            mWarnHash.put("title", "提示");
-//            mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
-//            mWarnHash.put("ok", "去查看");
-//            mWarnHash.put("okColor", "#7c1313");
-//            WarningDialog warningDialog = new WarningDialog(AuctionUpperActivity.this, mWarnHash);
-//            warningDialog.show();
-//            warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
-//                @Override
-//                public void onWarningOk() {
-//                    showAgreeDialog("6");
-//                }
-//
-//                @Override
-//                public void onWaringCancel() {
-//                    finish();
-//                }
-//            });
-//            return;
-//        }
-
-
-
-        if (mUserJson.isStoreEnable()) {   //超级仓库权限
+        if (mUserJson.getLimitProductFansNum() > mUserJson.getExclusiveFansNum()) {   //粉丝规则
             mWarnHash = new HashMap<>();
             mWarnHash.put("title", "提示");
             mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
@@ -226,7 +214,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                 @Override
                 public void onWarningOk() {
-                    AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.MINE_SUPER);
+                    showAgreeDialog("6");
+                    BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
                 }
 
                 @Override
@@ -235,6 +224,36 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 }
             });
             return;
+        }
+
+
+
+        if (!mUserJson.isStoreEnable()) {   //超级仓库权限
+
+            AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.MINE_SUPER);
+            BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
+
+            finish();
+
+//            mWarnHash = new HashMap<>();
+//            mWarnHash.put("title", "提示");
+//            mWarnHash.put("content", "您当前没有发布权限,请查看说明如何免费获取发布权限。");
+//            mWarnHash.put("ok", "去查看");
+//            mWarnHash.put("okColor", "#7c1313");
+//            WarningDialog warningDialog = new WarningDialog(AuctionUpperActivity.this, mWarnHash);
+//            warningDialog.show();
+//            warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
+//                @Override
+//                public void onWarningOk() {
+//                    AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.MINE_SUPER);
+//                }
+//
+//                @Override
+//                public void onWaringCancel() {
+//                    finish();
+//                }
+//            });
+//            return;
         }
 
 

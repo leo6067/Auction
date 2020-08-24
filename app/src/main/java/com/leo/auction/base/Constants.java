@@ -49,6 +49,22 @@ public class Constants {
         public static String WEIXINAPPKEY = "2dc8dd30dd5d0db67e09af2e55dea168";
         public static String WEIXINA_SMALL = "gh_0489fd1cc754";  //小程序
 
+
+
+        /*       mGoodId = getIntent().getExtras().getString("value");
+        soureType = getIntent().getExtras().getString("type");
+        auctionType = getIntent().getExtras().getString("AuctionType");*/
+
+        public static String WEB_ACTION = "WEB_ACTION";  //web 返回
+        public static String WEB_ACTION_VALUE = "WEB_ACTION_VALUE";  //web 返回
+        public static String WEB_ACTION_TYPE = "WEB_ACTION_VALUE";  //web 返回
+        public static String WEB_ACTION_AUCTIONTYPE = "WEB_ACTION_AUCTIONTYPE";  //web 返回
+
+
+
+
+
+
     }
 
 

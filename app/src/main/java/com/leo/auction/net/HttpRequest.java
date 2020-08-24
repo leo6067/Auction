@@ -10,6 +10,7 @@ import com.aten.compiler.utils.LogUtils;
 
 import com.aten.compiler.utils.RxTool;
 import com.aten.compiler.utils.ToastUtils;
+import com.leo.auction.base.BaseSharePerence;
 import com.leo.auction.base.Constants;
 import com.leo.auction.ui.login.LoginActivity;
 import com.leo.auction.ui.main.mine.model.UserModel;
@@ -165,15 +166,20 @@ public class HttpRequest {
                 ResultModel  jsonObject = JSONObject.parseObject(result,ResultModel.class);
                 if ("5004".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
                     //刷新首页
-                    AgentWebAppActivity.newIntance(RxTool.getContext(),1);
+
                     ToastUtils.showShort(jsonObject.getResult().getMessage());
-                    return;
+
+                    BaseSharePerence.getInstance().setUserJson("");
+                    BaseSharePerence.getInstance().setLoginStatus(false);
+
                 }
 
                 if ("5002".equals(jsonObject.getResult().getCode())) {//登录超时，重新登录
                     //刷新首页
-                    AgentWebAppActivity.newIntance(RxTool.getContext(),1);
-                    return;
+
+                    BaseSharePerence.getInstance().setUserJson("");
+                    BaseSharePerence.getInstance().setLoginStatus(false);
+
                 }
                 try {
                     httpCallback.httpResponse(result);
