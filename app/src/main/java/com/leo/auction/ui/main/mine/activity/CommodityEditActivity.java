@@ -835,7 +835,7 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     ToastUtils.showShort(zpbProgress.getTag() + "正在上传，请稍等");
                 }
             } else {
-                ToastUtils.showShort("oss数据请求，稍等会，再试下。还不行，则需要联系客服");
+                ToastUtils.showShort("请退出账号，重启APP，登录后使用");
             }
         }
     };
@@ -911,7 +911,8 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
                     ToastUtils.showShort(zpbProgress.getTag() + "正在上传，请稍等");
                 }
             } else {
-                ToastUtils.showShort("oss数据请求，稍等会，再试下。还不行，则需要联系客服");
+//                ToastUtils.showShort("oss数据请求，稍等会，再试下。还不行，则需要联系客服");
+                ToastUtils.showShort("请退出账号，重启APP，登录后使用");
             }
         }
     };
@@ -957,7 +958,6 @@ public class CommodityEditActivity extends BaseActivity implements IReleaseSortC
 //                    }
 //                });
 //            }
-
 
             BaseModel.httpDeteleFile(item.getVideoPath(), null, new HttpRequest.HttpCallback() {
                 @Override

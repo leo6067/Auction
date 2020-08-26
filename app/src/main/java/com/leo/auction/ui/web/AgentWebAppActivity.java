@@ -421,20 +421,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
         mAgentWeb.getWebLifeCycle().onResume();
         Globals.log("xxxxx onResume");
 
-
-        UserModel.httpUpdateUser(new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-
-            }
-        });
-
-
         super.onResume();
     }
 
@@ -456,10 +442,20 @@ public class AgentWebAppActivity extends AppCompatActivity {
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            Globals.log("xxxxxx httpResponse iv_back 01 " );
             switch (v.getId()) {
                 case R.id.iv_back:
+
+
                     // true表示AgentWeb处理了该事件
-                    mAgentWeb.back();
+                    boolean back = mAgentWeb.back();
+
+                    if (!back){
+                        finish();
+                    }
+                    Globals.log("xxxxxx httpResponse iv_back"+back );
+
                     break;
                 case R.id.iv_finish:
 //                    AgentWebFragment.this.getActivity().finish();
@@ -637,28 +633,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
     }
 
 
-    //web静默登录
 
-    private void backLoginWeb(String nesteToken, String encode) {
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("token", nesteToken);
-        HttpRequest.httpPostString(Constants.Api.HOMEPAGE_USER_DEFAULT_LOGIN_URL, hashMap, new HttpRequest.HttpCallback() {
-            @Override
-            public void httpError(Call call, Exception e) {
-            }
-
-            @Override
-            public void httpResponse(String resultData) {
-//                    BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
-//                    httpuser
-                mAgentWeb.getJsAccessEntrace().quickCallJs("appLoginSuccess", "" + encode + "");
-                Globals.log("xxxxxx backLogin" + resultData);
-                UserModel.httpUpdateUser(AgentWebAppActivity.this);
-            }
-        });
-
-
-    }
 
 
     //登录---手机
@@ -676,7 +651,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
 //                    httpuser
 
                 Globals.log("xxxxxx backLogin" + resultData);
-                UserModel.httpUpdateUser(AgentWebAppActivity.this);
 
                 UserModel.httpUpdateUser(new HttpRequest.HttpCallback() {
                     @Override
@@ -686,8 +660,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
                     @Override
                     public void httpResponse(String resultData) {
-
-
+                        UserModel userModel = JSONObject.parseObject(resultData, UserModel.class);
+                        BaseSharePerence.getInstance().setUserJson(JSON.toJSONString(userModel.getData()));
                         String string = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION, "");
                         String mGoodId = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_VALUE, "");
                         String soureType = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_TYPE, "");
@@ -695,20 +669,14 @@ public class AgentWebAppActivity extends AppCompatActivity {
 
                         if (string.equals("AuctionUpperActivity")) {
                             BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "");
-//                    Intent intent = new Intent();
                             Bundle bundle = new Bundle();
                             bundle.putString("value", mGoodId);
                             bundle.putString("type", soureType);
                             bundle.putString("AuctionType", auctionType);
-//                    intent.putExtras(bundle);
                             Globals.log("xxxxxx backLogin 000111");
-
-//                    intent.setClass(AgentWebAppActivity.this, AuctionUpperActivityB.class);
-//                    startActivity(intent);
                             ActivityManager.JumpActivity(AgentWebAppActivity.this, AuctionUpperActivity.class, bundle);
 //
                         }
-
 
                     }
                 });
@@ -1293,6 +1261,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     WhiteImmersionBar();
+                    BaseSharePerence.getInstance().setUserJson("");
+                    BaseSharePerence.getInstance().setLoginStatus(false);
                     barLogin = 1;
                 }
             });

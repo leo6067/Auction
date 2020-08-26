@@ -147,7 +147,6 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
     @Override
     public void onResume() {
         super.onResume();
-        UserModel.httpUpdateUser(AuctionUpperActivity.this);
     }
 
     @Override
@@ -165,13 +164,12 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_AUCTIONTYPE,auctionType);
 
 
-        UserModel.httpUpdateUser(AuctionUpperActivity.this);
         UserModel.DataBean mUserJson = BaseSharePerence.getInstance().getUserJson();
         Globals.log("xxxxxx backLogin 000111" );
 
         if (mUserJson == null) {
-            AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0);
             BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
+            AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0);
             finish();
             return;
         }
@@ -189,7 +187,10 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             warningDialogAA.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                 @Override
                 public void onWarningOk() {
-                    ActivityManager.JumpActivity(AuctionUpperActivity.this, IdentityActivity.class);
+//                    ActivityManager.JumpActivity(AuctionUpperActivity.this, IdentityActivity.class);
+                    BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
+                    AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.RELNAME_WEB);
+                    finish();
 
                 }
 
@@ -214,8 +215,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                 @Override
                 public void onWarningOk() {
-                    showAgreeDialog("6");
                     BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
+                    showAgreeDialog("6");
                 }
 
                 @Override
@@ -230,9 +231,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
 
         if (!mUserJson.isStoreEnable()) {   //超级仓库权限
 
-            AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.MINE_SUPER);
             BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
-
+            AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.MINE_SUPER);
             finish();
 
 //            mWarnHash = new HashMap<>();
@@ -686,7 +686,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     Bundle bundle = new Bundle();
 
                     bundle.putString("httpUrl", url);
-                    bundle.putInt("backPager",-1);
+                    bundle.putInt("backPager",0);
 
                     ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebAppActivity.class, bundle);
                     finish();

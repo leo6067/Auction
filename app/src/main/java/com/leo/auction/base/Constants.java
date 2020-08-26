@@ -23,7 +23,7 @@ public class Constants {
             WEB_BASE_URL = "https://cd.taojianlou.com/ut1/";
             WEB_APP_URL = "https://cd.taojianlou.com/ut1/auction-web/?iscdandroid=1";
         }
-//        logGone = releaseVersion;
+        logGone = releaseVersion;
     }
 
 
@@ -233,6 +233,9 @@ public class Constants {
 
 
         public static String MINE_SUPER=WEB_BASE_URL+"auction-web/pages/sub/super/apply?iscdandroid=1";// 开通超级仓库权限
+
+
+        public static String RELNAME_WEB=WEB_BASE_URL+"auction-web/pages/sub/set/relname?iscdandroid=1";//  实名认证
 
 
 

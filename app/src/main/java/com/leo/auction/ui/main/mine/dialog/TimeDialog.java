@@ -21,6 +21,7 @@ import com.leo.auction.base.Constants;
 import com.leo.auction.ui.main.mine.adapter.TimeDialogAdapter;
 import com.leo.auction.ui.main.mine.model.AuctionTimeModel;
 import com.leo.auction.ui.main.mine.model.TimeDialogModel;
+import com.ruffian.library.widget.RTextView;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,15 @@ public class TimeDialog extends BottomBaseDialog<TimeDialog> {
     @Override
     public View onCreateView() {
         View view = View.inflate(mContext, R.layout.dialog_time, null);
+
+        RTextView cancelTv = view.findViewById(R.id.dialog_cancel);
+        cancelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
