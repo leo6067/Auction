@@ -236,10 +236,11 @@ public class Constants {
 
 
         public static String RELNAME_WEB=WEB_BASE_URL+"auction-web/pages/sub/set/relname?iscdandroid=1";//  实名认证
+        public static String GOOD_DETAIL=WEB_BASE_URL+"auction-web/pages/sub/product/productDetail?iscdandroid=1&productInstanceCode=";//  实名认证
 
 
 
-
+///pages/sub/product/productDetail?productInstanceCode=19e516f69438ca5a4fd23bade5defef6
 
 
     }

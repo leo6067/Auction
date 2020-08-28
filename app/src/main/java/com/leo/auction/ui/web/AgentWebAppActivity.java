@@ -668,7 +668,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
                         String auctionType = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_AUCTIONTYPE, "");
                         Globals.log("xxxxxx backLogin 0001112222   "+mGoodId  + soureType  +  auctionType);
 
-
                         if (string.equals("AuctionUpperActivity")) {
                             BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "");
                             Bundle bundle = new Bundle();
@@ -677,13 +676,9 @@ public class AgentWebAppActivity extends AppCompatActivity {
                             bundle.putString("AuctionType", auctionType);
                             Globals.log("xxxxxx backLogin 000111222233   "+mGoodId  + soureType  +  auctionType);
                             ActivityManager.JumpActivity(AgentWebAppActivity.this, AuctionUpperActivity.class, bundle);
-//
                         }
-
                     }
                 });
-
-
             }
         });
 
@@ -696,7 +691,6 @@ public class AgentWebAppActivity extends AppCompatActivity {
         Globals.log("xxxxxx loginPhone" + resultData);
         LoginModel loginModel = JSONObject.parseObject(resultData, LoginModel.class);
         backLogin(loginModel.getData().getUser().getNestedToken());
-
 
     }
 

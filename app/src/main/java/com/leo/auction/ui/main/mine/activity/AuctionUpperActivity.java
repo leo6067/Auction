@@ -50,6 +50,7 @@ import com.leo.auction.ui.main.mine.model.NewestModel;
 import com.leo.auction.ui.main.mine.model.ReleaseEditModel;
 import com.leo.auction.ui.main.mine.model.ReleaseImageModel;
 import com.leo.auction.ui.main.mine.model.TimeDialogModel;
+import com.leo.auction.ui.main.mine.model.UpperModel;
 import com.leo.auction.ui.main.mine.model.UserModel;
 import com.leo.auction.ui.web.AgentWebActivity;
 import com.leo.auction.ui.web.AgentWebAppActivity;
@@ -162,23 +163,23 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         auctionType = getIntent().getExtras().getString("AuctionType");
 
 
-        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_VALUE,mGoodId);
-        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_TYPE,soureType);
-        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_AUCTIONTYPE,auctionType);
+        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_VALUE, mGoodId);
+        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_TYPE, soureType);
+        BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_AUCTIONTYPE, auctionType);
 
-        Globals.log("xxxxxx backLogin 000111222233 444    "+mGoodId  + soureType  +  auctionType);
+        Globals.log("xxxxxx backLogin 000111222233 444    " + mGoodId + soureType + auctionType);
         UserModel.DataBean mUserJson = BaseSharePerence.getInstance().getUserJson();
 
 
         if (mUserJson == null) {
 
-            Globals.log("xxxxxx backLogin 000111"+mGoodId  + soureType  +  auctionType);
-            BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
+            Globals.log("xxxxxx backLogin 000111" + mGoodId + soureType + auctionType);
+            BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "AuctionUpperActivity");
             AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WEB_APP_URL);
             finish();
             return;
         }
-        Globals.log("xxxxxx backLogin 000111 22" );
+        Globals.log("xxxxxx backLogin 000111 22");
         HashMap<String, Object> mWarnHash = new HashMap<>();
 
         if (EmptyUtils.isEmpty(mUserJson.getUsername())) {
@@ -193,7 +194,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 @Override
                 public void onWarningOk() {
 //                    ActivityManager.JumpActivity(AuctionUpperActivity.this, IdentityActivity.class);
-                    BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
+                    BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "AuctionUpperActivity");
                     AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.RELNAME_WEB);
                     finish();
 
@@ -220,7 +221,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
             warningDialog.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                 @Override
                 public void onWarningOk() {
-                    BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
+                    BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "AuctionUpperActivity");
                     showAgreeDialog("6");
                 }
 
@@ -233,10 +234,9 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         }
 
 
-
         if (!mUserJson.isStoreEnable()) {   //超级仓库权限
 
-            BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
+            BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "AuctionUpperActivity");
             AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WebApi.MINE_SUPER);
             finish();
 
@@ -341,8 +341,6 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     mAttributesBeans.add(attributesBean);
                     mAttributesBeanView.add(attributesBean);
                 }
-
-
 
 
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanD = new ReleaseEditModel.DataBean.AttributesBean();
@@ -638,11 +636,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         }
 
 
-
-
-
-
-        BaseModel.httpUpper(   mAttributesBeanView , categoryId,
+        BaseModel.httpUpper(mAttributesBeanView, categoryId,
                 comment, content, cutPicStr,
                 distributeType, mGoodId, imageList,
                 range, soureType, startPricr,
@@ -658,14 +652,39 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     public void httpResponse(String resultData) {
                         BaseModel baseModel = JSONObject.parseObject(resultData, BaseModel.class);
                         if (baseModel.getResult().isSuccess()) {
-                            showShortToast("拍品发布成功");
+//                            showShortToast("拍品发布成功");
+                            UpperModel upperModel = JSONObject.parseObject(resultData, UpperModel.class);
 
-                            new Handler().postDelayed(new Runnable() {
+                            HashMap mWarnHash = new HashMap<>();
+                            mWarnHash.put("title", "提示");
+                            mWarnHash.put("content", "拍品发布成功");
+                            mWarnHash.put("cancel", "返回超级仓库");
+                            mWarnHash.put("ok", "查看拍品详情");
+                            mWarnHash.put("okColor", "#7c1313");
+                            WarningDialog warningDialogAA = new WarningDialog(AuctionUpperActivity.this, mWarnHash);
+                            warningDialogAA.show();
+                            warningDialogAA.setWarningClickListener(new WarningDialog.OnWarningClickListener() {
                                 @Override
-                                public void run() {
-                                    goFinish();
+                                public void onWarningOk() {
+//                                    BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "AuctionUpperActivity");
+                                    AgentWebAppActivity.newIntance(AuctionUpperActivity.this, -1, Constants.WebApi.GOOD_DETAIL + upperModel.getData().getProductInstanceCode());
+                                    finish();
+
                                 }
-                            }, 2000);
+
+                                @Override
+                                public void onWaringCancel() {
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            goFinish();
+                                        }
+                                    }, 2000);
+
+
+                                }
+                            });
+
 
                         } else {
                             showShortToast(baseModel.getResult().getMessage());
@@ -714,7 +733,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     Bundle bundle = new Bundle();
 
                     bundle.putString("httpUrl", url);
-                    bundle.putInt("backPager",0);
+                    bundle.putInt("backPager", 0);
 
                     ActivityManager.JumpActivity(AuctionUpperActivity.this, AgentWebAppActivity.class, bundle);
                     finish();
