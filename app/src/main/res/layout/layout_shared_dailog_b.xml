@@ -74,7 +74,7 @@
                     android:layout_marginBottom="@dimen/dp_4"
                     android:text="¥"
                     android:textSize="@dimen/sp_24"
-                    android:textColor="@color/color_fc0632"/>
+                    android:textColor="@color/home_title_bg"/>
 
                 <TextView
                     android:id="@+id/tv_money"
@@ -83,7 +83,7 @@
                     android:layout_marginLeft="@dimen/dp_5"
                     tools:text="2.00"
                     android:textSize="@dimen/sp_42"
-                    android:textColor="@color/color_fc0632"
+                    android:textColor="@color/home_title_bg"
                     android:includeFontPadding="false"/>
 
             </LinearLayout>

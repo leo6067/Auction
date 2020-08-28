@@ -58,7 +58,7 @@ public class SharedDailogUtilsB {
         CrlBtnModel crlBtnModel01 = new CrlBtnModel(5, R.drawable.ic_shared_save, "下载");
 
         CrlBtnModel crlBtnModel02 = new CrlBtnModel(2, R.drawable.ic_shared_weixin, "微信好友");
-        CrlBtnModel crlBtnModel03= new CrlBtnModel(3, R.drawable.ic_wx_circle, "朋友圈");
+        CrlBtnModel crlBtnModel03= new CrlBtnModel(3, R.drawable.ic_wx_circle_a, "朋友圈");
 
         CrlBtnModel crlBtnModel04 = new CrlBtnModel(8, R.drawable.share_qq, "QQ");
 

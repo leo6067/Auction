@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Auction_APP.iml" filepath="$PROJECT_DIR$/Auction_APP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/leo/Auction_APP-leo.iml" filepath="$PROJECT_DIR$/leo/Auction_APP-leo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/autoShare/autoShare.iml" filepath="$PROJECT_DIR$/autoShare/autoShare.iml" />
       <module fileurl="file://$PROJECT_DIR$/baselib/baselib.iml" filepath="$PROJECT_DIR$/baselib/baselib.iml" />

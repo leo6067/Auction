@@ -113,6 +113,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
 
     private UpperAdapter mUpperAdapter;
     List<ReleaseEditModel.DataBean.AttributesBean> mAttributesBeans = new ArrayList<>();
+    List<ReleaseEditModel.DataBean.AttributesBean> mAttributesBeanView = new ArrayList<>();
 
     private ReleasePostOssImglistAdapter postImglistAdapter;//商品图片适配器
     private ReleasePostOssVideolistAdapter postVideolistAdapter;//商品视频适配器
@@ -147,6 +148,8 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
     @Override
     public void onResume() {
         super.onResume();
+
+
     }
 
     @Override
@@ -163,13 +166,15 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_TYPE,soureType);
         BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION_AUCTIONTYPE,auctionType);
 
-
+        Globals.log("xxxxxx backLogin 000111222233 444    "+mGoodId  + soureType  +  auctionType);
         UserModel.DataBean mUserJson = BaseSharePerence.getInstance().getUserJson();
-        Globals.log("xxxxxx backLogin 000111" );
+
 
         if (mUserJson == null) {
+
+            Globals.log("xxxxxx backLogin 000111"+mGoodId  + soureType  +  auctionType);
             BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION,"AuctionUpperActivity");
-            AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0);
+            AgentWebAppActivity.newIntance(AuctionUpperActivity.this, 0, Constants.WEB_APP_URL);
             finish();
             return;
         }
@@ -305,21 +310,25 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 categoryId = goodsDetailModelData.getCategoryId() + "";
                 content = goodsDetailModelData.getContent();
                 mAttributesBeans.clear();
+                mAttributesBeanView.clear();
                 List<GoodDetailModel.DataBean.AttributesBean> attributes = goodsDetailModelData.getAttributes();
 
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanA = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanA.setTitle("品名");
                 attributesBeanA.setValue(title);
                 mAttributesBeans.add(attributesBeanA);
+
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanB = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanB.setTitle("大类");
                 attributesBeanB.setValue(goodsDetailModelData.getParentCategoryName());
                 mAttributesBeans.add(attributesBeanB);
+                mAttributesBeanView.add(attributesBeanB);
 
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanC = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanC.setTitle("小类");
                 attributesBeanC.setValue(goodsDetailModelData.getCategoryName());
                 mAttributesBeans.add(attributesBeanC);
+                mAttributesBeanView.add(attributesBeanC);
 
                 for (int i = 0; i < attributes.size(); i++) {
                     ReleaseEditModel.DataBean.AttributesBean attributesBean = new ReleaseEditModel.DataBean.AttributesBean();
@@ -330,7 +339,11 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     attributesBean.setTitle(attributes.get(i).getTitle());
                     attributesBean.setValue(attributes.get(i).getValue());
                     mAttributesBeans.add(attributesBean);
+                    mAttributesBeanView.add(attributesBean);
                 }
+
+
+
 
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanD = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanD.setTitle("描述");
@@ -372,21 +385,25 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 categoryId = goodsDetail.getCategoryId() + "";
                 content = goodsDetail.getContent();
                 mAttributesBeans.clear();
+                mAttributesBeanView.clear();
                 List<GoodsDetailModel.DataBean.AttributesBean> attributes = goodsDetail.getAttributes();
 
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanA = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanA.setTitle("品名");
                 attributesBeanA.setValue(title);
                 mAttributesBeans.add(attributesBeanA);
+
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanB = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanB.setTitle("大类");
                 attributesBeanB.setValue(goodsDetail.getParentCategoryName());
                 mAttributesBeans.add(attributesBeanB);
+                mAttributesBeanView.add(attributesBeanB);
 
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanC = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanC.setTitle("小类");
                 attributesBeanC.setValue(goodsDetail.getCategoryName());
                 mAttributesBeans.add(attributesBeanC);
+                mAttributesBeanView.add(attributesBeanC);
                 for (int i = 0; i < attributes.size(); i++) {
                     ReleaseEditModel.DataBean.AttributesBean attributesBean = new ReleaseEditModel.DataBean.AttributesBean();
                     attributesBean.setId(attributes.get(i).getId());
@@ -397,6 +414,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     attributesBean.setValue(attributes.get(i).getValue());
                     attributesBean.setTags(attributes.get(i).getTags());
                     mAttributesBeans.add(attributesBean);
+                    mAttributesBeanView.add(attributesBean);
                 }
 
 
@@ -442,6 +460,7 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
 
 
                 mAttributesBeans.clear();
+                mAttributesBeanView.clear();
                 List<ReleaseEditModel.DataBean.AttributesBean> attributes = mReleaseEditModelData.getAttributes();
 
 
@@ -449,15 +468,18 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                 attributesBeanA.setTitle("品名");
                 attributesBeanA.setValue(title);
                 mAttributesBeans.add(attributesBeanA);
+
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanB = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanB.setTitle("大类");
                 attributesBeanB.setValue(mReleaseEditModelData.getParentCategoryName());
                 mAttributesBeans.add(attributesBeanB);
+                mAttributesBeanView.add(attributesBeanB);
 
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanC = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanC.setTitle("小类");
                 attributesBeanC.setValue(mReleaseEditModelData.getCategoryName());
                 mAttributesBeans.add(attributesBeanC);
+                mAttributesBeanView.add(attributesBeanC);
 
                 for (int i = 0; i < attributes.size(); i++) {
                     ReleaseEditModel.DataBean.AttributesBean attributesBean = new ReleaseEditModel.DataBean.AttributesBean();
@@ -468,7 +490,9 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
                     attributesBean.setTitle(attributes.get(i).getTitle());
                     attributesBean.setValue(attributes.get(i).getValue());
                     mAttributesBeans.add(attributesBean);
+                    mAttributesBeanView.add(attributesBean);
                 }
+
 
                 ReleaseEditModel.DataBean.AttributesBean attributesBeanD = new ReleaseEditModel.DataBean.AttributesBean();
                 attributesBeanD.setTitle("描述");
@@ -614,7 +638,11 @@ public class AuctionUpperActivity extends BaseActivity {   // CompressUploadPicU
         }
 
 
-        BaseModel.httpUpper(mAttributesBeans, categoryId,
+
+
+
+
+        BaseModel.httpUpper(   mAttributesBeanView , categoryId,
                 comment, content, cutPicStr,
                 distributeType, mGoodId, imageList,
                 range, soureType, startPricr,

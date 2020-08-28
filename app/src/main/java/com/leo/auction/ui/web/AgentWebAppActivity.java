@@ -409,20 +409,20 @@ public class AgentWebAppActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onPause() {
-        mAgentWeb.getWebLifeCycle().onPause();
-        super.onPause();
-
-    }
-
-    @Override
-    protected void onResume() {
-        mAgentWeb.getWebLifeCycle().onResume();
-        Globals.log("xxxxx onResume");
-
-        super.onResume();
-    }
+//    @Override
+//    protected void onPause() {
+////        mAgentWeb.getWebLifeCycle().onPause();
+//        super.onPause();
+//
+//    }
+//
+//    @Override
+//    protected void onResume() {
+////        mAgentWeb.getWebLifeCycle().onResume();
+//        Globals.log("xxxxx onResume");
+//
+//        super.onResume();
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -666,6 +666,8 @@ public class AgentWebAppActivity extends AppCompatActivity {
                         String mGoodId = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_VALUE, "");
                         String soureType = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_TYPE, "");
                         String auctionType = BaseSharePerence.getInstance().getString(Constants.Nouns.WEB_ACTION_AUCTIONTYPE, "");
+                        Globals.log("xxxxxx backLogin 0001112222   "+mGoodId  + soureType  +  auctionType);
+
 
                         if (string.equals("AuctionUpperActivity")) {
                             BaseSharePerence.getInstance().putString(Constants.Nouns.WEB_ACTION, "");
@@ -673,7 +675,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
                             bundle.putString("value", mGoodId);
                             bundle.putString("type", soureType);
                             bundle.putString("AuctionType", auctionType);
-                            Globals.log("xxxxxx backLogin 000111");
+                            Globals.log("xxxxxx backLogin 000111222233   "+mGoodId  + soureType  +  auctionType);
                             ActivityManager.JumpActivity(AgentWebAppActivity.this, AuctionUpperActivity.class, bundle);
 //
                         }

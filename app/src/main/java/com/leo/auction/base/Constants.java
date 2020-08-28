@@ -43,8 +43,10 @@ public class Constants {
         //oss返回体加密key
         public final static String OSS_KEY = "U2FsdGVkX1/ICQ5ijcEUsICSSOEe0ps9";
         //友盟 key
-        public static String QQAPPID = "101731440";
-        public static String QQAPPKEY = "f06eae4b68d8f8ddde0f2fb3616cbc25";
+//        public static String QQAPPID = "101731440";
+        public static String QQAPPID = "1110676079";
+//        public static String QQAPPKEY = "f06eae4b68d8f8ddde0f2fb3616cbc25";
+        public static String QQAPPKEY = "jyqAzBO8ZTxaj5xG";
         public static String WEIXINAPPID = "wx083c4267d81c8961"; //7.10 新版
         public static String WEIXINAPPKEY = "2dc8dd30dd5d0db67e09af2e55dea168";
         public static String WEIXINA_SMALL = "gh_0489fd1cc754";  //小程序
@@ -57,10 +59,8 @@ public class Constants {
 
         public static String WEB_ACTION = "WEB_ACTION";  //web 返回
         public static String WEB_ACTION_VALUE = "WEB_ACTION_VALUE";  //web 返回
-        public static String WEB_ACTION_TYPE = "WEB_ACTION_VALUE";  //web 返回
+        public static String WEB_ACTION_TYPE = "WEB_ACTION_TYPE";  //web 返回
         public static String WEB_ACTION_AUCTIONTYPE = "WEB_ACTION_AUCTIONTYPE";  //web 返回
-
-
 
 
 

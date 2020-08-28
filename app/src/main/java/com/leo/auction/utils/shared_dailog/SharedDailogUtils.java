@@ -51,8 +51,8 @@ public class SharedDailogUtils {
         ArrayList<CrlBtnModel> crlBtnModels = new ArrayList<>();
         CrlBtnModel crlBtnModel01 = new CrlBtnModel(1, R.drawable.ic_shared_linked, "复制链接");
         CrlBtnModel crlBtnModel02 = new CrlBtnModel(2, R.drawable.ic_shared_weixin, "微信");
-        CrlBtnModel crlBtnModel03 = new CrlBtnModel(3, R.drawable.ic_wx_circle, "朋友圈图文");
-        CrlBtnModel crlBtnModel04 = new CrlBtnModel(4, R.drawable.ic_wx_circle, "朋友圈");
+        CrlBtnModel crlBtnModel03 = new CrlBtnModel(3, R.drawable.ic_wx_circle_b, "朋友圈图文");
+        CrlBtnModel crlBtnModel04 = new CrlBtnModel(4, R.drawable.ic_wx_circle_a, "朋友圈");
         CrlBtnModel crlBtnModel05 = new CrlBtnModel(5, R.drawable.ic_shared_save, "保存图片");
 //        CrlBtnModel crlBtnModel06 = new CrlBtnModel(6, R.drawable.ic_xianyu_icon, "闲鱼");
 //        CrlBtnModel crlBtnModel07 = new CrlBtnModel(7, R.drawable.ic_wwdz_icon, "玩物得志");

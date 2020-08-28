@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.aten.compiler.widget.glide.GlideUtils;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
@@ -51,7 +52,9 @@ public class CrlBtnAdapter extends BaseQuickAdapter<CrlBtnModel, BaseViewHolder>
             llLink.setBackgroundResource(R.drawable.item_selector);
         }
 
-        GlideUtils.loadImg(item.getImgRes(),iv);
+        Glide.with(mContext.getApplicationContext())
+                .load(item.getImgRes())
+                .into(iv);
         helper.setText(R.id.tv,item.getTitle());
 
         helper.itemView.setTag(item.getId());
