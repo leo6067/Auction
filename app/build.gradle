@@ -149,9 +149,9 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             if (variant.buildType.name == 'release') {
-                outputFileName = "锤定${variant.versionCode}_${buildTime()}.apk"
+                outputFileName = "Auction${variant.versionCode}_${buildTime()}.apk"
             } else {
-                outputFileName = "锤定${variant.versionCode}_${buildTime()}.apk"
+                outputFileName = "Auction${variant.versionCode}_${buildTime()}.apk"
             }
         }
     }

@@ -35,8 +35,8 @@ import com.aten.compiler.utils.ToastUtils;
 import com.aten.compiler.utils.easyPay.EasyPay;
 import com.aten.compiler.utils.easyPay.callback.IPayCallback;
 import com.aten.compiler.utils.permission.PermissionHelper;
-import com.aten.compiler.widget.glide.GlideApp;
 import com.blankj.utilcode.util.AppUtils;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.gyf.immersionbar.ImmersionBar;
@@ -435,7 +435,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         //mAgentWeb.destroy();
-        mAgentWeb.getWebLifeCycle().onDestroy();
+//        mAgentWeb.getWebLifeCycle().onDestroy();
     }
 
 
@@ -847,7 +847,7 @@ public class AgentWebAppActivity extends AppCompatActivity {
             }
             final int finalI = i;
 
-            GlideApp.with(AgentWebAppActivity.this).asBitmap().load(picdata).into(new SimpleTarget<Bitmap>() {
+            Glide.with(AgentWebAppActivity.this).asBitmap().load(picdata).into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                     picBitmaps.put(String.valueOf(finalI), resource);

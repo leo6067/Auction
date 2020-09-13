@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aten.compiler.utils.EmptyUtils;
-import com.aten.compiler.widget.glide.GlideApp;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leo.auction.R;
@@ -43,7 +43,7 @@ public class PayTypeAdapter extends BaseQuickAdapter<OrderPayTypeModel, BaseView
         FrameLayout flChoose=helper.getView(R.id.fl_choose);
         final CheckBox cbChoose=helper.getView(R.id.cb_choose);
 
-        GlideApp.with(ivPayIcon.getContext()).load(item.getPayIcon()).fitCenter().
+        Glide.with(ivPayIcon.getContext()).load(item.getPayIcon()).fitCenter().
                 placeholder(R.color.color_f0f0f0).error(R.color.color_f0f0f0).into(ivPayIcon);
         tvPayName.setText(EmptyUtils.strEmpty(item.getPayName()));
         tvPayDescribe.setText(EmptyUtils.strEmpty(item.getPayDescribe()));
